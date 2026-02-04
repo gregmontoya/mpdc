@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPDC CRM | Dashboard</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">M</div>
+                <h1 class="logo-text">MPDC<span>CRM</span></h1>
+            </div>
+
+            <nav class="main-nav">
+                <a href="index.html" class="nav-item active">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="clients.html" class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="leads.html" class="nav-item">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Leads</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Deals</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Inbox</span>
+                    <span class="badge">3</span>
+                </a>
+            </nav>
+
+            <div class="secondary-nav">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Help Center</span>
+                </a>
+            </div>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Greg+Montoya&background=3b82f6&color=fff" alt="User"
+                    class="avatar">
+                <div class="user-info">
+                    <p class="user-name">Greg Montoya</p>
+                    <p class="user-role">Admin</p>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search leads, clients, or deals...">
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" aria-label="Notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="fa-solid fa-plus"></i> New Lead
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-grid">
+
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <h2>Welcome back, Greg! 👋</h2>
+                    <p>Here's what's happening with your pipeline today.</p>
+                </div>
+
+                <!-- Stats Cards (Command Center) -->
+                <div class="stats-row">
+                    <!-- Card 1: Cart Abandonments (High Priority) -->
+                    <div class="stat-card red" style="border: 1px solid var(--accent-red);">
+                        <div class="stat-icon" style="background: rgba(239, 68, 68, 0.2); color: var(--accent-red);"><i
+                                class="fa-solid fa-triangle-exclamation"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Cart Abandonments</span>
+                            <span class="stat-value" id="stat-abandoned">-</span>
+                            <span class="stat-change negative" style="cursor:pointer;"
+                                onclick="window.location.href='leads.html'"><i class="fa-solid fa-arrow-right"></i>
+                                Review Now</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 2: New IG DMs -->
+                    <div class="stat-card purple">
+                        <div class="stat-icon"><i class="fa-brands fa-instagram"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">New IG DMs</span>
+                            <span class="stat-value" id="stat-new-dms">-</span>
+                            <span class="stat-change positive" style="cursor:pointer;"
+                                onclick="window.location.href='leads.html'"><i class="fa-solid fa-arrow-right"></i> Go
+                                to Inbox</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 3: Total Revenue -->
+                    <div class="stat-card green">
+                        <div class="stat-icon"><i class="fa-solid fa-dollar-sign"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Revenue</span>
+                            <span class="stat-value">$0.00</span>
+                            <span class="stat-change positive"><i class="fa-solid fa-arrow-trend-up"></i> 0%</span>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Active Deals -->
+                    <div class="stat-card blue">
+                        <div class="stat-icon"><i class="fa-solid fa-handshake"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Active Deals</span>
+                            <span class="stat-value">0</span>
+                            <span class="stat-change text-muted">Pipeline</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Recent Leads Table -->
+                <div class="content-panel leads-panel">
+                    <div class="panel-header">
+                        <h3>Live Feed</h3>
+                        <a href="leads.html" class="view-all">View Pipeline</a>
+                    </div>
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Contact</th>
+                                    <th>Source</th>
+                                    <th>Status</th>
+                                    <th>Captured</th>
+                                    <th></th>
+                                </tr>
+                            </thead>
+                            <tbody id="list-recent-leads">
+                                <!-- Populated by script.js -->
+                                <tr>
+                                    <td colspan="5" style="text-align:center;color:#666;">Loading live data...</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Upcoming Tasks -->
+                <div class="content-panel tasks-panel">
+                    <div class="panel-header">
+                        <h3>Upcoming Tasks</h3>
+                        <button class="icon-btn"><i class="fa-solid fa-plus"></i></button>
+                    </div>
+                    <ul class="task-list">
+                        <li class="task-item">
+                            <div class="check-circle"></div>
+                            <div class="task-content">
+                                <p class="task-title">Follow up with TechCorp</p>
+                                <p class="task-meta">Due today • Lead: John Smith</p>
+                            </div>
+                            <span class="task-tag urgent">High</span>
+                        </li>
+                        <li class="task-item">
+                            <div class="check-circle"></div>
+                            <div class="task-content">
+                                <p class="task-title">Send contract to Alice</p>
+                                <p class="task-meta">Due tomorrow • Lead: Alice Lee</p>
+                            </div>
+                            <span class="task-tag normal">Medium</span>
+                        </li>
+                        <li class="task-item">
+                            <div class="check-circle"></div>
+                            <div class="task-content">
+                                <p class="task-title">Quarterly review prep</p>
+                                <p class="task-meta">Due Friday • Internal</p>
+                            </div>
+                            <span class="task-tag low">Low</span>
+                        </li>
+                    </ul>
+
+                    <div class="upgrade-card">
+                        <div class="icon-bg"><i class="fa-solid fa-rocket"></i></div>
+                        <h4>Pro Features</h4>
+                        <p>Unlock advanced analytics and reporting.</p>
+                        <button class="btn btn-sm btn-outline">Upgrade Now</button>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
+
+        // Robust Client Creation
+        let supabase;
+
+        function waitForSupabase() {
+            if (window.supabase) {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+                fetchDashboardData();
+            } else {
+                console.log('Waiting for Supabase...');
+                setTimeout(waitForSupabase, 100);
+            }
+        }
+
+        // AUTH GUARD
+        function checkAuth() {
+            if (localStorage.getItem('mpdc_admin_auth') !== 'true') {
+                const pass = prompt("Enter Admin Password:");
+                if (pass === 'mpdc2026') {
+                    localStorage.setItem('mpdc_admin_auth', 'true');
+                } else {
+                    document.body.innerHTML = '<h1 style="text-align:center; margin-top:50px; color:white;">ACCESS DENIED</h1>';
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        async function fetchDashboardData() {
+            if (!checkAuth()) return; // Secure Page
+            if (!supabase) return;
+
+            // 1. Get Counts
+            const { count: leadCount } = await supabase.from('leads').select('*', { count: 'exact', head: true });
+            const { count: studentCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
+
+            // 2. Update Stats
+            document.getElementById('stat-total-leads').innerText = leadCount || 0;
+            document.getElementById('stat-active-students').innerText = studentCount || 0;
+
+            const revenue = (studentCount || 0) * 97;
+            document.getElementById('stat-revenue').innerText = '$' + revenue.toLocaleString();
+
+            // 3. Fetch Recent Leads & Students (Unified Feed)
+            const { data: recentLeads } = await supabase
+                .from('leads')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(5);
+
+            const { data: recentStudents } = await supabase
+                .from('profiles')
+                .select('*')
+                .order('created_at', { ascending: false })
+                .limit(5);
+
+            // Merge and Sort
+            let activity = [];
+            if (recentLeads) activity = activity.concat(recentLeads.map(i => ({ ...i, type: 'lead' })));
+            if (recentStudents) activity = activity.concat(recentStudents.map(i => ({ ...i, type: 'student' })));
+
+            // Sort by newest first
+            activity.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+            // Take top 7 events
+            activity = activity.slice(0, 7);
+
+            const tableBody = document.getElementById('dashboard-leads-body');
+            if (tableBody) {
+                tableBody.innerHTML = '';
+
+                if (activity.length === 0) {
+                    tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:#666;">No recent activity found.</td></tr>';
+                }
+
+                activity.forEach(item => {
+                    const timeAgo = new Date(item.created_at).toLocaleDateString() + ' ' + new Date(item.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
+                    let badge, value, sourceIcon, avatarColor, statusLabel;
+
+                    if (item.type === 'student') {
+                        badge = '<span class="status-badge" style="background:rgba(16, 185, 129, 0.2); color:#10B981;">Enrolled</span>';
+                        value = '<span style="color:#10B981; font-weight:bold;">+$97.00</span>';
+                        sourceIcon = '<i class="fa-solid fa-credit-card" style="color:#10B981;"></i> Stripe';
+                        avatarColor = '#10B981'; // Green
+                        statusLabel = 'Student';
+                    } else {
+                        badge = '<span class="status-badge new">Abandoned</span>';
+                        value = '<span style="color:#999;">$0.00</span>';
+                        sourceIcon = '<i class="fa-solid fa-cart-shopping" style="color:#C4613A;"></i> Checkout';
+                        avatarColor = '#C4613A'; // Orange
+                        statusLabel = 'Lead';
+                    }
+
+                    const row = `
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="avatar-sm" style="background:${avatarColor}; color:white;">${(item.name || 'U').charAt(0).toUpperCase()}</div>
+                                    <div>
+                                        <div class="font-medium">${item.name || 'Visitor'}</div>
+                                        <div class="text-muted" style="font-size:11px;">${item.email}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td>${sourceIcon}</td>
+                            <td>${badge}</td>
+                            <td>${value}</td>
+                            <td style="font-size:12px; color:#888;">${timeAgo}</td>
+                            <td><button class="action-btn"><i class="fa-solid fa-chevron-right"></i></button></td>
+                        </tr>
+                    `;
+                    tableBody.insertAdjacentHTML('beforeend', row);
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', waitForSupabase);
+    </script>
+    <!-- Supabase SDK -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script src="supabase-client.js"></script>
+    <script src="script.js"></script>
+</body>
+
+</html>
