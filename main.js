@@ -248,8 +248,7 @@ if (window.location.pathname.includes('course.html')) {
       id: 0,
       title: "INTRODUCTION",
       subtitle: "Welcome",
-      /* videoid: "19VUtGlJ_oI", // YouTube Fallback */
-      localVideo: "../assets/videos/intro.mp4", // Local Video File
+      videoid: "YOUR_INTRO_VIDEO_ID",
       description: "Welcome to the system. Before we begin, you're going to set One Big Goal, a goal so meaningful that when you achieve it, you'll want to tell everyone. This exercise will give you the clarity and focus you need to get the most out of everything that follows.",
       resources: [
         { title: "One Big Goal.pdf", size: "0.5 MB", type: "PDF Document", url: "../assets/resources/One_Big_Goal.pdf" }
