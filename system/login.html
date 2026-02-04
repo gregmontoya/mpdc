@@ -71,7 +71,65 @@
         </div>
     </div>
 
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const btn = document.querySelector('.btn-full');
+            const originalText = btn.innerText;
+
+            try {
+                btn.innerText = 'Verifying...';
+                btn.disabled = true;
+
+                // 1. Attempt Sign In
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) throw error;
+
+                // 2. Check if Profile Exists (Optional extra security)
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', data.user.id)
+                    .single();
+
+                // 3. Success - Redirect
+                localStorage.setItem('mpdc_student_session', JSON.stringify(data.session));
+                window.location.href = 'dashboard.html';
+
+            } catch (err) {
+                console.error('Login failed:', err);
+                alert('Login Failed: ' + err.message);
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        }
+
+        // Check if already logged in
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                window.location.href = 'dashboard.html';
+            }
+        }
+        checkSession();
+    </script>
     <script src="../main.js"></script>
 </body>
 
 </html>
+/* Remove mock login script tag */
+
