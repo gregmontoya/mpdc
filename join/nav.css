@@ -1,0 +1,127 @@
+/* Navigation Styles - Externalized */
+#navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: transparent;
+    /* Transparent to show grid pattern */
+    border-bottom: 1px solid rgba(196, 97, 58, 0.3);
+    /* Copper border */
+    transition: all 0.3s ease;
+    padding: 0;
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    /* justify-content: space-between;  <-- Changed: We rely on absolute centering for promo */
+    /* Wait, space-between works if we have items on left/right. We only have left item. absolute center ignores this. */
+    justify-content: flex-start;
+    position: relative;
+    /* Essential for absolute positioning of children */
+    max-width: 100%;
+    padding: 1rem 2rem;
+    min-height: 80px;
+    /* Ensure height for 2-line logo */
+    transition: padding 0.3s ease, min-height 0.3s ease;
+}
+
+/* Navbar Logo Base Styles */
+#navbar .logo {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 1.1rem;
+    /* Slightly smaller to fit layout */
+    color: var(--color-text-light);
+    letter-spacing: 2px;
+    text-align: left;
+    line-height: 1.1;
+    z-index: 2;
+    /* Ensure above promo if overlap */
+    transition: all 0.3s ease;
+}
+
+/* Central Promo Styles */
+.nav-promo {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-text-light);
+    white-space: nowrap;
+    opacity: 1;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.nav-promo .price-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-promo .strike {
+    text-decoration: line-through;
+    color: var(--color-text-muted);
+}
+
+.nav-promo .new-price {
+    color: var(--color-accent);
+    /* Neon Green */
+    font-size: 1.1em;
+}
+
+.nav-promo .timer-group {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.nav-promo .highlight {
+    background-color: rgba(255, 255, 255, 0.1);
+    padding: 2px 6px;
+    border-radius: 4px;
+    color: var(--color-accent);
+    font-family: monospace;
+}
+
+/* SCROLLED STATE */
+#navbar.scrolled .nav-container {
+    padding-top: 0.5rem;
+    padding-bottom: 0.5rem;
+    min-height: 60px;
+    justify-content: center;
+    /* Center the Logo */
+}
+
+#navbar.scrolled .logo {
+    font-size: 1.1rem;
+    text-align: center;
+    /* On scroll, logo moves to center. Promo must hide. */
+}
+
+#navbar.scrolled .nav-promo {
+    opacity: 0;
+    pointer-events: none;
+    transform: translate(-50%, -150%);
+    /* Slide up out of view */
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+    .nav-promo {
+        display: none;
+        /* Hide promo on smaller screens to avoid collision */
+    }
+
+    .nav-container {
+        justify-content: space-between;
+        /* Restore standard layout */
+    }
+}

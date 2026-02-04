@@ -10,3 +10,5 @@ build/
 .gemini/
 *.log
 assets/videos/
+
+/crm/
