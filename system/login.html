@@ -25,7 +25,14 @@
             <h2 class="login-title">Member Login</h2>
             <p class="login-subtitle">Welcome back. Enter your details to access the system.</p>
 
+            <!-- Error Message Container -->
+            <div id="login-error"
+                style="display: none; background-color: rgba(220, 38, 38, 0.1); border: 1px solid #dc2626; color: #ef4444; padding: 10px; border-radius: 6px; margin-bottom: 20px; font-size: 0.9rem; text-align: center;">
+            </div>
+
             <form id="loginForm" onsubmit="handleSupabaseLogin(event)">
+                <!-- ... form fields remain same ... -->
+
                 <div class="form-group">
                     <label for="email" style="color: var(--color-text-muted);">Email Address</label>
                     <input type="email" id="email" class="form-input dark-input" placeholder="name@example.com"
@@ -112,7 +119,10 @@
 
             } catch (err) {
                 console.error('Login failed:', err);
-                alert('Login Failed: ' + err.message);
+                const errorDiv = document.getElementById('login-error');
+                errorDiv.innerText = 'Login Failed: ' + err.message;
+                errorDiv.style.display = 'block';
+
                 btn.innerText = originalText;
                 btn.disabled = false;
             }
