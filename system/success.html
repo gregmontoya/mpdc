@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You! | Men's Divorce Mindset System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <style>
+        :root {
+            --color-bg: #050505;
+            --color-card: rgba(20, 20, 20, 0.6);
+            --color-neon: #a0d6b4;
+            --color-accent: #C4613A;
+            --color-text: #ffffff;
+            --color-text-muted: #a0a0a0;
+        }
+
+        body {
+            font-family: 'Inter', 'Montserrat', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image:
+                radial-gradient(circle at 15% 50%, rgba(160, 214, 180, 0.08) 0%, transparent 25%),
+                radial-gradient(circle at 85% 30%, rgba(196, 97, 58, 0.08) 0%, transparent 25%);
+            overflow-x: hidden;
+        }
+
+        .success-container {
+            width: 100%;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .success-card {
+            width: 100%;
+            max-width: 550px;
+            background: rgba(30, 30, 30, 0.7);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 3.5rem 2.5rem;
+            text-align: center;
+            box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(30px);
+                opacity: 0;
+            }
+
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        .success-icon-wrapper {
+            position: relative;
+            margin-bottom: 2rem;
+        }
+
+        .success-icon {
+            width: 90px;
+            height: 90px;
+            background: var(--color-neon);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto;
+            font-size: 2.5rem;
+            color: #000;
+            box-shadow: 0 0 30px rgba(160, 214, 180, 0.3);
+            animation: popIn 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275) 0.3s backwards;
+        }
+
+        @keyframes popIn {
+            from {
+                transform: scale(0);
+            }
+
+            to {
+                transform: scale(1);
+            }
+        }
+
+        .success-title {
+            font-family: 'Montserrat', sans-serif;
+            font-size: 2.5rem;
+            font-weight: 800;
+            margin: 0 0 0.5rem 0;
+            background: linear-gradient(to right, #fff, #ccc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .success-subtitle {
+            font-size: 1.1rem;
+            color: var(--color-text-muted);
+            margin-bottom: 2.5rem;
+            line-height: 1.5;
+        }
+
+        .info-grid {
+            display: grid;
+            gap: 1rem;
+            margin-bottom: 2.5rem;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 1.5rem;
+            border-radius: 16px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .info-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 0.95rem;
+        }
+
+        .info-label {
+            color: var(--color-text-muted);
+        }
+
+        .info-value {
+            font-weight: 600;
+            color: #fff;
+        }
+
+        .btn-access {
+            background: var(--color-neon);
+            color: #000;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1.1rem;
+            text-decoration: none;
+            width: 100%;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 10px 20px -5px rgba(160, 214, 180, 0.3);
+        }
+
+        .btn-access:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 15px 30px -5px rgba(160, 214, 180, 0.4);
+            filter: brightness(1.1);
+        }
+
+        .support-link {
+            display: block;
+            margin-top: 2rem;
+            color: var(--color-text-muted);
+            font-size: 0.9rem;
+            text-decoration: none;
+            transition: color 0.2s;
+        }
+
+        .support-link:hover {
+            color: #fff;
+        }
+
+        /* Email Alert */
+        .email-alert {
+            background: rgba(160, 214, 180, 0.1);
+            border: 1px solid rgba(160, 214, 180, 0.3);
+            color: #fff;
+            padding: 1rem;
+            border-radius: 12px;
+            margin: 1.5rem 0;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            text-align: center;
+        }
+
+        .email-alert strong {
+            color: var(--color-neon);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Confetti Effect */
+        .confetti {
+            position: absolute;
+            width: 10px;
+            height: 10px;
+            background-color: var(--color-neon);
+            animation: fall linear forwards;
+            top: -10px;
+            z-index: 1;
+        }
+
+        @keyframes fall {
+            to {
+                transform: translateY(100vh) rotate(720deg);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-grid">
+    <div class="success-container">
+        <div class="success-card">
+            <div class="success-icon-wrapper">
+                <div class="success-icon">
+                    <i class="fas fa-check"></i>
+                </div>
+            </div>
+
+            <h1 class="success-title">YOU'RE IN!</h1>
+            <p class="success-subtitle">Welcome to the brotherhood. Your journey begins now.</p>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Order Number</span>
+                    <span class="info-value" id="order-number">...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Sent To</span>
+                    <span class="info-value" id="customer-email">...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Amount Paid</span>
+                    <span class="info-value" style="color: var(--color-neon);">$97.00</span>
+                </div>
+            </div>
+
+            <a href="login.html" class="btn-access">ACCESS THE SYSTEM <i class="fas fa-arrow-right"
+                    style="margin-left: 10px;"></i></a>
+
+            <div class="email-alert">
+                <i class="fas fa-envelope-open-text" style="color: var(--color-neon); margin-right: 8px;"></i>
+                <strong>Check Your Email:</strong><br>
+                Your temporary password has been sent to your inbox.<br>
+                <span style="font-size: 0.85rem; opacity: 0.7;">(If you don't see it, check your spam folder)</span>
+            </div>
+
+            <a href="mailto:support@menspostdivorcecoaching.com" class="support-link">Need help? Contact Support</a>
+        </div>
+    </div>
+
+    <script>
+        // Get customer info from localStorage
+        const customerEmail = localStorage.getItem('mpdc_customer_email') || 'your-email@example.com';
+        document.getElementById('customer-email').textContent = customerEmail;
+
+        // Generate a mock order number (in production, this would come from Stripe)
+        const orderNumber = 'MPDC-' + Date.now().toString().slice(-6);
+        document.getElementById('order-number').textContent = orderNumber;
+
+        // Confetti Logic
+        function createConfetti() {
+            const colors = ['#a0d6b4', '#C4613A', '#ffffff'];
+            for (let i = 0; i < 50; i++) {
+                const confetti = document.createElement('div');
+                confetti.classList.add('confetti');
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.animationDuration = (Math.random() * 3 + 2) + 's';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                document.body.appendChild(confetti);
+
+                // Remove after animation
+                setTimeout(() => confetti.remove(), 5000);
+            }
+        }
+
+        // Launch confetti immediately
+        createConfetti();
+    </script>
+</body>
+
+</html>

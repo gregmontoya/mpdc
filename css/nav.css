@@ -1,0 +1,282 @@
+/* Navigation Styles - Casa Inspired */
+#navbar {
+    position: static;
+    width: 100%;
+    z-index: 1000;
+    background-color: #ffffff;
+    /* White background like Casa */
+    border-bottom: 1px solid #f0f0f0;
+    /* Subtle border */
+    transition: all 0.3s ease;
+    padding: 0;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+.nav-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    /* Align everything to the left */
+    position: relative;
+    width: 100%;
+    padding: 0.75rem 2rem 0.75rem 2rem;
+    /* Full width with equal padding */
+    min-height: 70px;
+    transition: padding 0.3s ease, min-height 0.3s ease;
+}
+
+/* Left-aligned nav menu (next to logo) */
+.nav-menu.nav-menu-left {
+    margin-left: 0;
+    /* No gap - right next to logo */
+}
+
+/* Logo Styles */
+#navbar .logo {
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 800;
+    font-size: 1.15rem;
+    color: #000000;
+    /* Black text on white background */
+    letter-spacing: 1px;
+    text-align: left;
+    line-height: 1.1;
+    text-transform: uppercase;
+    text-decoration: none;
+    /* Remove underline */
+    margin-right: auto;
+    /* Push everything else to the right */
+    transition: opacity 0.3s ease;
+    display: block;
+}
+
+#navbar .logo:hover {
+    opacity: 0.7;
+}
+
+/* Nav Menu Styles */
+.nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    margin-left: 1.5rem;
+    /* Reset to original left alignment */
+    margin-right: auto;
+    /* Pushes button to far right */
+}
+
+.nav-link {
+    font-family: 'Open Sans', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #333333;
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+    color: #C4613A;
+    /* Copper hover */
+}
+
+/* Member Login link spacing */
+.nav-container>.nav-link {
+    margin-left: auto;
+    /* Push to the right */
+    margin-right: 1.5rem;
+}
+
+/* Nav Button Styles */
+.nav-btn {
+    background-color: #C4613A;
+    /* Our Orange (Copper) */
+    color: #ffffff !important;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: none;
+    transition: all 0.3s ease;
+    border: none;
+    cursor: pointer;
+}
+
+.nav-btn:hover {
+    background-color: #a54f2f;
+    /* Darker copper */
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(196, 97, 58, 0.2);
+}
+
+/* MOBILE HAMBURGER */
+.mobile-toggle {
+    display: none;
+    flex-direction: column;
+    justify-content: space-between;
+    width: 28px;
+    height: 18px;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0;
+    z-index: 2000;
+    margin-left: auto;
+}
+
+.mobile-toggle span {
+    width: 100%;
+    height: 2px;
+    background-color: #000;
+    transition: all 0.3s ease;
+}
+
+/* MOBILE MENU OVERLAY */
+.mobile-menu {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: #ffffff;
+    z-index: 1500;
+    padding: 100px 1.5rem 2rem 1.5rem;
+    /* Space for fixed header */
+    display: flex;
+    flex-direction: column;
+    transform: translateX(100%);
+    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    overflow-y: auto;
+}
+
+.mobile-menu.active {
+    transform: translateX(0);
+}
+
+.mobile-nav-links {
+    display: flex;
+    flex-direction: column;
+}
+
+.mobile-nav-item {
+    border-bottom: 1px solid #e5e7eb;
+    /* Light grey divider like Casa */
+}
+
+.mobile-nav-link {
+    font-family: var(--font-heading);
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: #1a1f24;
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.2rem 0;
+    /* Tighter Casa-style height */
+    width: 100%;
+}
+
+/* Casa-style Dropdown Chevron */
+.mobile-nav-link.has-submenu::after {
+    content: '';
+    width: 10px;
+    height: 6px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 10 6'%3E%3Cpath stroke='%23111827' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m1 1 4 4 4-4'/%3E%3C/svg%3E");
+    background-repeat: no-repeat;
+    background-position: center;
+    transition: transform 0.3s ease;
+    margin-right: 5px;
+}
+
+.mobile-nav-link.has-submenu.active::after {
+    transform: rotate(-180deg);
+}
+
+.mobile-nav-link.no-arrow::after {
+    display: none;
+}
+
+/* SUBMENU (Simple nested list) */
+.mobile-submenu {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.4s ease;
+    background-color: #f8fafc;
+    /* Very light blue-grey for sub-depth */
+}
+
+.mobile-submenu.active {
+    max-height: 1000px;
+}
+
+.mobile-submenu a {
+    display: block;
+    padding: 0.8rem 1.25rem;
+    font-size: 1rem;
+    color: #4b5563;
+    text-decoration: none;
+    font-weight: 600;
+}
+
+.mobile-menu-footer {
+    margin-top: auto;
+    padding-top: 2rem;
+}
+
+.mobile-menu-btn {
+    display: block;
+    width: 100%;
+    background-color: #C4613A;
+    /* Brand Copper */
+    color: #ffffff !important;
+    text-align: center;
+    padding: 1.1rem;
+    border-radius: 6px;
+    font-weight: 700;
+    font-size: 1rem;
+    text-decoration: none;
+    margin-bottom: 0.75rem;
+}
+
+/* SECOND BUTTON STYLE (Casa Style) */
+.mobile-menu-btn-outline {
+    background-color: #fff;
+    color: #C4613A !important;
+    border: 2px solid #C4613A;
+}
+
+
+/* Hamburger Animation */
+.mobile-toggle.active span:nth-child(1) {
+    transform: translateY(8px) rotate(45deg);
+}
+
+.mobile-toggle.active span:nth-child(2) {
+    opacity: 0;
+}
+
+.mobile-toggle.active span:nth-child(3) {
+    transform: translateY(-8px) rotate(-45deg);
+}
+
+/* Mobile Responsiveness */
+@media (max-width: 900px) {
+
+    .nav-menu,
+    .nav-container>.nav-link,
+    .nav-btn {
+        display: none !important;
+    }
+
+    .mobile-toggle {
+        display: flex;
+    }
+
+    .nav-container {
+        padding: 1rem 1.5rem;
+    }
+
+    .logo {
+        font-size: 1rem;
+    }
+}
