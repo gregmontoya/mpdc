@@ -185,6 +185,9 @@ function handleLogin(e) {
   const email = document.getElementById('email').value;
   const password = document.getElementById('password').value;
 
+  // TODO: SECURITY WARNING - MOCK AUTHENTICATION
+  // This is a placeholder for demonstration. It accepts ANY email/password.
+  // DO NOT DEPLOY TO PRODUCTION WITHOUT IMPLEMENTING REAL AUTH (e.g., Supabase Auth).
   if (email && password) {
     // 1. Set Auth Token (Mock)
     localStorage.setItem(AUTH_TOKEN_KEY, 'demo_token_' + Date.now());

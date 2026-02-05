@@ -21,11 +21,19 @@ app.use(express.json({
 }));
 
 app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
+    const allowedOrigin = process.env.ALLOWED_ORIGIN || '*';
+    res.header('Access-Control-Allow-Origin', allowedOrigin);
     res.header('Access-Control-Allow-Headers', 'Content-Type');
     if (req.method === 'OPTIONS') return res.sendStatus(200);
     next();
 });
+
+function maskEmail(email) {
+    if (!email) return 'unknown';
+    const parts = email.split('@');
+    if (parts.length < 2) return 'invalid-email';
+    return parts[0].substring(0, 2) + '***@' + parts[1];
+}
 
 // --------------------------------------------------------------------------
 // 🧲 LEAD CAPTURE ENDPOINT
@@ -35,7 +43,7 @@ app.post('/capture-lead', async (req, res) => {
 
     console.log('------------------------------------------');
     console.log('🧲 LEAD CAPTURED (Pre-Checkout):');
-    console.log(`📧 Email: ${email}`);
+    console.log(`📧 Email: ${maskEmail(email)}`);
 
     // 0. Save to Supabase (CRM)
     const { error } = await supabase
@@ -181,7 +189,7 @@ async function sendWelcomeEmail(email, name, password) {
             throw error;
         }
 
-        console.log(`✅ Welcome email sent to ${email}`, data);
+        console.log(`✅ Welcome email sent to ${maskEmail(email)}`, data);
         return true;
     } catch (error) {
         console.error('❌ Fatal Email Error:', error);
@@ -261,11 +269,14 @@ app.post('/webhook', async (req, res) => {
             // Generate password & hash
             const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%';
             let password = '';
-            for (let i = 0; i < 12; i++) password += chars.charAt(Math.floor(Math.random() * chars.length));
+            const randomBytes = crypto.randomBytes(12);
+            for (let i = 0; i < 12; i++) {
+                password += chars.charAt(randomBytes[i] % chars.length);
+            }
             const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
             // 1. Create User in CRM
-            console.log(`Creating user: ${email}`);
+            console.log(`Creating user: ${maskEmail(email)}`);
             const { error: dbError } = await supabase.from('profiles').insert([
                 { email: email, name: name, access_level: 'student' }
             ]);
