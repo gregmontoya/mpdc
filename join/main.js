@@ -90,7 +90,7 @@ async function proceedToStripeCheckout(source) {
   localStorage.setItem('mpdc_customer_email', email);
 
   // 🚀 ACTUAL Stripe Checkout URL from screenshot
-  const STRIPE_CHECKOUT_URL = 'https://buy.stripe.com/test_8x2cN5bU09Mt8dldl06EU00';
+  const STRIPE_CHECKOUT_URL = 'https://buy.stripe.com/test_8x2cN5bU09Mt8dIdI06EU00';
 
   // 🧲 CAPTURE LEAD (Before Redirect)
   // This sends the data to your Vercel server so you have it even if they don't buy

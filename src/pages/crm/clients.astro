@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="p:domain_verify" content="57dd46a805327939488e827ea7d046dd"/>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T26PKTMJB1');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPDC CRM | Clients</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/crm/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">M</div>
+                <h1 class="logo-text">MPDC<span>CRM</span></h1>
+            </div>
+
+            <nav class="main-nav">
+                <a href="/crm" class="nav-item">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/crm/clients" class="nav-item active">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="/crm/leads" class="nav-item">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Leads</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Deals</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Inbox</span>
+                    <span class="badge">3</span>
+                </a>
+            </nav>
+
+            <div class="secondary-nav">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+            </div>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Greg+Montoya&background=3b82f6&color=fff" alt="User"
+                    class="avatar">
+                <div class="user-info">
+                    <p class="user-name">Greg Montoya</p>
+                    <p class="user-role">Admin</p>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="page-title">
+                    <h2>Enrolled Clients <span class="header-count" id="header-client-count">0</span></h2>
+                </div>
+                <div class="header-actions">
+                    <div class="search-bar compact">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search clients..." id="client-search">
+                    </div>
+                </div>
+            </header>
+
+            <!-- Client List Content -->
+            <div class="dashboard-grid" style="grid-template-columns: 1fr;"> <!-- Full width -->
+
+                <div class="content-panel">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Student Name</th>
+                                    <th>Access Level</th>
+                                    <th>Joined Date</th>
+                                    <th>LTV (Value)</th>
+                                    <th>Status</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="clients-table-body">
+                                <!-- JS Injection -->
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding:30px; color:#666;">
+                                        <i class="fa-solid fa-spinner fa-spin"></i> Loading data...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Supabase Client -->
+    <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script is:inline>
+        const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // AUTH GUARD (Copied from Command Center)
+        function checkAuth() {
+            if (localStorage.getItem('mpdc_admin_auth') !== 'true') {
+                const pass = prompt("Enter Admin Password:");
+                if (pass === 'mpdc2026') {
+                    localStorage.setItem('mpdc_admin_auth', 'true');
+                } else {
+                    document.body.innerHTML = '<h1 style="text-align:center; margin-top:50px; color:white;">ACCESS DENIED</h1>';
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        async function fetchClients() {
+            if (!checkAuth()) return; // Secure the page
+
+            const { data: profiles, error } = await supabase
+                .from('profiles')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            const tbody = document.getElementById('clients-table-body');
+            if (tbody) tbody.innerHTML = '';
+
+            if (profiles && profiles.length > 0) {
+                // Update header count
+                const countHeader = document.getElementById('header-client-count');
+                if (countHeader) countHeader.innerText = profiles.length;
+
+                profiles.forEach(client => {
+                    const joinDate = new Date(client.created_at).toLocaleDateString();
+                    const initials = (client.name || '?').charAt(0).toUpperCase();
+
+                    const row = `
+                        <tr>
+                            <td>
+                                <div class="user-cell">
+                                    <div class="avatar-sm" style="background:#10B981; color:white;">${initials}</div>
+                                    <div>
+                                        <div class="font-medium">${client.name || 'Unknown'}</div>
+                                        <div class="text-muted">${client.email}</div>
+                                    </div>
+                                </div>
+                            </td>
+                            <td><span class="status-badge" style="background:#334155; color:#cbd5e1;">${client.access_level || 'Student'}</span></td>
+                            <td>${joinDate}</td>
+                            <td style="font-weight:bold; color:#10B981;">$97.00</td>
+                            <td><span class="status-badge" style="background:rgba(16,185,129,0.2); color:#10B981;">Active</span></td>
+                            <td><button class="action-btn"><i class="fa-solid fa-ellipsis-vertical"></i></button></td>
+                        </tr>
+                    `;
+                    if (tbody) tbody.insertAdjacentHTML('beforeend', row);
+                });
+            } else {
+                if (tbody) tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px;">No clients found.</td></tr>';
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', fetchClients);
+    </script>
+    <script is:inline src="/crm/script.js"></script>
+</body>
+
+</html>

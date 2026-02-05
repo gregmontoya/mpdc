@@ -392,7 +392,7 @@ import '../../styles/modules.css';
 
     <!-- MAIN JS for Interactivity -->
     <script src="/scripts/main.js" is:inline></script>
-    <script>
+    <script is:inline>
         // Dashboard specific simple logic (e.g. updating name from localstorage if available)
         document.addEventListener('DOMContentLoaded', () => {
             const userProfile = JSON.parse(localStorage.getItem('mpdc_user_profile'));

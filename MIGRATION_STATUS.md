@@ -7,6 +7,7 @@
 - [x] **App System**: Migrated `/system/login` and `/system/dashboard`.
 - [x] **Blog Index**: Migrated `/learn/` index page.
 - [x] **SEO**: Generated Sitemap (`sitemap-index.xml`), added Google Analytics & Pinterest tags globally.
+- [x] **Clean URLs**: Configured `trailingSlash: 'never'` and `.htaccess` for professional URLs without `.html`.
 - [x] **Deployment**: Built site to `dist/` and deployed to root.
 
 ## Pending / Next Steps

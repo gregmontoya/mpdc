@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="p:domain_verify" content="57dd46a805327939488e827ea7d046dd"/>
+    <!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-T26PKTMJB1');
+</script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPDC CRM | Leads Pipeline</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/crm/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">M</div>
+                <h1 class="logo-text">MPDC<span>CRM</span></h1>
+            </div>
+
+            <nav class="main-nav">
+                <a href="/crm" class="nav-item">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/crm/clients" class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="/crm/leads" class="nav-item active">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Leads</span>
+                </a>
+                <!-- ... omitted nav items ... -->
+                <!-- ... omitted nav items ... -->
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Deals</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Inbox</span>
+                    <span class="badge">3</span>
+                </a>
+            </nav>
+
+            <div class="secondary-nav">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Help Center</span>
+                </a>
+            </div>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Greg+Montoya&background=3b82f6&color=fff" alt="User"
+                    class="avatar">
+                <div class="user-info">
+                    <p class="user-name">Greg Montoya</p>
+                    <p class="user-role">Admin</p>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="page-title">
+                    <h2>Lead Pipeline <span class="header-count">24 Active</span></h2>
+                </div>
+                <!-- View Toggles -->
+                <div class="view-toggles">
+                    <button class="toggle-btn active" title="Kanban View"><i
+                            class="fa-solid fa-table-columns"></i></button>
+                    <button class="toggle-btn" title="List View"><i class="fa-solid fa-list"></i></button>
+                </div>
+
+                <div class="header-actions">
+                    <div class="search-bar compact">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search leads...">
+                    </div>
+                    <button class="btn btn-primary" id="openNewLeadModal">
+                        <i class="fa-brands fa-instagram"></i> Add IG Lead
+                    </button>
+                </div>
+            </header>
+
+            <!-- Kanban Board -->
+            <div class="kanban-board">
+
+                <!-- Column: Cart Abandonments (REAL DATA) -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <span class="col-name" style="color:#C4613A;">Cart Abandonments</span>
+                        <span class="col-count" id="count-web-leads">0</span>
+                    </div>
+                    <div class="kanban-cards" id="col-web-leads">
+                        <!-- Injected by Supabase JS -->
+                        <div class="kanban-card skeleton">
+                            <div style="height:20px; background:#ddd; width:60%; margin-bottom:10px;"></div>
+                            <div style="height:40px; background:#eee;"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column: New DMs -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <span class="col-name">New DMs (Inbox)</span>
+                        <span class="col-count">5</span>
+                    </div>
+                    <div class="kanban-cards">
+                        <!-- Card 1 -->
+                        <div class="kanban-card">
+                            <div class="card-header">
+                                <span class="contact-name">Mark S.</span>
+                                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i> @mark_s_88</a>
+                            </div>
+                            <p class="card-preview">"Hey, saw your post about custody battles..."</p>
+                            <div class="card-footer">
+                                <span class="time-badge warning"><i class="fa-regular fa-clock"></i> 2h ago</span>
+                                <div class="avatar-group">
+                                    <div class="avatar-xs">GM</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Card 2 -->
+                        <div class="kanban-card">
+                            <div class="card-header">
+                                <span class="contact-name">David R.</span>
+                                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i> @dave_runner</a>
+                            </div>
+                            <p class="card-preview">"Is this program suitable for newly separated?"</p>
+                            <div class="card-footer">
+                                <span class="time-badge"><i class="fa-regular fa-clock"></i> 5h ago</span>
+                                <div class="avatar-group">
+                                    <div class="avatar-xs">GM</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column: Converstation Started -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <span class="col-name">In Conversation</span>
+                        <span class="col-count">8</span>
+                    </div>
+                    <div class="kanban-cards">
+                        <!-- Card -->
+                        <div class="kanban-card">
+                            <div class="card-header">
+                                <span class="contact-name">James Wilson</span>
+                                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i> @jwilson_gym</a>
+                            </div>
+                            <div class="tags">
+                                <span class="tag tag-purple">Post-Divorce</span>
+                            </div>
+                            <p class="card-preview">Discussing financial modules. Seems interested.</p>
+                            <div class="card-footer">
+                                <span class="time-badge"><i class="fa-regular fa-clock"></i> 1d ago</span>
+                                <div class="avatar-group">
+                                    <div class="avatar-xs">GM</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column: Qualifying -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <span class="col-name">Qualifying</span>
+                        <span class="col-count">3</span>
+                    </div>
+                    <div class="kanban-cards">
+                        <!-- Card -->
+                        <div class="kanban-card high-priority">
+                            <div class="card-header">
+                                <span class="contact-name">Tom H.</span>
+                                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i> @tommy_h</a>
+                            </div>
+                            <div class="tags">
+                                <span class="tag tag-red">Urgent</span>
+                                <span class="tag tag-blue">Custody</span>
+                            </div>
+                            <p class="card-preview">Sent verification questions. Waiting for income confirmation.</p>
+                            <div class="card-footer">
+                                <span class="time-badge"><i class="fa-regular fa-clock"></i> 30m ago</span>
+                                <div class="avatar-group">
+                                    <div class="avatar-xs">GM</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column: Call Booked -->
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <span class="col-name">Call Booked</span>
+                        <span class="col-count">2</span>
+                    </div>
+                    <div class="kanban-cards">
+                        <!-- Card -->
+                        <div class="kanban-card">
+                            <div class="card-header">
+                                <span class="contact-name">Chris P.</span>
+                                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i>
+                                    @chris_p_photo</a>
+                            </div>
+                            <div class="meeting-info">
+                                <i class="fa-solid fa-video"></i> Tomorrow, 2:00 PM
+                            </div>
+                            <div class="card-footer">
+                                <span class="time-badge success">Confirmed</span>
+                                <div class="avatar-group">
+                                    <div class="avatar-xs">GM</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </main>
+    </div>
+
+    <!--Add Lead Modal-->
+        <div id="addLeadModal" class="modal-overlay hidden">
+            <div class="modal">
+                <div class="modal-header">
+                    <h3>Add New Lead</h3>
+                    <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="modal-body">
+                    <form id="addLeadForm">
+                        <div class="form-group">
+                            <label>Instagram Handle</label>
+                            <div class="input-icon">
+                                <i class="fa-brands fa-instagram"></i>
+                                <input type="text" placeholder="@username" required>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Lead Name (Optional)</label>
+                            <input type="text" placeholder="First Last">
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>Status</label>
+                                <select>
+                                    <option value="new">New DM</option>
+                                    <option value="convo">In Conversation</option>
+                                    <option value="qualifying">Qualifying</option>
+                                    <option value="booked">Call Booked</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label>Pain Point</label>
+                                <select>
+                                    <option value="">Select...</option>
+                                    <option value="custody">Custody</option>
+                                    <option value="financial">Financial</option>
+                                    <option value="emotional">Emotional/Recovery</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label>Initial Notes</label>
+                            <textarea rows="3" placeholder="Paste key details from first DM..."></textarea>
+                        </div>
+
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-outline close-modal-btn">Cancel</button>
+                            <button type="submit" class="btn btn-primary">Save Lead</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!--Supabase SDK-- >
+    <!-- Supabase SDK -->
+    <script is:inline src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script is:inline src="/crm/supabase-client.js"></script>
+    <script is:inline src="/crm/script.js"></script>
+</body>
+
+</html>
