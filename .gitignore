@@ -12,3 +12,4 @@ build/
 assets/videos/
 
 /crm/
+.npm-cache
