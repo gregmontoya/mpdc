@@ -46,7 +46,7 @@ Remember me
 
                 // 3. Success - Redirect
                 localStorage.setItem('mpdc_student_session', JSON.stringify(data.session));
-                window.location.href = './dashboard'; // Managed by Astro now
+                window.location.href = '/system/dashboard'; // Managed by Astro now
 
             } catch (err) {
                 console.error('Login failed:', err);
@@ -71,7 +71,7 @@ Remember me
         async function checkSession() {
             const { data: { session } } = await supabase.auth.getSession();
             if (session) {
-                window.location.href = './dashboard';
+                window.location.href = '/system/dashboard';
             }
         }
         checkSession();
