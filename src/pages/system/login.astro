@@ -1,0 +1,163 @@
+---
+import '../../styles/style.css';
+import '../../styles/cookie.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="p:domain_verify" content="57dd46a805327939488e827ea7d046dd"/>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-T26PKTMJB1');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Men's Divorce Mindset System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap"
+        rel="stylesheet">
+</head>
+
+<body class="bg-grid" style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
+
+    <div class="login-wrapper">
+        <div class="login-card">
+            <div class="logo-area">
+                MEN'S POST DIVORCE COACHING
+            </div>
+
+            <h2 class="login-title">Member Login</h2>
+            <p class="login-subtitle">Welcome back. Enter your details to access the system.</p>
+
+            <!-- Error Message Container -->
+            <div id="login-error"
+                style="display: none; background-color: rgba(220, 38, 38, 0.1); border: 1px solid #dc2626; color: #ef4444; padding: 10px; border-radius: 6px; margin-bottom: 20px; font-size: 0.9rem; text-align: center;">
+            </div>
+
+            <form id="loginForm">
+                <!-- Removed inline onsubmit to handle in script tag -->
+                
+                <div class="form-group">
+                    <label for="email" style="color: var(--color-text-muted);">Email Address</label>
+                    <input type="email" id="email" class="form-input dark-input" placeholder="name@example.com"
+                        required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password" style="color: var(--color-text-muted);">Password</label>
+                    <input type="password" id="password" class="form-input dark-input" placeholder="••••••••" required>
+                </div>
+
+                <div class="form-footer">
+                    <label class="checkbox-container">
+                        <input type="checkbox" checked>
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                    <a href="#" class="forgot-link">Forgot Password?</a>
+                </div>
+
+                <button type="submit" class="btn btn-full">Sign In</button>
+            </form>
+
+            <div class="login-footer">
+                <p>Don't have an account? <a href="/join/#checkout" style="color: var(--color-neon);">Join the
+                        System</a></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Cookie Consent Banner -->
+    <div id="cookie-banner">
+        <div class="cookie-content">
+            <div class="cookie-text">
+                <p>We use cookies to enhance your experience and analyze our traffic. By clicking "Allow All", you
+                    consent to our use of cookies. <a href="/mission">Learn More</a></p>
+            </div>
+            <div class="cookie-buttons">
+                <button class="cookie-btn btn-settings">Cookie Settings</button>
+                <button class="cookie-btn btn-necessary" onclick="acceptCookie('necessary')">Necessary Only</button>
+                <button class="cookie-btn btn-allow-all" onclick="acceptCookie('all')">Allow All</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script is:inline>
+        const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
+
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function handleSupabaseLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('email').value;
+            const password = document.getElementById('password').value;
+            const btn = document.querySelector('.btn-full');
+            const originalText = btn.innerText;
+
+            try {
+                btn.innerText = 'Verifying...';
+                btn.disabled = true;
+
+                // 1. Attempt Sign In
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email: email,
+                    password: password
+                });
+
+                if (error) throw error;
+
+                // 2. Check if Profile Exists (Optional extra security)
+                const { data: profile } = await supabase
+                    .from('profiles')
+                    .select('*')
+                    .eq('id', data.user.id)
+                    .single();
+
+                // 3. Success - Redirect
+                localStorage.setItem('mpdc_student_session', JSON.stringify(data.session));
+                window.location.href = './dashboard'; // Managed by Astro now
+
+            } catch (err) {
+                console.error('Login failed:', err);
+                const errorDiv = document.getElementById('login-error');
+                if(errorDiv) {
+                    errorDiv.innerText = 'Login Failed: ' + err.message;
+                    errorDiv.style.display = 'block';
+                } else {
+                     alert('Login Failed: ' + err.message);
+                }
+
+                btn.innerText = originalText;
+                btn.disabled = false;
+            }
+        }
+        
+        // Attach listener
+        const form = document.getElementById('loginForm');
+        if(form) form.addEventListener('submit', handleSupabaseLogin);
+
+        // Check if already logged in
+        async function checkSession() {
+            const { data: { session } } = await supabase.auth.getSession();
+            if (session) {
+                window.location.href = './dashboard';
+            }
+        }
+        checkSession();
+    </script>
+    <script src="/scripts/main.js" is:inline></script>
+</body>
+</html>

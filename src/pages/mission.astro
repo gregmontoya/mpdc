@@ -1,0 +1,94 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Our Values | DivorcedMen.com">
+    <!-- THE GOAL (Green Background Block - Moved to Top with extra padding for nav) -->
+    <section class="goal-section" style="background-color: var(--color-bg-primary); padding: 8rem 2rem 6rem;">
+        <style>
+            @media (max-width: 768px) {
+                .goal-section {
+                    padding: 6rem 1.5rem 4rem !important;
+                }
+            }
+        </style>
+        <div style="max-width: 1100px; margin: 0 auto; text-align: center;">
+            <p
+                style="font-size: 1rem; margin-bottom: 1.5rem; letter-spacing: 3px; text-transform: uppercase; color: var(--color-text-muted);">
+                The Goal</p>
+            <h2 style="font-size: 3rem; line-height: 1.2; margin-bottom: 1.5rem; color: var(--color-text-light);">
+                "Help men create a stronger, more grounded, more intentional version of themselves."
+            </h2>
+            <p
+                style="font-size: 1.25rem; line-height: 1.7; margin-bottom: 2rem; color: var(--color-text-muted); max-width: 800px; margin-left: auto; margin-right: auto;">
+                Through coaching, education, and real-world guidance, we empower men to rebuild their bodies, finances,
+                social circles, and inner belief system so they can live with clarity, command, and a renewed sense of
+                possibility.
+            </p>
+
+        </div>
+    </section>
+
+    <!-- SPLIT BLOCK: Our Approach (Text Left, Image Right - White Background) -->
+    <section style="background-color: var(--color-text-light); padding: 6rem 2rem;" class="mobile-section">
+        <style>
+            @media (max-width: 768px) {
+                .mobile-split-grid {
+                    grid-template-columns: 1fr !important;
+                    gap: 3rem !important;
+                    text-align: center !important;
+                }
+
+                .mobile-section {
+                    padding: 4rem 1.5rem !important;
+                }
+
+                h1 {
+                    font-size: 2.5rem !important;
+                    text-align: center !important;
+                }
+
+                h2 {
+                    font-size: 2rem !important;
+                    text-align: center !important;
+                }
+
+                p {
+                    text-align: center !important;
+                }
+            }
+        </style>
+        <div class="mobile-split-grid"
+            style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: center;">
+            <div>
+                <p
+                    style="font-size: 1rem; margin-bottom: 1rem; letter-spacing: 3px; text-transform: uppercase; color: var(--color-accent);">
+                    Our Approach</p>
+                <h2 style="font-size: 2.5rem; line-height: 1.2; margin-bottom: 1.5rem; color: var(--color-bg-primary);">
+                    No fluff, no pity — just forward momentum.
+                </h2>
+                <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1.5rem; color: var(--color-text-dark);">
+                    We cut through the guilt, overthinking, and emotional chaos that follow a major life reset, and
+                    replace it with structure, identity, and purpose.
+                </p>
+                <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 2rem; color: var(--color-text-dark);">
+                    We’re here to redefine what life after divorce looks like for men.
+                </p>
+
+            </div>
+            <div class="mobile-image-container"
+                style="height: 400px; border-radius: 12px; overflow: hidden; display: flex; align-items: center; justify-content: center; background-color: var(--color-text-muted);">
+                <style>
+                    @media (max-width: 768px) {
+                        .mobile-image-container {
+                            height: 300px !important;
+                        }
+                    }
+                </style>
+                <!-- Using the uploaded image here as requested -->
+                <img src="/assets/images/mission-hero.png" alt="Man on Cliff"
+                    style="width: 100%; height: 100%; object-fit: cover;">
+            </div>
+        </div>
+    </section>
+</Layout>

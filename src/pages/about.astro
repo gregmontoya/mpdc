@@ -1,0 +1,67 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Our Story | DivorcedMen.com">
+    <!-- HERO SECTION -->
+    <header id="hero" class="section hero-section"
+        style="min-height: 40vh; padding-top: 8rem; padding-bottom: 4rem; position: relative; background-color: var(--color-bg-primary); display: flex; align-items: center; justify-content: center;">
+        <style>
+            @media (max-width: 768px) {
+                #hero {
+                    min-height: auto !important;
+                    padding-top: 6rem !important;
+                    padding-bottom: 3rem !important;
+                }
+
+                h1 {
+                    font-size: 3rem !important;
+                }
+            }
+        </style>
+        <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem; text-align: center;">
+            <p
+                style="font-size: 1.1rem; margin-bottom: 1.5rem; letter-spacing: 4px; text-transform: uppercase; color: var(--color-accent); font-weight: 700;">
+                About Us</p>
+            <h1 style="font-size: 4.5rem; line-height: 1.1; margin-bottom: 2rem; color: #fff;">
+                Our Story
+            </h1>
+        </div>
+    </header>
+
+    <!-- STORY CONTENT BLOCK (White Background) -->
+    <section class="content-block" style="background-color: var(--color-text-light); padding: 4rem 2rem;">
+        <style>
+            @media (max-width: 768px) {
+                .content-block {
+                    padding: 3rem 1.5rem !important;
+                }
+            }
+        </style>
+        <div style="max-width: 800px; margin: 0 auto; text-align: left;">
+            <p style="font-size: 1.25rem; line-height: 1.8; margin-bottom: 2rem; color: var(--color-text-dark);">
+                I’m Alex Morgan, a divorce recovery coach who helps men navigate one of the most challenging transitions
+                of their lives with
+                clarity, structure, and purpose.
+            </p>
+            <p style="font-size: 1.25rem; line-height: 1.8; margin-bottom: 2rem; color: var(--color-text-dark);">
+                Like many men, my own divorce required me to re examine my identity, priorities, and direction. It was a
+                difficult period that
+                demanded honest self reflection and intentional rebuilding. Through that process, I learned that simply
+                moving on is not enough.
+                Lasting progress comes from understanding what changed, what was lost, and how to rebuild from a
+                stronger foundation.
+            </p>
+            <p style="font-size: 1.25rem; line-height: 1.8; margin-bottom: 2rem; color: var(--color-text-dark);">
+                That experience led me to focus on helping other men do the same. My work centers on guiding men through
+                practical recovery by
+                regaining confidence, re establishing personal standards, and creating stability after divorce.
+            </p>
+            <p style="font-size: 1.25rem; line-height: 1.8; margin-bottom: 0; color: var(--color-text-dark);">
+                This work is not about revisiting the past or assigning blame. It is about growth, responsibility, and
+                building a future that feels
+                solid, intentional, and aligned with who you want to become.
+            </p>
+        </div>
+    </section>
+</Layout>
