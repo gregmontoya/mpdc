@@ -387,7 +387,7 @@ if (window.location.pathname.includes('course.html')) {
   // 1. Auth Guard
   const token = localStorage.getItem(AUTH_TOKEN_KEY);
   if (!token) {
-    window.location.href = 'login.html';
+    window.location.href = '/system/login';
   }
 
   // 2. Initialize UI
