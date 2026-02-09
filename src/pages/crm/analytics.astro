@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="p:domain_verify" content="57dd46a805327939488e827ea7d046dd"/>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPDC CRM | Analytics</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/crm/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .iframe-container {
+            width: 100%;
+            height: calc(100vh - 140px);
+            border: 1px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+            background: #1e293b;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .iframe-placeholder {
+            text-align: center;
+            color: #94a3b8;
+            padding: 2rem;
+        }
+        .iframe-placeholder i {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            opacity: 0.5;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">M</div>
+                <h1 class="logo-text">MPDC<span>CRM</span></h1>
+            </div>
+
+            <nav class="main-nav">
+                <a href="/crm" class="nav-item">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/crm/analytics" class="nav-item active">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
+                <a href="/crm/clients" class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="/crm/leads" class="nav-item">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Leads</span>
+                </a>
+                <a href="/crm/prospects" class="nav-item">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>IG Prospects</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Deals</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Inbox</span>
+                    <span class="badge">3</span>
+                </a>
+                <div class="pt-4 pb-2 text-xs font-bold text-white/40 uppercase tracking-widest px-4" style="margin-top: 15px; font-size: 10px; letter-spacing: 1px;">Marketing</div>
+                <a href="/crm/seo" class="nav-item">
+                    <i class="fa-solid fa-search"></i>
+                    <span>SEO Manager</span>
+                </a>
+                <a href="/crm/schema" class="nav-item">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Schema Injector</span>
+                </a>
+                <a href="/crm/cro" class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>CRO Analysis</span>
+                </a>
+            </nav>
+
+            <div class="secondary-nav">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Help Center</span>
+                </a>
+            </div>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Greg+Montoya&background=3b82f6&color=fff" alt="User"
+                    class="avatar">
+                <div class="user-info">
+                    <p class="user-name">Greg Montoya</p>
+                    <p class="user-role">Admin</p>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search report data...">
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" aria-label="Notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+                    <button class="btn btn-primary" onclick="window.open('https://analytics.google.com', '_blank')">
+                        <i class="fa-solid fa-external-link-alt"></i> Open GA4
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-grid" style="grid-template-columns: 1fr;"> <!-- Full width -->
+
+                <!-- Welcome Section -->
+                <div class="welcome-section">
+                    <h2>Analytics Command Center</h2>
+                    <p>Live view of your GA4 Funnels and Traffic Reports.</p>
+                </div>
+
+                <!-- Embed Container -->
+                <div class="iframe-container">
+                    <iframe 
+                        width="100%" 
+                        height="100%" 
+                        src="https://lookerstudio.google.com/embed/reporting/15072748-5791-4fd9-95cd-80e86a821c6d/page/VPznF" 
+                        frameborder="0" 
+                        style="border:0" 
+                        allowfullscreen 
+                        sandbox="allow-storage-access-by-user-activation allow-scripts allow-same-origin allow-popups allow-popups-to-escape-sandbox">
+                    </iframe>
+                </div>
+
+            </div>
+        </main>
+    </div>
+</body>
+</html>

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta name="p:domain_verify" content="57dd46a805327939488e827ea7d046dd"/>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+    
+      gtag('config', 'G-T26PKTMJB1');
+    </script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPDC CRM | IG Prospects</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/crm/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">M</div>
+                <h1 class="logo-text">MPDC<span>CRM</span></h1>
+            </div>
+
+            <nav class="main-nav">
+                <a href="/crm" class="nav-item">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/crm/analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
+                <a href="/crm/analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
+                <a href="/crm/clients" class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="/crm/leads" class="nav-item">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Leads</span>
+                </a>
+                <a href="/crm/prospects" class="nav-item active">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>IG Prospects</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Deals</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Inbox</span>
+                    <span class="badge">3</span>
+                </a>
+                <div class="pt-4 pb-2 text-xs font-bold text-white/40 uppercase tracking-widest px-4" style="margin-top: 15px; font-size: 10px; letter-spacing: 1px;">Marketing</div>
+                <a href="/crm/seo" class="nav-item">
+                    <i class="fa-solid fa-search"></i>
+                    <span>SEO Manager</span>
+                </a>
+                <a href="/crm/schema" class="nav-item">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Schema Injector</span>
+                </a>
+                <a href="/crm/cro" class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>CRO Analysis</span>
+                </a>
+                <a href="/crm/cro" class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>CRO Analysis</span>
+                </a>
+            </nav>
+
+            <div class="secondary-nav">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Help Center</span>
+                </a>
+            </div>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Greg+Montoya&background=3b82f6&color=fff" alt="User"
+                    class="avatar">
+                <div class="user-info">
+                    <p class="user-name">Greg Montoya</p>
+                    <p class="user-role">Admin</p>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="page-title">
+                    <h2>IG Prospects Database <span class="header-count" id="header-count">0</span></h2>
+                </div>
+                <div class="header-actions">
+                    <div class="search-bar compact">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" placeholder="Search prospects..." id="search-input">
+                    </div>
+                    <button class="btn btn-primary" id="openAddModal">
+                        <i class="fa-solid fa-plus"></i> Add Prospect
+                    </button>
+                </div>
+            </header>
+
+            <!-- Table Content -->
+            <div class="dashboard-grid" style="grid-template-columns: 1fr;">
+                <div class="content-panel">
+                    <div class="table-responsive">
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Prospect</th>
+                                    <th>Status</th>
+                                    <th>Pain Point</th>
+                                    <th>Notes</th>
+                                    <th>Added</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="prospects-table-body">
+                                <tr>
+                                    <td colspan="6" style="text-align:center; padding:30px; color:#666;">
+                                        <i class="fa-solid fa-spinner fa-spin"></i> Loading...
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Prospect Modal -->
+    <div id="addProspectModal" class="modal-overlay hidden">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New IG Prospect</h3>
+                <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <form id="addProspectForm">
+                    <div class="form-group">
+                        <label>Instagram Handle</label>
+                        <div class="input-icon">
+                            <i class="fa-brands fa-instagram"></i>
+                            <input type="text" id="inputHandle" placeholder="@username" required>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Name (Optional)</label>
+                        <input type="text" id="inputName" placeholder="First Last">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Status</label>
+                            <select id="inputStatus">
+                                <option value="new">New DM</option>
+                                <option value="convo">In Conversation</option>
+                                <option value="qualifying">Qualifying</option>
+                                <option value="booked">Call Booked</option>
+                                <option value="ghosted">Ghosted</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Pain Point</label>
+                            <select id="inputPainPoint">
+                                <option value="">Select...</option>
+                                <option value="custody">Custody</option>
+                                <option value="financial">Financial</option>
+                                <option value="emotional">Emotional/Recovery</option>
+                                <option value="other">Other</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Notes</label>
+                        <textarea id="inputNotes" rows="3" placeholder="Conversation details..."></textarea>
+                    </div>
+
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-outline close-modal-btn">Cancel</button>
+                        <button type="submit" class="btn btn-primary">Save Prospect</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Supabase Client (Using jsdelivr as seen in clients.astro) -->
+    <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    
+    <!-- Script.js for UI Toggles -->
+    <script is:inline src="/crm/script.js"></script>
+
+    <script is:inline>
+        // Init Supabase securely using pattern from clients.astro
+        const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
+        
+        let supabase;
+        try {
+            if (window.supabase) {
+                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            } else {
+                console.error("Supabase SDK failed to load window.supabase");
+            }
+        } catch(e) {
+            console.error('Supabase Init Failed:', e);
+        }
+
+        document.addEventListener('DOMContentLoaded', async () => {
+             // ------------------------
+            // Modal Logic
+            // ------------------------
+            const modal = document.getElementById('addProspectModal');
+            const openBtn = document.getElementById('openAddModal');
+            const closeBtns = document.querySelectorAll('.close-modal, .close-modal-btn');
+            const form = document.getElementById('addProspectForm');
+
+            if(openBtn) openBtn.addEventListener('click', () => modal.classList.remove('hidden'));
+            closeBtns.forEach(btn => btn.addEventListener('click', () => modal.classList.add('hidden')));
+            if(modal) modal.addEventListener('click', (e) => { if (e.target === modal) modal.classList.add('hidden'); });
+
+            // ------------------------
+            // Fetch Data
+            // ------------------------
+            if(supabase) {
+                renderProspects();
+            } else {
+                document.getElementById('prospects-table-body').innerHTML = 
+                    '<tr><td colspan="6" class="text-center" style="color:red;">Error: Database connection failed. Adblocker?</td></tr>';
+            }
+
+            // ------------------------
+            // Handle Form Submit
+            // ------------------------
+            if (form) {
+                form.addEventListener('submit', async (e) => {
+                    e.preventDefault();
+                    if(!supabase) return;
+
+                    const handle = document.getElementById('inputHandle').value;
+                    const name = document.getElementById('inputName').value;
+                    const status = document.getElementById('inputStatus').value;
+                    const painPoint = document.getElementById('inputPainPoint').value;
+                    const notes = document.getElementById('inputNotes').value;
+
+                    // Adapt to schema (store handle in email, omit missing cols)
+                    const { data, error } = await supabase
+                        .from('leads')
+                        .insert([{
+                            email: handle, // Store handle in email field
+                            name: name,
+                            status: status,
+                            // pain_point: painPoint, // Column missing
+                            // notes: notes, // Column missing
+                            source: 'instagram_manual',
+                            created_at: new Date().toISOString()
+                        }])
+                        .select();
+
+                    if (!error) {
+                        form.reset();
+                        modal.classList.add('hidden');
+                        renderProspects();
+                    } else {
+                        alert('Error saving: ' + error.message);
+                    }
+                });
+            }
+        });
+
+        async function renderProspects() {
+            const tbody = document.getElementById('prospects-table-body');
+            const countHeader = document.getElementById('header-count');
+            
+            // Fetch leads
+            const { data: leads, error } = await supabase
+                .from('leads')
+                .select('*')
+                .order('created_at', { ascending: false });
+
+            if (error) {
+                console.error(error);
+                tbody.innerHTML = '<tr><td colspan="6" class="text-center">Error fetching data.</td></tr>';
+                return;
+            }
+
+            // Filter for IG leads only (source starts with 'instagram' or is manual). 
+            // In our new schema adaptation, we check email for handle-like strings or source.
+            const prospectLeads = leads.filter(l => l.source === 'instagram_manual' || (l.email && l.email.startsWith('@')));
+
+            if (countHeader) countHeader.innerText = prospectLeads.length;
+
+            if (prospectLeads.length === 0) {
+                tbody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px;">No prospects found. Add one!</td></tr>';
+                return;
+            }
+
+            tbody.innerHTML = '';
+            prospectLeads.forEach(lead => {
+                const date = new Date(lead.created_at).toLocaleDateString();
+                // Map 'email' to handle for display
+                const handle = lead.email || 'No Handle'; 
+                const initials = (lead.name || handle || '?').charAt(0).toUpperCase(); // Define initials
+                const cleanHandle = handle.replace('@', '');
+                
+                // Status Badge Color
+                let statusColor = 'gray';
+                let statusBg = '#e2e8f0';
+                if(lead.status === 'new') { statusColor = '#3b82f6'; statusBg = '#dbeafe'; }
+                if(lead.status === 'convo') { statusColor = '#8b5cf6'; statusBg = '#ede9fe'; }
+                if(lead.status === 'qualifying') { statusColor = '#f59e0b'; statusBg = '#fef3c7'; }
+                if(lead.status === 'booked') { statusColor = '#10b981'; statusBg = '#d1fae5'; }
+
+                const row = `
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="avatar-sm" style="background:#E1306C; color:white;">
+                                    <i class="fa-brands fa-instagram"></i>
+                                </div>
+                                <div>
+                                    <div class="font-medium">${lead.name || 'Unknown'}</div>
+                                    <a href="https://instagram.com/${cleanHandle}" target="_blank" class="text-muted" style="color:#E1306C; hover:underline;">${handle}</a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="status-badge" style="background:${statusBg}; color:${statusColor}; text-transform:capitalize;">
+                                ${lead.status === 'convo' ? 'In Conversation' : lead.status}
+                            </span>
+                        </td>
+                        <td><span style="color:#ccc;">-</span></td>
+                        <td style="max-width:250px;"><div style="white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="Notes not available">-</div></td>
+                        <td>${date}</td>
+                        <td>
+                            <button class="action-btn"><i class="fa-solid fa-pen"></i></button>
+                        </td>
+                    </tr>
+                `;
+                tbody.insertAdjacentHTML('beforeend', row);
+            });
+        }
+    </script>
+</body>
+</html>

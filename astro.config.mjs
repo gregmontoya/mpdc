@@ -4,6 +4,7 @@ import sitemap from '@astrojs/sitemap';
 // https://astro.build/config
 export default defineConfig({
   site: 'https://menspostdivorcecoaching.com',
+  output: 'static',
   trailingSlash: 'never',
   build: {
     format: 'directory'

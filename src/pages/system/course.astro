@@ -1,0 +1,580 @@
+---
+import SystemLayout from '../../layouts/SystemLayout.astro';
+---
+
+
+<SystemLayout title="Course Player" activePage="course">
+        <div class="course-player-container">
+            <div class="player-header">
+                <div class="breadcrumb-nav">
+                    <a href="/system/dashboard">DASHBOARD</a>
+                    <span>/</span>
+                    <span id="breadcrumb-module">MODULE 0: INTRODUCTION</span>
+                </div>
+                <h1 id="lesson-title">Welcome</h1>
+            </div>
+
+            <!-- Video Section -->
+            <div class="video-stage">
+                <div class="video-outer">
+                    <div class="video-inner">
+                        <div id="video-container">
+                            <iframe id="lesson-video-frame" 
+                                src="https://www.youtube.com/embed/19VUtGlJ_oI?enablejsapi=1&rel=0&modestbranding=1"
+                                title="Course Video" frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Content Grid -->
+            <div class="content-stage">
+                <div class="main-lesson-content">
+                    <div class="lesson-description-card">
+                        <div class="desc-header">
+                            <h3>Session Overview</h3>
+                            <button class="btn-complete" id="mark-complete-btn">
+                                <i class="fas fa-check-circle"></i> Mark as Complete
+                            </button>
+                        </div>
+                        <p id="lesson-description">Welcome to the system. Before we begin, you're going to set One Big Goal...</p>
+                    </div>
+
+                    <div class="resources-grid">
+                        <div class="resource-header">
+                            <i class="fas fa-download"></i>
+                            <h3>Session Resources</h3>
+                        </div>
+                        <div id="resources-list" class="resources-container">
+                            <!-- Injected by JS -->
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sidebar-lesson-content">
+                    <div class="support-links">
+                        <a href="/clarity-call" target="_blank" class="support-item">
+                            <i class="fas fa-calendar"></i>
+                            <span>Schedule a Clarity Call</span>
+                        </a>
+                        <a href="/system/support" class="support-item">
+                            <i class="fas fa-life-ring"></i>
+                            <span>Technical Support</span>
+                        </a>
+                    </div>
+
+                    <!-- Virtual Coach removed per request -->
+                </div>
+            </div>
+        </div>
+
+
+    <style is:global>
+        .course-player-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .player-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .breadcrumb-nav {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #94a3b8;
+            letter-spacing: 1.5px;
+            margin-bottom: 0.75rem;
+        }
+
+        .breadcrumb-nav a {
+            color: #C4613A;
+            text-decoration: none;
+        }
+
+        .player-header h1 {
+            font-size: 2.5rem;
+            color: #1a1f24;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-transform: none;
+        }
+
+        /* VIDEO STAGES */
+        .video-stage {
+            margin-bottom: 4rem;
+        }
+
+        .video-outer {
+            background: #000;
+            border-radius: 24px;
+            overflow: hidden;
+            box-shadow: 0 25px 60px rgba(0, 0, 0, 0.15);
+        }
+
+        .video-inner {
+            position: relative;
+            padding-bottom: 56.25%; /* 16:9 */
+            height: 0;
+        }
+
+        .video-inner iframe, .video-inner .video-js {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+        }
+
+        .btn-complete {
+            background: #f8fafc !important;
+            border: 2px solid #e2e8f0 !important;
+            padding: 12px 24px !important;
+            border-radius: 12px !important;
+            font-weight: 800 !important;
+            font-size: 0.95rem !important;
+            color: #64748b !important;
+            cursor: pointer !important;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1) !important;
+            display: flex !important;
+            align-items: center !important;
+            gap: 10px !important;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1) !important;
+            z-index: 10 !important;
+            position: relative !important;
+        }
+
+        .btn-complete:hover {
+            border-color: #C4613A !important;
+            color: #C4613A !important;
+            transform: translateY(-2px) !important;
+            box-shadow: 0 10px 15px -3px rgba(196, 97, 58, 0.2) !important;
+        }
+
+        .btn-complete.done {
+            background: #22c55e !important;
+            color: #fff !important;
+            border-color: #22c55e !important;
+        }
+
+        /* PREMIUM VIDEO SKIN */
+        :root {
+            --vjs-theme-color: #C4613A;
+        }
+        .video-js {
+            font-family: 'Montserrat', sans-serif !important;
+            border-radius: 24px !important;
+            overflow: hidden !important;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.4) !important;
+            border: 1px solid rgba(255,255,255,0.1) !important;
+        }
+        .vjs-big-play-button {
+            background: rgba(196, 97, 58, 0.95) !important;
+            border: none !important;
+            width: 90px !important;
+            height: 90px !important;
+            border-radius: 50% !important;
+            line-height: 90px !important;
+            margin-left: -45px !important;
+            margin-top: -45px !important;
+            font-size: 3.5rem !important;
+            backdrop-filter: blur(8px) !important;
+            box-shadow: 0 15px 35px rgba(196, 97, 58, 0.4) !important;
+        }
+        .vjs-control-bar {
+            background: rgba(15, 23, 42, 0.9) !important;
+            backdrop-filter: blur(15px) !important;
+            height: 70px !important;
+            padding: 0 15px !important;
+        }
+        .vjs-play-progress {
+            background: #C4613A !important;
+        }
+        .vjs-slider {
+            background: rgba(255,255,255,0.2) !important;
+        }
+
+        /* CONTENT GRID */
+        .content-stage {
+            display: grid;
+            grid-template-columns: 1fr 350px;
+            gap: 3rem;
+        }
+
+        .lesson-description-card {
+            background: #fff;
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            margin-bottom: 2rem;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.02);
+        }
+
+        .desc-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .desc-header h3 {
+            font-size: 1.1rem;
+            color: #1a1f24;
+            text-transform: none;
+        }
+
+        .lesson-description-card p {
+            font-size: 1.05rem;
+            color: #475569;
+            line-height: 1.8;
+        }
+
+        /* RESOURCES */
+        .resource-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 1.5rem;
+            padding-left: 0.5rem;
+        }
+
+        .resource-header i { color: #C4613A; }
+        .resource-header h3 { font-size: 0.9rem; text-transform: uppercase; letter-spacing: 1px; color: #94a3b8; }
+
+        .resources-container {
+            display: grid;
+            gap: 1rem;
+        }
+
+        /* SIDEBAR CARDS */
+        .coach-card {
+            background: #1a1f24;
+            padding: 2.5rem;
+            border-radius: 20px;
+            color: #fff;
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .coach-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #C4613A;
+            margin: 0 auto 1.5rem;
+            overflow: hidden;
+        }
+
+        .coach-card h4 { margin-bottom: 1rem; text-transform: none; font-size: 1.2rem; }
+        .coach-card p { font-size: 0.9rem; color: #94a3b8; line-height: 1.5; margin-bottom: 2rem; }
+
+        .coach-chat-box {
+            display: flex;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 10px;
+            padding: 5px;
+        }
+
+        .coach-chat-box input {
+            flex: 1;
+            background: transparent;
+            border: none;
+            padding: 10px;
+            color: #fff;
+            font-size: 0.85rem;
+        }
+
+        .coach-chat-box button {
+            background: #C4613A;
+            border: none;
+            border-radius: 8px;
+            width: 40px;
+            color: #fff;
+            cursor: pointer;
+        }
+
+        .support-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .support-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            padding: 1.25rem;
+            background: #fff;
+            border: 1px solid #e2e8f0;
+            border-radius: 15px;
+            color: #1a1f24;
+            text-decoration: none;
+            font-weight: 700;
+            font-size: 0.9rem;
+            transition: all 0.2s;
+        }
+
+        .support-item:hover {
+            border-color: #C4613A;
+            transform: translateX(5px);
+        }
+
+        .support-item i { color: #C4613A; font-size: 1.1rem; }
+
+        @media (max-width: 1100px) {
+            .content-stage { grid-template-columns: 1fr; }
+        }
+    </style>
+
+    <script is:inline>
+        let player = null;
+        const BUCKET_URL = "https://storage.googleapis.com/mpdc-website-32dae.firebasestorage.app/streaming";
+
+        const COURSE_MODULES = [
+            { 
+                id: 0, 
+                title: "INTRODUCTION", 
+                subtitle: "Welcome", 
+                type: "hls", 
+                videoid: "00-Module-done", 
+                description: "Welcome to the system. Before we begin, you're going to set One Big Goal for your new life.",
+                resources: []
+            },
+            { 
+                id: 1, 
+                title: "MODULE 1", 
+                subtitle: "A Memory in Your Future", 
+                type: "hls", 
+                videoid: "01-Module-done", 
+                description: "Stop building your life through the rearview mirror. This module installs the Future Memory protocol to reprogram your subconscious direction.",
+                resources: [
+                    { name: "Module 1 Worksheet", file: "/downloads/Module-1.pdf" }
+                ]
+            },
+            { 
+                id: 2, 
+                title: "MODULE 2", 
+                subtitle: "Resolving Your Past", 
+                type: "hls", 
+                videoid: "02-Module-done", 
+                description: "In this session, we resolve the emotional residue of the past to clear the path for your transformation.",
+                resources: [
+                    { name: "Module 2 Worksheet", file: "/downloads/Module_2_Worksheet.pdf" }
+                ]
+            },
+            { 
+                id: 3, 
+                title: "MODULE 3", 
+                subtitle: "Rebuilding Your Reality Chain", 
+                type: "hls", 
+                videoid: "03-Module-done", 
+                description: "Understand how your thoughts create your reality and how to break the chains of old patterns.",
+                resources: [
+                    { name: "Module 3 Worksheet", file: "/downloads/Module_3_Worksheet.pdf" }
+                ]
+            },
+            { 
+                id: 4, 
+                title: "MODULE 4", 
+                subtitle: "Designing Your Ideal Future", 
+                type: "hls", 
+                videoid: "04-Module-done", 
+                description: "Create a detailed blueprint for the man you are becoming and the life you are building.",
+                resources: [
+                    { name: "Module 4 Worksheet", file: "/downloads/Module_4_Worksheet.pdf" }
+                ]
+            },
+            { 
+                id: 5, 
+                title: "MODULE 5", 
+                subtitle: "Scarcity to Abundance", 
+                type: "hls", 
+                videoid: "05-Module-done", 
+                description: "Finalize your transformation by shifting your core energy from a state of lack to a state of total abundance.",
+                resources: [
+                    { name: "Module 5 Worksheet", file: "/downloads/Module_5_Worksheet.pdf" }
+                ]
+            }
+        ];
+
+        function markAsComplete(moduleId, forceState = null) {
+            // ... strict check ...
+            const bypass = localStorage.getItem('firebase_dev_bypass') === 'true';
+            const auth = window.firebase ? window.firebase.auth() : null;
+            const user = (auth && auth.currentUser) ? auth.currentUser : (bypass ? { uid: 'dev-user' } : null);
+            
+            if (!user) return;
+
+            const progressKey = `mpdc_progress_${user.uid}`;
+            let completed = JSON.parse(localStorage.getItem(progressKey) || '[]');
+            
+            const btn = document.getElementById('mark-complete-btn');
+            
+            if (completed.includes(moduleId)) {
+                if (forceState === true) return; // Already completed, do nothing
+
+                // TOGGLE OFF (Un-complete)
+                completed = completed.filter(id => id !== moduleId);
+                localStorage.setItem(progressKey, JSON.stringify(completed));
+
+                if (btn) {
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Mark as Complete';
+                    btn.classList.remove('done');
+                    // Important: Update the click handler so next click adds it back
+                    btn.onclick = () => markAsComplete(moduleId); 
+                }
+            } else {
+                if (forceState === false) return; // Already incomplete, do nothing
+
+                // TOGGLE ON (Complete)
+                completed.push(moduleId);
+                localStorage.setItem(progressKey, JSON.stringify(completed));
+
+                if (btn) {
+                    btn.innerHTML = '<i class="fas fa-check-double"></i> Completed';
+                    btn.classList.add('done');
+                    // Important: Update the click handler so next click removes it
+                    btn.onclick = () => markAsComplete(moduleId);
+                }
+            }
+
+            // Trigger sidebar refresh
+            if (window.refreshCourseUI) window.refreshCourseUI();
+        }
+
+        function loadModule(moduleId) {
+            const module = COURSE_MODULES.find(m => m.id === moduleId);
+            if (!module) return;
+
+            // Check if already completed
+            const bypass = localStorage.getItem('firebase_dev_bypass') === 'true';
+            const auth = window.firebase ? window.firebase.auth() : null;
+            const user = (auth && auth.currentUser) ? auth.currentUser : (bypass ? { uid: 'dev-user' } : null);
+            
+            const progressKey = user ? `mpdc_progress_${user.uid}` : null;
+            const completed = progressKey ? JSON.parse(localStorage.getItem(progressKey) || '[]') : [];
+            
+            const btn = document.getElementById('mark-complete-btn');
+            if (btn) {
+                if (completed.includes(moduleId)) {
+                    btn.innerHTML = '<i class="fas fa-check-double"></i> Completed';
+                    btn.classList.add('done');
+                } else {
+                    btn.innerHTML = '<i class="fas fa-check-circle"></i> Mark as Complete';
+                    btn.classList.remove('done');
+                    btn.onclick = () => markAsComplete(moduleId);
+                }
+            }
+
+            document.getElementById('breadcrumb-module').textContent = `${module.title}: ${module.subtitle.toUpperCase()}`;
+            document.getElementById('lesson-title').textContent = module.subtitle;
+            document.getElementById('lesson-description').textContent = module.description;
+
+            // RENDER RESOURCES
+            const resList = document.getElementById('resources-list');
+            if (resList) {
+                resList.innerHTML = '';
+                if (module.resources && module.resources.length > 0) {
+                    module.resources.forEach(res => {
+                        const link = document.createElement('a');
+                        link.href = res.file;
+                        link.target = "_blank";
+                        link.className = "support-item"; // Reuse styling
+                        link.style.padding = "1rem";
+                        link.style.fontSize = "0.85rem";
+                        link.innerHTML = `<i class="fas fa-file-pdf"></i> <span>${res.name}</span>`;
+                        resList.appendChild(link);
+                    });
+                } else {
+                    resList.innerHTML = '<div style="color:#94a3b8; font-size:0.8rem; font-style:italic; padding:0.5rem;">No downloads for this session.</div>';
+                }
+            }
+
+            const container = document.getElementById('video-container');
+            
+            if (player) {
+                try { player.dispose(); } catch(e) {}
+                player = null;
+            }
+            container.innerHTML = '';
+
+            if (module.type === "hls") {
+                const video = document.createElement('video');
+                video.id = 'lesson-player';
+                video.className = 'video-js vjs-big-play-centered';
+                video.setAttribute('controls', '');
+                video.setAttribute('preload', 'auto');
+                video.setAttribute('crossorigin', 'anonymous');
+                video.style.width = '100%';
+                video.style.height = '100%';
+                
+                container.appendChild(video);
+                
+                player = videojs('lesson-player', {
+                    fluid: true,
+                    playbackRates: [0.5, 1, 1.25, 1.5, 2]
+                });
+
+                // Resume Playback Logic
+                const resumeKey = `resume_${module.videoid}`;
+                player.on('loadedmetadata', function() {
+                    const savedTime = localStorage.getItem(resumeKey);
+                    if (savedTime && savedTime > 5) {
+                        player.currentTime(parseFloat(savedTime));
+                    }
+                });
+
+                player.on('timeupdate', function() {
+                    localStorage.setItem(resumeKey, player.currentTime());
+                    
+                    // Auto-complete at 90%
+                    const percentage = (player.currentTime() / player.duration()) * 100;
+                    const btn = document.getElementById('mark-complete-btn');
+                    // Check if button is NOT done (to avoid spamming markAsComplete)
+                    if (percentage > 90 && btn && !btn.classList.contains('done')) {
+                        markAsComplete(moduleId, true);
+                    }
+                });
+
+                player.on('error', function() {
+                    const error = player.error();
+                    console.error('VIDEOJS ERROR:', error);
+                    if (player.src().includes('manifest.m3u8')) {
+                        const fallbackUrl = `${BUCKET_URL}/${module.videoid}/index.m3u8`;
+                        player.src({ src: fallbackUrl, type: 'application/x-mpegURL' });
+                    }
+                });
+                
+                player.src({
+                    src: `${BUCKET_URL}/${module.videoid}/manifest.m3u8`,
+                    type: 'application/x-mpegURL'
+                });
+            } else {
+                const iframe = document.createElement('iframe');
+                iframe.id = 'lesson-video-frame';
+                iframe.src = `https://www.youtube.com/embed/${module.videoid}?enablejsapi=1&rel=0`;
+                iframe.title = "Course Video";
+                iframe.frameBorder = "0";
+                iframe.allow = "accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share";
+                iframe.allowFullscreen = true;
+                iframe.style.width = '100%';
+                iframe.style.height = '100%';
+                iframe.style.position = 'absolute';
+                iframe.style.top = '0';
+                iframe.style.left = '0';
+                container.appendChild(iframe);
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const params = new URLSearchParams(window.location.search);
+            const id = parseInt(params.get('id')) || 0;
+            loadModule(id);
+        });
+    </script>
+</SystemLayout>

@@ -1,4 +1,5 @@
 ---
+const { hideNav = false } = Astro.props;
 ---
 <nav id="navbar">
     <div class="nav-container">
@@ -9,62 +10,22 @@
             DEV SITE: AUTOMATION ACTIVE ✅</div> 
         -->
         <a href="/" class="logo">
-            MEN'S POST<br>DIVORCE COACHING
+            MEN'S POST<br>DIVORCE <span>COACHING</span>
         </a>
-        <div class="nav-menu nav-menu-left">
+        {!hideNav && <div class="nav-menu nav-menu-left">
             <a href="/" class="nav-link">Home</a>
-            <a href="#" class="nav-link">Services</a>
+            <a href="/services" class="nav-link">Community</a>
+            <a href="/about" class="nav-link">About Us</a>
             <div class="nav-item-dropdown">
-                <a href="#" class="nav-link">About</a>
-                <div class="mega-dropdown">
-                    <div class="mega-dropdown-inner">
-                        <div class="mega-left">
-                            <div class="mega-accent-bar"></div>
-                            <h2>About Us</h2>
-                            <p>Learn more about our mission and values, how we started, and what we've accomplished
-                                since then.</p>
-                            <a href="/about" class="mega-cta-btn">Learn More</a>
-                        </div>
-                        <div class="mega-right">
-                            <div class="mega-column">
-                                <a href="#" class="mega-link-title">Our Leadership</a>
-                                <p class="mega-desc">Meet the MPDC leadership team and board members.</p>
-                            </div>
-                            <div class="mega-column">
-                                <a href="#" class="mega-link-title">How it Works</a>
-                                <p class="mega-desc">Read about how MPDC works—and how we can help you reach your
-                                    goals.</p>
-                            </div>
-                            <div class="mega-column">
-                                <a href="/mission" class="mega-link-title">Our Values</a>
-                                <p class="mega-desc">Learn more about MPDC's core values.</p>
-                            </div>
-                            <div class="mega-column">
-                                <a href="#" class="mega-link-title">Press</a>
-                                <p class="mega-desc">Read through the latest MPDC news coverage.</p>
-                            </div>
-                            <div class="mega-column">
-                                <a href="#" class="mega-link-title">Investors</a>
-                                <p class="mega-desc">Information for investors in MPDC.</p>
-                            </div>
-                            <div class="mega-column">
-                                <a href="/contact" class="mega-link-title">Contact Us</a>
-                                <p class="mega-desc">Questions? Comments? Just want to talk? Get in touch with us
-                                    via phone or email.</p>
-                            </div>
-                            <div class="mega-column">
-                                <a href="#" class="mega-link-title">Inclusive Culture</a>
-                                <p class="mega-desc">Learn about our commitment to fostering a welcoming workforce.
-                                </p>
-                            </div>
-                            <div class="mega-column">
-                                <a href="#" class="mega-link-title">Careers</a>
-                                <p class="mega-desc">Come work with us!</p>
-                            </div>
-                        </div>
+                <span class="nav-link" style="cursor: pointer;">Courses</span>
+                <div class="mega-dropdown" style="width: 250px; left: 0; min-width: 200px;">
+                    <div class="mega-dropdown-inner" style="flex-direction: column; padding: 1rem;">
+                        <a href="/join" class="mega-link-title" style="margin-bottom: 0;">The System</a>
+                        <p class="mega-desc" style="font-size: 0.8rem; margin-top: 0.25rem;">Our Core 5-Step Protocol</p>
                     </div>
                 </div>
             </div>
+
             <div class="nav-item-dropdown">
                 <a href="/learn" class="nav-link">Resources</a>
                 <div class="mega-dropdown">
@@ -78,36 +39,35 @@
                         </div>
                         <div class="mega-right">
                             <div class="mega-column">
-                                <a href="#" class="mega-link-title">Physiology & Health</a>
-                                <p class="mega-desc">Optimize your nervous system, hormones, and physical recovery.
-                                </p>
+                                <a href="/learn/mindset-mental-health" class="mega-link-title">Mindset & Mental Health</a>
+                                <p class="mega-desc">Recover your focus and mental strength.</p>
                             </div>
                             <div class="mega-column">
-                                <a href="#" class="mega-link-title">Dating & Relationships</a>
-                                <p class="mega-desc">Navigate new connections with confidence and clarity.</p>
+                                <a href="/learn/divorce-strategy" class="mega-link-title">Divorce Strategy</a>
+                                <p class="mega-desc">Navigate the legal and logistical challenges.</p>
                             </div>
                             <div class="mega-column">
-                                <a href="#" class="mega-link-title">Divorce Strategy & Conflict</a>
-                                <p class="mega-desc">Manage legal challenges and reduce conflict effectively.</p>
+                                <a href="/learn/relationships-dating" class="mega-link-title">Relationships & Dating</a>
+                                <p class="mega-desc">Approach new connections with confidence.</p>
                             </div>
                             <div class="mega-column">
-                                <a href="#" class="mega-link-title">Mindset & Identity</a>
-                                <p class="mega-desc">Rebuild your sense of self and create a new vision for your
-                                    future.</p>
+                                <a href="/learn/co-parenting" class="mega-link-title">Co-Parenting</a>
+                                <p class="mega-desc">Lead your children through the transition.</p>
                             </div>
                             <div class="mega-column">
-                                <a href="#" class="mega-link-title">Financial Control</a>
-                                <p class="mega-desc">Take charge of your finances and build long-term stability.</p>
+                                <a href="/learn/financial-recovery" class="mega-link-title">Financial Recovery</a>
+                                <p class="mega-desc">Rebuild abundance and financial stability.</p>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
+            <a href="/clarity-call" class="nav-link nav-link-accent">Clarity Call</a>
             <a href="/contact" class="nav-link">Contact</a>
-        </div>
-        <a href="/system/login" class="nav-link">Member Login</a>
-        <a href="/join" class="nav-btn">Get Started</a>
-        <button class="mobile-toggle" id="mobile-toggle">
+        </div>}
+        <a href="/system/login" class="nav-btn-login">Member Login</a>
+        {!hideNav && <a href="/join" class="nav-btn">GET STARTED</a>}
+        <button class="mobile-toggle" id="mobile-toggle" style="margin-left: 1rem;">
             <span></span>
             <span></span>
             <span></span>
@@ -117,7 +77,7 @@
 
 <!-- MOBILE MENU OVERLAY -->
 <div class="mobile-menu" id="mobile-menu">
-    <div class="mobile-nav-links">
+    {!hideNav && <div class="mobile-nav-links">
         <div class="mobile-nav-item">
             <a href="/" class="mobile-nav-link no-arrow">Home</a>
         </div>
@@ -136,25 +96,35 @@
             </div>
         </div>
         <div class="mobile-nav-item">
+            <a href="#" class="mobile-nav-link has-submenu" data-submenu="courses">Courses</a>
+            <div class="mobile-submenu" id="submenu-courses">
+                <a href="/join">The System</a>
+            </div>
+        </div>
+
+        <div class="mobile-nav-item">
             <a href="#" class="mobile-nav-link has-submenu" data-submenu="resources">Resources</a>
             <div class="mobile-submenu" id="submenu-resources">
-                <a href="/learn">View All Resources</a>
-                <a href="#">Physiology & Health</a>
-                <a href="#">Dating & Relationships</a>
-                <a href="#">Divorce Strategy & Conflict</a>
-                <a href="#">Mindset & Identity</a>
-                <a href="#">Financial Control</a>
+                <a href="/learn">All Articles</a>
+                <a href="/learn/mindset-mental-health">Mindset & Mental Health</a>
+                <a href="/learn/divorce-strategy">Divorce Strategy</a>
+                <a href="/learn/relationships-dating">Relationships & Dating</a>
+                <a href="/learn/co-parenting">Co-Parenting</a>
+                <a href="/learn/financial-recovery">Financial Recovery</a>
             </div>
         </div>
         <div class="mobile-nav-item">
-            <a href="#" class="mobile-nav-link no-arrow">Services</a>
+            <a href="/services" class="mobile-nav-link no-arrow">Community</a>
+        </div>
+        <div class="mobile-nav-item">
+            <a href="/clarity-call" class="mobile-nav-link no-arrow" style="color: var(--color-accent);">Book Clarity Call</a>
         </div>
         <div class="mobile-nav-item">
             <a href="/contact" class="mobile-nav-link no-arrow">Contact</a>
         </div>
-    </div>
+    </div>}
     <div class="mobile-menu-footer">
         <a href="/system/login" class="mobile-menu-btn mobile-menu-btn-outline">Member Login</a>
-        <a href="/join" class="mobile-menu-btn">Get Started</a>
+        {!hideNav && <a href="/join" class="mobile-menu-btn">GET STARTED</a>}
     </div>
 </div>

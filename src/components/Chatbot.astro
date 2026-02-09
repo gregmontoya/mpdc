@@ -1,0 +1,273 @@
+---
+---
+<div id="mpdc-chatbot-container">
+    <!-- Chat Toggle Button -->
+    <button id="chatbot-toggle" aria-label="Open Chat">
+        <i class="fas fa-comment-alt"></i>
+    </button>
+
+    <!-- Chat Window -->
+    <div id="chatbot-window" class="hidden">
+        <div class="chatbot-header">
+            <div class="header-info">
+                <h3>MPDC Assistant</h3>
+                <span class="status">Online</span>
+            </div>
+            <button id="chatbot-close"><i class="fas fa-times"></i></button>
+        </div>
+        
+        <div id="chatbot-messages">
+            <div class="message assistant">
+                Welcome to the system, brother. I'm the MPDC Assistant. Are you ready to stop reacting and start leading? What can I help you with today?
+            </div>
+            <div class="quick-questions">
+                <button class="qq-btn" data-question="Tell me about 'The System'">Tell me about 'The System'</button>
+                <button class="qq-btn" data-question="I need help with overthinking">I need help with overthinking</button>
+                <button class="qq-btn" data-question="How do I join the community?">How do I join the community?</button>
+                <button class="qq-btn" data-question="I'm interested in 1-on-1 training">I'm interested in 1-on-1 training</button>
+            </div>
+        </div>
+
+        <div id="chatbot-input-area">
+            <input type="text" id="chatbot-input" placeholder="Type your message..." />
+            <button id="chatbot-send"><i class="fas fa-paper-plane"></i></button>
+        </div>
+    </div>
+</div>
+
+<style>
+    #mpdc-chatbot-container {
+        position: fixed;
+        bottom: 2rem;
+        right: 2rem;
+        z-index: 9999;
+        font-family: 'Montserrat', sans-serif;
+    }
+
+    #chatbot-toggle {
+        width: 65px;
+        height: 65px;
+        border-radius: 50%;
+        background: linear-gradient(135deg, #C4613A 0%, #a54f2f 100%);
+        color: white;
+        border: none;
+        cursor: pointer;
+        box-shadow: 0 8px 25px rgba(196, 97, 58, 0.4);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 1.6rem;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    }
+
+    #chatbot-toggle:hover {
+        transform: scale(1.1);
+    }
+
+    #chatbot-window {
+        position: absolute;
+        bottom: 85px;
+        right: 0;
+        width: 380px;
+        height: 550px;
+        background: white;
+        border-radius: 20px;
+        box-shadow: 0 20px 50px rgba(0,0,0,0.2);
+        display: flex;
+        flex-direction: column;
+        overflow: hidden;
+        transition: all 0.3s ease;
+        opacity: 1;
+        transform: translateY(0);
+        border: 1px solid rgba(0,0,0,0.05);
+    }
+
+    #chatbot-window.hidden {
+        opacity: 0;
+        transform: translateY(20px);
+        pointer-events: none;
+    }
+
+    .chatbot-header {
+        background: #0b3b36;
+        color: white;
+        padding: 1.25rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        border-bottom: 3px solid #C4613A;
+    }
+
+    .header-info h3 { margin: 0; font-size: 1rem; font-weight: 800; letter-spacing: 1px; }
+    .status { font-size: 0.75rem; color: #4ade80; display: flex; align-items: center; gap: 5px; margin-top: 2px; }
+    .status::before { content: ''; width: 8px; height: 8px; background: #4ade80; border-radius: 50%; display: inline-block; }
+
+    #chatbot-close { background: transparent; border: none; color: white; cursor: pointer; font-size: 1.2rem; }
+
+    #chatbot-messages {
+        flex: 1;
+        padding: 1.25rem;
+        overflow-y: auto;
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        background: #fdfcf9;
+    }
+
+    .message {
+        padding: 0.8rem 1rem;
+        border-radius: 15px;
+        max-width: 85%;
+        font-size: 0.9rem;
+        line-height: 1.5;
+    }
+
+    .message.assistant {
+        background: white;
+        color: #1a1f24;
+        align-self: flex-start;
+        border: 1px solid #e2e8f0;
+    }
+
+    .message.user {
+        background: #C4613A;
+        color: white;
+        align-self: flex-end;
+    }
+
+    #chatbot-input-area {
+        padding: 1rem;
+        display: flex;
+        gap: 0.5rem;
+        background: white;
+        border-top: 1px solid #e2e8f0;
+    }
+
+    #chatbot-input {
+        flex: 1;
+        border: 1px solid #e2e8f0;
+        padding: 0.6rem 1rem;
+        border-radius: 20px;
+        outline: none;
+        font-size: 0.9rem;
+    }
+
+    #chatbot-send {
+        background: #C4613A;
+        color: white;
+        border: none;
+        width: 35px;
+        height: 35px;
+        border-radius: 50%;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .quick-questions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        margin-top: 0.5rem;
+    }
+
+    .qq-btn {
+        background: white;
+        border: 1px solid #C4613A;
+        color: #C4613A;
+        padding: 0.4rem 0.8rem;
+        border-radius: 15px;
+        font-size: 0.8rem;
+        cursor: pointer;
+        transition: all 0.2s;
+        font-weight: 600;
+    }
+
+    .qq-btn:hover { background: #C4613A; color: white; }
+</style>
+
+<script>
+    // Robust Initialization
+    function initChatbot() {
+        const elements = {
+            toggleBtn: document.getElementById('chatbot-toggle'),
+            closeBtn: document.getElementById('chatbot-close'),
+            window: document.getElementById('chatbot-window'),
+            input: document.getElementById('chatbot-input'),
+            sendBtn: document.getElementById('chatbot-send'),
+            messages: document.getElementById('chatbot-messages'),
+            qqBtns: document.querySelectorAll('.qq-btn')
+        };
+
+        // Safety check - if we're missing core elements, don't run
+        if (!elements.toggleBtn || !elements.window || !elements.input) return;
+
+        let chatSession = [];
+        let leadCollected = false;
+
+        elements.toggleBtn.onclick = () => elements.window.classList.toggle('hidden');
+        elements.closeBtn.onclick = () => elements.window.classList.add('hidden');
+
+        function addMessage(text, sender) {
+            const div = document.createElement('div');
+            div.className = `message ${sender}`;
+            div.textContent = text;
+            elements.messages.appendChild(div);
+            elements.messages.scrollTop = elements.messages.scrollHeight;
+            chatSession.push({ role: sender === 'assistant' ? 'model' : 'user', parts: [{ text }] });
+        }
+
+        async function handleSend() {
+            const text = elements.input.value.trim();
+            if (!text) return;
+
+            elements.input.value = '';
+            addMessage(text, 'user');
+
+            // Show typing
+            const typingDiv = document.createElement('div');
+            typingDiv.className = 'message assistant';
+            typingDiv.textContent = '...';
+            elements.messages.appendChild(typingDiv);
+            elements.messages.scrollTop = elements.messages.scrollHeight;
+
+            try {
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text, history: chatSession.slice(0, -1) })
+                });
+                
+                const data = await response.json();
+                elements.messages.removeChild(typingDiv);
+                
+                if (data.response) {
+                    addMessage(data.response, 'assistant');
+                } else if (data.error) {
+                    addMessage("Technical issue: " + data.error, 'assistant');
+                }
+            } catch (err) {
+                if (typingDiv.parentNode) elements.messages.removeChild(typingDiv);
+                addMessage("I'm having trouble connecting right now. Please check if the dev server is running on port 4321.", 'assistant');
+                console.error("Chat error:", err);
+            }
+        }
+
+        elements.sendBtn.onclick = handleSend;
+        elements.input.onkeypress = (e) => { if (e.key === 'Enter') handleSend(); };
+
+        elements.qqBtns.forEach(btn => {
+            btn.onclick = () => {
+                elements.input.value = btn.getAttribute('data-question');
+                handleSend();
+                const qqContainer = btn.parentElement;
+                if (qqContainer) qqContainer.style.display = 'none';
+            };
+        });
+    }
+
+    // Run on load and after Astro swaps (if using View Transitions)
+    document.addEventListener('DOMContentLoaded', initChatbot);
+    document.addEventListener('astro:page-load', initChatbot);
+</script>

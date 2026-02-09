@@ -1,0 +1,24 @@
+User-agent: *
+Allow: /
+# Site Content
+Allow: /about
+Allow: /philosophy
+Allow: /mission
+Allow: /services
+Allow: /join
+Allow: /clarity-call
+Allow: /contact
+Allow: /learn/
+Allow: /category-*/
+
+# System & Admin (De-indexed)
+Disallow: /system/
+Disallow: /admin/
+Disallow: /crm/
+Disallow: /coming-soon-backup
+Disallow: /scripts/
+
+# Legal (Optional - keep indexed or remove)
+Allow: /legal/
+
+Sitemap: https://menspostdivorcecoaching.com/sitemap-index.xml

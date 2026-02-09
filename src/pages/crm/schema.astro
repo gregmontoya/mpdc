@@ -1,0 +1,549 @@
+---
+// src/pages/crm/schema.astro
+---
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AEO & Schema Manager | MPDC CRM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/crm/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        :root {
+            --aeo-purple: #8b5cf6;
+            --aeo-glow: rgba(139, 92, 246, 0.15);
+            --danger-red: #ef4444;
+        }
+        .schema-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+            transition: all 0.2s ease;
+            position: relative;
+            overflow: hidden;
+        }
+        .schema-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 4px; height: 100%;
+            background: var(--primary-color);
+        }
+        .schema-card.is-aeo::before {
+            background: var(--aeo-purple);
+        }
+        .schema-card:hover {
+            transform: translateY(-2px);
+            border-color: var(--primary-color);
+            box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.3);
+        }
+        .schema-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 18px;
+        }
+        .schema-title {
+            font-weight: 700;
+            color: #f8fafc;
+            font-size: 1.1rem;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .schema-path {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-family: 'JetBrains Mono', monospace;
+            background: #0f172a;
+            padding: 4px 8px;
+            border-radius: 4px;
+            margin-top: 8px;
+            display: inline-block;
+        }
+        .code-editor {
+            width: 100%;
+            height: 250px;
+            background: #0f172a;
+            color: #38bdf8;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            padding: 16px;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-size: 0.85rem;
+            resize: vertical;
+            line-height: 1.5;
+        }
+        
+        .tab-nav {
+            display: flex;
+            gap: 20px;
+            margin-bottom: 30px;
+            border-bottom: 1px solid #334155;
+        }
+        .tab-item {
+            padding: 10px 20px;
+            color: #94a3b8;
+            cursor: pointer;
+            font-weight: 600;
+            border-bottom: 2px solid transparent;
+            transition: all 0.2s;
+        }
+        .tab-item.active {
+            color: var(--primary-color);
+            border-bottom-color: var(--primary-color);
+        }
+        .tab-item i { margin-right: 8px; }
+
+        .audit-row {
+            display: grid;
+            grid-template-columns: 2fr 1fr 2fr 100px;
+            padding: 15px 20px;
+            align-items: center;
+            border-bottom: 1px solid #1e293b;
+            transition: background 0.2s;
+        }
+        .audit-row:hover { background: rgba(255,255,255,0.02); }
+        .audit-header {
+            font-weight: 700;
+            text-transform: uppercase;
+            font-size: 11px;
+            color: #64748b;
+            letter-spacing: 1px;
+            background: #0f172a;
+        }
+
+        .aeo-status-missing { color: var(--danger-red); font-weight: 600; font-size: 12px; }
+        .aeo-status-active { color: #10b981; font-weight: 600; font-size: 12px; }
+
+        /* Existing styles */
+        .status-pill { padding: 4px 12px; border-radius: 100px; font-size: 0.75rem; font-weight: 700; text-transform: uppercase; }
+        .status-active { background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid rgba(16, 185, 129, 0.2); }
+        .status-draft { background: rgba(245, 158, 11, 0.1); color: #f59e0b; border: 1px solid rgba(245, 158, 11, 0.2); }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-bottom: 20px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 0.85rem; font-weight: 600; color: #94a3b8; margin-bottom: 8px; text-transform: uppercase; }
+        input[type="text"], select, textarea { width: 100%; background: #0f172a; border: 1px solid #334155; padding: 12px; border-radius: 8px; color: #f1f5f9; }
+        .aeo-badge { background: var(--aeo-purple); color: white; padding: 2px 8px; border-radius: 4px; font-size: 0.65rem; font-weight: 800; margin-left: 8px; }
+        .aeo-section { border: 1px dashed var(--aeo-purple); background: var(--aeo-glow); padding: 15px; border-radius: 10px; margin-top: 15px; }
+        .empty-state { text-align: center; padding: 80px 40px; background: #1e293b; border-radius: 16px; border: 2px dashed #334155; color: #64748b; }
+        .modal-scroll { max-height: 80vh; overflow-y: auto; padding-right: 10px; }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">M</div>
+                <h1 class="logo-text">MPDC<span>CRM</span></h1>
+            </div>
+
+            <nav class="main-nav">
+                <a href="/crm" class="nav-item">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/crm/analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
+                <a href="/crm/analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
+                <a href="/crm/clients" class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="/crm/leads" class="nav-item">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Leads</span>
+                </a>
+                <a href="/crm/prospects" class="nav-item">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>IG Prospects</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Deals</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Inbox</span>
+                    <span class="badge">3</span>
+                </a>
+                <div class="pt-4 pb-2 text-xs font-bold text-white/40 uppercase tracking-widest px-4" style="margin-top: 15px; font-size: 10px; letter-spacing: 1px;">Marketing</div>
+                <a href="/crm/seo" class="nav-item">
+                    <i class="fa-solid fa-search"></i>
+                    <span>SEO Manager</span>
+                </a>
+                <a href="/crm/schema" class="nav-item active">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Schema Injector</span>
+                </a>
+                <a href="/crm/cro" class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>CRO Analysis</span>
+                </a>
+                <a href="/crm/cro" class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>CRO Analysis</span>
+                </a>
+            </nav>
+
+            <div class="secondary-nav">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Help Center</span>
+                </a>
+            </div>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Greg+Montoya&background=3b82f6&color=fff" alt="User"
+                    class="avatar">
+                <div class="user-info">
+                    <p class="user-name">Greg Montoya</p>
+                    <p class="user-role">Admin</p>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="page-title">
+                    <h2 style="font-size: 1.5rem; font-weight: 800; display: flex; align-items: center;">
+                        Demand Engine: AEO Control
+                    </h2>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Remotely manage site entities and answer snippets.</p>
+                </div>
+                <div class="header-actions">
+                    <button onclick="openNewSchemaModal()" class="btn btn-primary">
+                        <i class="fa-solid fa-bolt"></i> New Injection
+                    </button>
+                </div>
+            </header>
+
+            <div class="tab-nav">
+                <div class="tab-item active" id="tab-vault" onclick="switchTab('vault')"><i class="fas fa-box-open"></i> Entity Vault</div>
+                <div class="tab-item" id="tab-audit" onclick="switchTab('audit')"><i class="fas fa-stethoscope"></i> Heatmap Audit</div>
+            </div>
+
+            <div id="vault-view">
+                <div id="schema-list">
+                    <div class="empty-state">
+                        <i class="fa-solid fa-circle-notch fa-spin"></i>
+                        <p>Syncing Knowledge Graph...</p>
+                    </div>
+                </div>
+            </div>
+
+            <div id="audit-view" style="display: none;">
+                <div style="background: #1e293b; border-radius: 12px; overflow: hidden; border: 1px solid #334155;">
+                    <div class="audit-row audit-header">
+                        <div>Page Path</div>
+                        <div>Type</div>
+                        <div>AEO Coverage</div>
+                        <div>Action</div>
+                    </div>
+                    <div id="audit-list">
+                        <!-- Populated by JS -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- New Schema Modal -->
+    <div id="schema-modal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.85); z-index:1000; align-items:center; justify-content:center; padding: 20px; backdrop-filter: blur(4px);">
+        <div style="background:#1e293b; width:100%; max-width:800px; border-radius:20px; border:1px solid #334155; padding:32px; box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);">
+            <div class="modal-scroll">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 24px;">
+                    <h3 id="modal-title" style="font-size:1.5rem; font-weight: 800;">Inject Knowledge Node</h3>
+                    <button onclick="closeModal()" class="icon-btn"><i class="fa-solid fa-times"></i></button>
+                </div>
+                
+                <div class="form-grid">
+                    <div class="form-group">
+                        <label>Target Path</label>
+                        <input type="text" id="target-path" placeholder="/learn/my-article">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Schema Class</label>
+                        <select id="schema-type" onchange="applyTemplate()">
+                            <option value="LocalBusiness">LocalBusiness</option>
+                            <option value="Person">Person</option>
+                            <option value="FAQPage">FAQPage</option>
+                            <option value="Article">Article</option>
+                            <option value="Custom">Custom</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Internal Node Name</label>
+                        <input type="text" id="node-name" placeholder="Page Entity Node">
+                    </div>
+
+                    <div class="form-group">
+                        <label>Wikidata URI</label>
+                        <input type="text" id="wikidata-uri" placeholder="https://www.wikidata.org/wiki/Q...">
+                    </div>
+                </div>
+
+                <div class="aeo-section">
+                    <label style="color: var(--aeo-purple);"><i class="fas fa-sparkles"></i> AI Answer Block (60 words)</label>
+                    <textarea id="aeo-summary" style="height: 80px; margin-top: 5px;"></textarea>
+                </div>
+
+                <div class="form-group" style="margin-top: 20px;">
+                    <label>JSON-LD Payload</label>
+                    <textarea id="json-data" class="code-editor"></textarea>
+                </div>
+
+                <div style="display:flex; justify-content:flex-end; gap:12px; margin-top:32px;">
+                    <button onclick="closeModal()" class="btn btn-outline">Cancel</button>
+                    <button onclick="saveSchema()" class="btn btn-primary" style="background: var(--aeo-purple);">Deploy Node</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Firebase -->
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <script is:inline>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBSxrgaNnTzRMqo-9C47vZfnTTDRqyyb10",
+            authDomain: "mpdc-website-32dae.firebaseapp.com",
+            projectId: "mpdc-website-32dae",
+            storageBucket: "mpdc-website-32dae.firebasestorage.app",
+            messagingSenderId: "210457065303",
+            appId: "1:210457065303:web:72882e734aa8054d283012"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        const ALL_PAGES = [
+            { url: '/', type: 'Home' },
+            { url: '/join', type: 'Sales' },
+            { url: '/learn', type: 'Resources' },
+            { url: '/about', type: 'Branding' },
+            { url: '/mission', type: 'Branding' },
+            { url: '/philosophy', type: 'Branding' },
+            { url: '/learn/how-divorce-changes-a-man', type: 'Article' },
+            { url: '/learn/5-strategies-rebuild-life-divorce', type: 'Article' },
+            { url: '/learn/stop-overthinking-men', type: 'Article' },
+            { url: '/learn/co-parenting-guide-men', type: 'Article' },
+            { url: '/learn/new-social-circle-men', type: 'Article' },
+            { url: '/learn/victim-mentality-men', type: 'Article' },
+            { url: '/learn/managing-anger-men', type: 'Article' },
+            { url: '/learn/boundaries-ex-wife', type: 'Article' },
+            { url: '/learn/when-start-dating', type: 'Article' }
+        ];
+
+        let injections = [];
+        let editingId = null;
+
+        function switchTab(tab) {
+            document.querySelectorAll('.tab-item').forEach(el => el.classList.remove('active'));
+            document.getElementById(`tab-${tab}`).classList.add('active');
+            
+            if (tab === 'vault') {
+                document.getElementById('vault-view').style.display = 'block';
+                document.getElementById('audit-view').style.display = 'none';
+            } else {
+                document.getElementById('vault-view').style.display = 'none';
+                document.getElementById('audit-view').style.display = 'block';
+                renderAudit();
+            }
+        }
+
+        async function init() {
+            auth.onAuthStateChanged(user => {
+                if (!user && localStorage.getItem('mpdc_admin_auth') !== 'true') {
+                    const pass = prompt("Enter CRM Access Code:");
+                    if (pass === 'mpdc2026') localStorage.setItem('mpdc_admin_auth', 'true');
+                    else window.location.href = '/system/login';
+                }
+                loadSchemas();
+            });
+        }
+
+        async function loadSchemas() {
+            const listEl = document.getElementById('schema-list');
+            const snap = await db.collection('schema_injections').orderBy('updatedAt', 'desc').get();
+            injections = snap.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+            
+            if (snap.empty) {
+                listEl.innerHTML = '<div class="empty-state"><i class="fas fa-brain"></i><p>Vault Empty.</p></div>';
+                return;
+            }
+
+            listEl.innerHTML = '';
+            injections.forEach(data => {
+                const card = document.createElement('div');
+                card.className = `schema-card ${data.aeo_summary ? 'is-aeo' : ''}`;
+                card.innerHTML = `
+                    <div class="schema-header">
+                        <div>
+                            <div class="schema-title"><i class="fas fa-database" style="color:var(--primary-color);"></i> ${data.name || 'Untitled'}</div>
+                            <div class="schema-path">${data.target_path}</div>
+                        </div>
+                        <div style="display:flex; gap:10px;">
+                            <button onclick="editSchema('${data.id}')" class="icon-btn"><i class="fas fa-edit"></i></button>
+                            <button onclick="deleteSchema('${data.id}')" class="icon-btn red"><i class="fas fa-trash"></i></button>
+                        </div>
+                    </div>
+                `;
+                listEl.appendChild(card);
+            });
+        }
+
+        function renderAudit() {
+            const listEl = document.getElementById('audit-list');
+            listEl.innerHTML = '';
+            
+            ALL_PAGES.forEach(page => {
+                const schema = injections.find(i => i.target_path === page.url);
+                const hasAeo = schema && schema.aeo_summary;
+                
+                const row = document.createElement('div');
+                row.className = 'audit-row';
+                row.innerHTML = `
+                    <div style="font-weight:600; font-size:13px;">${page.url}</div>
+                    <div style="color:#64748b; font-size:12px;">${page.type}</div>
+                    <div class="${schema ? 'aeo-status-active' : 'aeo-status-missing'}">
+                        ${schema ? (hasAeo ? '💎 FULL AEO NODE' : '✅ SCHEMA ONLY') : '⚠️ MISSING NODE'}
+                    </div>
+                    <div>
+                        <button onclick="quickAdd('${page.url}')" class="btn btn-sm" style="background:#0f172a; font-size:10px; padding:4px 8px;">
+                            ${schema ? 'REFINE' : 'SETUP'}
+                        </button>
+                    </div>
+                `;
+                listEl.appendChild(row);
+            });
+        }
+
+        function quickAdd(path) {
+            const existing = injections.find(i => i.target_path === path);
+            if (existing) {
+                editSchema(existing.id);
+            } else {
+                openNewSchemaModal();
+                document.getElementById('target-path').value = path;
+                document.getElementById('node-name').value = `${path} Entity Node`;
+                applyTemplate();
+            }
+        }
+
+        function applyTemplate() {
+            const type = document.getElementById('schema-type').value;
+            const path = document.getElementById('target-path').value;
+            const domain = "https://menspostdivorcecoaching.com";
+            
+            let template = {};
+            if (type === 'FAQPage') {
+                template = {
+                    "@context": "https://schema.org",
+                    "@type": "FAQPage",
+                    "mainEntity": [{
+                        "@type": "Question",
+                        "name": "How does this help after divorce?",
+                        "acceptedAnswer": { "@type": "Answer", "text": "Fill your answer here for AI scrapers." }
+                    }]
+                };
+            } else if (type === 'Article') {
+                template = {
+                    "@context": "https://schema.org",
+                    "@type": "Article",
+                    "headline": "Enter Headline",
+                    "author": { "@type": "Person", "name": "Alex Morgan", "url": domain }
+                };
+            } else {
+                template = { "@context": "https://schema.org", "@type": type, "name": "New Entity", "url": domain + path };
+            }
+            document.getElementById('json-data').value = JSON.stringify(template, null, 2);
+        }
+
+        async function openNewSchemaModal() {
+            editingId = null;
+            document.getElementById('modal-title').innerText = 'Inject Knowledge Node';
+            document.getElementById('target-path').value = '';
+            document.getElementById('node-name').value = '';
+            document.getElementById('aeo-summary').value = '';
+            applyTemplate();
+            document.getElementById('schema-modal').style.display = 'flex';
+        }
+
+        async function editSchema(id) {
+            editingId = id;
+            const data = injections.find(i => i.id === id);
+            document.getElementById('modal-title').innerText = 'Refine Node';
+            document.getElementById('target-path').value = data.target_path;
+            document.getElementById('schema-type').value = data.type;
+            document.getElementById('node-name').value = data.name;
+            document.getElementById('wikidata-uri').value = data.wikidata_uri || '';
+            document.getElementById('aeo-summary').value = data.aeo_summary || '';
+            document.getElementById('json-data').value = JSON.stringify(data.json_data, null, 2);
+            document.getElementById('schema-modal').style.display = 'flex';
+        }
+
+        async function saveSchema() {
+            const payload = {
+                target_path: document.getElementById('target-path').value,
+                type: document.getElementById('schema-type').value,
+                name: document.getElementById('node-name').value,
+                wikidata_uri: document.getElementById('wikidata-uri').value,
+                aeo_summary: document.getElementById('aeo-summary').value,
+                json_data: JSON.parse(document.getElementById('json-data').value),
+                is_active: true,
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            };
+
+            if (editingId) await db.collection('schema_injections').doc(editingId).update(payload);
+            else await db.collection('schema_injections').add(payload);
+            
+            closeModal();
+            loadSchemas();
+        }
+
+        async function deleteSchema(id) {
+            if (confirm("Purge node?")) {
+                await db.collection('schema_injections').doc(id).delete();
+                loadSchemas();
+            }
+        }
+
+        function closeModal() { document.getElementById('schema-modal').style.display = 'none'; }
+        function logout() { localStorage.removeItem('mpdc_admin_auth'); window.location.href = '/system/login'; }
+        init();
+    </script>
+</body>
+</html>

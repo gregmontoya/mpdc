@@ -9,6 +9,13 @@
   },
   "dependencies": {
     "@astrojs/sitemap": "^3.7.0",
-    "astro": "latest"
+    "@google-cloud/vertexai": "^1.10.0",
+    "@supabase/supabase-js": "^2.95.3",
+    "astro": "latest",
+    "firebase": "^12.9.0",
+    "firebase-admin": "^13.6.1"
+  },
+  "devDependencies": {
+    "firebase-tools": "^15.5.1"
   }
 }

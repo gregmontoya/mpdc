@@ -1,0 +1,885 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPDC CRM | Strategy</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/crm/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Handsontable CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.css" />
+    <style>
+        .spreadsheet-container {
+            width: 100%;
+            height: calc(100vh - 180px); /* Fill remaining space */
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+            color: black; /* Ensure text is visible on white cells */
+        }
+        /* Override Handsontable styles for dark theme look around standard spreadsheet */
+        .handsontable {
+            font-family: 'Inter', sans-serif;
+            font-size: 13px;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+        }
+        .tab-btn {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid #334155;
+            color: #94a3b8;
+            padding: 8px 16px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        .tab-btn:hover {
+            background: rgba(255, 255, 255, 0.1);
+            color: white;
+        }
+        .tab-btn.active {
+            background: #3b82f6;
+            border-color: #3b82f6;
+            color: white;
+            box-shadow: 0 4px 6px -1px rgba(59, 130, 246, 0.3);
+        }
+
+        /* Priority Widget */
+        .priority-widget {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+        }
+        .widget-header {
+            background: #0f172a;
+            padding: 12px 16px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #f8fafc;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .widget-list {
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+        }
+        .priority-item {
+            padding: 10px 16px;
+            border-bottom: 1px solid #334155;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #1e293b;
+            transition: background 0.2s;
+        }
+        .priority-item:last-child { border-bottom: none; }
+        .priority-item:hover { background: #334155; cursor: pointer; }
+        
+        .p-badge {
+            font-size: 9px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .badge-critical { background: rgba(239, 68, 68, 0.2); color: #EF4444; border: 1px solid rgba(239, 68, 68, 0.3); }
+        .badge-high { background: rgba(245, 158, 11, 0.2); color: #F59E0B; border: 1px solid rgba(245, 158, 11, 0.3); }
+
+        /* AI Console Styles */
+        .ai-console-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 0;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            height: 100%;
+        }
+        .console-header {
+            background: #0f172a;
+            padding: 12px 16px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #f8fafc;
+            border-bottom: 1px solid #334155;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: #10b981;
+            border-radius: 50%;
+            box-shadow: 0 0 0 rgba(16, 185, 129, 0.4);
+            animation: pulse 2s infinite;
+        }
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0.4); }
+            70% { box-shadow: 0 0 0 10px rgba(16, 185, 129, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(16, 185, 129, 0); }
+        }
+        #ai-input {
+            background: transparent;
+            border: none;
+            color: #e2e8f0;
+            padding: 16px;
+            font-family: inherit;
+            font-size: 13px;
+            resize: none;
+            flex: 1;
+            outline: none;
+            min-height: 100px;
+        }
+        #ai-input::placeholder { color: #475569; }
+        .console-footer {
+            padding: 12px 16px;
+            border-top: 1px solid #334155;
+            display: flex;
+            justify-content: flex-end;
+            background: rgba(15, 23, 42, 0.3);
+        }
+        .btn-ai {
+            background: linear-gradient(135deg, #6366f1, #8b5cf6);
+            border: none;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            transition: all 0.2s;
+        }
+        .btn-ai:hover {
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(139, 92, 246, 0.3);
+        }
+
+        /* FORCE COMPACT SPREADSHEET (Excel-like) */
+        .handsontable td, .handsontable th {
+            height: 22px !important;
+            line-height: 20px !important;
+            padding: 0 4px !important;
+            font-size: 12px !important;
+            white-space: nowrap !important; 
+            overflow: hidden !important;
+            text-overflow: ellipsis !important;
+            vertical-align: middle !important;
+        }
+        .handsontable tr {
+            height: 22px !important;
+        }
+        .handsontable .htDimmed {
+            color: #94a3b8 !important;
+        }
+        /* Fix header specifically */
+        .handsontable th {
+            background-color: #f1f5f9;
+            font-weight: bold;
+            color: #334155;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">M</div>
+                <h1 class="logo-text">MPDC<span>CRM</span></h1>
+            </div>
+
+            <nav class="main-nav">
+                <a href="/crm" class="nav-item">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/crm/analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item active">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
+                <a href="/crm/clients" class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="/crm/leads" class="nav-item">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Leads</span>
+                </a>
+                <a href="/crm/prospects" class="nav-item">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>IG Prospects</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Deals</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Inbox</span>
+                    <span class="badge">3</span>
+                </a>
+                <div class="pt-4 pb-2 text-xs font-bold text-white/40 uppercase tracking-widest px-4" style="margin-top: 15px; font-size: 10px; letter-spacing: 1px;">Marketing</div>
+                <a href="/crm/seo" class="nav-item">
+                    <i class="fa-solid fa-search"></i>
+                    <span>SEO Manager</span>
+                </a>
+                <a href="/crm/schema" class="nav-item">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Schema Injector</span>
+                </a>
+                <a href="/crm/cro" class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>CRO Analysis</span>
+                </a>
+            </nav>
+
+            <div class="secondary-nav">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Help Center</span>
+                </a>
+            </div>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Greg+Montoya&background=3b82f6&color=fff" alt="User"
+                    class="avatar">
+                <div class="user-info">
+                    <p class="user-name">Greg Montoya</p>
+                    <p class="user-role">Admin</p>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+        <!-- Antigravity Context Reference -->
+        <div class="canvas-context-label" style="font-family:monospace; font-size:11px; color:#64748b; margin-bottom:10px; background:#1e293b; border:1px solid #334155; padding:6px 10px; border-radius:6px; display:inline-flex; align-items:center; gap:8px;">
+            <i class="fa-solid fa-code-branch" style="color:#6366f1;"></i> 
+            <span>ANTIGRAVITY CONTEXT:</span>
+            <span style="color:#94a3b8">Workspace:</span> <strong style="color:#f8fafc">mpdc-crm</strong> 
+            <span style="color:#475569">|</span>
+            <span style="color:#94a3b8">Active Topic:</span> <strong style="color:#10b981">Strategy Formatting & AI Sync</strong>
+            <span style="color:#475569">|</span>
+            <span style="color:#94a3b8">File:</span> <span style="color:#e2e8f0">src/pages/crm/strategy.astro</span>
+        </div>
+            <!-- Header -->
+            <header class="top-header">
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search strategy items...">
+                </div>
+                <div class="header-actions">
+                    <button class="btn btn-primary" id="save-btn">
+                        <i class="fa-solid fa-floppy-disk"></i> Save Changes
+                    </button>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="dashboard-grid" style="grid-template-columns: 1fr;"> 
+
+                <!-- Top Section: Header + Tabs -->
+                <div class="welcome-section" style="margin-bottom: 24px;">
+                    <div style="display:flex; justify-content:space-between; align-items:flex-end;">
+                        <div>
+                            <h2>Master Strategy Sheet</h2>
+                            <p>Track implementation, status, and notes in an Excel-style view.</p>
+                        </div>
+                        <div class="tab-nav">
+                            <button class="tab-btn active" onclick="switchTab('master')"><i class="fa-solid fa-layer-group"></i> MASTER VIEW</button>
+                            <button class="tab-btn" onclick="switchTab('projects')"><i class="fa-solid fa-diagram-project"></i> PROJECTS</button>
+                            <button class="tab-btn" onclick="switchTab('search')"><i class="fa-solid fa-robot"></i> SEO & AEO</button>
+                            <button class="tab-btn" onclick="switchTab('growth')"><i class="fa-solid fa-chart-line"></i> CRO & ANALYTICS</button>
+                            <button class="tab-btn" onclick="switchTab('systems')"><i class="fa-solid fa-server"></i> SYS & LEGAL</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Top Dashboard Row: AI Support + Priorities -->
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-bottom: 24px; align-items: stretch;">
+                    
+                    <!-- Strategy AI Console -->
+                    <div class="ai-console-card">
+                        <div class="console-header">
+                            <span><i class="fa-solid fa-wand-magic-sparkles" style="color: #8b5cf6;"></i> AI Strategy Command</span>
+                            <div style="display:flex; align-items:center; gap:8px;">
+                                <span style="font-size: 9px; color: #64748b;">AGENT READY</span>
+                                <span class="pulse-dot"></span>
+                            </div>
+                        </div>
+                        <textarea id="ai-input" placeholder="Paste raw notes, task lists, or strategic goals here... (I will organize them for the sheet)"></textarea>
+                        <div class="console-footer">
+                            <button id="ai-submit-btn" class="btn-ai">
+                                <i class="fa-solid fa-bolt"></i> Sync to Strategy
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Priority Widget -->
+                    <div class="priority-widget">
+                        <div class="widget-header">
+                            <span><i class="fa-solid fa-fire-flame-curved" style="color: #ef4444;"></i> CRITICAL ACTIONS</span>
+                            <span style="font-size: 10px; opacity: 0.6; font-weight: normal;">Auto-Ranked</span>
+                        </div>
+                        <!-- Header Row (Simplified for space) -->
+                        <div class="widget-sub-header" style="display:grid; grid-template-columns: 80px 1fr 70px 70px; gap:8px; padding: 10px 16px; background:#0f172a; color:#94a3b8; font-size:9px; font-weight:700; text-transform:uppercase; border-bottom:1px solid #334155;">
+                            <div>Category</div>
+                            <div>Action Item</div>
+                            <div style="text-align:center;">Status</div>
+                            <div style="text-align:right;">Owner</div>
+                        </div>
+                        <div id="top-priority-list" class="widget-list">
+                            <!-- JS Injected -->
+                            <div style="padding: 20px; text-align: center; color: #94a3b8;">
+                                <i class="fa-solid fa-circle-notch fa-spin"></i>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+                <!-- Spreadsheet Container -->
+                <div id="strategy-sheet" class="spreadsheet-container"></div>
+
+            </div>
+        </main>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/handsontable/dist/handsontable.full.min.js"></script>
+    <script is:inline>
+        let hot; // Handsontable instance
+
+        // DATA STORE - Organized by Category
+        const STRATEGY_DB = {
+            analytics: [
+                ['GA4 Configuration (Global ID)', 'Completed', 'Critical', 'Dev', 'GA4 Tracking', 'GA4 Tracking Impl', 'mpdc-crm', 'G-T26PKTMJB1 installed'],
+                ['Funnel Tracking (View -> Cart -> Buy)', 'Completed', 'High', 'Dev', 'GA4 Tracking', 'GA4 Funnel Strategy', 'mpdc-crm', 'Testing verified'],
+                ['Looker Studio Dashboard', 'Completed', 'Medium', 'Dev', 'GA4 Tracking', 'GA4 Funnel Strategy', 'mpdc-crm', 'Embedded in CRM'],
+                ['Retargeting Audiences Setup', 'Completed', 'High', 'Greg', 'GA4 Tracking', 'GA4 Funnel Strategy', 'mpdc-crm', 'Almost Bought & Video Engagers'],
+                ['Activate Facebook CAPI', 'Pending', 'Critical', 'Dev', 'One-Off', 'TODO List', 'mpdc-crm', 'Get Token from Events Manager -> Deploy stripeWebhook'],
+                ['Finalize GA4 IP Exclusions', 'Pending', 'High', 'Greg', 'One-Off', 'TODO List', 'mpdc-crm', 'GA4 Admin -> Data Filters -> Exclude 89.180.56.247'],
+                ['Verify Attribution Flow', 'Pending', 'High', 'Greg', 'One-Off', 'TODO List', 'mpdc-crm', 'Test Buy -> Check Stripe Metadata for "gclid" & "utm_source"'],
+                ['Anonymous Guest Tracker', 'Proposed', 'High', 'Dev', 'Identity Bridge', 'Identity Bridge Strategy', 'mpdc-crm', 'Lightweight Nano JS pinging "anonymous_leads" on every page load.', true],
+                ['"Days to Close" Attribution', 'Proposed', 'Medium', 'Dev', 'Identity Bridge', 'Identity Bridge Strategy', 'mpdc-crm', 'BigQuery SQL: Calculate time delta between first guest_id and conversion.', true],
+                ['MS Clarity Weekly Reports', 'Completed', 'Medium', 'Greg', 'Analytics Setup', 'Dashboard Settings', 'mpdc-crm', 'Enabled: Frustration Metrics (Rage clicks, JS errors), Activity (Sessions, scroll depth), and Curated Session links.'],
+                ['MS Clarity IP Blocking', 'Completed', 'High', 'Greg', 'Analytics Setup', 'Dashboard Settings', 'mpdc-crm', 'Blocked current IP address in Settings > IP blocking to prevent internal tracking skew.']
+            ],
+            seo: [
+                ['Video SEO Sitemap', 'Proposed', 'High', 'Dev', 'SEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Use "astro-sitemap" + Manual VideoObject Schema for VSLs to index on Google Video tab.'],
+                ['Inverted Pyramid Content', 'Proposed', 'High', 'Greg', 'SEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Write 60-word "Direct Answer" summary at very top of generic Service pages.'],
+                ['Programmatic SEO Pages', 'Proposed', 'High', 'Greg', 'SEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Create [City] dynamic routes -> Inject City Name into H1 & Title tags.'],
+            ],
+            vitals: [
+                ['LCP < 1.2s (Hero Optimization)', 'Proposed', 'Critical', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Preload Hero Video Poster + Set fetchpriority="high" on LCP element.'],
+                ['CLS = 0 (Visual Stability)', 'Proposed', 'High', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Enforce strict aspect-ratio checks on video containers to prevent layout shifts.'],
+                ['INP < 200ms (Interaction)', 'Proposed', 'High', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Defer non-essential JS (Chat/Analytics) until user interaction (scroll/click).'],
+                ['Self-Hosted Fonts (Woff2)', 'Proposed', 'Medium', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Download Google Fonts to /public -> Use "font-display: swap" to kill network roundtrips.'],
+                ['Critical CSS Inlining', 'Proposed', 'High', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Inline "Above the Fold" styles directly in <head> for instant render.']
+            ],
+            aeo: [
+                ['Founder Node Injection', 'Proposed', 'Critical', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Inject "Person" Schema globally. Set "name": "Greg Montoya", "jobTitle": "Divorce Coach".'],
+                ['Wikidata / DBpedia Linking', 'Proposed', 'Critical', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Add "sameAs": ["wikidata_url"] to Schema. Links you to Global Knowledge Graph.'],
+                ['FAQ Schema for AI Crawlers', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Wrap Homepage Q&A in "FAQPage" JSON-LD. Use clear Q&A pairs for extraction.'],
+                ['Direct Answer Optimization', 'Proposed', 'Medium', 'Greg', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Format H2s as Questions ("How to...?"). Follow immediately with <p> answer.']
+            ],
+            entity: [
+                ['Geographic Entity Linking', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'In "areaServed" Schema, link to Wikidata Nodes for target Cities (not just text names).'],
+                ['Dynamic Proof Components', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Cloud Function: Fetch 3 latest 5-star reviews -> Inject into "Review" Schema at build time.'],
+                ['Entity Co-occurrence', 'Proposed', 'Medium', 'Greg', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Mention "MPDC" alongside trusted entities (e.g., "Divorce", "Recovery") in same paragraph.'],
+                ['"SameAs" Social Linking', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Add all Social URLs (LinkedIn, FB, IG) to "sameAs" array in Person/Organization Schema.']
+            ],
+            experiments: [
+                ['Split Test: Headlines', 'Proposed', 'High', 'Greg', 'CRO Experiment', 'CRO Strategy', 'mpdc-crm', 'Is "Recover Fast" better than "Get Your Life Back"? Test H1 on /join.'],
+                ['Price Elasticity Check', 'Backlog', 'Medium', 'Greg', 'CRO Experiment', 'Revenue Strategy', 'mpdc-crm', 'Test $49 vs $97. Does higher price signal higher value? Monitor conversion rate.'],
+                ['Lead Magnet Variation', 'Backlog', 'Low', 'Greg', 'CRO Experiment', 'List Building', 'mpdc-crm', 'PDF Checklist vs Mini-Course. Which gets more opt-ins per visitor?'],
+                ['VSL Hook Testing', 'Proposed', 'High', 'Greg', 'CRO Experiment', 'Video Strategy', 'mpdc-crm', 'Test first 10s of video. Does a shock opening improve retention?'],
+            ],
+            infra: [
+                ['Stripe Integration + Bump Offer', 'Completed', 'Critical', 'Dev', 'Stripe Stack', 'Stripe Checkout Fix', 'mpdc-crm', 'Working perfectly'],
+                ['Lead Capture (Firebase)', 'Completed', 'Critical', 'Dev', 'Stripe Stack', 'Stripe Checkout Fix', 'mpdc-crm', 'Captures before checkout'],
+                ['CRM Analytics Page', 'Completed', 'Medium', 'Dev', 'GA4 Tracking', 'GA4 Funnel Strategy', 'mpdc-crm', 'Live at /crm/analytics'],
+                ['Stealth Mode Implementation', 'Completed', 'High', 'Dev', 'Infra Tuning', 'Monitoring/Stealth', 'mpdc-crm', 'Exclude admin traffic'],
+                ['First/Last Touch Attribution', 'Completed', 'High', 'Dev', 'GA4 Tracking', 'Attribution Setup', 'mpdc-crm', 'Library integrated'],
+                ['Schema Injector Tool', 'Completed', 'Medium', 'Dev', 'Tools', 'Schema Manager Enhancements', 'mpdc-crm', 'CRM Tool'],
+                ['SEO Manager Tool', 'Completed', 'Medium', 'Dev', 'Tools', 'SEO Dashboard Integration', 'mpdc-crm', 'CRM Tool'],
+                ['"Identity Bridge" Data Arch', 'Proposed', 'Critical', 'Dev', 'Identity Bridge', 'Identity Bridge Strategy', 'mpdc-crm', 'Design/Implement "anonymous_leads" Event Stream (IDs keyed by Cookie UUID).', true],
+                ['Identity Stitching "Brain"', 'Proposed', 'Critical', 'Dev', 'Identity Bridge', 'Identity Bridge Strategy', 'mpdc-crm', 'Cloud Function: Stitch guest_id history to official User Profile on form submit.', true],
+                ['BigQuery Event Streaming', 'Proposed', 'High', 'Dev', 'Identity Bridge', 'Identity Bridge Strategy', 'mpdc-crm', 'Move high-frequency logs to BigQuery to avoid Firestore query costs/latency.', true]
+            ],
+            cro: [
+                ['Exit Intent Popup', 'Pending', 'Medium', 'Greg', 'CRO Experiment', 'Website Strategy', 'mpdc-crm', 'On mouseleave -> Show Modal -> Offer PDF Lead Magnet.'],
+                ['Social Proof Ticker', 'Pending', 'Low', 'Greg', 'One-Off', 'Website Strategy', 'mpdc-crm', 'Toast notification: "Person X in [City] just joined" (Simulated).'],
+                ['Revenue by Source Dashboard', 'Backlog', 'Medium', 'Greg', 'Tools', 'TODO List', 'mpdc-crm', 'Visualize attribution data'],
+                ['Offline Conversions Upload', 'Backlog', 'Low', 'Greg', 'One-Off', 'TODO List', 'mpdc-crm', 'Sync Stripe to Ads manually']
+            ],
+            legal: [
+                ['GDPR/CCPA Cookie Consent', 'Proposed', 'Critical', 'Dev', 'Compliance', 'Legal Sump', 'mpdc-crm', 'Implement "CookieYes" or custom banner. Block GA4 until consent given (EU Only).'],
+                ['Privacy Policy Update', 'Proposed', 'High', 'Greg', 'Compliance', 'Legal Sump', 'mpdc-crm', 'Add clause: "We use AI to process data". Transparency builds trust with modern users.'],
+                ['Terms of Service Audit', 'Backlog', 'Medium', 'Greg', 'Compliance', 'Legal Sump', 'mpdc-crm', 'Ensure "No Guarantee of Results" clause is prominent for Coaching protection.'],
+                ['GDPR ID Stitching Privacy', 'Proposed', 'Critical', 'Dev', 'Identity Bridge', 'Identity Bridge Strategy', 'mpdc-crm', 'Privacy Gate: Block tracker pings until cookie consent is confirmed. No PII logging.', true]
+            ],
+            context: [
+                ['Chatbot Implementation', 'Proposed', 'High', 'Greg', 'Chat', 'Antigravity', 'mpdc-crm', 'Add a new chatbot task to do', true]
+            ],
+        };
+
+        const COL_HEADERS = ['Item Name', 'Status', 'Priority', 'Owner', 'Project', 'Category', 'Conversation Source', 'Workspace', 'Tactical Instructions (Notes)', 'H'];
+
+        function getHeaderRow(title) {
+            return [`${title}`, '', '', '', '', '', '', '', '', 'SECTION_HEADER', false];
+        }
+
+        function getTableData(tab) {
+            let rows = [COL_HEADERS]; // Start with column headers
+
+            // Helper to inject Category
+            const process = (dbRows, catName) => {
+                return dbRows.map(r => {
+                    const highlight = r.length > 8 ? r[r.length - 1] : (typeof r[r.length - 1] === 'boolean' ? r[r.length - 1] : false);
+                    // Raw: [Name, Status, Priority, Owner, Project, Source, Workspace, Notes]
+                    // Target: [Name, Status, Priority, Owner, Project, Cat, Source, Workspace, Notes, Highlight]
+                    return [r[0], r[1], r[2], r[3], r[4], catName, r[5], r[6], r[7], highlight];
+                });
+            };
+
+            const sections = {
+                analytics: 'Analytics', seo: 'SEO', vitals: 'Vitals', aeo: 'AEO',
+                entity: 'Entity', experiments: 'Experiments', infra: 'Infra',
+                cro: 'CRO', legal: 'Compliance', context: 'Context'
+            };
+
+            if (tab === 'master') {
+                rows.push(getHeaderRow('📂 WORKSPACE CONTEXT'), ...process(STRATEGY_DB.context, 'Context'));
+                rows.push(getHeaderRow('📊 ANALYTICS & VISIBILITY'), ...process(STRATEGY_DB.analytics, 'Analytics'));
+                rows.push(getHeaderRow('🔍 SEO MASTERY'), ...process(STRATEGY_DB.seo, 'SEO'));
+                rows.push(getHeaderRow('⚡️ CORE WEB VITALS'), ...process(STRATEGY_DB.vitals, 'Vitals'));
+                rows.push(getHeaderRow('🤖 AEO & AI VISIBILITY'), ...process(STRATEGY_DB.aeo, 'AEO'));
+                rows.push(getHeaderRow('🌐 ENTITY & LOCAL AUTHORITY'), ...process(STRATEGY_DB.entity, 'Entity'));
+                rows.push(getHeaderRow('🚀 EXPERIMENTATION & TESTING'), ...process(STRATEGY_DB.experiments, 'Experiments'));
+                rows.push(getHeaderRow('🛠️ INFRASTRUCTURE & CRM'), ...process(STRATEGY_DB.infra, 'Infra'));
+                rows.push(getHeaderRow('💡 STRATEGIC IDEAS (CRO)'), ...process(STRATEGY_DB.cro, 'CRO'));
+                rows.push(getHeaderRow('🛡️ COMPLIANCE & SECURITY'), ...process(STRATEGY_DB.legal, 'Compliance'));
+            } else if (tab === 'search') {
+                rows.push(getHeaderRow('🔍 SEO MASTERY'), ...process(STRATEGY_DB.seo, 'SEO'));
+                rows.push(getHeaderRow('⚡️ CORE WEB VITALS'), ...process(STRATEGY_DB.vitals, 'Vitals'));
+                rows.push(getHeaderRow('🤖 AEO & AI VISIBILITY'), ...process(STRATEGY_DB.aeo, 'AEO'));
+                rows.push(getHeaderRow('🌐 ENTITY & LOCAL AUTHORITY'), ...process(STRATEGY_DB.entity, 'Entity'));
+            } else if (tab === 'growth') {
+                rows.push(getHeaderRow('📊 ANALYTICS & VISIBILITY'), ...process(STRATEGY_DB.analytics, 'Analytics'));
+                rows.push(getHeaderRow('🚀 EXPERIMENTATION & TESTING'), ...process(STRATEGY_DB.experiments, 'Experiments'));
+                rows.push(getHeaderRow('💡 STRATEGIC IDEAS (CRO)'), ...process(STRATEGY_DB.cro, 'CRO'));
+            } else if (tab === 'projects') {
+                let allItems = [];
+                Object.keys(STRATEGY_DB).forEach(key => {
+                    allItems = allItems.concat(process(STRATEGY_DB[key], sections[key]));
+                });
+
+                const groups = {};
+                allItems.forEach(item => {
+                    const project = item[4] || 'One-Off';
+                    if (!groups[project]) groups[project] = [];
+                    groups[project].push(item);
+                });
+
+                const projectNames = Object.keys(groups).sort((a, b) => {
+                    if (a === 'Identity Bridge') return -1;
+                    if (b === 'Identity Bridge') return 1;
+                    if (a === 'One-Off') return 1;
+                    if (b === 'One-Off') return -1;
+                    return a.localeCompare(b);
+                });
+
+                projectNames.forEach(name => {
+                    rows.push(getHeaderRow(`📁 PROJECT: ${name.toUpperCase()}`), ...groups[name]);
+                });
+            } else if (tab === 'systems') {
+                rows.push(getHeaderRow('🛠️ INFRASTRUCTURE & CRM'), ...process(STRATEGY_DB.infra, 'Infra'));
+                rows.push(getHeaderRow('🛡️ COMPLIANCE & SECURITY'), ...process(STRATEGY_DB.legal, 'Compliance'));
+                rows.push(getHeaderRow('📂 WORKSPACE CONTEXT'), ...process(STRATEGY_DB.context, 'Context'));
+            }
+            
+            // Normalize to 10 elements (Just in case)
+            return rows.map(r => {
+                const newRow = [...r];
+                while (newRow.length < 10) newRow.push(false);
+                return newRow;
+            });
+        }
+
+        // Initialize Handsontable
+        function initGrid(data) {
+            const container = document.getElementById('strategy-sheet');
+            container.innerHTML = ''; // Clear previous
+
+            // Calculate where merge cells should go based on the data
+            let mergeCells = [];
+            // We need to scan the data for "SECTION_HEADER" to create merges dynamically
+            data.forEach((row, index) => {
+                if (row[9] === 'SECTION_HEADER') {
+                    mergeCells.push({ row: index, col: 0, rowspan: 1, colspan: 10 });
+                }
+            });
+
+            hot = new Handsontable(container, {
+                data: data,
+                rowHeaders: true,
+                colHeaders: false,
+                fixedRowsTop: 1,
+                contextMenu: true,
+                columnSorting: false, // Sorting breaks our section headers
+                licenseKey: 'non-commercial-and-evaluation',
+                stretchH: 'all',
+                manualColumnResize: true,
+                colWidths: [250, 100, 80, 80, 140, 100, 150, 120, 450, 1], // Fixed 10 column distribution
+                rowHeights: 23, 
+                autoRowSize: false,
+                className: 'htMiddle',
+                mergeCells: mergeCells,
+                cells: function(row, col) {
+                    const cellProperties = {};
+                    const rowData = this.instance.getData()[row];
+                    
+                    // define common style enforcer
+                    const forceStyle = (td) => {
+                        td.style.height = '22px';
+                        td.style.lineHeight = '20px';
+                        td.style.padding = '1px 4px';
+                        td.style.fontSize = '12px';
+                        td.style.verticalAlign = 'middle';
+                        td.style.whiteSpace = 'nowrap';
+                        td.style.overflow = 'hidden';
+                        td.style.textOverflow = 'ellipsis';
+                        td.style.boxSizing = 'border-box';
+                    };
+
+                    // Main Table Header
+                    if (row === 0) {
+                        cellProperties.renderer = function(instance, td, row, col, prop, value, cellProperties) {
+                            Handsontable.renderers.TextRenderer.apply(this, arguments);
+                            forceStyle(td);
+                            td.style.fontWeight = 'bold';
+                            td.style.background = '#f1f5f9';
+                            td.style.color = '#334155';
+                            td.style.borderBottom = '1px solid #cbd5e1';
+                        };
+                        cellProperties.readOnly = true;
+                    }
+                    // Section Headers
+                    else if (rowData && (rowData[9] === 'SECTION_HEADER' || (typeof rowData[0] === 'string' && rowData[0].match(/^[📂📊🔍⚡️🤖🌐🚀🛠️💡🛡️📁]/)))) {
+                        cellProperties.renderer = function(instance, td, row, col, prop, value, cellProperties) {
+                            Handsontable.renderers.TextRenderer.apply(this, arguments);
+                            forceStyle(td); 
+                            
+                            // OVERRIDE for High Contrast Header
+                            td.style.fontWeight = '900';
+                            td.style.setProperty('background-color', '#dbeafe', 'important'); // Blue 100
+                            td.style.setProperty('color', '#0f172a', 'important');      // Slate 900
+                            td.style.textTransform = 'uppercase';
+                            td.style.letterSpacing = '1.2px';
+                            td.style.paddingLeft = '15px';
+                            
+                            // Remove bottom border from forceStyle default if conflicting
+                            td.style.setProperty('border-bottom', '1px solid #93c5fd', 'important');
+                        };
+                        cellProperties.readOnly = true;
+                    }
+                    // Status coloring
+                    else if (col === 1 && row > 0) {
+                        cellProperties.renderer = function(instance, td, row, col, prop, value, cellProperties) {
+                            Handsontable.renderers.TextRenderer.apply(this, arguments);
+                            forceStyle(td);
+                            if (value === 'Completed') { td.style.color = '#10B981'; td.style.fontWeight = 'bold'; }
+                            else if (value === 'Pending') { td.style.color = '#F59E0B'; }
+                            else if (value === 'Critical') { td.style.color = '#EF4444'; }
+                            else if (value === 'Proposed') { td.style.color = '#8b5cf6'; td.style.fontStyle = 'italic'; }
+                            else if (value === 'MPDC-CRM') { td.style.color = '#3b82f6'; td.style.fontWeight = 'bold'; }
+                        };
+                    }
+                    // Project Column - Styling
+                    else if (col === 4 && row > 0) {
+                        cellProperties.renderer = function(instance, td, row, col, prop, value, cellProperties) {
+                            Handsontable.renderers.TextRenderer.apply(this, arguments);
+                            forceStyle(td);
+                            if (value !== 'One-Off') {
+                                td.style.color = '#6366f1';
+                                td.style.fontWeight = '600';
+                            } else {
+                                td.style.color = '#94a3b8';
+                            }
+                        };
+                    }
+                    // Notes column (Index 8)
+                    else if (col === 8) { 
+                         cellProperties.renderer = function(instance, td, row, col, prop, value, cellProperties) {
+                            Handsontable.renderers.TextRenderer.apply(this, arguments);
+                            forceStyle(td);
+                            td.style.color = '#475569';
+                        };
+                    }
+                    // Default fallback
+                    else {
+                         cellProperties.renderer = function(instance, td, row, col, prop, value, cellProperties) {
+                            Handsontable.renderers.TextRenderer.apply(this, arguments);
+                            forceStyle(td);
+                        };
+                    }
+
+                    // HIGHLIGHT Logic (Yellow for New/Updated)
+                    if (rowData && rowData[9] === true) { 
+                        const originalRenderer = cellProperties.renderer || Handsontable.renderers.TextRenderer;
+                        cellProperties.renderer = function(instance, td, row, col, prop, value, cellProperties) {
+                            originalRenderer.apply(this, arguments);
+                            // Highlight Item Name (0), Project (4), Notes (8), Category (5)
+                            if (col === 0 || col === 4 || col === 8 || col === 5) { 
+                                td.style.setProperty('background-color', '#fef9c3', 'important'); 
+                                td.style.setProperty('color', '#1e293b', 'important');
+                            }
+                        };
+                    }
+
+                    return cellProperties;
+                }
+            });
+        }
+
+        function switchTab(tabName) {
+            // Update buttons
+            document.querySelectorAll('.tab-btn').forEach(btn => btn.classList.remove('active'));
+            // Find the button that called this (hacky but works if passed 'this' or we just match by onclick text or something)
+            // Easier: just query by onclick attribute we set
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(b => {
+                if(b.getAttribute('onclick').includes(tabName)) b.classList.add('active');
+            });
+
+            // Load Data
+            const newData = getTableData(tabName);
+            
+            // Re-render
+            // Ideally hot.loadData(newData) but we need to update mergeCells too
+            // Destroying and re-creating is safer for mergeCells dynamics
+            if(hot) hot.destroy();
+            initGrid(newData);
+        }
+
+        function renderTopPriorities() {
+            const listEl = document.getElementById('top-priority-list');
+            let allTasks = [];
+            
+            // Collect all tasks from all sections WITH Category Context
+            Object.keys(STRATEGY_DB).forEach(key => {
+                if(key !== 'context') { // Skip context section
+                    // Map key to readable name
+                    let catName = key.toUpperCase();
+                    if(key === 'vitals') catName = 'VITALS';
+                    if(key === 'aeo') catName = 'AEO';
+                    if(key === 'infra') catName = 'INFRA';
+                    if(key === 'legal') catName = 'LEGAL';
+                    if(key === 'experiments') catName = 'TEST';
+
+                    // Add category to task data for sorting/display
+                    const tasksWithCat = STRATEGY_DB[key].map(t => {
+                        // Ensure we know where the category is. 
+                        // Target format for priority widget: [Name, Status, Priority, Owner, Project, Source, Workspace, Notes, Highlight, Category]
+                        const highlight = t.length > 7 ? t[7] : false;
+                        const project = t.length > 4 ? t[4] : 'One-Off';
+                        return [t[0], t[1], t[2], t[3], project, t[4], t[5], t[6], highlight, catName];
+                    });
+                    allTasks = allTasks.concat(tasksWithCat);
+                }
+            });
+
+            // Filter: Not Completed
+            const activeTasks = allTasks.filter(task => task[1] !== 'Completed');
+
+            // Sort: Critical (1) -> High (2) -> Medium (3) -> Low (4)
+            const priorityMap = { 'Critical': 1, 'High': 2, 'Medium': 3, 'Low': 4 };
+            
+            activeTasks.sort((a, b) => {
+                const pA = priorityMap[a[2]] || 99;
+                const pB = priorityMap[b[2]] || 99;
+                return pA - pB;
+            });
+
+            // Top 5
+            const top5 = activeTasks.slice(0, 5);
+
+            // Render
+            listEl.innerHTML = '';
+
+            top5.forEach(task => {
+                const name = task[0];
+                const status = task[1];
+                const owner = task[3];
+                const category = task[9]; // Category is now at index 9
+                
+                // Truncate name for small widget
+                const displayName = name.length > 45 ? name.substring(0, 42) + '...' : name;
+
+                const item = document.createElement('div');
+                item.className = 'priority-item';
+                
+                // Grid: Category | Name | Status | Owner
+                item.style.display = 'grid';
+                item.style.gridTemplateColumns = '80px 1fr 70px 70px';
+                item.style.gap = '8px';
+                item.style.alignItems = 'center';
+                item.style.padding = '8px 16px';
+
+                // Status Badge Color logic
+                let statusColor = '#94a3b8';
+                let statusBg = 'rgba(148, 163, 184, 0.1)';
+                if (status === 'Proposed') { statusColor = '#8b5cf6'; statusBg = 'rgba(139, 92, 246, 0.15)'; }
+                if (status === 'Pending') { statusColor = '#f59e0b'; statusBg = 'rgba(245, 158, 11, 0.15)'; }
+                if (status === 'Critical') { statusColor = '#ef4444'; statusBg = 'rgba(239, 68, 68, 0.15)'; }
+
+                item.innerHTML = `
+                    <div style="font-size:9px; color:#64748b; font-weight:700;">${category}</div>
+                    <div style="color:#f1f5f9; font-weight:500; font-size:12px; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;" title="${name}">${displayName}</div>
+                    <div style="text-align:center;">
+                        <span style="font-size:9px; font-weight:700; color:${statusColor}; background:${statusBg}; padding:2px 6px; border-radius:4px; text-transform:uppercase;">${status[0]}</span>
+                    </div>
+                    <div style="display:flex; align-items:center; gap:6px; color:#94a3b8; font-size:11px; justify-content:flex-end;">
+                        <div style="width:18px; height:18px; border-radius:50%; background:${owner === 'Greg' ? '#8b5cf6' : '#3b82f6'}; color:white; font-size:8px; display:flex; align-items:center; justify-content:center; text-transform:uppercase; font-weight:bold;">${owner[0]}</div>
+                    </div>
+                `;
+                listEl.appendChild(item);
+            });
+
+            if(top5.length === 0) {
+                listEl.innerHTML = '<div style="padding:15px; text-align:center; color:#10b981; font-size:12px;">🎉 All Critical Tasks Complete!</div>';
+            }
+        }
+
+        // Initialize
+        window.addEventListener('DOMContentLoaded', () => {
+            initGrid(getTableData('master'));
+            renderTopPriorities();
+
+            // AI Console Sync Logic
+            const aiBtn = document.getElementById('ai-submit-btn');
+            const aiInput = document.getElementById('ai-input');
+
+            aiBtn.addEventListener('click', () => {
+                    const rawInput = aiInput.value.trim();
+                    if(!rawInput) return;
+
+                    aiBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> ANALYZING...';
+                    aiBtn.style.opacity = '0.7';
+                    aiBtn.disabled = true;
+
+                    // Simulate AI Analysis & Parsing
+                    setTimeout(() => {
+                        // 1. Extract Project First
+                        let projectName = 'One-Off'; 
+                        let cleanInput = rawInput;
+                        
+                        // Regex consumes "add to a new project X", "for project X"
+                        // Captures the actual project name in group 1
+                        const projectMatch = rawInput.match(/(?:(?:add|move)\s+it\s+to\s+|in\s+|for\s+|to\s+)?(?:a\s+new\s+)?(?:Project|prj|project\s+name)[:\s]+([^\n,.]+)/i);
+                        
+                        if (projectMatch) {
+                            projectName = projectMatch[1].trim(); 
+                            // Remove the entire matched phrase (including "add it to a new project...")
+                            cleanInput = rawInput.replace(projectMatch[0], '').trim();
+                            // Clean up trailing connectors
+                            cleanInput = cleanInput.replace(/(\s+(and|with|for|in)\s*|\s*[,.-]\s*)$/i, '').trim();
+                        }
+
+                        // 2. Generate Smart Item Name
+                        let itemName = '';
+                        
+                        // Check for explicit "call it X", "name it X", "task named X"
+                        const nameMatch = cleanInput.match(/(?:call\s+it|name\s+it|name\s+is|named)\s+([^\s,.]+)/i);
+                        if (nameMatch) {
+                             itemName = nameMatch[1].trim();
+                        } else {
+                            // Fallback: Use cleanInput
+                            itemName = cleanInput.split('\n')[0]; 
+                            if (itemName.length > 55) {
+                                const firstSentence = cleanInput.match(/.*?[.?!]/);
+                                if (firstSentence && firstSentence[0].length < 55) itemName = firstSentence[0];
+                                else itemName = cleanInput.substring(0, 45) + '...';
+                            }
+                        }
+                        
+                        // Capitalize & Format
+                        itemName = itemName.charAt(0).toUpperCase() + itemName.slice(1);
+                        itemName = itemName.replace(/^and\s+/i, ''); // Extra cleanup
+
+                        console.log("AI PARSED:", itemName, "| Project:", projectName);
+                        
+                        // Add to DB (Context Section - Top)
+                        const newItem = [itemName, 'Proposed', 'High', 'Greg', projectName, 'AI Command', 'mpdc-crm', rawInput, true];
+                        STRATEGY_DB.context.unshift(newItem); 
+                        
+                        setTimeout(() => {
+                            aiBtn.innerHTML = '<i class="fa-solid fa-bolt"></i> Sync to Strategy';
+                            aiBtn.style.background = '';
+                            aiBtn.style.opacity = '1';
+                            aiBtn.disabled = false;
+                            aiInput.value = '';
+                            
+                            switchTab('master');
+                            renderTopPriorities();
+                            
+                            if(hot) hot.scrollViewportTo(0, 0);
+                            
+                            alert(`AI Created Task:\n"${itemName}"\n\nProject: ${projectName}\n(Row 2)`);
+                        }, 500);
+                    }, 1000);
+            });
+
+            document.getElementById('save-btn').addEventListener('click', () => {
+                const currentData = hot.getData();
+                localStorage.setItem('mpdc_strategy_data', JSON.stringify(currentData));
+                alert('Snapshot Saved locally!');
+            });
+        });
+    </script>
+</body>
+</html>

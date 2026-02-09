@@ -1,0 +1,78 @@
+{
+  "firestore": {
+    "rules": "firestore.rules"
+  },
+  "storage": {
+    "rules": "storage.rules"
+  },
+  "hosting": {
+    "public": "dist",
+    "ignore": [
+      "firebase.json",
+      "**/.*",
+      "**/node_modules/**"
+    ],
+    "cleanUrls": true,
+    "trailingSlash": false,
+    "headers": [
+      {
+        "source": "**",
+        "headers": [
+          {
+            "key": "Strict-Transport-Security",
+            "value": "max-age=31536000; includeSubDomains; preload"
+          }
+        ]
+      },
+      {
+        "source": "**/*.@(js|css|webp|png|jpg|jpeg|gif|svg|woff|woff2)",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "max-age=31536000"
+          }
+        ]
+      }
+    ],
+    "rewrites": [
+      {
+        "source": "/api/chat",
+        "function": "chat"
+      },
+      {
+        "source": "/api/reset-password",
+        "function": "requestPasswordReset"
+      },
+      {
+        "source": "/api/capture-lead",
+        "function": "captureLead"
+      },
+      {
+        "source": "/api/create-checkout-session",
+        "function": "createCheckoutSession"
+      },
+      {
+        "source": "/api/webhook",
+        "function": "stripeWebhook"
+      },
+      {
+        "source": "/webhook",
+        "function": "stripeWebhook"
+      }
+    ]
+  },
+  "functions": [
+    {
+      "source": "functions",
+      "codebase": "default",
+      "disallowLegacyRuntimeConfig": true,
+      "ignore": [
+        "node_modules",
+        ".git",
+        "firebase-debug.log",
+        "firebase-debug.*.log",
+        "*.local"
+      ]
+    }
+  ]
+}

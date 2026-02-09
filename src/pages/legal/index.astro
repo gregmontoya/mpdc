@@ -1,0 +1,132 @@
+---
+import Layout from '../../layouts/Layout.astro';
+---
+
+<Layout title="Legal Overview | Men's Post-Divorce Coaching">
+    <section class="legal-page">
+        <div class="container container-narrow">
+            <header class="legal-header">
+                <p class="legal-breadcrumb">DIRECTORY</p>
+                <h1>Legal Resources</h1>
+                <p style="font-size: 1.25rem; line-height: 1.6; color: #666; max-width: 600px; margin: 0 auto;">Everything you need to know about our terms, privacy, and institutional standards.</p>
+            </header>
+
+            <div class="legal-grid">
+                <a href="/legal/terms" class="legal-card">
+                    <h3>Terms of Use</h3>
+                    <p>The rules and guidelines for using our website and services.</p>
+                    <span class="card-link">Read More →</span>
+                </a>
+                <a href="/legal/privacy" class="legal-card">
+                    <h3>Privacy Policy</h3>
+                    <p>How we collect, use, and protect your personal data.</p>
+                    <span class="card-link">Read More →</span>
+                </a>
+                <a href="/legal/refunds" class="legal-card">
+                    <h3>Refund Policy</h3>
+                    <p>Our policy on returns and digital product satisfaction guarantees.</p>
+                    <span class="card-link">Read More →</span>
+                </a>
+                <a href="/legal/disclaimers" class="legal-card">
+                    <h3>Disclaimers</h3>
+                    <p>Legal disclosures regarding our coaching and educational content.</p>
+                    <span class="card-link">Read More →</span>
+                </a>
+                <a href="/legal/ethics" class="legal-card">
+                    <h3>Ethics Code</h3>
+                    <p>The moral and professional standards we uphold as an institution.</p>
+                    <span class="card-link">Read More →</span>
+                </a>
+                <a href="/contact" class="legal-card">
+                    <h3>Corporate Contact</h3>
+                    <p>Contact Athens NLP Studies, LLC for any legal inquiries.</p>
+                    <span class="card-link">Contact Us →</span>
+                </a>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .legal-page {
+        padding: 8rem 0;
+        background-color: #fafafa;
+        color: #1a1a1a;
+        min-height: 100vh;
+    }
+
+    .container-narrow {
+        max-width: 1000px;
+        margin: 0 auto;
+        padding: 0 2rem;
+    }
+
+    .legal-header {
+        text-align: center;
+        margin-bottom: 5rem;
+    }
+
+    .legal-breadcrumb {
+        color: var(--color-accent);
+        font-weight: 700;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-size: 0.8rem;
+        margin-bottom: 1rem;
+    }
+
+    h1 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 3.5rem;
+        color: var(--color-bg-primary);
+        margin-bottom: 2rem;
+    }
+
+    .legal-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+    }
+
+    .legal-card {
+        background: #fff;
+        padding: 3rem;
+        border-radius: 12px;
+        border: 1px solid #eee;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .legal-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 20px 40px rgba(0,0,0,0.05);
+        border-color: var(--color-accent);
+    }
+
+    .legal-card h3 {
+        font-family: 'Montserrat', sans-serif;
+        font-weight: 800;
+        font-size: 1.5rem;
+        color: var(--color-bg-primary);
+        margin-bottom: 1rem;
+    }
+
+    .legal-card p {
+        font-size: 1rem;
+        line-height: 1.6;
+        color: #666;
+        margin-bottom: 2rem;
+        flex-grow: 1;
+    }
+
+    .card-link {
+        font-weight: 700;
+        color: var(--color-accent);
+        text-transform: uppercase;
+        font-size: 0.85rem;
+        letter-spacing: 1px;
+    }
+</style>

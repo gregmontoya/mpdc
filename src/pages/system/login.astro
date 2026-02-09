@@ -7,157 +7,406 @@ import '../../styles/cookie.css';
 <html lang="en">
 
 <head>
-    <meta name="p:domain_verify" content="57dd46a805327939488e827ea7d046dd"/>
-    <!-- Google tag (gtag.js) -->
+    <meta name="p:domain_verify" content="57dd46a805327939488e827ea7d046dd">
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
     <script is:inline>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
       gtag('js', new Date());
-    
       gtag('config', 'G-T26PKTMJB1');
     </script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Men's Divorce Mindset System</title>
+    <title>Member Login - Men's Divorce Mindset System</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --color-primary: #0b3b36;
+            --color-accent: #C4613A;
+            --color-text-dark: #1A1F24;
+            --color-text-muted: #64748b;
+            --color-border: #e2e8f0;
+        }
+
+        body, html {
+            margin: 0;
+            padding: 0;
+            height: 100%;
+            font-family: 'Open Sans', sans-serif;
+            overflow: hidden;
+        }
+
+        .split-container {
+            display: flex;
+            height: 100vh;
+            width: 100vw;
+        }
+
+        /* Left Side: Login Form */
+        .login-side {
+            flex: 1;
+            background: #ffffff;
+            display: flex;
+            flex-direction: column;
+            padding: 40px;
+            position: relative;
+        }
+
+        .logo-top {
+            text-decoration: none;
+            display: flex;
+            flex-direction: column;
+            margin-bottom: auto;
+        }
+
+        .logo-main {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 800;
+            font-size: 1.1rem;
+            line-height: 1.15;
+            color: var(--color-primary);
+            text-transform: uppercase;
+            letter-spacing: -0.02em;
+        }
+
+        .logo-accent {
+            color: var(--color-accent);
+        }
+
+        .login-content {
+            max-width: 400px;
+            width: 100%;
+            margin: auto;
+        }
+
+        .login-content h1 {
+            font-family: 'Montserrat', sans-serif;
+            font-weight: 700;
+            font-size: 2rem;
+            color: var(--color-text-dark);
+            margin-bottom: 8px;
+        }
+
+        .login-content p.subtitle {
+            color: var(--color-text-muted);
+            margin-bottom: 32px;
+            font-size: 1rem;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: var(--color-text-dark);
+            margin-bottom: 8px;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 12px 16px;
+            border: 1px solid var(--color-border);
+            border-radius: 8px;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--color-accent);
+            box-shadow: 0 0 0 3px rgba(196, 97, 58, 0.1);
+        }
+
+        .form-options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 32px;
+            font-size: 0.875rem;
+        }
+
+        .remember-me {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-text-muted);
+            cursor: pointer;
+        }
+
+        .forgot-pass {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 14px;
+            background-color: var(--color-primary);
+            color: white;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .submit-btn:hover {
+            background-color: #061c1a;
+        }
+
+        .signup-prompt {
+            margin-top: auto;
+            text-align: center;
+            font-size: 0.875rem;
+            color: var(--color-text-muted);
+        }
+
+        .signup-prompt a {
+            color: var(--color-accent);
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        /* Right Side: Abstract Image */
+        .image-side {
+            flex: 1;
+            background: #0b3b36;
+            position: relative;
+        }
+
+        .image-side img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        @media (max-width: 968px) {
+            .image-side {
+                display: none;
+            }
+        }
+
+        #login-error {
+            display: none;
+            background-color: #fef2f2;
+            border: 1px solid #fecaca;
+            color: #dc2626;
+            padding: 12px;
+            border-radius: 8px;
+            margin-bottom: 24px;
+            font-size: 0.875rem;
+        }
+    </style>
 </head>
 
-<body class="bg-grid" style="display: flex; align-items: center; justify-content: center; min-height: 100vh;">
+<body>
+    <div class="split-container">
+        <!-- Left Side -->
+        <div class="login-side">
+            <a href="/" class="logo-top">
+                <span class="logo-main">THE MEN'S DIVORCE<br><span class="logo-accent">MINDSET SYSTEM</span></span>
+            </a>
 
-    <div class="login-wrapper">
-        <div class="login-card">
-            <div class="logo-area">
-                MEN'S POST DIVORCE COACHING
+            <div class="login-content">
+                <p class="subtitle" style="text-transform: uppercase; font-size: 0.75rem; letter-spacing: 1px; font-weight: 700; margin-bottom: 8px;">Start your journey</p>
+                <h1>Sign In to System</h1>
+                <p class="subtitle">Welcome back. Access your member dashboard and curriculum.</p>
+
+                <div id="login-error"></div>
+
+                <div id="loginForm">
+                    <div class="form-group">
+                        <label for="email">E-mail</label>
+                        <input type="email" id="email" class="form-input" placeholder="example@email.com">
+                    </div>
+
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <input type="password" id="password" class="form-input" placeholder="••••••••">
+                    </div>
+
+                    <div class="form-options">
+                        <label class="remember-me">
+                            <input type="checkbox" checked>
+                            Remember me
+                        </label>
+                        <a href="#" id="forgot-password-link" class="forgot-pass">Forgot Password?</a>
+                    </div>
+
+                    <button type="button" class="submit-btn" id="submitBtn">Sign In</button>
+                    
+
+                </div>
             </div>
 
-            <h2 class="login-title">Member Login</h2>
-            <p class="login-subtitle">Welcome back. Enter your details to access the system.</p>
-
-            <!-- Error Message Container -->
-            <div id="login-error"
-                style="display: none; background-color: rgba(220, 38, 38, 0.1); border: 1px solid #dc2626; color: #ef4444; padding: 10px; border-radius: 6px; margin-bottom: 20px; font-size: 0.9rem; text-align: center;">
+            <div class="signup-prompt">
+                Don't have an account? <a href="/join">Sign Up</a>
             </div>
+        </div>
 
-            <form id="loginForm">
-                <!-- Removed inline onsubmit to handle in script tag -->
-                
-                <div class="form-group">
-                    <label for="email" style="color: var(--color-text-muted);">Email Address</label>
-                    <input type="email" id="email" class="form-input dark-input" placeholder="name@example.com"
-                        required>
-                </div>
-
-                <div class="form-group">
-                    <label for="password" style="color: var(--color-text-muted);">Password</label>
-                    <input type="password" id="password" class="form-input dark-input" placeholder="••••••••" required>
-                </div>
-
-                <div class="form-footer">
-                    <label class="checkbox-container">
-                        <input type="checkbox" checked>
-                        <span class="checkmark"></span>
-                        Remember me
-                    </label>
-                    <a href="#" class="forgot-link">Forgot Password?</a>
-                </div>
-
-                <button type="submit" class="btn btn-full">Sign In</button>
-            </form>
-
-            <div class="login-footer">
-                <p>Don't have an account? <a href="/join/#checkout" style="color: var(--color-neon);">Join the
-                        System</a></p>
-            </div>
+        <!-- Right Side -->
+        <div class="image-side">
+            <img src="/images/login-mountain.jpg" alt="Mountain Landscape">
         </div>
     </div>
 
-    <!-- Cookie Consent Banner -->
-    <div id="cookie-banner">
-        <div class="cookie-content">
-            <div class="cookie-text">
-                <p>We use cookies to enhance your experience and analyze our traffic. By clicking "Allow All", you
-                    consent to our use of cookies. <a href="/mission">Learn More</a></p>
-            </div>
-            <div class="cookie-buttons">
-                <button class="cookie-btn btn-settings">Cookie Settings</button>
-                <button class="cookie-btn btn-necessary" onclick="acceptCookie('necessary')">Necessary Only</button>
-                <button class="cookie-btn btn-allow-all" onclick="acceptCookie('all')">Allow All</button>
-            </div>
-        </div>
-    </div>
-
-    <!-- Supabase SDK -->
-    <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <!-- Firebase SDKs -->
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
     <script is:inline>
-        const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
+        // Firebase Configuration (Matching src/lib/firebase.js)
+        const firebaseConfig = {
+            apiKey: "AIzaSyBSxrgaNnTzRMqo-9C47vZfnTTDRqyyb10",
+            authDomain: "mpdc-website-32dae.firebaseapp.com",
+            projectId: "mpdc-website-32dae",
+            storageBucket: "mpdc-website-32dae.firebasestorage.app",
+            messagingSenderId: "210457065303",
+            appId: "1:210457065303:web:72882e734aa8054d283012"
+        };
 
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        // Initialize Firebase
+        firebase.initializeApp(firebaseConfig);
+        const auth = firebase.auth();
 
-        async function handleSupabaseLogin(event) {
-            event.preventDefault();
-            const email = document.getElementById('email').value;
+        // Helper: Professional Error Mapping
+        function getFriendlyErrorMessage(errorCode) {
+            switch (errorCode) {
+                case 'auth/invalid-email':
+                    return "The email address is invalid. Please check and try again.";
+                case 'auth/user-disabled':
+                    return "This account has been disabled. Please contact support.";
+                case 'auth/user-not-found':
+                case 'auth/wrong-password':
+                case 'auth/invalid-credential':
+                    return "Incorrect email or password. Please try again.";
+                case 'auth/too-many-requests':
+                    return "Too many failed attempts. Please reset your password or try again later.";
+                default:
+                    return "An unexpected error occurred. Please try again.";
+            }
+        }
+
+        async function handleFirebaseLogin() {
+            const email = document.getElementById('email').value.trim();
             const password = document.getElementById('password').value;
-            const btn = document.querySelector('.btn-full');
-            const originalText = btn.innerText;
+            const btn = document.getElementById('submitBtn');
+            const errorDiv = document.getElementById('login-error');
+
+            if (!email || !password) {
+                errorDiv.innerText = "Please enter both email and password.";
+                errorDiv.style.display = 'block';
+                return;
+            }
 
             try {
-                btn.innerText = 'Verifying...';
+                btn.innerText = 'Signing In...';
                 btn.disabled = true;
+                errorDiv.style.display = 'none';
 
-                // 1. Attempt Sign In
-                const { data, error } = await supabase.auth.signInWithPassword({
-                    email: email,
-                    password: password
-                });
-
-                if (error) throw error;
-
-                // 2. Check if Profile Exists (Optional extra security)
-                const { data: profile } = await supabase
-                    .from('profiles')
-                    .select('*')
-                    .eq('id', data.user.id)
-                    .single();
-
-                // 3. Success - Redirect
-                localStorage.setItem('mpdc_student_session', JSON.stringify(data.session));
-                window.location.href = '/system/dashboard'; // Managed by Astro now
+                await auth.signInWithEmailAndPassword(email, password);
+                
+                // Success: Redirect
+                window.location.assign('/system/dashboard');
 
             } catch (err) {
-                console.error('Login failed:', err);
-                const errorDiv = document.getElementById('login-error');
-                if(errorDiv) {
-                    errorDiv.innerText = 'Login Failed: ' + err.message;
-                    errorDiv.style.display = 'block';
-                } else {
-                     alert('Login Failed: ' + err.message);
-                }
-
-                btn.innerText = originalText;
+                console.error('Login Error:', err);
+                errorDiv.innerText = getFriendlyErrorMessage(err.code);
+                errorDiv.style.display = 'block';
+                errorDiv.style.backgroundColor = '#fef2f2';
+                errorDiv.style.color = '#dc2626';
+                errorDiv.style.borderColor = '#fecaca';
+                
+                btn.innerText = 'Sign In';
                 btn.disabled = false;
             }
         }
-        
-        // Attach listener
-        const form = document.getElementById('loginForm');
-        if(form) form.addEventListener('submit', handleSupabaseLogin);
 
-        // Check if already logged in
-        async function checkSession() {
-            const { data: { session } } = await supabase.auth.getSession();
-            if (session) {
-                window.location.href = '/system/dashboard';
+        async function handleForgotPassword(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const errorDiv = document.getElementById('login-error');
+
+            if (!email) {
+                errorDiv.innerText = "Please enter your email address first so we can send the reset link.";
+                errorDiv.style.display = 'block';
+                errorDiv.style.backgroundColor = '#fff7ed'; // Warning orange
+                errorDiv.style.color = '#c2410c';
+                errorDiv.style.borderColor = '#fdba74';
+                return;
+            }
+
+            const link = document.getElementById('forgot-password-link');
+            const originalText = link.innerText;
+
+            try {
+                link.innerText = "Sending...";
+                link.style.pointerEvents = "none";
+                errorDiv.style.display = 'none';
+
+                // Call our custom branded email endpoint
+                const response = await fetch('/api/reset-password', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ email })
+                });
+
+                if (!response.ok) throw new Error('Server error');
+
+                errorDiv.innerText = `Branded reset link sent to ${email}. Check your inbox.`;
+                errorDiv.style.display = 'block';
+                errorDiv.style.backgroundColor = '#f0fdf4'; // Success green
+                errorDiv.style.color = '#15803d';
+                errorDiv.style.borderColor = '#bbf7d0';
+
+
+            } catch (err) {
+                console.error('Reset Error:', err);
+                
+                let msg = "Failed to send reset email.";
+                if (err.code === 'auth/user-not-found') {
+                    // Start of professional obfuscation: maybe don't reveal user doesn't exist? 
+                    // But for UX usually better to say "No account found".
+                    msg = "No account found with this email address.";
+                } else if (err.code === 'auth/invalid-email') {
+                    msg = "Invalid email address format.";
+                }
+
+                errorDiv.innerText = msg;
+                errorDiv.style.display = 'block';
+                errorDiv.style.backgroundColor = '#fef2f2';
+                errorDiv.style.color = '#dc2626';
+                errorDiv.style.borderColor = '#fecaca';
+            } finally {
+                link.innerText = originalText;
+                link.style.pointerEvents = "auto";
             }
         }
-        checkSession();
+
+        document.getElementById('submitBtn')?.addEventListener('click', handleFirebaseLogin);
+        document.getElementById('forgot-password-link')?.addEventListener('click', handleForgotPassword);
+        
+        // Listen for Enter key on inputs
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') handleFirebaseLogin();
+            });
+        });
+
+        // Check for existing session
+        auth.onAuthStateChanged((user) => {
+            if (user) {
+                window.location.assign('/system/dashboard');
+            }
+        });
     </script>
-    <script src="/scripts/main.js" is:inline></script>
 </body>
+
 </html>

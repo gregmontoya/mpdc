@@ -1,5 +1,17 @@
 # Site Updates & Changelog
 
+## [v2.0.3] - 2026-02-09 - Access Control & Bundle Logic Fix
+### 🐞 Bug Fixes
+- **Hypnosis Bundle Logic**: Fixed a critical issue where some customers (like `amorganatm@gmail.com`) purchasing the Hypnosis Bundle were incorrectly assigned "Student" access instead of "Bundle" access, even when paying the full $58 price.
+- **Robust Detection**: The system now checks for `metadata.plan === 'bundle'` explicitly in the Stripe webhook, which provides a 100% reliable detection method that bypasses any amount-based comparison logic.
+- **Success Page Fix**: Resolved an issue where the post-purchase "Success Page" was showing placeholder email text (`your-email@example.com`) instead of the actual customer email.
+- **Manual Overrides**: 
+  - Created `scripts/fix-access.js` to allow admins to manually update access levels via CLI.
+  - Implemented a temporary hardcoded override in `SystemLayout.astro` for `amorganatm@gmail.com` to bypass any potential browser caching or race condition issues.
+
+---
+
+
 ## [v2.0.0] - 2026-02-05 - Migration to Astro SSG
 
 ### 🚀 Major Architecture Upgrade
@@ -31,3 +43,48 @@ The website has been successfully migrated from static HTML files to the **Astro
 - **Config**: Updated `main.js` to handle clean URL routing for the dashboard system.
 
 ---
+
+## [v2.0.2] - 2026-02-07 - Official Launch
+### 🚀 Site Launch
+- **Countdown Removed**: Disabled the "Coming Soon" banner globally.
+- **Search Indexing**: Enabled `robots.txt` for search engine crawling.
+- **Final Polish**: Cleaned up navigation duplicates and fixed course completion toggles.
+
+---
+
+## [v2.0.1] - 2026-02-06 - Email Opt-in & Firebase Integration
+
+### ✨ New Features
+- **Email Opt-in Popup**: 
+  - Implementation of a high-conversion, split-layout popup component (`EmailPopup.astro`) triggered after 5 seconds.
+  - Matches the "Marie Forleo" reference design with dark mode aesthetics and specific typography (Bebas Neue & Montserrat).
+  - Integrated with **Firebase Firestore** to capture leads directly into the `subscribers` collection.
+  - Includes session persistence (dismissal logic) and mobile responsiveness.
+
+### 🤖 AI Integration
+- **MPDC AI Assistant**:
+  - Launched a site-wide **AI Chatbot** powered by **Google Gemini 1.5 Flash** (via Vertex AI).
+  - Custom system prompt tuned to Alex Morgan's coaching tone and focus on post-divorce recovery.
+  - Feature highlights:
+    - **Quick Questions**: Pre-programmed buttons for common queries (The System, Community, Overthinking).
+    - **Automated Lead Gen**: AI recognizes email addresses in conversation and saves them to the `leads` collection in Firestore.
+    - **Premium UI**: Custom-built glassmorphism interface with pulse animations and mobile optimization.
+    - **Serverless Backend**: Implemented via Firebase Cloud Functions for performance and security.
+
+### 🎧 Content Updates
+- **Custom Hypnosis Audio Engine**:
+  - Replaced YouTube embeds with a professional, native HTML5 audio player tailored for the Mindset System.
+  - **Firebase Storage Integration**: 18 high-fidelity hypnosis tracks are now streamed directly from the internal GCP infrastructure.
+  - **Seamless Multi-track UX**: Implemented a "Master Player" interface that persists at the bottom of the screen, allowing students to navigate 18 tracks (Self-Worth, Anxiety, Abundance, etc.) without page reloads.
+  - **Premium UI**: Added interactive audio cards with state feedback (Playing/Paused), progress seeking, and volume control.
+
+
+
+### 📅 Booking Integration
+- **MPDC Custom Booking Engine**:
+  - Replaced third-party Calendly with a custom-built, premium booking system (`/clarity-call`).
+  - **Dynamic Calendar UI**: Interactive month/day selector with weekday-only validation.
+  - **Firestore Backend**: Direct integration with Firebase to save scheduled sessions to the `bookings` collection.
+  - **Multi-step UX**: Seamless flow from time selection to lead detail capture with a professional confirmation summary.
+  - **Premium Design**: Custom-themed to match the MPDC aesthetic with smooth animations and mobile responsiveness.
+

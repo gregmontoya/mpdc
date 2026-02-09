@@ -1,0 +1,301 @@
+---
+import '../styles/style.css';
+import CountdownBanner from '../components/CountdownBanner.astro';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Men's Post-Divorce Coaching | The Comeback Starts Here</title>
+    
+    <!-- Meta Tags -->
+    <meta name="description" content="The #1 resource for men reclaiming their edge after divorce. Something powerful is coming. Join the waitlist for exclusive access.">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700;800;900&family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-T26PKTMJB1');
+    </script>
+
+    <style>
+        :root {
+            --color-bg: #0a0c0a;
+            --color-accent: #c4613a;
+            --color-text: #ffffff;
+            --color-text-muted: #a0a0a0;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--color-bg);
+            color: var(--color-text);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        .hero-logo {
+            font-family: 'Bebas Neue', cursive;
+            font-size: 2.5rem;
+            line-height: 1;
+            margin-bottom: 4rem;
+            letter-spacing: 2px;
+            color: #fff;
+            text-decoration: none;
+            z-index: 10;
+        }
+
+        .hero-logo span {
+            color: var(--color-accent);
+        }
+
+        .hero-container {
+            position: relative;
+            min-height: 100vh;
+            width: 100vw;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            padding: 4rem 2rem;
+            text-align: center;
+            background: linear-gradient(rgba(10, 12, 10, 0.7), rgba(10, 12, 10, 0.9)), url('/images/coming-soon-bg.png');
+            background-size: cover;
+            background-position: center;
+        }
+
+
+        .content {
+            z-index: 10;
+            max-width: 800px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 0.5rem 1.5rem;
+            background: rgba(196, 97, 58, 0.1);
+            border: 1px solid var(--color-accent);
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 4px;
+            font-size: 0.75rem;
+            font-weight: 800;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            animation: fadeInDown 1s ease-out;
+        }
+
+        h1 {
+            font-size: clamp(3rem, 10vw, 6rem);
+            font-weight: 900;
+            text-transform: uppercase;
+            line-height: 0.9;
+            margin-bottom: 2rem;
+            letter-spacing: -2px;
+            animation: fadeInUp 1s ease-out 0.2s both;
+        }
+
+        .accent-text {
+            color: var(--color-accent);
+        }
+
+        p {
+            font-size: 1.25rem;
+            color: var(--color-text-muted);
+            line-height: 1.6;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-inline: auto;
+            animation: fadeInUp 1s ease-out 0.4s both;
+        }
+
+        .signup-form {
+            display: flex;
+            gap: 1rem;
+            width: 100%;
+            max-width: 500px;
+            margin: 0 auto;
+            animation: fadeInUp 1s ease-out 0.6s both;
+        }
+
+        input {
+            flex: 1;
+            padding: 1.25rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            color: #fff;
+            font-family: inherit;
+            font-size: 1rem;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        input:focus {
+            border-color: var(--color-accent);
+        }
+
+        button {
+            padding: 1.25rem 2rem;
+            background: var(--color-accent);
+            color: #fff;
+            border: none;
+            border-radius: 8px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            transition: transform 0.2s, background 0.2s;
+        }
+
+        button:hover {
+            background: #d86d44;
+            transform: translateY(-2px);
+        }
+
+        .social-links {
+            margin-top: 4rem;
+            display: flex;
+            gap: 2rem;
+            animation: fadeInUp 1s ease-out 0.8s both;
+        }
+
+        .social-link {
+            color: var(--color-text-muted);
+            font-size: 1.5rem;
+            transition: color 0.3s;
+            text-decoration: none;
+        }
+
+        .social-link:hover {
+            color: #fff;
+        }
+
+        .overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, transparent 0%, var(--color-bg) 90%);
+            pointer-events: none;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 600px) {
+            .signup-form {
+                flex-direction: column;
+            }
+            h1 {
+                font-size: 3.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <CountdownBanner />
+    <div class="hero-container">
+        <div class="overlay"></div>
+        
+        <header class="hero-logo">
+            MEN'S POST<br>DIVORCE <span>COACHING</span>
+        </header>
+
+        <main class="content">
+            <div class="badge">System Loading</div>
+            <h1>The Comeback <br><span class="accent-text">Is Loading.</span></h1>
+            <p>The #1 resource for men reclaiming their edge. We're building the new standard for post-divorce success. Join the inner circle to be notified first.</p>
+
+            <form class="signup-form" id="waitlist-form">
+                <input type="email" placeholder="Enter your email address" required id="email-input">
+                <button type="submit">Join Waitlist</button>
+            </form>
+
+            <div id="success-message" style="display: none; margin-top: 2rem; color: var(--color-accent); font-weight: 700;">
+                WELCOME TO THE INNER CIRCLE.
+            </div>
+
+            <div class="social-links">
+                <a href="https://www.instagram.com/menspostdivorcecoaching" class="social-link" target="_blank"><i class="fab fa-instagram"></i></a>
+                <a href="https://www.youtube.com/@menspostdivorcecoaching" class="social-link" target="_blank"><i class="fab fa-youtube"></i></a>
+            </div>
+        </main>
+    </div>
+
+    <script>
+        import { db } from '../lib/firebase';
+        import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
+        const form = document.getElementById('waitlist-form');
+        const successMessage = document.getElementById('success-message');
+        const emailInput = document.getElementById('email-input');
+
+        if (form && successMessage && emailInput) {
+            form.addEventListener('submit', async (e) => {
+                e.preventDefault();
+                const email = (emailInput as HTMLInputElement).value;
+                const submitBtn = form.querySelector('button');
+                
+                if (submitBtn) {
+                    submitBtn.disabled = true;
+                    submitBtn.innerText = 'Joining...';
+                }
+
+                try {
+                    // Save to Firestore
+                    await addDoc(collection(db, 'waitlist'), {
+                        email: email,
+                        timestamp: serverTimestamp(),
+                        source: 'coming_soon_page'
+                    });
+
+                    form.style.display = 'none';
+                    successMessage.style.display = 'block';
+                } catch (error) {
+                    console.error('Error adding document: ', error);
+                    alert('Something went wrong. Please try again.');
+                    if (submitBtn) {
+                        submitBtn.disabled = false;
+                        submitBtn.innerText = 'Join Waitlist';
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

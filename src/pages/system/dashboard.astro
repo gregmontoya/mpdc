@@ -1,407 +1,464 @@
 ---
-import '../../styles/style.css';
-import '../../styles/modules.css';
+import SystemLayout from '../../layouts/SystemLayout.astro';
 ---
 
-<!DOCTYPE html>
-<html lang="en">
+<SystemLayout title="Dashboard" activePage="dashboard">
+        <div class="dashboard-header">
+            <h1 id="welcome-greeting">Welcome back.</h1>
+            <div class="quote-container">
+                <span class="quote-label">QUOTE OF THE WEEK</span>
+                <p id="quote-text">"Focus on the step in front of you, not the whole staircase."</p>
+            </div>
+        </div>
 
-<head>
-    <meta name="p:domain_verify" content="57dd46a805327939488e827ea7d046dd"/>
-    <!-- Google tag (gtag.js) -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
     <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-    
-      gtag('config', 'G-T26PKTMJB1');
-    </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Men's Divorce Mindset System</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700&family=Open+Sans:wght@400;600&display=swap"
-        rel="stylesheet">
-    <!-- FontAwesome for Icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+        const MINSET_QUOTES = [
+            "Focus on the step in front of you, not the whole staircase.",
+            "The man who moves a mountain begins by carrying away small stones.",
+            "Discipline is doing what needs to be done, even if you don't want to do it.",
+            "Your current situation is not your final destination.",
+            "The best revenge is massive success.",
+            "Hard times create strong men. Strong men create good times.",
+            "You did not come this far to only come this far.",
+            "Amateurs wait for inspiration. Professionals get to work.",
+            "Your ex-wife's frame is a cage. Your future is the key.",
+            "Silence the noise. Reclaim your center."
+        ];
 
-    <style>
-        /* DASHBOARD SPECIFIC STYLES */
-        .dashboard-main {
-            padding: 3rem 4rem;
-            direction: ltr;
+        function setWeeklyQuote() {
+            const now = new Date();
+            const start = new Date(now.getFullYear(), 0, 1);
+            const diff = now - start;
+            const oneDay = 1000 * 60 * 60 * 24;
+            const dayOfYear = Math.floor(diff / oneDay);
+            const weekOfYear = Math.floor(dayOfYear / 7);
+            
+            const quoteIndex = weekOfYear % MINSET_QUOTES.length;
+            const quoteEl = document.getElementById('quote-text');
+            if(quoteEl) quoteEl.textContent = `"${MINSET_QUOTES[quoteIndex]}"`;
         }
 
+        async function updateWelcomeGreeting() {
+            const greetingEl = document.getElementById('welcome-greeting');
+            if (!greetingEl) return;
+
+            // Check if Firebase is initialized (from SystemLayout)
+            if (typeof firebase === 'undefined' || !firebase.auth) {
+                greetingEl.textContent = 'Welcome back.';
+                return;
+            }
+
+            const auth = firebase.auth();
+            const user = auth.currentUser;
+
+            if (!user) {
+                greetingEl.textContent = 'Welcome back.';
+                return;
+            }
+
+            try {
+                const db = firebase.firestore();
+                const doc = await db.collection('profiles').doc(user.uid).get();
+                
+                if (doc.exists && doc.data().name) {
+                    const fullName = doc.data().name;
+                    // Extract first name (everything before first space)
+                    const firstName = fullName.split(' ')[0];
+                    greetingEl.textContent = `Welcome back, ${firstName}.`;
+                } else if (user.displayName) {
+                    const firstName = user.displayName.split(' ')[0];
+                    greetingEl.textContent = `Welcome back, ${firstName}.`;
+                } else {
+                    greetingEl.textContent = 'Welcome back.';
+                }
+            } catch (error) {
+                console.error('Error fetching user name:', error);
+                greetingEl.textContent = 'Welcome back.';
+            }
+        }
+
+        function updateProgress() {
+            if (typeof firebase === 'undefined' || !firebase.auth) return;
+            const user = firebase.auth().currentUser;
+            if (!user) return;
+
+            const progressKey = `mpdc_progress_${user.uid}`;
+            const completed = JSON.parse(localStorage.getItem(progressKey) || '[]');
+            const totalModules = 6; // Intro + 5 Modules
+            const progress = (completed.length / totalModules) * 100;
+
+            const percentEl = document.getElementById('progress-percent');
+            const modulesEl = document.getElementById('progress-modules');
+            const ringEl = document.getElementById('progress-ring');
+            const textEl = document.getElementById('progress-text');
+
+            if (percentEl) percentEl.textContent = `${Math.round(progress)}%`;
+            if (modulesEl) modulesEl.textContent = `${completed.length}/${totalModules}`;
+            if (textEl) textEl.textContent = `${Math.round(progress)}%`;
+            if (ringEl) ringEl.setAttribute('stroke-dasharray', `${progress}, 100`);
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            setWeeklyQuote();
+            // Wait a bit for Firebase to initialize from SystemLayout
+            setTimeout(() => {
+                updateWelcomeGreeting();
+                updateProgress();
+            }, 800);
+        });
+    </script>
+
+        <!-- Hero Progress Card -->
+        <div class="hero-progress-card">
+            <div class="card-glow"></div>
+            <div class="progress-content">
+                <div class="progress-left">
+                    <span class="eyebrow">CONTINUE TRAINING</span>
+                    <h2>Men's Divorce<br/>Mindset System</h2>
+                    <div class="progress-stats">
+                        <div class="stat">
+                            <span class="stat-value" id="progress-percent">0%</span>
+                            <span class="stat-label">Complete</span>
+                        </div>
+                        <div class="stat-divider"></div>
+                        <div class="stat">
+                            <span class="stat-value" id="progress-modules">0/6</span>
+                            <span class="stat-label">Modules</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="progress-right">
+                    <div class="circular-progress">
+                        <svg viewBox="0 0 36 36" class="circular-chart">
+                            <path class="circle-bg" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                            <path class="circle" id="progress-ring" stroke-dasharray="0, 100" d="M18 2.0845 a 15.9155 15.9155 0 0 1 0 31.831 a 15.9155 15.9155 0 0 1 0 -31.831" />
+                        </svg>
+                        <div class="percentage" id="progress-text">0%</div>
+                    </div>
+                    <a href="/system/course" class="btn-resume">
+                        RESUME COURSE <i class="fas fa-play"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-divider">
+            <span>UPCOMING & MODULES</span>
+        </div>
+
+        <div class="cards-grid">
+            <!-- Hypnosis Bundle Card (Conditional) -->
+            <div class="action-card" id="hypnosis-card" style="display: none; border-color: #C4613A; background: #fffcfb;">
+                <div class="card-icon" style="background: #C4613A; color: #fff;"><i class="fas fa-star"></i></div>
+                <h3>Hypnosis Audio Bundle</h3>
+                <p>Access your premium subconscious reprogramming tracks and guided mindset audio.</p>
+                <a href="/system/hypnosis" class="card-btn" style="color: #C4613A;">Open Audio Portal →</a>
+            </div>
+
+            <div class="action-card">
+                <div class="card-icon"><i class="fas fa-users"></i></div>
+                <h3>The Post Divorce Advantage</h3>
+                <p>A structured path to clarity, confidence, and control for men after divorce.</p>
+                <a href="https://www.skool.com/the-post-divorce-advantage-8284" target="_blank" class="card-btn">Open Community</a>
+            </div>
+
+            <div class="action-card">
+                <div class="card-icon"><i class="fas fa-user-tie"></i></div>
+                <h3>1-on-1 Assessment Call</h3>
+                <p>Identify the programs in your mind keeping you stuck and assess the best way to move forward.</p>
+                <a href="/clarity-call" target="_blank" class="card-btn">Book Free 30-Minute Assessment</a>
+            </div>
+
+            <div class="action-card">
+                <div class="card-icon"><i class="fas fa-life-ring"></i></div>
+                <h3>Technical Support</h3>
+                <p>Having trouble? Our team is here to help you get back on track.</p>
+                <a href="/system/support" class="card-btn">Submit Ticket</a>
+            </div>
+        </div>
+
+
+    <style>
         .dashboard-header {
-            margin-bottom: 3rem;
+            margin-bottom: 3.5rem;
         }
 
         .dashboard-header h1 {
-            color: #000;
-            font-size: 2.2rem;
+            font-size: 2.8rem;
+            color: #1a1f24;
             margin-bottom: 0.5rem;
+            font-weight: 800;
+            letter-spacing: -0.5px;
+            text-transform: none;
         }
 
         .dashboard-header p {
-            color: #000;
+            color: #64748b;
             font-size: 1.1rem;
         }
 
-        /* CARD GRIDS */
-        .dashboard-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 2rem;
-            margin-bottom: 3rem;
+        .quote-container {
+            margin-top: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
         }
 
-        .dashboard-card {
-            background: #fff;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-radius: 12px;
-            padding: 2rem;
-            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
-            transition: all 0.3s ease;
+        .quote-label {
+            font-size: 0.65rem;
+            font-weight: 900;
+            color: #C4613A;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+
+        #quote-text {
+            font-style: italic;
+            font-weight: 500;
+            max-width: 600px;
+        }
+
+        /* HERO CARD */
+        .hero-progress-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 24px;
+            padding: 3.5rem;
             position: relative;
             overflow: hidden;
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.03);
+            margin-bottom: 4rem;
         }
 
-        .dashboard-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.06);
-            border-color: var(--color-bg-primary);
+        .card-glow {
+            position: absolute;
+            top: -50%;
+            right: -10%;
+            width: 500px;
+            height: 500px;
+            background: radial-gradient(circle, rgba(196, 97, 58, 0.05) 0%, transparent 70%);
+            pointer-events: none;
         }
 
-        /* PRIMARY PROGRESS CARD */
-        .progress-card {
-            grid-column: span 2;
-            background: linear-gradient(135deg, #f4f7f6 0%, #fff 100%);
-            border-left: 5px solid var(--color-bg-primary);
+        .progress-content {
             display: flex;
+            justify-content: space-between;
             align-items: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .eyebrow {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #C4613A;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            display: block;
+            margin-bottom: 1rem;
+        }
+
+        .progress-left h2 {
+            font-size: 2.5rem;
+            line-height: 1.1;
+            color: #1a1f24;
+            margin-bottom: 2rem;
+            text-transform: none;
+        }
+
+        .progress-stats {
+            display: flex;
+            gap: 2.5rem;
+            align-items: center;
+        }
+
+        .stat-value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 800;
+            color: #1a1f24;
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            color: #64748b;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .stat-divider {
+            width: 1px;
+            height: 30px;
+            background: #e2e8f0;
+        }
+
+        .progress-right {
+            text-align: right;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
             gap: 2rem;
         }
 
-        .progress-info {
-            flex: 1;
+        .circular-progress {
+            position: relative;
+            width: 120px;
+            height: 120px;
         }
 
-        .progress-info h2 {
-            font-size: 1.5rem;
-            color: var(--color-bg-primary);
-            margin-bottom: 0.5rem;
+        .circular-chart {
+            display: block;
+            margin: 10px auto;
+            max-width: 100%;
+            max-height: 250px;
         }
 
-        .progress-bar-container {
-            width: 100%;
-            height: 8px;
-            background: #e0e0e0;
-            border-radius: 4px;
-            margin: 1rem 0;
-            overflow: hidden;
+        .circle-bg {
+            fill: none;
+            stroke: #f1f5f9;
+            stroke-width: 2.8;
         }
 
-        .progress-bar {
-            height: 100%;
-            background: var(--color-bg-primary);
-            width: 15%;
-            border-radius: 4px;
+        .circle {
+            fill: none;
+            stroke: #C4613A;
+            stroke-width: 2.8;
+            stroke-linecap: round;
         }
 
-        .resume-btn {
-            background-color: var(--color-bg-primary);
-            color: white;
-            padding: 0.8rem 1.5rem;
-            border-radius: 6px;
-            text-decoration: none;
-            font-weight: 700;
-            font-size: 0.9rem;
-            display: inline-block;
-            transition: background 0.2s;
-            text-transform: uppercase;
+        .percentage {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            font-size: 1.2rem;
+            font-weight: 800;
+            color: #1a1f24;
+        }
+
+        .btn-resume {
+            background: #1a1f24;
+            color: #fff;
+            padding: 1rem 2rem;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.85rem;
             letter-spacing: 1px;
-        }
-
-        .resume-btn:hover {
-            background-color: #0b3b36;
-        }
-
-        /* SECONDARY CARDS */
-        .info-card h3 {
-            font-size: 1.1rem;
-            color: #333;
-            margin-bottom: 0.5rem;
             display: flex;
             align-items: center;
-            gap: 0.5rem;
-        }
-
-        .info-card p {
-            font-size: 0.9rem;
-            color: #777;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
-        }
-
-        .text-link {
-            color: var(--color-bg-primary);
-            font-weight: 700;
-            font-size: 0.85rem;
-            text-decoration: none;
-            display: inline-flex;
-            align-items: center;
-            gap: 0.3rem;
-        }
-
-        .text-link:hover {
-            text-decoration: underline;
-        }
-
-        /* SECTION TITLE */
-        .section-title {
-            font-size: 1.2rem;
-            color: #333;
-            margin-bottom: 1.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-            padding-bottom: 0.5rem;
-        }
-
-        /* PRODUCTS GRID */
-        .products-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.5rem;
-        }
-
-        .product-card {
-            background: #fcfcfc;
-            border: 1px solid rgba(0, 0, 0, 0.05);
-            border-radius: 8px;
-            padding: 1.5rem;
-            text-align: center;
+            gap: 0.75rem;
             transition: all 0.2s;
         }
 
-        .product-card:hover {
-            border-color: #ddd;
+        .btn-resume:hover {
+            background: #C4613A;
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(196, 97, 58, 0.3);
+        }
+
+        /* GRID SECTION */
+        .section-divider {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+            margin-bottom: 2.5rem;
+        }
+
+        .section-divider span {
+            font-size: 0.75rem;
+            font-weight: 800;
+            color: #94a3b8;
+            letter-spacing: 2px;
+            white-space: nowrap;
+        }
+
+        .section-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: #e2e8f0;
+        }
+
+        .cards-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .action-card {
             background: #fff;
+            padding: 2.5rem;
+            border-radius: 20px;
+            border: 1px solid #e2e8f0;
+            transition: all 0.3s;
         }
 
-        .product-icon {
-            font-size: 2rem;
-            color: var(--color-accent);
+        .action-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.05);
+            border-color: #cbd5e1;
+        }
+
+        .card-icon {
+            width: 50px;
+            height: 50px;
+            background: #fff1eb;
+            color: #C4613A;
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .action-card h3 {
+            font-size: 1.25rem;
             margin-bottom: 1rem;
+            color: #1a1f24;
+            text-transform: none;
         }
 
-        .product-card h4 {
-            font-size: 1rem;
-            color: #333;
-            margin-bottom: 0.5rem;
+        .action-card p {
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.6;
+            margin-bottom: 2rem;
         }
 
-        .product-card p {
-            font-size: 0.85rem;
-            color: #888;
-            margin-bottom: 1rem;
-        }
-
-        .btn-outline-small {
-            border: 1px solid var(--color-bg-primary);
-            color: var(--color-bg-primary);
-            padding: 0.5rem 1rem;
-            border-radius: 4px;
-            text-decoration: none;
-            font-size: 0.8rem;
-            font-weight: 600;
+        .card-btn {
             display: inline-block;
+            font-weight: 700;
+            font-size: 0.9rem;
+            color: #C4613A;
+            text-decoration: none;
+            transition: color 0.2s;
         }
 
-        .btn-outline-small:hover {
-            background: var(--color-bg-primary);
-            color: #fff;
+        .card-btn:hover {
+            color: #a54f2f;
         }
 
-        /* RESPONSIVE */
-        @media (max-width: 1000px) {
-            .dashboard-grid {
-                grid-template-columns: 1fr;
-            }
+        .action-card.locked {
+            background: #f8fafc;
+            opacity: 0.8;
+            pointer-events: none;
+        }
 
-            .progress-card {
-                grid-column: auto;
-                flex-direction: column;
-                align-items: flex-start;
-            }
+        .badge {
+            background: #e2e8f0;
+            color: #64748b;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.65rem;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
 
-            .products-grid {
-                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            }
+        @media (max-width: 768px) {
+            .progress-content { flex-direction: column; align-items: flex-start; gap: 2.5rem; }
+            .progress-right { align-items: flex-start; }
+            .hero-progress-card { padding: 2rem; }
         }
     </style>
-</head>
-
-<body>
-
-    <div class="lms-wrapper">
-
-        <!-- Sidebar Navigation -->
-        <aside class="lms-sidebar">
-            <div class="lms-logo">
-                <a href="dashboard" class="logo-link">Men's Divorce<br><span class="logo-subtitle">Mindset
-                        System</span></a>
-            </div>
-
-            <ul class="lms-module-list">
-                <!-- HOME ACTIVE -->
-                <li class="lms-module-item">
-                    <a href="dashboard" class="lms-module-link active">
-                        <span class="module-icon"><i class="fas fa-home"></i></span>
-                        <div>Home</div>
-                    </a>
-                </li>
-
-                <li class="lms-module-item"
-                    style="margin-top: 1rem; margin-bottom: 0.5rem; padding-left: 1.5rem; font-size: 0.75rem; color: #999; text-transform: uppercase; font-weight: 700;">
-                    Your Courses
-                </li>
-
-                <li class="lms-module-item">
-                    <a href="course" class="lms-module-link">
-                        <span class="module-icon"><i class="fas fa-play-circle"></i></span>
-                        <div>
-                            <span
-                                style="display:block; font-size: 0.75rem; font-weight:700; text-transform:uppercase; letter-spacing:1px; opacity:0.7;">Start
-                                Here</span>
-                            Mindset System
-                        </div>
-                    </a>
-                </li>
-
-                <li class="lms-module-item"
-                    style="margin-top: 1rem; margin-bottom: 0.5rem; padding-left: 1.5rem; font-size: 0.75rem; color: #999; text-transform: uppercase; font-weight: 700;">
-                    Community
-                </li>
-
-                <li class="lms-module-item">
-                    <a href="#" class="lms-module-link">
-                        <span class="module-icon"><i class="fas fa-users"></i></span>
-                        <div>Brotherhood</div>
-                    </a>
-                </li>
-            </ul>
-
-            <div class="user-profile" onclick="toggleUserMenu()" style="cursor: pointer; position: relative;">
-                <div class="user-avatar">GM</div>
-                <div style="font-size: 0.9rem;">
-                    <div style="font-weight: 700;">Greg Montoya</div>
-                    <div style="font-size: 0.7rem; color: #888; text-transform: uppercase;">Active Member</div>
-                </div>
-                <div style="margin-left: auto;">
-                    <i class="fas fa-chevron-up" style="font-size: 0.8rem; opacity: 0.5;"></i>
-                </div>
-
-                <!-- USER MENU POPUP -->
-                <div id="user-menu-popup" class="user-menu-popup">
-                    <a href="#" class="user-menu-item"><i class="fas fa-user-circle"></i> My Account</a>
-                    <a href="#" class="user-menu-item"><i class="fas fa-life-ring"></i> Support</a>
-                    <a href="#" class="user-menu-item"><i class="fas fa-key"></i> Reset Password</a>
-                    <div class="user-menu-divider"></div>
-                    <a href="../" class="user-menu-item logout"><i class="fas fa-sign-out-alt"></i> Log
-                        Out</a>
-                </div>
-            </div>
-        </aside>
-
-        <!-- Main Content Area -->
-        <main class="lms-main">
-            <div class="dashboard-main">
-
-                <!-- Header -->
-                <div class="dashboard-header">
-                    <h1>Welcome back, Greg.</h1>
-                    <p>Focus on the step in front of you, not the whole staircase.</p>
-                </div>
-
-                <!-- Top Grid: Progress ONLY -->
-                <div class="dashboard-grid" style="grid-template-columns: 1fr;">
-
-                    <!-- Progress Card (Full Width) -->
-                    <div class="dashboard-card progress-card" style="grid-column: span 1;">
-                        <div style="font-size: 3rem; color: var(--color-bg-primary); opacity: 0.2;"><i
-                                class="fas fa-graduation-cap"></i></div>
-                        <div class="progress-info">
-                            <span
-                                style="font-size: 0.8rem; text-transform: uppercase; color: #888; letter-spacing: 1px;">Current
-                                Course</span>
-                            <h2>Men's Divorce Mindset System</h2>
-                            <div class="progress-bar-container">
-                                <div class="progress-bar" style="width: 15%;"></div>
-                            </div>
-                            <div
-                                style="display: flex; justify-content: space-between; align-items: center; font-size: 0.85rem; color: #666; margin-bottom: 1.5rem;">
-                                <span>15% Complete</span>
-                                <span>2/8 Modules</span>
-                            </div>
-                            <a href="course" class="resume-btn">Resume Course <i class="fas fa-arrow-right"
-                                    style="margin-left: 5px;"></i></a>
-                        </div>
-                    </div>
-
-                </div>
-
-                <!-- Section: Other Products / Next Steps -->
-                <div class="section-title">Unlock More</div>
-
-                <div class="products-grid">
-
-                    <div class="product-card" style="text-align: left;">
-                        <div class="product-icon"><i class="fas fa-user-tie"></i></div>
-                        <h4>1-on-1 Coaching</h4>
-                        <p>Accelerate your results with private coaching sessions directly with Greg.</p>
-                        <a href="#" class="btn-outline-small">Learn More</a>
-                    </div>
-
-                    <!-- Community Card Moved Here (Replacing Financial Toolkit) -->
-                    <div class="product-card" style="text-align: left;">
-                        <div class="product-icon"><i class="fas fa-users"></i></div>
-                        <h4>The Brotherhood</h4>
-                        <p>Connect with other men on the same journey. Share wins, get advice, and stay accountable.</p>
-                        <a href="#" class="text-link" style="font-size: 0.9rem;">Join the Discussion <i
-                                class="fas fa-external-link-alt"></i></a>
-                    </div>
-
-                    <div class="product-card" style="text-align: left;">
-                        <div class="product-icon"><i class="fas fa-balance-scale"></i></div>
-                        <h4>Legal Prep Masterclass</h4>
-                        <p>How to prepare for mediation and court without losing your mind.</p>
-                        <a href="#" class="btn-outline-small">Coming Soon</a>
-                    </div>
-
-                </div>
-
-            </div>
-        </main>
-
-    </div>
-
-    <!-- MAIN JS for Interactivity -->
-    <script src="/scripts/main.js" is:inline></script>
-    <script is:inline>
-        // Dashboard specific simple logic (e.g. updating name from localstorage if available)
-        document.addEventListener('DOMContentLoaded', () => {
-            const userProfile = JSON.parse(localStorage.getItem('mpdc_user_profile'));
-            if (userProfile && userProfile.name) {
-                // Update header greeting
-                const headerH1 = document.querySelector('.dashboard-header h1');
-                if (headerH1) headerH1.textContent = `Welcome back, ${userProfile.name.split(' ')[0]}.`;
-            }
-        });
-    </script>
-</body>
-</html>
+</SystemLayout>

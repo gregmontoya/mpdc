@@ -11,9 +11,11 @@
 - [x] **Deployment**: Built site to `dist/` and deployed to root.
 
 ## Pending / Next Steps
-- [ ] **Individual Blog Posts**: The articles in `/learn/*.html` are still static HTML. They work, but do not share the new Header/Footer yet.
-- [ ] **Course Player**: The `/system/course.html` page is still legacy.
-- [ ] **Success Page**: `/system/success.html` is legacy.
+- [x] **Individual Blog Posts**: Migrated all `/learn/*.html` articles to Astro **Content Collections**.
+- [x] **Dynamic Routing**: Set up `[slug].astro` for automatic article generation from Markdown.
+- [x] **Related Content**: Implemented dynamic "Related Articles" in blog layout.
+- [x] **Course Player**: Migrated `/system/course` to Astro with Firebase progress tracking.
+- [x] **Success Page**: Migrated `/system/success` to Astro.
 
 ## How to Edit
 - **Do not edit HTML files in the root.** These are generated!
@@ -22,6 +24,5 @@
 - Edit styles in `src/styles/`.
 
 ## How to Publish
-1. Run `npm run build`
-2. Run `cp -R dist/* .`
-3. Git add, commit, push.
+1. Say **"/publish"** or "Go Live" to Antigravity.
+2. The AI will build and deploy automatically.

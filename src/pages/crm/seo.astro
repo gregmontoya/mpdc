@@ -1,0 +1,458 @@
+---
+// src/pages/crm/seo.astro
+---
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SEO Manager | MPDC CRM</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/crm/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <style>
+        .seo-status {
+            padding: 4px 10px;
+            border-radius: 100px;
+            font-size: 0.75rem;
+            font-weight: 600;
+        }
+        .status-indexed { background: rgba(16, 185, 129, 0.2); color: #10B981; }
+        .status-noindex { background: rgba(239, 68, 68, 0.2); color: #EF4444; }
+        
+        .info-box {
+            background: rgba(99, 102, 241, 0.05);
+            border-left: 4px solid var(--primary-color);
+            padding: 20px;
+            border-radius: 0 12px 12px 0;
+            margin-bottom: 30px;
+        }
+        .info-box h3 { font-size: 1rem; margin-bottom: 8px; color: var(--text-primary); }
+        .info-box p { font-size: 0.85rem; color: var(--text-secondary); line-height: 1.6; }
+        
+        .stat-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 20px;
+            margin-bottom: 30px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">M</div>
+                <h1 class="logo-text">MPDC<span>CRM</span></h1>
+            </div>
+
+            <nav class="main-nav">
+                <a href="/crm" class="nav-item">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/crm/analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
+                <a href="/crm/analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
+                <a href="/crm/clients" class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="/crm/leads" class="nav-item">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Leads</span>
+                </a>
+                <a href="/crm/prospects" class="nav-item">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>IG Prospects</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Deals</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Inbox</span>
+                    <span class="badge">3</span>
+                </a>
+                <div class="pt-4 pb-2 text-xs font-bold text-white/40 uppercase tracking-widest px-4" style="margin-top: 15px; font-size: 10px; letter-spacing: 1px;">Marketing</div>
+                <a href="/crm/seo" class="nav-item active">
+                    <i class="fa-solid fa-search"></i>
+                    <span>SEO Manager</span>
+                </a>
+                <a href="/crm/schema" class="nav-item">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Schema Injector</span>
+                </a>
+                <a href="/crm/cro" class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>CRO Analysis</span>
+                </a>
+                <a href="/crm/cro" class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>CRO Analysis</span>
+                </a>
+            </nav>
+
+            <div class="secondary-nav">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Help Center</span>
+                </a>
+            </div>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Greg+Montoya&background=3b82f6&color=fff" alt="User"
+                    class="avatar">
+                <div class="user-info">
+                    <p class="user-name">Greg Montoya</p>
+                    <p class="user-role">Admin</p>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="page-title">
+                    <h2 style="font-size: 1.5rem; font-weight: 700;">SEO Strategy Manager</h2>
+                    <p style="color: var(--text-secondary); font-size: 0.9rem;">Control which pages Google indexes in real-time.</p>
+                </div>
+                <div class="header-actions">
+                    <div class="search-bar compact" style="width: auto; padding: 0 15px;">
+                        <input type="text" id="custom-url-input" placeholder="Enter custom path (e.g. /my-page)" style="width: 200px;">
+                        <button onclick="addCustomUrl()" class="btn btn-primary btn-sm" style="border-radius: 8px;">Add URL</button>
+                    </div>
+                    <a href="https://search.google.com/search-console" target="_blank" class="btn btn-outline">
+                         <i class="fab fa-google"></i> Google Search Console
+                    </a>
+                </div>
+            </header>
+
+            <!-- Dashboard Content -->
+            <div class="welcome-section" style="margin-bottom: 25px;">
+                <div class="info-box">
+                    <h3><i class="fas fa-info-circle mr-2"></i> Remote Control for Google Indexing</h3>
+                    <p>Use the toggles below to tell Google which pages to show (Indexed) and which to skip (No-Index). 
+                    Changes are applied instantly to the site code, though Google may take a few days to reflect them in search results.</p>
+                </div>
+            </div>
+
+            <!-- Stats Row -->
+            <div class="stat-grid">
+                <div class="stat-card blue">
+                    <div class="stat-icon"><i class="fas fa-eye"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Indexed Pages</span>
+                        <span class="stat-value" id="stat-indexed">--</span>
+                    </div>
+                </div>
+                <div class="stat-card red" style="border-color: rgba(239, 68, 68, 0.3);">
+                    <div class="stat-icon" style="background:rgba(239,68,68,0.1); color:#EF4444;"><i class="fas fa-eye-slash"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">De-Indexed (Private)</span>
+                        <span class="stat-value" id="stat-private">--</span>
+                    </div>
+                </div>
+                <div class="stat-card purple">
+                    <div class="stat-icon"><i class="fas fa-link"></i></div>
+                    <div class="stat-info">
+                        <span class="stat-label">Total URLs Managed</span>
+                        <span class="stat-value" id="stat-total">--</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Table Panel -->
+            <div class="content-panel">
+                <div class="table-responsive">
+                    <table class="data-table">
+                        <thead>
+                            <tr style="cursor: pointer;">
+                                <th onclick="setSort('url')">Page URL <i id="sort-icon-url" class="fas fa-sort-down"></i></th>
+                                <th onclick="setSort('type')">Page Folder <i id="sort-icon-type" class="fas fa-sort text-muted"></i></th>
+                                <th onclick="setSort('status')">Index Status <i id="sort-icon-status" class="fas fa-sort text-muted"></i></th>
+                                <th style="text-align: right; cursor: default;">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="seo-table-body">
+                            <tr>
+                                <td colspan="4" style="text-align:center; padding:40px; color:#64748b;">
+                                    <i class="fa-solid fa-spinner fa-spin"></i> Initializing SEO brain...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Firebase Logic -->
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+
+    <script is:inline>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBSxrgaNnTzRMqo-9C47vZfnTTDRqyyb10",
+            authDomain: "mpdc-website-32dae.firebaseapp.com",
+            projectId: "mpdc-website-32dae",
+            storageBucket: "mpdc-website-32dae.firebasestorage.app",
+            messagingSenderId: "210457065303",
+            appId: "1:210457065303:web:72882e734aa8054d283012"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.firestore();
+        const auth = firebase.auth();
+
+        const CORE_PAGES = [
+            { url: '/', type: 'Home' },
+            { url: '/join', type: 'Sales' },
+            { url: '/join/index-v1', type: 'Sales (Legacy)' },
+            { url: '/clarity-call', type: 'Sales' },
+            { url: '/learn', type: 'Resources' },
+            { url: '/about', type: 'Branding' },
+            { url: '/mission', type: 'Branding' },
+            { url: '/philosophy', type: 'Branding' },
+            { url: '/services', type: 'Branding' },
+            { url: '/contact', type: 'Utility' },
+            
+            // Articles
+            { url: '/learn/how-divorce-changes-a-man', type: 'Article' },
+            { url: '/learn/5-strategies-rebuild-life-divorce', type: 'Article' },
+            { url: '/learn/stop-overthinking-men', type: 'Article' },
+            { url: '/learn/co-parenting-guide-men', type: 'Article' },
+            { url: '/learn/new-social-circle-men', type: 'Article' },
+            { url: '/learn/victim-mentality-men', type: 'Article' },
+            { url: '/learn/managing-anger-men', type: 'Article' },
+            { url: '/learn/boundaries-ex-wife', type: 'Article' },
+            { url: '/learn/when-start-dating', type: 'Article' },
+
+            // Categories
+            { url: '/learn/mindset-mental-health', type: 'Category' },
+            { url: '/learn/divorce-strategy', type: 'Category' },
+            { url: '/learn/relationships-dating', type: 'Category' },
+            { url: '/learn/co-parenting', type: 'Category' },
+            { url: '/learn/financial-recovery', type: 'Category' },
+            
+            // Legal
+            { url: '/legal/terms', type: 'Legal' },
+            { url: '/legal/privacy', type: 'Legal' },
+            { url: '/legal/ethics', type: 'Legal' },
+            { url: '/legal/refunds', type: 'Legal' },
+            { url: '/legal/disclaimers', type: 'Legal' },
+
+            // Hypnosis
+            { url: '/hypnosis', type: 'Hypnosis' },
+            { url: '/hypnosis/index-v1', type: 'Hypnosis (Legacy)' },
+            
+            // App / System
+            { url: '/system/login', type: 'System Core' },
+            { url: '/system/dashboard', type: 'System Core' },
+            { url: '/system/course', type: 'System Core' },
+            { url: '/system/hypnosis', type: 'System Core' },
+            { url: '/system/success', type: 'System Core' },
+            { url: '/system/support', type: 'System Core' },
+            { url: '/admin/dashboard', type: 'Admin' },
+            { url: '/crm', type: 'Admin' }
+        ];
+
+        let pageStatusMap = {};
+        let sitePages = [...CORE_PAGES];
+        let currentSort = { col: 'url', dir: 'asc' }; // asc or desc
+
+        async function init() {
+            auth.onAuthStateChanged(async (user) => {
+                const isAdminAuth = localStorage.getItem('mpdc_admin_auth') === 'true';
+                if (!user && !isAdminAuth) {
+                    const pass = prompt("Enter CRM Access Code:");
+                    if (pass === 'mpdc2026') {
+                        localStorage.setItem('mpdc_admin_auth', 'true');
+                    } else {
+                        window.location.href = '/system/login';
+                        return;
+                    }
+                }
+                await loadSettings();
+                renderTable();
+            });
+        }
+
+        async function loadSettings() {
+            try {
+                const snapshot = await db.collection('seo_settings').get();
+                snapshot.forEach(doc => {
+                    const data = doc.data();
+                    if (data.path) {
+                        pageStatusMap[data.path] = data.noIndex ? 'no-index' : 'indexed';
+                        
+                        // If this path isn't in our CORE_PAGES, it's a manual/custom addition
+                        if (!sitePages.find(p => p.url === data.path)) {
+                            sitePages.push({ url: data.path, type: 'Manual' });
+                        }
+                    }
+                });
+            } catch (e) { console.error(e); }
+        }
+
+        function getStatus(url) {
+            if (pageStatusMap[url]) return pageStatusMap[url];
+            const isPrivate = url.startsWith('/system') || url.startsWith('/admin') || url.startsWith('/crm') || url.startsWith('/legal');
+            return isPrivate ? 'no-index' : 'indexed';
+        }
+
+        function setSort(col) {
+            if (currentSort.col === col) {
+                currentSort.dir = currentSort.dir === 'asc' ? 'desc' : 'asc';
+            } else {
+                currentSort.col = col;
+                currentSort.dir = 'asc';
+            }
+            updateSortIcons();
+            renderTable();
+        }
+
+        function updateSortIcons() {
+            ['url', 'type', 'status'].forEach(col => {
+                const el = document.getElementById(`sort-icon-${col}`);
+                if (currentSort.col === col) {
+                    el.className = `fas fa-sort-${currentSort.dir === 'asc' ? 'up' : 'down'}`;
+                    el.classList.remove('text-muted');
+                } else {
+                    el.className = 'fas fa-sort text-muted';
+                }
+            });
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('seo-table-body');
+            tbody.innerHTML = '';
+            let indexed = 0, deIndexedCount = 0;
+
+            // Sort logic
+            sitePages.sort((a, b) => {
+                let valA = a[currentSort.col];
+                let valB = b[currentSort.col];
+
+                if (currentSort.col === 'status') {
+                    valA = getStatus(a.url);
+                    valB = getStatus(b.url);
+                }
+
+                if (currentSort.dir === 'asc') {
+                    return valA.localeCompare(valB);
+                } else {
+                    return valB.localeCompare(valA);
+                }
+            });
+
+            sitePages.forEach(page => {
+                const status = getStatus(page.url);
+                const isIndexed = status === 'indexed';
+                if (isIndexed) indexed++; else deIndexedCount++;
+
+                const row = `
+                    <tr>
+                        <td>
+                            <div class="user-cell">
+                                <div class="avatar-sm" style="background:#1e293b; color:#94a3b8;"><i class="fas fa-file-code"></i></div>
+                                <div>
+                                    <div class="font-medium">${page.url}</div>
+                                    <div class="text-muted" style="font-size:11px;">https://menspostdivorcecoaching.com${page.url}</div>
+                                </div>
+                            </div>
+                        </td>
+                        <td><span class="status-badge" style="background:#334155; color:#cbd5e1;">${page.type}</span></td>
+                        <td>
+                            <span class="seo-status ${isIndexed ? 'status-indexed' : 'status-noindex'}">
+                                ${isIndexed ? '<i class="fas fa-check-circle"></i> Indexed' : '<i class="fas fa-times-circle"></i> No-Index'}
+                            </span>
+                        </td>
+                        <td style="text-align: right;">
+                            <button onclick="toggleStatus('${page.url}')" class="action-btn" style="color:var(--primary-color); font-weight:600; font-size:12px; background:rgba(99,102,241,0.1); padding:6px 12px; border-radius:8px;">
+                                ${isIndexed ? 'HIDE FROM GOOGLE' : 'RESTORE INDEXING'}
+                            </button>
+                        </td>
+                    </tr>
+                `;
+                tbody.insertAdjacentHTML('beforeend', row);
+            });
+
+            document.getElementById('stat-indexed').innerText = indexed;
+            document.getElementById('stat-private').innerText = deIndexedCount;
+            document.getElementById('stat-total').innerText = sitePages.length;
+        }
+
+        async function toggleStatus(url) {
+            const current = getStatus(url);
+            const next = current === 'indexed' ? 'no-index' : 'indexed';
+            pageStatusMap[url] = next;
+            
+            // Generate doc ID
+            const docId = url === '/' ? 'home' : url.replace(/\//g, '_').replace(/^_/, '');
+            
+            await db.collection('seo_settings').doc(docId).set({
+                path: url,
+                noIndex: next === 'no-index',
+                updatedAt: firebase.firestore.FieldValue.serverTimestamp()
+            }, { merge: true });
+
+            renderTable();
+        }
+
+        async function addCustomUrl() {
+            const input = document.getElementById('custom-url-input');
+            let path = input.value.trim();
+            if (!path) return;
+            if (!path.startsWith('/')) path = '/' + path;
+
+            if (sitePages.find(p => p.url === path)) {
+                alert("URL already exists in list.");
+                return;
+            }
+
+            // Default custom URLs to indexed unless it's a system path
+            sitePages.push({ url: path, type: 'Manual' });
+            input.value = '';
+            
+            // Force a save to Firestore so it persists
+            await toggleStatus(path); 
+        }
+
+        function logout() {
+            localStorage.removeItem('mpdc_admin_auth');
+            window.location.href = '/system/login';
+        }
+
+        init();
+    </script>
+
+</body>
+
+</html>

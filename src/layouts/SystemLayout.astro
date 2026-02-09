@@ -1,0 +1,350 @@
+---
+import '../styles/style.css';
+import '../styles/system.css';
+import '../styles/mobile.css';
+import Chatbot from '../components/Chatbot.astro';
+
+interface Props {
+    title: string;
+    activePage?: 'dashboard' | 'course' | 'community';
+}
+
+const { title, activePage = 'dashboard' } = Astro.props;
+
+const COURSE_MODULES = [
+    { id: 0, title: "INTRODUCTION", subtitle: "Welcome" },
+    { id: 1, title: "MODULE 1", subtitle: "A Memory in Your Future" },
+    { id: 2, title: "MODULE 2", subtitle: "Resolving Your Past" },
+    { id: 3, title: "MODULE 3", subtitle: "Rebuilding Your Reality Chain" },
+    { id: 4, title: "MODULE 4", subtitle: "Designing Your Ideal Future" },
+    { id: 5, title: "MODULE 5", subtitle: "Scarcity to Abundance" }
+];
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{title} | Men's Divorce Mindset System</title>
+    
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Video Player Assets -->
+    <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+    <script is:inline src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+    
+    <!-- Firebase SDKs -->
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-T26PKTMJB1');
+    </script>
+</head>
+<body class="sys-body-override">
+    <div class="sys-mobile-toggle" id="sys-mobile-toggle">
+        <i class="fas fa-bars"></i>
+    </div>
+
+    <div class="sys-container">
+        <!-- Sidebar Navigation -->
+        <aside class="sys-sidebar" id="sys-sidebar">
+            <div class="sys-logo-area">
+                <a href="/system/dashboard" class="sys-logo-link" style="color: inherit; text-decoration: none;">
+                    <span class="sys-logo-main">THE MEN'S DIVORCE<br><span class="sys-logo-accent">MINDSET SYSTEM</span></span>
+                </a>
+            </div>
+
+            <nav class="sys-nav">
+                <div class="sys-nav-group">
+                    <div class="sys-nav-label">General</div>
+                    <div class="sys-nav-item">
+                        <a href="/system/dashboard" class={`sys-nav-link ${activePage === 'dashboard' ? 'active' : ''}`}>
+                            <span class="sys-nav-icon"><i class="fas fa-home"></i></span>
+                            <span>Home</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sys-nav-group">
+                    <div class="sys-nav-label">Curriculum</div>
+                    
+                    <div class="sys-nav-item">
+                        <div class={`sys-nav-link sys-dropdown-trigger ${activePage === 'course' ? 'active' : ''}`} id="course-trigger" style="display: flex; align-items: center; justify-content: space-between;">
+                            <div style="display:flex; align-items:center; gap:1rem;">
+                                <span class="sys-nav-icon"><i class="fas fa-graduation-cap"></i></span>
+                                <span>Training Area</span>
+                            </div>
+                            <i class="fas fa-chevron-down sys-chevron"></i>
+                        </div>
+
+                        <div class={`sys-dropdown-menu ${activePage === 'course' ? 'active' : ''}`} id="course-menu">
+                            {COURSE_MODULES.map((m, index) => (
+                                <a href={`/system/course?id=${m.id}`} class={`sys-submenu-link module-link-${m.id}`} data-module-id={m.id}>
+                                    <span class="sys-submenu-eyebrow" style="display: flex; align-items: center; justify-content: space-between;">
+                                        {m.title}
+                                        <i class="fas fa-check-circle completion-icon" style="color: #22c55e; display: none;"></i>
+                                        <i class="fas fa-lock lock-icon" style="color: #94a3b8; display: none;"></i>
+                                    </span>
+                                    <span>{m.subtitle}</span>
+                                </a>
+                            ))}
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sys-nav-group">
+                    <div class="sys-nav-label">Community</div>
+                    <div class="sys-nav-item">
+                        <a href="https://www.skool.com/the-post-divorce-advantage-8284" target="_blank" class={`sys-nav-link ${activePage === 'community' ? 'active' : ''}`}>
+                            <span class="sys-nav-icon"><i class="fas fa-users"></i></span>
+                            <span>The Post Divorce Advantage</span>
+                        </a>
+                    </div>
+                </div>
+
+                <div class="sys-nav-group">
+                    <div class="sys-nav-label">Support</div>
+                    <div class="sys-nav-item">
+                        <a href="/system/support" class="sys-nav-link">
+                            <span class="sys-nav-icon"><i class="fas fa-headset"></i></span>
+                            <span>Get Support</span>
+                        </a>
+                    </div>
+                    <div class="sys-nav-item">
+                        <a href="/clarity-call" target="_blank" class="sys-nav-link">
+                            <span class="sys-nav-icon"><i class="fas fa-calendar-alt"></i></span>
+                            <span>1-on-1 Coaching</span>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- PREMIUM ADD-ONS (Conditional) -->
+                <div class="sys-nav-group" id="premium-group" style="display: none;">
+                    <div class="sys-nav-label" style="color: #C4613A;">Premium Add-ons</div>
+                    <div class="sys-nav-item">
+                        <a href="/system/hypnosis" class={`sys-nav-link ${activePage === 'hypnosis' ? 'active' : ''}`}>
+                            <span class="sys-nav-icon" style="color: #C4613A;"><i class="fas fa-star"></i></span>
+                            <span style="font-weight: 700;">Hypnosis Bundle</span>
+                        </a>
+                    </div>
+                </div>
+            </nav>
+
+            <div class="sys-user-box">
+                <div class="sys-user-trigger" id="user-trigger">
+                    <div class="sys-avatar" id="user-avatar-text">GM</div>
+                    <div class="sys-user-info">
+                        <div class="sys-user-name" id="user-display-name">Member</div>
+                        <div class="sys-user-plan">Platinum Access</div>
+                    </div>
+                    <i class="fas fa-caret-up" style="font-size: 0.8rem; opacity: 0.3;"></i>
+                </div>
+
+                <div class="sys-user-popup" id="user-popup">
+                    <button class="sys-popup-item logout-trigger" style="color: #ef4444 !important;">
+                        <i class="fas fa-sign-out-alt"></i> Log Out
+                    </button>
+                </div>
+            </div>
+
+        </aside>
+
+        <!-- MAIN CONTENT AREA -->
+        <main class="sys-main">
+            <slot />
+        </main>
+    </div>
+    </div>
+    <!-- Chatbot deactivated for backend system -->
+
+    <!-- Firebase SDKs -->
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
+    
+    <script is:inline>
+        (function() {
+            // Firebase Config
+            const firebaseConfig = {
+                apiKey: "AIzaSyBSxrgaNnTzRMqo-9C47vZfnTTDRqyyb10",
+                authDomain: "mpdc-website-32dae.firebaseapp.com",
+                projectId: "mpdc-website-32dae",
+                storageBucket: "mpdc-website-32dae.firebasestorage.app",
+                messagingSenderId: "210457065303",
+                appId: "1:210457065303:web:72882e734aa8054d283012"
+            };
+
+            // Initialize Firebase
+            firebase.initializeApp(firebaseConfig);
+            const auth = firebase.auth();
+
+            async function updateCourseUI() {
+                const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                const bypass = isDev && localStorage.getItem('firebase_dev_bypass') === 'true';
+                const user = auth.currentUser || (bypass ? { uid: 'dev-user' } : null);
+                
+                if (!user) return;
+
+                // Simple localStorage-based progress for now, can sync to Firestore later
+                const progressKey = `mpdc_progress_${user.uid || user.id}`;
+                const completed = JSON.parse(localStorage.getItem(progressKey) || '[]');
+                
+                const moduleLinks = document.querySelectorAll('.sys-submenu-link');
+                moduleLinks.forEach((link, index) => {
+                    const mid = parseInt(link.getAttribute('data-module-id'));
+                    const checkIcon = link.querySelector('.completion-icon');
+                    if (checkIcon) checkIcon.id = `completion-icon-${mid}`;
+                    const lockIcon = link.querySelector('.lock-icon');
+                    
+                    // Show checkmark if completed
+                    if (completed.includes(mid)) {
+                        if (checkIcon) checkIcon.style.display = 'block';
+                    } else {
+                        if (checkIcon) checkIcon.style.display = 'none';
+                    }
+
+                    // Remove locking logic entirely
+                    link.classList.remove('locked');
+                    if (lockIcon) lockIcon.style.display = 'none';
+                    link.style.opacity = '1';
+                    link.style.pointerEvents = 'auto';
+                });
+            }
+
+            // Expose globally for course page to trigger
+            window.refreshCourseUI = updateCourseUI;
+
+            function initAuth() {
+                // Hide content initially
+                const container = document.querySelector('.sys-container');
+                if (container) container.style.opacity = '0';
+
+                auth.onAuthStateChanged(async (user) => {
+                    const isDev = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1';
+                    const isBypass = isDev && localStorage.getItem('firebase_dev_bypass') === 'true';
+
+                    if (!user && !isBypass) {
+                        window.location.href = '/system/login';
+                        return;
+                    }
+
+                    // Reveal content
+                    if (container) {
+                        container.style.transition = 'opacity 0.5s ease';
+                        container.style.opacity = '1';
+                    }
+
+                    let accessLevel = 'student';
+
+                    if (user) {
+                        console.log('DEBUG: Auth User:', user.email, user.uid);
+                        const nameEl = document.getElementById('user-display-name');
+                        const avatarEl = document.getElementById('user-avatar-text');
+                        
+                        if (nameEl) nameEl.textContent = user.displayName || user.email.split('@')[0];
+                        if (avatarEl) {
+                            const name = user.displayName || user.email;
+                            avatarEl.textContent = name.substring(0, 2).toUpperCase();
+                        }
+
+                        // Fetch Access Level from Firestore
+                        try {
+                            const db = firebase.firestore();
+                            const doc = await db.collection('profiles').doc(user.uid).get();
+                            if (doc.exists) {
+                                accessLevel = doc.data().access_level || 'student';
+                                if (doc.data().name && nameEl) nameEl.textContent = doc.data().name;
+                            } else {
+                                // Fallback if no profile is found yet
+                                console.log('Profile doc not found for UID:', user.uid);
+                            }
+                        } catch (e) {
+                            console.log('Error fetching profile:', e);
+                        }
+
+                        // MANUAL OVERRIDE: Force bundle for Alex due to persistent issue
+                        if (user.email === 'amorganatm@gmail.com') {
+                            console.log('Override: Granting Bundle Access to Alex');
+                            accessLevel = 'student_bundle';
+                        }
+                    } else if (isBypass) {
+                        const nameEl = document.getElementById('user-display-name');
+                        if (nameEl) nameEl.textContent = "Developer (Bypass)";
+                        accessLevel = 'student_bundle'; // Show everything for dev
+                    }
+
+                    // Show/Hide Premium Bundle
+                    const premiumGroup = document.getElementById('premium-group');
+                    const hypnosisCard = document.getElementById('hypnosis-card');
+                    const isPremium = accessLevel === 'student_bundle' || accessLevel === 'student_vip_bundle';
+                    
+                    if (premiumGroup) premiumGroup.style.display = isPremium ? 'block' : 'none';
+                    if (hypnosisCard) hypnosisCard.style.display = isPremium ? 'block' : 'none';
+
+                    updateCourseUI();
+                });
+            }
+
+            initAuth();
+
+            // DROPDOWN LOGIC
+            const dTrigger = document.getElementById('course-trigger');
+            const dMenu = document.getElementById('course-menu');
+            if (dTrigger && dMenu) {
+                const isCourseActive = window.location.pathname.includes('/system/course');
+                if (isCourseActive) {
+                    dTrigger.classList.add('active');
+                    dMenu.classList.add('active');
+                }
+
+                dTrigger.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    dTrigger.classList.toggle('active');
+                    dMenu.classList.toggle('active');
+                });
+            }
+
+            // USER POPUP
+            const uTrigger = document.getElementById('user-trigger');
+            const uPopup = document.getElementById('user-popup');
+            if (uTrigger && uPopup) {
+                uTrigger.addEventListener('click', (e) => {
+                    e.stopPropagation();
+                    uPopup.classList.toggle('active');
+                });
+                document.addEventListener('click', () => uPopup.classList.remove('active'));
+            }
+
+            // MOBILE TOGGLE
+            const mToggle = document.getElementById('sys-mobile-toggle');
+            const sSidebar = document.getElementById('sys-sidebar');
+            if(mToggle && sSidebar) {
+                mToggle.addEventListener('click', () => {
+                    sSidebar.classList.toggle('open');
+                });
+            }
+
+            // LOGOUT
+            const logoutBtns = document.querySelectorAll('.logout-trigger');
+            logoutBtns.forEach(btn => {
+                btn.addEventListener('click', async (e) => {
+                    e.preventDefault();
+                    localStorage.removeItem('firebase_dev_bypass');
+                    await auth.signOut();
+                    window.location.href = '/system/login';
+                });
+            });
+        })();
+    </script>
+</body>
+</html>

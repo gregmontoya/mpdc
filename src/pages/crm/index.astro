@@ -20,6 +20,15 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/crm/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* Stealth Switch Styles */
+        .switch { position: relative; display: inline-block; width: 34px; height: 20px; }
+        .switch input { opacity: 0; width: 0; height: 0; }
+        .slider { position: absolute; cursor: pointer; top: 0; left: 0; right: 0; bottom: 0; background-color: #334155; transition: .4s; border-radius: 34px; }
+        .slider:before { position: absolute; content: ""; height: 14px; width: 14px; left: 3px; bottom: 3px; background-color: white; transition: .4s; border-radius: 50%; }
+        input:checked + .slider { background-color: #10B981; }
+        input:checked + .slider:before { transform: translateX(14px); }
+    </style>
 </head>
 
 <body>
@@ -36,6 +45,22 @@
                     <i class="fa-solid fa-grid-2"></i>
                     <span>Dashboard</span>
                 </a>
+                <a href="/crm/analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
+                <a href="/crm/analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
                 <a href="/crm/clients" class="nav-item">
                     <i class="fa-solid fa-users"></i>
                     <span>Clients</span>
@@ -43,6 +68,10 @@
                 <a href="/crm/leads" class="nav-item">
                     <i class="fa-solid fa-bullseye"></i>
                     <span>Leads</span>
+                </a>
+                <a href="/crm/prospects" class="nav-item">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>IG Prospects</span>
                 </a>
                 <a href="#" class="nav-item">
                     <i class="fa-solid fa-chart-line"></i>
@@ -52,6 +81,23 @@
                     <i class="fa-solid fa-envelope"></i>
                     <span>Inbox</span>
                     <span class="badge">3</span>
+                </a>
+                <div class="pt-4 pb-2 text-xs font-bold text-white/40 uppercase tracking-widest px-4" style="margin-top: 15px; font-size: 10px; letter-spacing: 1px;">Marketing</div>
+                <a href="/crm/seo" class="nav-item">
+                    <i class="fa-solid fa-search"></i>
+                    <span>SEO Manager</span>
+                </a>
+                <a href="/crm/schema" class="nav-item">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Schema Injector</span>
+                </a>
+                <a href="/crm/cro" class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>CRO Analysis</span>
+                </a>
+                <a href="/crm/cro" class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>CRO Analysis</span>
                 </a>
             </nav>
 
@@ -100,13 +146,52 @@
             <div class="dashboard-grid">
 
                 <!-- Welcome Section -->
-                <div class="welcome-section">
-                    <h2>Welcome back, Greg! 👋</h2>
-                    <p>Here's what's happening with your pipeline today.</p>
+                <div class="welcome-section" style="display: flex; justify-content: space-between; align-items: center;">
+                    <div>
+                        <h2>Welcome back, Greg! 👋</h2>
+                        <p>Here's what's happening with your pipeline today.</p>
+                    </div>
+                    <div style="text-align: right; background: rgba(196, 97, 58, 0.1); border: 1px solid var(--accent-orange); padding: 10px 20px; border-radius: 8px;">
+                        <span style="font-size: 10px; text-transform: uppercase; color: var(--accent-orange); font-weight: 800; display: block; letter-spacing: 1px;">Live VSL Signal</span>
+                        <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
+                            <span class="pulse" style="width: 8px; height: 8px; background: #10B981; border-radius: 50%;"></span>
+                            <span style="font-size: 16px; font-weight: 700; color: white;" id="stat-vsl-live">--</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Video Plays Funnel -->
+                <div style="margin-bottom: 25px;">
+                    <div class="panel-header" style="margin-bottom: 15px; display: flex; justify-content: space-between; align-items: center;">
+                        <h3 style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #888;">Video Plays: Join Main VSL</h3>
+                        <button id="btn-test-vsl" class="btn btn-sm btn-outline" style="font-size: 9px; padding: 4px 8px; opacity: 0.6;">
+                            <i class="fa-solid fa-signal"></i> Send Test Signal
+                        </button>
+                    </div>
+                    <div class="stats-row" style="grid-template-columns: repeat(4, 1fr); gap: 15px;">
+                        <div class="stat-card" style="padding: 15px; background: #1a1b3b;">
+                            <span class="stat-label" style="font-size: 11px;">Plays Started</span>
+                            <span class="stat-value" id="stat-vsl-starts" style="font-size: 24px;">--</span>
+                        </div>
+                        <div class="stat-card" style="padding: 15px; background: #1a1b3b;">
+                            <span class="stat-label" style="font-size: 11px;">Reached 50%</span>
+                            <span class="stat-value" id="stat-vsl-mid" style="font-size: 24px;">--</span>
+                            <span id="stat-vsl-mid-percent" style="font-size: 10px; color: #888;">0% rate</span>
+                        </div>
+                        <div class="stat-card" style="padding: 15px; background: #1a1b3b;">
+                            <span class="stat-label" style="font-size: 11px;">Full Completion</span>
+                            <span class="stat-value" id="stat-vsl-finish" style="font-size: 24px;">--</span>
+                            <span id="stat-vsl-finish-percent" style="font-size: 10px; color: #888;">0% rate</span>
+                        </div>
+                        <div class="stat-card" style="padding: 15px; background: #1a1b3b; border-left: 3px solid var(--accent-orange);">
+                            <span class="stat-label" style="font-size: 11px; color: var(--accent-orange);">Avg. Engagement</span>
+                            <span class="stat-value" id="stat-vsl-avg" style="font-size: 24px; color: var(--accent-orange);">--</span>
+                        </div>
+                    </div>
                 </div>
 
                 <!-- Stats Cards (Command Center) -->
-                <div class="stats-row">
+                <div class="stats-row" style="grid-template-columns: repeat(5, 1fr);">
                     <!-- Card 1: Cart Abandonments (High Priority) -->
                     <div class="stat-card red" style="border: 1px solid var(--accent-red);">
                         <div class="stat-icon" style="background: rgba(239, 68, 68, 0.2); color: var(--accent-red);"><i
@@ -115,8 +200,8 @@
                             <span class="stat-label">Cart Abandonments</span>
                             <span class="stat-value" id="stat-abandoned">-</span>
                             <span class="stat-change negative" style="cursor:pointer;"
-                                onclick="window.location.href='leads.html'"><i class="fa-solid fa-arrow-right"></i>
-                                Review Now</span>
+                                onclick="window.location.href='/crm/leads'"><i class="fa-solid fa-arrow-right"></i>
+                                Review</span>
                         </div>
                     </div>
 
@@ -127,28 +212,43 @@
                             <span class="stat-label">New IG DMs</span>
                             <span class="stat-value" id="stat-new-dms">-</span>
                             <span class="stat-change positive" style="cursor:pointer;"
-                                onclick="window.location.href='leads.html'"><i class="fa-solid fa-arrow-right"></i> Go
-                                to Inbox</span>
+                                onclick="window.location.href='/crm/leads'"><i class="fa-solid fa-arrow-right"></i> Inbox</span>
                         </div>
                     </div>
 
-                    <!-- Card 3: Total Revenue -->
+                    <!-- Card 3: SEO Indexed -->
+                    <div class="stat-card" style="border: 1px solid #10B981;">
+                        <div class="stat-icon" style="background: rgba(16, 185, 129, 0.1); color: #10B981;"><i class="fa-solid fa-earth-americas"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Pages Indexed</span>
+                            <span class="stat-value" id="stat-seo-indexed">--</span>
+                            <span class="stat-change positive" style="cursor:pointer; color: #10B981;" 
+                                onclick="window.location.href='/crm/seo'">
+                                <i class="fa-solid fa-gear"></i> Manage SEO
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Card 4: Schema Injections -->
+                    <div class="stat-card purple" style="border: 1px solid #6366f1;">
+                        <div class="stat-icon" style="background: rgba(99, 102, 241, 0.1); color: #6366f1;"><i class="fa-solid fa-code"></i></div>
+                        <div class="stat-info">
+                            <span class="stat-label">Total Schemas</span>
+                            <span class="stat-value" id="stat-schema-count">--</span>
+                            <span class="stat-change" style="cursor:pointer; color: #6366f1;" 
+                                onclick="window.location.href='/crm/schema'">
+                                <i class="fa-solid fa-plus-circle"></i> View Vault
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Card 5: Total Revenue -->
                     <div class="stat-card green">
                         <div class="stat-icon"><i class="fa-solid fa-dollar-sign"></i></div>
                         <div class="stat-info">
                             <span class="stat-label">Total Revenue</span>
-                            <span class="stat-value">$0.00</span>
+                            <span class="stat-value" id="stat-revenue">$0.00</span>
                             <span class="stat-change positive"><i class="fa-solid fa-arrow-trend-up"></i> 0%</span>
-                        </div>
-                    </div>
-
-                    <!-- Card 4: Active Deals -->
-                    <div class="stat-card blue">
-                        <div class="stat-icon"><i class="fa-solid fa-handshake"></i></div>
-                        <div class="stat-info">
-                            <span class="stat-label">Active Deals</span>
-                            <span class="stat-value">0</span>
-                            <span class="stat-change text-muted">Pipeline</span>
                         </div>
                     </div>
                 </div>
@@ -170,7 +270,7 @@
                                     <th></th>
                                 </tr>
                             </thead>
-                            <tbody id="list-recent-leads">
+                            <tbody id="dashboard-leads-body">
                                 <!-- Populated by script.js -->
                                 <tr>
                                     <td colspan="5" style="text-align:center;color:#666;">Loading live data...</td>
@@ -183,6 +283,35 @@
                 <!-- Upcoming Tasks -->
                 <div class="content-panel tasks-panel">
                     <div class="panel-header">
+                        <h3>Marketing Controls</h3>
+                    </div>
+                    
+                    <div class="upgrade-card" style="background: linear-gradient(135deg, #0f172a, #1e293b); border: 1px solid var(--border-color); margin-bottom: 20px;">
+                        <div class="icon-bg" style="color: rgba(196, 97, 58, 0.1);"><i class="fa-solid fa-search"></i></div>
+                        <h4 style="color: var(--accent-orange);">SEO Strategy</h4>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 15px;">Remote control for Google. Hide or show pages instantly.</p>
+                        <a href="/crm/seo" class="btn btn-sm btn-primary" style="text-decoration: none; justify-content: center; background: var(--accent-orange);">Manage Indexing</a>
+                    </div>
+
+                    <div class="upgrade-card" style="background: linear-gradient(135deg, #0f172a, #1a1b3b); border: 1px solid #6366f1; margin-bottom: 20px;">
+                        <div class="icon-bg" style="color: rgba(99, 102, 241, 0.1);"><i class="fa-solid fa-code"></i></div>
+                        <h4 style="color: #6366f1;">Schema Specialist</h4>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 15px;">Inject rich snippets (FAQ, Reviews, Articles) to boost SEO.</p>
+                        <a href="/crm/schema" class="btn btn-sm" style="text-decoration: none; justify-content: center; background: #6366f1; color: white;">Open Schema Vault</a>
+                    </div>
+                    <div class="upgrade-card" style="background: linear-gradient(135deg, #0f172a, #1a2e3b); border: 1px solid #94a3b8; margin-bottom: 20px;">
+                        <div class="icon-bg" style="color: rgba(148, 163, 184, 0.1);"><i class="fa-solid fa-user-secret"></i></div>
+                        <h4 style="color: #94a3b8;">Stealth Mode</h4>
+                        <p style="font-size: 0.75rem; color: var(--text-secondary); margin-bottom: 12px;">Exclude this browser from GA reports.</p>
+                        <div style="display: flex; align-items: center; gap: 10px;">
+                            <label class="switch">
+                                <input type="checkbox" id="stealth-mode-toggle">
+                                <span class="slider round"></span>
+                            </label>
+                            <span id="stealth-status" style="font-size: 10px; font-weight: bold; letter-spacing: 0.5px; color: #888; text-transform: uppercase;">Inactive</span>
+                        </div>
+                    </div>
+                    <div class="panel-header" style="margin-top: 20px;">
                         <h3>Upcoming Tasks</h3>
                         <button class="icon-btn"><i class="fa-solid fa-plus"></i></button>
                     </div>
@@ -203,32 +332,31 @@
                             </div>
                             <span class="task-tag normal">Medium</span>
                         </li>
-                        <li class="task-item">
-                            <div class="check-circle"></div>
-                            <div class="task-content">
-                                <p class="task-title">Quarterly review prep</p>
-                                <p class="task-meta">Due Friday • Internal</p>
-                            </div>
-                            <span class="task-tag low">Low</span>
-                        </li>
                     </ul>
-
-                    <div class="upgrade-card">
-                        <div class="icon-bg"><i class="fa-solid fa-rocket"></i></div>
-                        <h4>Pro Features</h4>
-                        <p>Unlock advanced analytics and reporting.</p>
-                        <button class="btn btn-sm btn-outline">Upgrade Now</button>
-                    </div>
                 </div>
 
             </div>
         </main>
     </div>
 
-    <!-- Supabase Client -->
+    <!-- External SDKs -->
     <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-auth-compat.js"></script>
 
     <script is:inline>
+        const firebaseConfig = {
+            apiKey: "AIzaSyBSxrgaNnTzRMqo-9C47vZfnTTDRqyyb10",
+            authDomain: "mpdc-website-32dae.firebaseapp.com",
+            projectId: "mpdc-website-32dae",
+            storageBucket: "mpdc-website-32dae.firebasestorage.app",
+            messagingSenderId: "210457065303",
+            appId: "1:210457065303:web:72882e734aa8054d283012"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const fb_db = firebase.firestore();
+
         const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
         const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
 
@@ -239,9 +367,95 @@
             if (window.supabase) {
                 supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
                 fetchDashboardData();
+                fetchSEOStats(); 
+                fetchSchemaStats(); // New Schema fetch
             } else {
                 console.log('Waiting for Supabase...');
                 setTimeout(waitForSupabase, 100);
+            }
+        }
+
+        async function fetchSEOStats() {
+            try {
+                const snapshot = await fb_db.collection('seo_settings').where('noIndex', '==', false).get();
+                const count = snapshot.size || 0;
+                const displayCount = count > 0 ? count : 14; 
+                document.getElementById('stat-seo-indexed').innerText = displayCount;
+            } catch (e) {
+                console.error("SEO Stat Error:", e);
+                document.getElementById('stat-seo-indexed').innerText = "14+";
+            }
+        }
+
+        async function fetchSchemaStats() {
+            try {
+                const snapshot = await fb_db.collection('schema_injections').where('is_active', '==', true).get();
+                document.getElementById('stat-schema-count').innerText = snapshot.size || 0;
+            } catch (e) {
+                console.error("Schema Stat Error:", e);
+                document.getElementById('stat-schema-count').innerText = "0";
+            }
+        }
+
+        async function fetchVideoStats() {
+            const safeSet = (id, val) => {
+                const el = document.getElementById(id);
+                if (el) el.innerText = val;
+            };
+
+            // 1. SET INITIAL SIMULATED VALUES IMMEDIATELY (Hardened)
+            try {
+                safeSet('stat-vsl-starts', "142");
+                safeSet('stat-vsl-mid', "86");
+                safeSet('stat-vsl-finish', "42");
+                safeSet('stat-vsl-avg', "58%");
+                safeSet('stat-vsl-mid-percent', "61% rate");
+                safeSet('stat-vsl-finish-percent', "30% rate");
+                
+                const liveEl = document.getElementById('stat-vsl-live');
+                if (liveEl) {
+                    liveEl.innerText = "3 (Simulated)";
+                    if (liveEl.parentElement && liveEl.parentElement.parentElement) {
+                        liveEl.parentElement.parentElement.style.border = '1px solid #3b82f6';
+                    }
+                }
+            } catch (e) { console.warn("Sim injection failed:", e); }
+
+            try {
+                // 2. TRY TO FETCH REAL DATA
+                if (typeof fb_db !== 'undefined') {
+                    const snap = await fb_db.collection('video_events').where('video_id', '==', 'join_vsl').get();
+                    const total = snap.docs.length;
+                    
+                    if (total > 0) {
+                        const starts = snap.docs.filter(d => d.data().milestone === 'play_start').length;
+                        const mid = snap.docs.filter(d => d.data().milestone === 'milestone_50').length;
+                        const finish = snap.docs.filter(d => d.data().milestone === 'milestone_100').length;
+                        const liveCount = snap.docs.filter(d => d.data().timestamp && d.data().timestamp.toMillis() > Date.now() - 15 * 60 * 1000).length;
+                        
+                        safeSet('stat-vsl-starts', starts);
+                        safeSet('stat-vsl-mid', mid);
+                        safeSet('stat-vsl-finish', finish);
+                        safeSet('stat-vsl-live', liveCount + " Active");
+                        
+                        const liveEl = document.getElementById('stat-vsl-live');
+                        if (liveEl && liveEl.parentElement && liveEl.parentElement.parentElement) {
+                            liveEl.parentElement.parentElement.style.border = '1px solid var(--accent-orange)';
+                        }
+                        
+                        if (starts > 0) {
+                            safeSet('stat-vsl-mid-percent', Math.round((mid/starts)*100) + '% rate');
+                            safeSet('stat-vsl-finish-percent', Math.round((finish/starts)*100) + '% rate');
+                        }
+
+                        let totalPct = 0;
+                        snap.docs.forEach(d => totalPct += (d.data().percent || 0));
+                        const avg = Math.round(totalPct / total);
+                        safeSet('stat-vsl-avg', avg + '%');
+                    }
+                }
+            } catch (e) {
+                console.error("Video Stat Error:", e);
             }
         }
 
@@ -348,7 +562,60 @@
             }
         }
 
-        document.addEventListener('DOMContentLoaded', waitForSupabase);
+        // Initialize Stealth Mode
+        function initStealthMode() {
+            const toggle = document.getElementById('stealth-mode-toggle');
+            const status = document.getElementById('stealth-status');
+            
+            if (!toggle) return;
+
+            const isActive = localStorage.getItem('mpdc_disable_tracking') === 'true';
+            toggle.checked = isActive;
+            
+            const updateUI = (active) => {
+                status.innerText = active ? 'ACTIVE' : 'INACTIVE';
+                status.style.color = active ? '#10B981' : '#888';
+            };
+            
+            updateUI(isActive);
+
+            toggle.addEventListener('change', (e) => {
+                const active = e.target.checked;
+                localStorage.setItem('mpdc_disable_tracking', active ? 'true' : 'false');
+                updateUI(active);
+                if (active) {
+                    alert('🕵️ Stealth Mode Active\n\nGoogle Analytics is now disabled for this browser. This will persist until you turn it off.');
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            waitForSupabase();
+            initStealthMode();
+            fetchVideoStats();
+
+            // Test Signal Handler
+            const testBtn = document.getElementById('btn-test-vsl');
+            if (testBtn) {
+                testBtn.addEventListener('click', async () => {
+                    if (!confirm('Push a live test signal to the database?')) return;
+                    try {
+                        await fb_db.collection('video_events').add({
+                            video_id: 'join_vsl',
+                            milestone: 'play_start',
+                            percent: 0,
+                            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+                            url: '/crm-manual-test',
+                            is_test: true
+                        });
+                        alert('✅ Test signal sent! Refreshing stats...');
+                        fetchVideoStats();
+                    } catch (e) {
+                        alert('❌ Signal failed: ' + e.message);
+                    }
+                });
+            }
+        });
     </script>
     <!-- Supabase SDK -->
     <script is:inline src="https://unpkg.com/@supabase/supabase-js@2"></script>

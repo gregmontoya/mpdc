@@ -1,0 +1,122 @@
+import { getCollection } from 'astro:content';
+import Layout from './Layout.astro';
+import { Image } from 'astro:assets';
+import alexMorganImg from '../assets/images/alex-morgan.png';
+import '../styles/blog-styles.css';
+
+const { frontmatter, slug } = Astro.props;
+const { title, description, publishDate, author = "Alex Morgan", category, categoryUrl, readTime, toc = [] } = frontmatter;
+
+// Fetch related articles
+const allPosts = await getCollection('blog');
+const relatedPosts = allPosts
+    .filter(post => post.slug !== slug)
+    .sort(() => Math.random() - 0.5)
+    .slice(0, 3);
+---
+
+<Layout title={`${title} | Men's Post-Divorce Coaching`} bodyClass="blog-page">
+    <meta slot="head" content={description} name="description" />
+
+    <article class="blog-article">
+        <header class="article-header split-hero">
+            <div class="header-container">
+                <div class="hero-content">
+                    <div class="breadcrumb">
+                        <a href="/learn">Resources</a> / <a href={categoryUrl}>{category}</a>
+                    </div>
+                    <h1>{title}</h1>
+                    <p class="article-subtitle">{description}</p>
+
+                    <div class="article-meta">
+                        <div class="author-info">
+                            <Image src={alexMorganImg} alt="Alex Morgan" class="author-avatar-small" style="width: 40px; height: 40px; border-radius: 50%; margin-right: 12px; border: 2px solid var(--color-accent);" />
+                            <div>
+                                <p class="author-name">By {author}</p>
+                                <p class="publish-date">{publishDate} • {readTime}</p>
+                            </div>
+                        </div>
+                        <div class="share-container">
+                            <button class="share-btn">Share</button>
+                        </div>
+                    </div>
+                </div>
+                <div class="hero-image-side">
+                    <img src={frontmatter.image || "/images/blog/rebuild-life.png"} alt={title} />
+                </div>
+            </div>
+        </header>
+
+        <div class="three-column-layout">
+            <!-- Left Sidebar: Table of Contents -->
+            <aside class="left-sidebar">
+                <div class="toc-sticky">
+                    <h3>Table of Contents</h3>
+                    <div id="toc-container">
+                        {toc.length > 0 ? (
+                            <ul>
+                                {toc.map((item) => (
+                                    <li><a href={item.url}>{item.text}</a></li>
+                                ))}
+                            </ul>
+                        ) : (
+                            <p style="font-size: 0.8rem; color: var(--color-text-muted);">Guide contents below</p>
+                        )}
+                    </div>
+                </div>
+            </aside>
+
+            <!-- Center Column: Article Content -->
+            <div class="article-content">
+                <slot />
+
+                <div class="final-thoughts-spacer" style="margin-top: 4rem;"></div>
+
+                <div class="cta-box">
+                    <h3>Ready to Start Your Comeback?</h3>
+                    <p>Get instant access to the Men's Divorce Mindset System—a proven 5-step framework to break the replay loop and rebuild your life.</p>
+                    <a href="/join" class="cta-button">Get Started Now →</a>
+                    <p class="cta-subtext">Instant Access • 100% Private</p>
+                </div>
+            </div>
+
+            <!-- Right Sidebar: Author Bio & Sticky CTA -->
+            <aside class="right-sidebar">
+                <div class="sidebar-card author-bio-card">
+                    <Image src={alexMorganImg} alt="Alex Morgan" class="author-bio-avatar" />
+                    <h4>{author}</h4>
+                    <p class="author-title">Co-Founder</p>
+                    <p class="author-bio">Alex helps divorced men rebuild their confidence, purpose, and direction through proven frameworks and personalized coaching.</p>
+                </div>
+
+                <div class="sidebar-card sidebar-cta-card">
+                    <h4>Start Your Comeback Today</h4>
+                    <p>Get the Men's Divorce Mindset System—a proven 5-step framework to break the replay loop.</p>
+                    <a href="/join" class="sidebar-cta-button" style="display: block; text-align: center; text-decoration: none;">GET STARTED</a>
+                    <p class="sidebar-privacy">100% Private.</p>
+                </div>
+            </aside>
+        </div>
+    </article>
+
+    <!-- Related Articles -->
+    <section class="related-articles">
+        <div class="related-container">
+            <h2>Related Articles</h2>
+            <div class="related-grid">
+                {relatedPosts.map(post => (
+                    <article class="related-card">
+                        <div class="related-image">
+                            <img src={post.data.image || `https://placehold.co/400x250/061c1a/ffffff?text=${post.data.category.split(' ')[0]}`} alt={post.data.title}>
+                        </div>
+                        <div class="related-content">
+                            <h3>{post.data.title}</h3>
+                            <p>{post.data.description.length > 120 ? post.data.description.substring(0, 120) + '...' : post.data.description}</p>
+                            <a href={`/learn/${post.slug}`}>Read More →</a>
+                        </div>
+                    </article>
+                ))}
+            </div>
+        </div>
+    </section>
+</Layout>

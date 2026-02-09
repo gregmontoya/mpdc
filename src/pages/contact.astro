@@ -4,28 +4,16 @@ import Layout from '../layouts/Layout.astro';
 
 <Layout title="Contact Us | DivorcedMen.com">
     <!-- HERO SECTION -->
+    <!-- HERO SECTION -->
     <header id="hero" class="section hero-section"
-        style="min-height: 40vh; padding-top: 8rem; padding-bottom: 4rem; position: relative; background-color: var(--color-bg-primary); display: flex; align-items: center; justify-content: center;">
-        <style>
-            @media (max-width: 768px) {
-                #hero {
-                    min-height: auto !important;
-                    padding-top: 6rem !important;
-                    padding-bottom: 3rem !important;
-                }
-
-                h1 {
-                    font-size: 3rem !important;
-                }
-            }
-        </style>
-        <div style="max-width: 1000px; margin: 0 auto; padding: 0 2rem; text-align: center;">
-            <p
-                style="font-size: 1.1rem; margin-bottom: 1.5rem; letter-spacing: 4px; text-transform: uppercase; color: var(--color-accent); font-weight: 700;">
-                Get In Touch</p>
-            <h1 style="font-size: 4.5rem; line-height: 1.1; margin-bottom: 2rem; color: #fff;">
+        style="background-color: var(--color-bg-primary); padding: 4rem 2rem 3rem; text-align: center; margin-bottom: 3rem; background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 40px 40px;">
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <h1 style="font-family: var(--font-heading); font-size: 3rem; line-height: 1.2; color: #fff; margin-bottom: 1rem; font-weight: 800;">
                 Contact Us
             </h1>
+            <p style="font-size: 1.25rem; color: var(--color-text-muted); max-width: 700px; margin: 0 auto;">
+                Get in touch with the team.
+            </p>
         </div>
     </header>
 
@@ -57,17 +45,30 @@ import Layout from '../layouts/Layout.astro';
 
                 <div style="margin-bottom: 2rem;">
                     <h3 style="font-size: 1.25rem; color: var(--color-accent); margin-bottom: 0.5rem;">Email Us</h3>
-                    <p style="color: var(--color-text-dark); font-size: 1.1rem;">support@divorcedmen.com</p>
+                    <p style="color: var(--color-text-dark); font-size: 1.1rem;">hello@menspostdivorcecoaching.com</p>
+                </div>
+
+                <div>
+                    <h3 style="font-size: 1.25rem; color: var(--color-accent); margin-bottom: 0.5rem;">HQ Address</h3>
+                    <p style="color: var(--color-text-dark); font-size: 1.1rem; line-height: 1.6;">
+                        Athens NLP Studies, LLC<br>
+                        1309 Coffeen Ave Ste 1200<br>
+                        Sheridan, WY 82801, US
+                    </p>
                 </div>
             </div>
 
             <!-- Contact Form -->
             <div style="background-color: #f9f9f9; padding: 2.5rem; border-radius: 12px; border: 1px solid #eee;">
-                <form>
+                <form action="https://formsubmit.co/hello@menspostdivorcecoaching.com" method="POST">
+                    <!-- Spam Protection -->
+                    <input type="hidden" name="_captcha" value="false">
+                    <input type="hidden" name="_next" value="http://menspostdivorcecoaching.com/success">
+
                     <div class="form-group" style="margin-bottom: 1.5rem;">
                         <label
                             style="display: block; margin-bottom: 0.5rem; color: var(--color-bg-primary); font-weight: 600;">Name</label>
-                        <input type="text" class="form-input" placeholder="Your Name"
+                        <input type="text" name="name" class="form-input" placeholder="Your Name" required
                             style="width: 100%; padding: 1rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
                     </div>
 
@@ -75,14 +76,14 @@ import Layout from '../layouts/Layout.astro';
                         <label
                             style="display: block; margin-bottom: 0.5rem; color: var(--color-bg-primary); font-weight: 600;">Email
                             Address</label>
-                        <input type="email" class="form-input" placeholder="Your Email"
+                        <input type="email" name="email" class="form-input" placeholder="helpme@helpme.com" required
                             style="width: 100%; padding: 1rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem;">
                     </div>
 
                     <div class="form-group" style="margin-bottom: 1.5rem;">
                         <label
                             style="display: block; margin-bottom: 0.5rem; color: var(--color-bg-primary); font-weight: 600;">Message</label>
-                        <textarea class="form-input" rows="5" placeholder="How can we help?"
+                        <textarea name="message" class="form-input" rows="5" placeholder="How can we help?" required
                             style="width: 100%; padding: 1rem; border: 1px solid #ccc; border-radius: 6px; font-size: 1rem; font-family: inherit;"></textarea>
                     </div>
 

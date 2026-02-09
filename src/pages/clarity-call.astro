@@ -1,0 +1,831 @@
+---
+import Layout from '../layouts/Layout.astro';
+---
+
+<Layout title="Book Your Clarity Call | Men's Post-Divorce Coaching" hideNav={true} simpleHeader={true}>
+    
+    <!-- Header -->
+    <nav id="clarity-navbar" style="position: sticky; top: 0; z-index: 1000; background: #fff; border-bottom: 1px solid #eee; padding: 1rem 2rem;">
+        <div style="max-width: 1400px; margin: 0 auto; display: flex; justify-content: space-between; align-items: center;">
+            <a href="/" style="text-decoration: none; display: flex; flex-direction: column;">
+                <span style="font-family: 'Montserrat', sans-serif; font-weight: 800; font-size: 1.15rem; line-height: 1.1; color: #000; text-transform: uppercase; letter-spacing: 1px;">THE MEN'S POST<br>DIVORCE COACHING</span>
+            </a>
+            <div style="display: flex; align-items: center; gap: 0.75rem; font-family: 'Montserrat', sans-serif; font-size: 0.85rem; font-weight: 700; color: #4CAF50;">
+                <span style="display: inline-block; width: 8px; height: 8px; background: #4CAF50; border-radius: 50%; animation: pulse 2s infinite;"></span>
+                MPDC BOOKING ENGINE ACTIVE
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header id="hero" class="section hero-section"
+        style="background-color: var(--color-bg-primary); padding: 5rem 2rem 4rem; text-align: center; background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 40px 40px;">
+        <div style="max-width: 1000px; margin: 0 auto;">
+            <p style="color: var(--color-accent); font-weight: 800; letter-spacing: 3px; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 1.5rem;">One-on-One Strategy Session</p>
+            <h1 style="font-family: var(--font-heading); font-size: 3.5rem; line-height: 1.2; color: #fff; margin-bottom: 1.5rem; font-weight: 800; text-transform: uppercase;">
+                Book Your Free 30-Minute Assessment
+            </h1>
+            <p style="font-size: 1.25rem; color: var(--color-text-muted); max-width: 800px; margin: 0 auto; line-height: 1.6;">
+                In this session, we’ll identify the programs in your mind keeping you stuck and assess the best way for you to move forward.
+            </p>
+        </div>
+    </header>
+
+    <!-- Custom Booking System -->
+    <section id="booking-system" class="section" style="background-color: #f8fafc; padding: 6rem 2rem;">
+        <div class="container" style="max-width: 1100px;">
+            <div id="booking-container" class="booking-card">
+                
+                <!-- STEP 1: SELECT DATE & TIME -->
+                <div id="step-datetime" class="booking-step active">
+                    <div class="booking-grid">
+                        <!-- Calendar Side -->
+                        <div class="calendar-side">
+                            <div class="calendar-header">
+                                <button id="prev-month" class="nav-btn"><i class="fas fa-chevron-left"></i></button>
+                                <h3 id="current-month-year">February 2026</h3>
+                                <button id="next-month" class="nav-btn"><i class="fas fa-chevron-right"></i></button>
+                            </div>
+                            <div class="calendar-weekdays">
+                                <div>SUN</div><div>MON</div><div>TUE</div><div>WED</div><div>THU</div><div>FRI</div><div>SAT</div>
+                            </div>
+                            <div id="calendar-days" class="calendar-days">
+                                <!-- Days injected by JS -->
+                            </div>
+                        </div>
+
+                        <!-- Time Side -->
+                        <div class="time-side">
+                            <div class="time-header">
+                                <h4 id="selected-date-label">Select a Date First</h4>
+                                <p>All times in <span id="user-timezone">EST</span></p>
+                            </div>
+                            <div id="time-slots" class="time-slots">
+                                <div class="empty-state">Please select a date from the calendar to see available slots.</div>
+                            </div>
+                            <button id="goto-details" class="btn-primary" disabled>Continue to Details <i class="fas fa-arrow-right"></i></button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STEP 2: DETAILS -->
+                <div id="step-details" class="booking-step">
+                    <div class="details-header">
+                        <button id="back-to-datetime" class="back-link"><i class="fas fa-arrow-left"></i> Change Date/Time</button>
+                        <h2>Confirm Your Free 30-Minute Assessment</h2>
+                        <div class="selection-summary">
+                            <span id="summary-datetime"><i class="fas fa-calendar-alt"></i> Loading...</span>
+                        </div>
+                    </div>
+                    
+                    <form id="booking-form" class="details-form">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>First Name</label>
+                                <input type="text" id="first-name" placeholder="Alex" required>
+                            </div>
+                            <div class="form-group">
+                                <label>Last Name</label>
+                                <input type="text" id="last-name" placeholder="Morgan" required>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>Email Address</label>
+                            <input type="email" id="email" placeholder="helpme@helpme.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>Phone Number</label>
+                            <input type="tel" id="phone" placeholder="+1 (555) 000-0000" required>
+                        </div>
+                        <div class="form-group">
+                            <label>What is your current investment level in creating change?</label>
+                            <select id="investment" required>
+                                <option value="" disabled selected>Please select...</option>
+                                <option value="Less than $1,000">Less than $1,000</option>
+                                <option value="$1,000 - $2,500">$1,000 - $2,500</option>
+                                <option value="$2,500 - $5,000">$2,500 - $5,000</option>
+                                <option value="$5,000 - $10,000">$5,000 - $10,000</option>
+                                <option value="$10,000+">$10,000+</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>What is your #1 goal for this call?</label>
+                            <textarea id="goal" ROWS="3" placeholder="Tell us what you want to achieve..." required></textarea>
+                        </div>
+                        
+                        <div class="form-footer">
+                            <p class="disclaimer">By booking, you agree to receive follow-up emails regarding your session. We respect your privacy.</p>
+                            <button type="submit" id="submit-booking" class="btn-primary btn-submit">
+                                <span class="btn-text">Confirm Booking</span>
+                                <span class="btn-loader"></span>
+                            </button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- STEP 3: SUCCESS -->
+                <div id="step-success" class="booking-step">
+                    <div class="success-content">
+                        <div class="success-icon">
+                            <i class="fas fa-check"></i>
+                        </div>
+                        <h2>You're All Set!</h2>
+                        <p>Your Assessment Session has been successfully scheduled. Check your email for the confirmation and Zoom/Google Meet link.</p>
+                        
+                        <div class="success-details">
+                            <div class="detail-item">
+                                <span class="label">Date & Time:</span>
+                                <span id="final-datetime" class="value">...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Investment:</span>
+                                <span id="final-investment" class="value">...</span>
+                            </div>
+                            <div class="detail-item">
+                                <span class="label">Confirmation:</span>
+                                <span id="confirmation-id" class="value">Pending...</span>
+                            </div>
+                        </div>
+
+                        <div class="next-steps">
+                            <h4>Next Steps:</h4>
+                            <ul>
+                                <li>Add this to your calendar using the email invite.</li>
+                                <li>Think about the one specific area where you feel most stuck.</li>
+                                <li>Be ready to join 2 minutes before the start time.</li>
+                            </ul>
+                        </div>
+                        
+                        <a href="/system/dashboard" class="btn-outline">Go to Dashboard</a>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section class="section" style="background-color: #fff; padding: 6rem 2rem;">
+        <div class="container" style="max-width: 800px;">
+            <h2 style="font-size: 2.5rem; color: var(--color-bg-primary); text-align: center; margin-bottom: 4rem;">Frequently Asked Questions</h2>
+            
+            <div style="display: flex; flex-direction: column; gap: 2rem;">
+                <details style="padding-bottom: 1.5rem; border-bottom: 1px solid #eee; cursor: pointer;">
+                    <summary style="font-weight: 700; font-size: 1.2rem; color: var(--color-bg-primary); list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                        Is there a cost for the call?
+                        <span style="color: var(--color-accent); font-size: 1.5rem;">+</span>
+                    </summary>
+                    <p style="margin-top: 1rem; color: #666; line-height: 1.6;">
+                        This initial Clarity Call is a one-time intensive session designed to show you exactly what the system can do for you. Pricing (if applicable) is displayed in the booking flow after you choose your time.
+                    </p>
+                </details>
+
+                <details style="padding-bottom: 1.5rem; border-bottom: 1px solid #eee; cursor: pointer;">
+                    <summary style="font-weight: 700; font-size: 1.2rem; color: var(--color-bg-primary); list-style: none; display: flex; justify-content: space-between; align-items: center;">
+                        What happens after the call?
+                        <span style="color: var(--color-accent); font-size: 1.5rem;">+</span>
+                    </summary>
+                    <p style="margin-top: 1rem; color: #666; line-height: 1.6;">
+                        By the end of the call, we’ll have a clear roadmap. If it makes sense to work together further within the Mindset System, we’ll discuss how that looks. If not, you still keep the roadmap.
+                    </p>
+                </details>
+            </div>
+        </div>
+    </section>
+
+    <footer class="section" style="background-color: var(--color-bg-primary); padding: 4rem 2rem; text-align: center; color: #fff;">
+        <div class="container">
+            <p style="font-size: 0.9rem; opacity: 0.6; margin-bottom: 1rem;">© {new Date().getFullYear()} Athens NLP Studies, LLC. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <style is:global>
+        :root {
+            --booking-primary: #1a1f24;
+            --booking-accent: #C4613A;
+            --booking-border: #e2e8f0;
+            --booking-bg: #ffffff;
+        }
+
+        .booking-card {
+            background: var(--booking-bg);
+            border-radius: 24px;
+            box-shadow: 0 40px 100px rgba(0,0,0,0.1);
+            border: 1px solid var(--booking-border);
+            overflow: hidden;
+            min-height: 600px;
+        }
+
+        .booking-step {
+            display: none;
+            padding: 0;
+            animation: slideIn 0.4s ease-out;
+        }
+
+        .booking-step.active {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* STEP 1: DATETIME GRID */
+        .booking-grid {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            min-height: 600px;
+        }
+
+        .calendar-side {
+            padding: 3rem;
+            border-right: 1px solid var(--booking-border);
+        }
+
+        .time-side {
+            padding: 3rem;
+            background: #fcfcfd;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .calendar-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .calendar-header h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: var(--booking-primary);
+            text-transform: none;
+        }
+
+        .nav-btn {
+            background: none;
+            border: 1px solid var(--booking-border);
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: var(--booking-primary);
+        }
+
+        .nav-btn:hover {
+            border-color: var(--booking-accent);
+            color: var(--booking-accent);
+        }
+
+        .calendar-weekdays {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #94a3b8;
+            letter-spacing: 1px;
+            margin-bottom: 1rem;
+        }
+
+        .calendar-days {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+            gap: 8px;
+        }
+
+        .day-cell {
+            aspect-ratio: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            font-size: 0.95rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #64748b;
+        }
+
+        .day-cell.other-month {
+            opacity: 0.2;
+            pointer-events: none;
+        }
+
+        .day-cell.disabled {
+            opacity: 0.3;
+            cursor: not-allowed;
+            text-decoration: line-through;
+        }
+
+        .day-cell.available {
+            color: var(--booking-primary);
+        }
+
+        .day-cell.available:hover {
+            background: #f1f5f9;
+            color: var(--booking-accent);
+        }
+
+        .day-cell.selected {
+            background: var(--booking-accent) !important;
+            color: #fff !important;
+            box-shadow: 0 4px 12px rgba(196, 97, 58, 0.3);
+        }
+
+        .day-cell.today {
+            border: 2px solid var(--booking-accent);
+            color: var(--booking-accent);
+        }
+
+        /* TIME SLOTS */
+        .time-header {
+            margin-bottom: 2rem;
+        }
+
+        .time-header h4 {
+            font-size: 1.1rem;
+            color: var(--booking-primary);
+            margin-bottom: 0.5rem;
+            text-transform: none;
+        }
+
+        .time-header p {
+            font-size: 0.8rem;
+            color: #94a3b8;
+            font-weight: 600;
+        }
+
+        .time-slots {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-bottom: 2rem;
+            max-height: 350px;
+            overflow-y: auto;
+            padding-right: 10px;
+        }
+
+        .time-slot {
+            padding: 1.25rem;
+            border: 1px solid var(--booking-border);
+            border-radius: 12px;
+            text-align: center;
+            font-weight: 700;
+            color: var(--booking-primary);
+            cursor: pointer;
+            transition: all 0.2s;
+            background: #fff;
+        }
+
+        .time-slot:hover {
+            border-color: var(--booking-accent);
+            color: var(--booking-accent);
+            background: #fffcfb;
+        }
+
+        .time-slot.selected {
+            background: var(--booking-accent);
+            color: #fff;
+            border-color: var(--booking-accent);
+        }
+
+        .empty-state {
+            text-align: center;
+            color: #94a3b8;
+            font-size: 0.9rem;
+            padding: 4rem 2rem;
+            line-height: 1.6;
+        }
+
+        .btn-primary {
+            background: var(--booking-accent);
+            color: #fff;
+            border: none;
+            padding: 1.25rem;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .btn-primary:hover:not(:disabled) {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(196, 97, 58, 0.3);
+        }
+
+        .btn-primary:disabled {
+            background: #e2e8f0;
+            color: #94a3b8;
+            cursor: not-allowed;
+        }
+
+        /* STEP 2: DETAILS */
+        #step-details {
+            padding: 4rem;
+        }
+
+        .details-header {
+            margin-bottom: 3rem;
+        }
+
+        .back-link {
+            background: none;
+            border: none;
+            color: var(--booking-accent);
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            cursor: pointer;
+            margin-bottom: 1.5rem;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .details-header h2 {
+            font-size: 2rem;
+            color: var(--booking-primary);
+            margin-bottom: 1rem;
+            text-transform: none;
+        }
+
+        .selection-summary {
+            background: #f1f5f9;
+            padding: 1rem 1.5rem;
+            border-radius: 10px;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 700;
+            color: var(--booking-primary);
+        }
+
+        .details-form {
+            max-width: 600px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--booking-primary);
+            margin-bottom: 0.75rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group input, .form-group textarea, .form-group select {
+            width: 100%;
+            padding: 1rem;
+            border: 1px solid var(--booking-border);
+            border-radius: 10px;
+            font-size: 1rem;
+            font-family: inherit;
+            transition: all 0.2s;
+            background-color: #fff;
+        }
+
+        .form-group input:focus, .form-group textarea:focus, .form-group select:focus {
+            outline: none;
+            border-color: var(--booking-accent);
+            box-shadow: 0 0 0 3px rgba(196, 97, 58, 0.1);
+        }
+
+        .btn-submit {
+            width: 100%;
+            margin-top: 2rem;
+        }
+
+        .disclaimer {
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin-bottom: 1.5rem;
+        }
+
+        /* STEP 3: SUCCESS */
+        .success-content {
+            padding: 6rem 4rem;
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto;
+        }
+
+        .success-icon {
+            width: 80px;
+            height: 80px;
+            background: #4CAF50;
+            color: #fff;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2.5rem;
+            margin: 0 auto 2.5rem;
+        }
+
+        .success-content h2 {
+            font-size: 2.5rem;
+            color: var(--booking-primary);
+            margin-bottom: 1rem;
+            text-transform: none;
+        }
+
+        .success-content p {
+            color: #64748b;
+            font-size: 1.1rem;
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .success-details {
+            background: #f8fafc;
+            border: 1px solid var(--booking-border);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 3rem;
+            text-align: left;
+        }
+
+        .detail-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 1rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #e2e8f0;
+        }
+
+        .detail-item:last-child {
+            margin-bottom: 0;
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+
+        .detail-item .label {
+            font-weight: 700;
+            color: #94a3b8;
+            font-size: 0.9rem;
+        }
+
+        .detail-item .value {
+            font-weight: 800;
+            color: var(--booking-primary);
+        }
+
+        .next-steps {
+            text-align: left;
+            margin-bottom: 4rem;
+        }
+
+        .next-steps h4 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--booking-primary);
+        }
+
+        .next-steps ul {
+            padding-left: 1.25rem;
+            color: #64748b;
+            line-height: 1.8;
+        }
+
+        .btn-outline {
+            display: inline-block;
+            border: 2px solid var(--booking-primary);
+            padding: 1rem 2rem;
+            border-radius: 10px;
+            font-weight: 800;
+            color: var(--booking-primary);
+            text-decoration: none;
+            transition: all 0.2s;
+        }
+
+        .btn-outline:hover {
+            background: var(--booking-primary);
+            color: #fff;
+        }
+
+        /* MOBILE RESPONSIVE */
+        @media (max-width: 900px) {
+            .booking-grid { grid-template-columns: 1fr; }
+            .calendar-side { border-right: none; border-bottom: 1px solid var(--booking-border); padding: 2rem; }
+            .time-side { padding: 2rem; }
+            #step-details { padding: 2rem; }
+            .form-row { grid-template-columns: 1fr; gap: 0; }
+        }
+
+        /* LOADER */
+        .btn-loader {
+            display: none;
+            width: 20px;
+            height: 20px;
+            border: 3px solid rgba(255,255,255,0.3);
+            border-radius: 50%;
+            border-top-color: #fff;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+        .loading .btn-text { display: none; }
+        .loading .btn-loader { display: block; }
+
+    </style>
+
+    <script>
+        import { db } from '../lib/firebase';
+        import { collection, addDoc, serverTimestamp } from 'firebase/firestore';
+
+        const monthNames = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
+        let currentDate = new Date();
+        let selectedDate = null;
+        let selectedTime = null;
+
+        const calendarDays = document.getElementById('calendar-days');
+        const monthYearLabel = document.getElementById('current-month-year');
+        const prevMonthBtn = document.getElementById('prev-month');
+        const nextMonthBtn = document.getElementById('next-month');
+        const timeSlotsContainer = document.getElementById('time-slots');
+        const dateLabel = document.getElementById('selected-date-label');
+        const continueBtn = document.getElementById('goto-details');
+
+        function renderCalendar() {
+            const year = currentDate.getFullYear();
+            const month = currentDate.getMonth();
+
+            monthYearLabel.textContent = `${monthNames[month]} ${year}`;
+
+            const firstDayIndex = new Date(year, month, 1).getDay();
+            const lastDay = new Date(year, month + 1, 0).getDate();
+            const prevLastDay = new Date(year, month, 0).getDate();
+            const lastDayIndex = new Date(year, month, lastDay).getDay();
+            const nextDays = 7 - lastDayIndex - 1;
+
+            let days = "";
+
+            // Prev month days
+            for (let x = firstDayIndex; x > 0; x--) {
+                days += `<div class="day-cell other-month">${prevLastDay - x + 1}</div>`;
+            }
+
+            // Current month days
+            const today = new Date();
+            for (let i = 1; i <= lastDay; i++) {
+                const dateToCheck = new Date(year, month, i);
+                const isPast = dateToCheck < new Date(today.getFullYear(), today.getMonth(), today.getDate());
+                const isSelected = selectedDate && dateToCheck.getTime() === selectedDate.getTime();
+                const isToday = dateToCheck.getTime() === new Date(today.getFullYear(), today.getMonth(), today.getDate()).getTime();
+                
+                // Allow only weekdays for calls as a default coach preference
+                const isWeekend = dateToCheck.getDay() === 0 || dateToCheck.getDay() === 6;
+
+                let classes = "day-cell available";
+                if (isPast) classes = "day-cell disabled";
+                if (isToday) classes += " today";
+                if (isSelected) classes += " selected";
+                if (isWeekend) classes = "day-cell disabled";
+
+                days += `<div class="day-cell ${classes}" data-day="${i}">${i}</div>`;
+            }
+
+            // Next month days
+            for (let j = 1; j <= nextDays; j++) {
+                days += `<div class="day-cell other-month">${j}</div>`;
+            }
+
+            calendarDays.innerHTML = days;
+
+            // Click events
+            document.querySelectorAll('.day-cell.available').forEach(cell => {
+                cell.addEventListener('click', () => {
+                    const day = cell.getAttribute('data-day');
+                    selectedDate = new Date(year, month, parseInt(day));
+                    selectedTime = null;
+                    continueBtn.disabled = true;
+                    renderCalendar();
+                    updateTimeSlots();
+                });
+            });
+        }
+
+        function updateTimeSlots() {
+            if (!selectedDate) return;
+
+            const options = { weekday: 'long', month: 'long', day: 'numeric' };
+            dateLabel.textContent = selectedDate.toLocaleDateString('en-US', options);
+
+            // Dummy availability - In a real app, this would fetch from Firestore based on selectedDate
+            const slots = ["9:00 AM", "10:00 AM", "11:00 AM", "1:00 PM", "2:30 PM", "4:00 PM"];
+            
+            let slotsHtml = "";
+            slots.forEach(time => {
+                const isSelected = selectedTime === time;
+                slotsHtml += `<div class="time-slot ${isSelected ? 'selected' : ''}">${time}</div>`;
+            });
+
+            timeSlotsContainer.innerHTML = slotsHtml;
+
+            document.querySelectorAll('.time-slot').forEach(slot => {
+                slot.addEventListener('click', () => {
+                    selectedTime = slot.textContent;
+                    continueBtn.disabled = false;
+                    updateTimeSlots();
+                });
+            });
+        }
+
+        prevMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() - 1);
+            renderCalendar();
+        });
+
+        nextMonthBtn.addEventListener('click', () => {
+            currentDate.setMonth(currentDate.getMonth() + 1);
+            renderCalendar();
+        });
+
+        // NAVIGATION LOGIC
+        continueBtn.addEventListener('click', () => {
+            document.getElementById('step-datetime').classList.remove('active');
+            document.getElementById('step-details').classList.add('active');
+            
+            const options = { weekday: 'short', month: 'short', day: 'numeric', year: 'numeric' };
+            document.getElementById('summary-datetime').innerHTML = `<i class="fas fa-calendar-alt"></i> ${selectedDate.toLocaleDateString('en-US', options)} @ ${selectedTime}`;
+            
+            // Scroll to top of booking engine
+            document.getElementById('booking-system').scrollIntoView({ behavior: 'smooth' });
+        });
+
+        document.getElementById('back-to-datetime').addEventListener('click', () => {
+            document.getElementById('step-details').classList.remove('active');
+            document.getElementById('step-datetime').classList.add('active');
+        });
+
+        // FORM SUBMISSION
+        const bookingForm = document.getElementById('booking-form');
+        bookingForm.addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitBtn = document.getElementById('submit-booking');
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+
+            const formData = {
+                firstName: document.getElementById('first-name').value,
+                lastName: document.getElementById('last-name').value,
+                email: document.getElementById('email').value,
+                phone: document.getElementById('phone').value,
+                investment: document.getElementById('investment').value,
+                goal: document.getElementById('goal').value,
+                date: selectedDate.toISOString(),
+                time: selectedTime,
+                status: 'pending',
+                type: 'Clarity Call',
+                createdAt: serverTimestamp()
+            };
+
+            try {
+                const docRef = await addDoc(collection(db, "bookings"), formData);
+                console.log("Document written with ID: ", docRef.id);
+                
+                // Show Success
+                document.getElementById('step-details').classList.remove('active');
+                document.getElementById('step-success').classList.add('active');
+                
+                const options = { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' };
+                document.getElementById('final-datetime').textContent = `${selectedDate.toLocaleDateString('en-US', options)} at ${selectedTime}`;
+                document.getElementById('final-investment').textContent = document.getElementById('investment').value;
+                document.getElementById('confirmation-id').textContent = docRef.id;
+                
+                document.getElementById('booking-system').scrollIntoView({ behavior: 'smooth' });
+
+            } catch (error) {
+                console.error("Error adding document: ", error);
+                alert("Something went wrong. Please try again or contact support.");
+            } finally {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            }
+        });
+
+        document.addEventListener('DOMContentLoaded', renderCalendar);
+    </script>
+</Layout>

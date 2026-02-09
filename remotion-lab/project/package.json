@@ -1,0 +1,20 @@
+{
+    "name": "remotion-project",
+    "version": "1.0.0",
+    "description": "My Remotion Video",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "build": "remotion render CaptionComposition ../output/output.mp4"
+    },
+    "dependencies": {
+        "@remotion/google-fonts": "^4.0.0",
+        "react": "^18.0.0",
+        "react-dom": "^18.0.0",
+        "remotion": "latest"
+    },
+    "devDependencies": {
+        "@remotion/cli": "^4.0.419",
+        "@types/react": "^18.0.0",
+        "typescript": "^5.0.0"
+    }
+}

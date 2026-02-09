@@ -1,9 +1,27 @@
 ---
+import { getCollection } from 'astro:content';
 import Layout from '../../layouts/Layout.astro';
 import '../../styles/blog-styles.css';
+
+// Fetch all blog posts and sort by date descending
+const allPosts = await getCollection('blog');
+const sortedPosts = allPosts.sort((a, b) => 
+    new Date(b.data.publishDate).getTime() - new Date(a.data.publishDate).getTime()
+);
+
+const featuredPost = sortedPosts[0];
+const remainingPosts = sortedPosts.slice(1);
+
+// Calculate category counts
+const categories = ['Mindset & Mental Health', 'Divorce Strategy', 'Relationships & Dating', 'Co-Parenting', 'Financial Recovery'];
+const categoryCounts = allPosts.reduce((acc, post) => {
+    const cat = post.data.category;
+    acc[cat] = (acc[cat] || 0) + 1;
+    return acc;
+}, {});
 ---
 
-<Layout title="Learn | Men's Post-Divorce Coaching">
+<Layout title="Learn | Men's Post-Divorce Coaching" bodyClass="blog-page">
     <meta slot="head"
         content="Expert guidance and actionable strategies for men rebuilding their lives after divorce. Browse our library of articles by category."
         name="description" />
@@ -24,175 +42,66 @@ import '../../styles/blog-styles.css';
                 <h3>Categories</h3>
                 <ul class="category-list">
                     <li><a class="category-link active" data-category="all" href="/learn">All Articles
-                            <span class="count">(10)</span></a></li>
-                    <li><a class="category-link" data-category="mindset" href="/category-mindset">Mindset &amp;
-                            Mental Health <span class="count">(4)</span></a></li>
-                    <li><a class="category-link" data-category="strategy" href="/category-strategy">Divorce Strategy
-                            <span class="count">(2)</span></a></li>
-                    <li><a class="category-link" data-category="relationships"
-                            href="/category-relationships">Relationships &amp; Dating <span
-                                class="count">(2)</span></a></li>
-                    <li><a class="category-link" data-category="parenting" href="/category-parenting">Co-Parenting
-                            <span class="count">(2)</span></a></li>
-                    <li><a class="category-link" data-category="finances" href="/category-finances">Financial
-                            Recovery <span class="count">(1)</span></a></li>
+                            <span class="count">({allPosts.length})</span></a></li>
+                    {categories.map(cat => {
+                        const slug = cat.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-');
+                        return (
+                            <li>
+                                <a class="category-link" data-category={cat.toLowerCase().split(' ')[0]} href={`/learn/${slug}`}>
+                                    {cat} <span class="count">({categoryCounts[cat] || 0})</span>
+                                </a>
+                            </li>
+                        );
+                    })}
                 </ul>
             </div>
         </aside>
         <!-- Blog Roll Grid -->
         <main class="blog-roll-main">
-            <!-- Featured Article -->
-            <article class="featured-article">
-                <div class="featured-image">
-                    <img alt="Featured Article" src="/images/blog/featured-change.png" />
-                    <span class="featured-badge">Featured</span>
-                </div>
-                <div class="featured-content">
-                    <a class="article-category" data-category="strategy" href="#">Divorce Strategy</a>
-                    <h2><a href="/learn/how-divorce-changes-a-man">How Divorce Changes a Man</a></h2>
-                    <p>How divorce changes a man is not just emotional — it is neurological, behavioral, physical, and
-                        identity-shattering.</p>
-                    <div class="article-meta-small">
-                        <span class="author-small">By Alex Morgan</span>
-                        <span class="date-small">Feb 2, 2026</span>
-                        <span class="read-time">12 min read</span>
+            {featuredPost && (
+                <article class="featured-article">
+                    <div class="featured-image">
+                        <img alt={featuredPost.data.title} src={featuredPost.data.image || "/images/blog/featured-change.png"} />
+                        <span class="featured-badge">Featured</span>
                     </div>
-                </div>
-            </article>
+                    <div class="featured-content">
+                        <a class="article-category" href={featuredPost.data.categoryUrl}>{featuredPost.data.category}</a>
+                        <h2><a href={`/learn/${featuredPost.slug}`}>{featuredPost.data.title}</a></h2>
+                        <p>{featuredPost.data.description}</p>
+                        <div class="article-meta-small">
+                            <span class="author-small">By {featuredPost.data.author}</span>
+                            <span class="date-small">{featuredPost.data.publishDate}</span>
+                            <span class="read-time">{featuredPost.data.readTime}</span>
+                        </div>
+                    </div>
+                </article>
+            )}
+
             <!-- Article Grid -->
             <div class="blog-grid">
-                <!-- Article Card 0 (Restored) -->
-                <article class="blog-card" data-category="strategy">
-                    <div class="blog-card-image">
-                        <img alt="Article" src="/images/blog/rebuild-life.png" />
-                    </div>
-                    <div class="blog-card-content">
-                        <a class="article-category" data-category="strategy" href="#">Divorce Strategy</a>
-                        <h3><a href="/learn/5-strategies-rebuild-life-divorce">5 Proven Strategies to Rebuild Your Life
-                                After Divorce</a></h3>
-                        <p>Stop the mental replay loop and start your comeback with these actionable steps.</p>
-                        <div class="article-meta-small">
-                            <span class="author-small">By Alex Morgan</span>
-                            <span class="date-small">Feb 2, 2026</span>
+                {remainingPosts.map(post => (
+                    <article class="blog-card" data-category={post.data.category.toLowerCase()}>
+                        <div class="blog-card-image">
+                            <img alt={post.data.title} src={post.data.image || "/images/blog/rebuild-life.png"} />
                         </div>
-                    </div>
-                </article>
-                <!-- Article Card 1 -->
-                <article class="blog-card" data-category="mindset">
-                    <div class="blog-card-image">
-                        <img alt="Article" src="/images/blog/stop-overthinking.png" />
-                    </div>
-                    <div class="blog-card-content">
-                        <a class="article-category" data-category="mindset" href="#">Mindset &amp; Mental Health</a>
-                        <h3><a href="/learn/stop-overthinking-men">How to Stop Overthinking After Divorce as a Man</a>
-                        </h3>
-                        <p>Break the mental replay loop with these science-backed strategies that actually work.</p>
-                        <div class="article-meta-small">
-                            <span class="author-small">By Alex Morgan</span>
-                            <span class="date-small">Jan 28, 2026</span>
+                        <div class="blog-card-content">
+                            <a class="article-category" href={post.data.categoryUrl}>{post.data.category}</a>
+                            <h3><a href={`/learn/${post.slug}`}>{post.data.title}</a></h3>
+                            <p>{post.data.description}</p>
+                            <div class="article-meta-small">
+                                <span class="author-small">By {post.data.author}</span>
+                                <span class="date-small">{post.data.publishDate}</span>
+                            </div>
                         </div>
-                    </div>
-                </article>
-                <!-- Article Card 2 -->
-                <article class="blog-card" data-category="parenting">
-                    <div class="blog-card-image">
-                        <img alt="Article" src="/images/blog/co-parenting.png" />
-                    </div>
-                    <div class="blog-card-content">
-                        <a class="article-category" data-category="parenting" href="#">Co-Parenting</a>
-                        <h3><a href="/learn/co-parenting-guide-men">The Complete Guide to Co-Parenting for Divorced
-                                Men</a></h3>
-                        <p>Navigate co-parenting with confidence and clarity using this comprehensive framework.</p>
-                        <div class="article-meta-small">
-                            <span class="author-small">By Alex Morgan</span>
-                            <span class="date-small">Jan 25, 2026</span>
-                        </div>
-                    </div>
-                </article>
-                <!-- Article Card 3 -->
-                <article class="blog-card" data-category="relationships">
-                    <div class="blog-card-image">
-                        <img alt="Article" src="/images/blog/social-circle.png" />
-                    </div>
-                    <div class="blog-card-content">
-                        <a class="article-category" data-category="relationships" href="#">Relationships &amp;
-                            Dating</a>
-                        <h3><a href="/learn/new-social-circle-men">Building a New Social Circle After Divorce for Men</a>
-                        </h3>
-                        <p>Practical steps to rebuild your network and find your tribe in this new chapter.</p>
-                        <div class="article-meta-small">
-                            <span class="author-small">By Alex Morgan</span>
-                            <span class="date-small">Jan 22, 2026</span>
-                        </div>
-                    </div>
-                </article>
-                <!-- Article Card 4 -->
-                <article class="blog-card" data-category="mindset">
-                    <div class="blog-card-image">
-                        <img alt="Article" src="/images/blog/victim-mentality.png" />
-                    </div>
-                    <div class="blog-card-content">
-                        <a class="article-category" data-category="mindset" href="#">Mindset &amp; Mental Health</a>
-                        <h3><a href="/learn/victim-mentality-men">Breaking Free from Victim Mentality for Divorced Men</a>
-                        </h3>
-                        <p>Essential steps to stabilize your finances and build a solid foundation post-divorce.</p>
-                        <div class="article-meta-small">
-                            <span class="author-small">By Alex Morgan</span>
-                            <span class="date-small">Jan 20, 2026</span>
-                        </div>
-                    </div>
-                </article>
-                <!-- Article Card 5 -->
-                <article class="blog-card" data-category="mindset">
-                    <div class="blog-card-image">
-                        <img alt="Article" src="/images/blog/managing-anger.png" />
-                    </div>
-                    <div class="blog-card-content">
-                        <a class="article-category" data-category="mindset" href="#">Mindset &amp; Mental Health</a>
-                        <h3><a href="/learn/managing-anger-men">Managing Anger and Resentment for Divorced Men</a></h3>
-                        <p>Practical techniques to process difficult emotions and move forward.</p>
-                        <div class="article-meta-small">
-                            <span class="author-small">By Alex Morgan</span>
-                            <span class="date-small">Jan 18, 2026</span>
-                        </div>
-                    </div>
-                </article>
-                <!-- Article Card 7 -->
-                <article class="blog-card" data-category="parenting">
-                    <div class="blog-card-image">
-                        <img alt="Article" src="/images/blog/setting-boundaries.png" />
-                    </div>
-                    <div class="blog-card-content">
-                        <a class="article-category" data-category="parenting" href="#">Co-Parenting</a>
-                        <h3><a href="/learn/boundaries-ex-wife">Setting Boundaries with Your Ex-Wife</a></h3>
-                        <p>How to establish and maintain healthy boundaries for successful co-parenting.</p>
-                        <div class="article-meta-small">
-                            <span class="author-small">By Alex Morgan</span>
-                            <span class="date-small">Jan 12, 2026</span>
-                        </div>
-                    </div>
-                </article>
-                <!-- Article Card 8 -->
-                <article class="blog-card" data-category="relationships">
-                    <div class="blog-card-image">
-                        <img alt="Article" src="/images/blog/start-dating.png" />
-                    </div>
-                    <div class="blog-card-content">
-                        <a class="article-category" data-category="relationships" href="#">Relationships &amp;
-                            Dating</a>
-                        <h3><a href="/learn/when-start-dating">When Should Men Start Dating After Divorce</a></h3>
-                        <p>Signs you're ready to date again and how to approach it with confidence.</p>
-                        <div class="article-meta-small">
-                            <span class="author-small">By Alex Morgan</span>
-                            <span class="date-small">Jan 10, 2026</span>
-                        </div>
-                    </div>
-                </article>
+                    </article>
+                ))}
             </div>
-            <!-- Load More Button -->
-            <div class="load-more-container">
-                <button class="load-more-btn">Load More Articles</button>
-            </div>
+
+            {remainingPosts.length > 6 && (
+                <div class="load-more-container">
+                    <button class="load-more-btn">Load More Articles</button>
+                </div>
+            )}
         </main>
     </div>
 </Layout>

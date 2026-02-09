@@ -1,0 +1,174 @@
+/* GLOBAL MOBILE OPTIMIZATIONS */
+/* This file aggregates all mobile overrides to ensure a consistent experience */
+
+@media (max-width: 900px) {
+
+    /* 1. Global Spacing & Typography */
+    :root {
+        --spacing-section: 3rem 1.5rem !important;
+    }
+
+    body {
+        font-size: 1rem !important;
+    }
+
+    h1 {
+        font-size: 2.25rem !important;
+        line-height: 1.2 !important;
+        word-wrap: break-word;
+    }
+
+    h2 {
+        font-size: 1.75rem !important;
+    }
+
+    h3 {
+        font-size: 1.4rem !important;
+    }
+
+    p {
+        font-size: 1rem !important;
+        line-height: 1.6 !important;
+    }
+
+    .container,
+    .container-wide {
+        padding: 0 1.25rem !important;
+        width: 100% !important;
+    }
+
+    .section {
+        padding: 3rem 1.25rem !important;
+    }
+
+    /* 2. Hero Sections */
+    .hero-section {
+        padding: 4rem 1.25rem !important;
+        min-height: auto !important;
+    }
+
+    .hero-content {
+        padding: 0 !important;
+    }
+
+    /* 3. Grid Collapsing (Force Single Column) */
+    .grid-2,
+    .grid-3,
+    .grid-about,
+    .comparison-grid,
+    .struggle-grid,
+    .hero-split-grid {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2.5rem !important;
+    }
+
+    /* 4. Checkout / Forms */
+    .checkout-container,
+    .hero-checkout-wrapper {
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 1.5rem !important;
+        margin: 0 !important;
+        box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .checkout-section {
+        padding: 3rem 1rem !important;
+    }
+
+    .btn-checkout {
+        font-size: 1.1rem !important;
+        padding: 1rem !important;
+    }
+
+    /* 5. Modules & Cards */
+    .module-box {
+        flex-direction: column !important;
+        height: auto !important;
+        min-height: auto !important;
+    }
+
+    .module-content-left {
+        padding: 2rem 1.5rem !important;
+        order: 2;
+    }
+
+    .module-content-right {
+        width: 100% !important;
+        height: 250px !important;
+        order: 1;
+    }
+
+    .module-title {
+        font-size: 1.75rem !important;
+    }
+
+    /* 6. System / Dashboard Specifics */
+    .sys-main {
+        margin-left: 0 !important;
+        padding: 5rem 1.25rem 2rem !important;
+        /* Top padding for toggle button */
+        width: 100% !important;
+    }
+
+    .sys-sidebar {
+        transform: translateX(-100%);
+        box-shadow: 2px 0 20px rgba(0, 0, 0, 0.2) !important;
+    }
+
+    .sys-sidebar.open {
+        transform: translateX(0) !important;
+    }
+
+    .sys-mobile-toggle {
+        display: flex !important;
+        top: 1rem !important;
+        left: 1rem !important;
+    }
+
+    /* 7. Video Player */
+    .course-player-container {
+        padding: 0 !important;
+    }
+
+    .video-js {
+        border-radius: 12px !important;
+    }
+
+    .vjs-big-play-button {
+        width: 60px !important;
+        height: 60px !important;
+        margin-left: -30px !important;
+        margin-top: -30px !important;
+        font-size: 2rem !important;
+        line-height: 60px !important;
+    }
+
+    /* 8. Course Page Content */
+    .content-stage {
+        display: flex !important;
+        flex-direction: column !important;
+        gap: 2rem !important;
+    }
+
+    .lesson-description-card {
+        padding: 1.5rem !important;
+    }
+
+    /* 9. Join Page Specifics */
+    /* Ensure the "Low Ticket" white card stacks */
+    div[style*="display: flex; gap: 2rem; align-items: stretch"] {
+        flex-direction: column !important;
+        padding: 2rem 1.5rem !important;
+    }
+
+    div[style*="flex: 1.2"] {
+        flex: auto !important;
+        padding-right: 0 !important;
+    }
+
+    div[style*="flex: 1; max-width: 550px"] {
+        max-width: 100% !important;
+    }
+}

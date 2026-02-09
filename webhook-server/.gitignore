@@ -4,3 +4,4 @@ users.json
 .vercel
 *.log
 .DS_Store
+.env*.local

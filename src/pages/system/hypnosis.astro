@@ -1,0 +1,481 @@
+---
+import SystemLayout from '../../layouts/SystemLayout.astro';
+---
+
+<SystemLayout title="Hypnosis Bundle" activePage="course">
+    <div class="hypnosis-header">
+        <div class="badge-premium">PREMIUM BUNDLE UNLOCKED</div>
+        <h1>Hypnosis & Mindset Audio Bundle</h1>
+        <p>Listen to these tracks daily to accelerate your identity shift and subconscious reprogramming. These sessions are designed to bypass the critical mind and install new operating systems for your success.</p>
+    </div>
+
+    <!-- MAIN AUDIO PLAYER (MODAL OR PINNED) -->
+    <div id="master-audio-player" class="master-player">
+        <div class="player-container">
+            <div class="player-main-wrap">
+                <div class="player-info">
+                    <span id="current-track-title">Select a track to play</span>
+                    <span id="player-timer">00:00 / 00:00</span>
+                </div>
+                <div class="player-controls">
+                    <button id="p-prev" class="ctrl-btn"><i class="fas fa-backward"></i></button>
+                    <button id="p-play" class="ctrl-btn play-main"><i class="fas fa-play"></i></button>
+                    <button id="p-pause" class="ctrl-btn pause-main" style="display:none;"><i class="fas fa-pause"></i></button>
+                    <button id="p-next" class="ctrl-btn"><i class="fas fa-forward"></i></button>
+                </div>
+                <div class="progress-bar-container">
+                    <div id="p-progress" class="progress-fill"></div>
+                    <input type="range" id="p-seek" class="seek-slider" min="0" value="0" step="1">
+                </div>
+                <div class="volume-container">
+                    <i class="fas fa-volume-up"></i>
+                    <input type="range" id="p-volume" class="volume-slider" min="0" max="1" step="0.1" value="1">
+                </div>
+            </div>
+            <div class="player-cta">
+                <a href="/clarity-call" target="_blank" class="btn-player-help">
+                    <span>Ready to go deeper?</span>
+                    <strong>Book Free 30-Minute Assessment</strong>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <div class="audio-grid">
+        <!-- The tracks will be populated here by the script to keep the file clean -->
+    </div>
+
+    <style is:global>
+        .hypnosis-header {
+            margin-bottom: 4rem;
+            text-align: center;
+        }
+
+        .badge-premium {
+            display: inline-block;
+            background: linear-gradient(135deg, #C4613A 0%, #A64D29 100%);
+            color: white;
+            padding: 6px 14px;
+            border-radius: 50px;
+            font-size: 0.7rem;
+            font-weight: 800;
+            letter-spacing: 1px;
+            margin-bottom: 1.5rem;
+        }
+
+        h1 {
+            font-size: 2.8rem;
+            color: #1a1f24;
+            margin-bottom: 1rem;
+            font-weight: 800;
+        }
+
+        .hypnosis-header p {
+            color: #64748b;
+            font-size: 1.1rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.6;
+        }
+
+        /* MASTER PLAYER */
+        .master-player {
+            position: fixed;
+            bottom: 30px;
+            left: 50%;
+            transform: translateX(-50%) translateY(150%);
+            width: 50%;
+            min-width: 600px;
+            background: #1a1f24;
+            border-radius: 20px;
+            padding: 1.5rem 2.5rem;
+            z-index: 1000;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.4);
+            transition: transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .master-player.active {
+            transform: translateX(-50%) translateY(0);
+        }
+
+        .player-container {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+        }
+
+        .player-main-wrap {
+            display: grid;
+            grid-template-columns: 2fr 1.5fr 3.5fr 1fr;
+            align-items: center;
+            gap: 2.5rem;
+            width: 100%;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .player-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        #current-track-title {
+            color: #fff;
+            font-weight: 700;
+            font-size: 0.95rem;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        #player-timer {
+            color: #94a3b8;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-top: 4px;
+        }
+
+        .player-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .ctrl-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.25rem;
+            cursor: pointer;
+            transition: color 0.2s;
+        }
+
+        .ctrl-btn:hover { color: #C4613A; }
+
+        .play-main {
+            width: 45px;
+            height: 45px;
+            background: #C4613A;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+        }
+
+        .progress-bar-container {
+            position: relative;
+            height: 30px;
+            display: flex;
+            align-items: center;
+        }
+
+        .seek-slider {
+            width: 100%;
+            cursor: pointer;
+            height: 4px;
+            -webkit-appearance: none;
+            background: rgba(255,255,255,0.1);
+            border-radius: 2px;
+            outline: none;
+        }
+
+        .seek-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 12px;
+            height: 12px;
+            background: #C4613A;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            color: #94a3b8;
+        }
+
+        .volume-slider { width: 60px; }
+
+        /* AUDIO GRID */
+        .audio-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            max-width: 1200px;
+            margin: 0 auto 10rem;
+        }
+
+        .audio-card {
+            background: #ffffff;
+            border: 1px solid #e2e8f0;
+            border-radius: 20px;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .audio-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.06);
+            border-color: #C4613A;
+        }
+
+        .audio-info {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .audio-icon-wrap {
+            width: 50px;
+            height: 50px;
+            background: #fdf2f0;
+            color: #C4613A;
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.25rem;
+        }
+
+        .audio-card h3 {
+            font-size: 1.25rem;
+            line-height: 1.3;
+            color: #1a1f24;
+            text-transform: none;
+            font-weight: 800;
+        }
+
+        .audio-card p {
+            font-size: 0.95rem;
+            color: #64748b;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .btn-play-track {
+            background: #f8fafc;
+            color: #1a1f24;
+            padding: 1rem;
+            border-radius: 12px;
+            font-weight: 800;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border: 1px solid #e2e8f0;
+            cursor: pointer;
+            transition: all 0.2s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 2rem;
+        }
+
+        .player-cta {
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            padding-top: 1rem;
+        }
+
+        .btn-player-help {
+            background: none;
+            color: #fff;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            transition: all 0.2s;
+            opacity: 0.8;
+        }
+
+        .btn-player-help:hover {
+            opacity: 1;
+            transform: translateY(-1px);
+        }
+
+        .btn-player-help span {
+            font-size: 0.75rem;
+            font-weight: 700;
+            color: #94a3b8;
+        }
+
+        .btn-player-help strong {
+            font-size: 0.85rem;
+            font-weight: 800;
+            color: var(--color-accent);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            border-bottom: 2px solid var(--color-accent);
+            padding-bottom: 2px;
+        }
+
+        .audio-card.playing {
+            border-color: #C4613A;
+            background: #fffcfb;
+        }
+
+        .audio-card.playing .btn-play-track {
+            background: #1a1f24;
+            color: #fff;
+            border-color: #1a1f24;
+        }
+
+        @media (max-width: 900px) {
+            .player-container {
+                grid-template-columns: 1fr 1fr;
+                gap: 1rem;
+            }
+            .progress-bar-container { grid-column: span 2; }
+            .volume-container { display: none; }
+        }
+    </style>
+
+    <script is:inline>
+        const STORAGE_BASE = "https://firebasestorage.googleapis.com/v0/b/mpdc-website-32dae.firebasestorage.app/o/hypnosis%2F";
+        const STORAGE_SUFFIX = "?alt=media";
+
+        const tracks = [
+            { title: "Abundance Mindset Hypnosis", file: "Abundance%20Mindset%20Hypnosis%20Reprogram%20Your%20Subconscious%20for%20Wealth%20%26%20Success.mp3", description: "Reprogram your subconscious for wealth and success.", icon: "fa-coins" },
+            { title: "Activate Your Inner Power Hypnosis", file: "Activate%20Your%20Inner%20Power%20Confidence%20Hypnosis%20to%20Become%20Unstoppable.mp3", description: "Confidence hypnosis to become unstoppable.", icon: "fa-bolt" },
+            { title: "Emotional Release Hypnosis", file: "Emotional%20Release%20Hypnosis%20Let%20Go%20of%20Stress%2C%20Fear%20%26%20Negative%20Energy.mp3", description: "Let go of stress, fear, and negative energy.", icon: "fa-wind" },
+            { title: "Anxiety Relief Hypnosis", file: "Hypnosis%20for%20Anxiety%20Relief.mp3", description: "Instantly calm the nervous system and silence the noise.", icon: "fa-leaf" },
+            { title: "Hypnosis for Betrayal", file: "Hypnosis%20for%20Betrayal.mp3", description: "Process the pain of betrayal and reclaim your heart.", icon: "fa-heart-broken" },
+            { title: "Fear of Success Hypnosis", file: "Hypnosis%20for%20Fear%20of%20Success.mp3", description: "Break through subconscious ceilings holding you back.", icon: "fa-mountain" },
+            { title: "Change Past Programming Hypnosis", file: "Hypnosis%20to%20Change%20Your%20Past%20Programming.mp3", description: "Rewrite the scripts installed by childhood and past relationships.", icon: "fa-code-branch" },
+            { title: "Create Resourceful Emotions Hypnosis", file: "Hypnosis%20to%20Create%20Resourceful%20Emotions.mp3", description: "Learn to tilt your state toward power.", icon: "fa-smile-beam" },
+            { title: "Create Ideal Identity Hypnosis", file: "Hypnosis%20to%20Create%20the%20Ideal%20Version%20of%20Yourself.mp3", description: "Design and step into the frame of the man you were meant to be.", icon: "fa-user-check" },
+            { title: "Resolve Conflict Hypnosis", file: "Hypnosis%20to%20Resolve%20Conflict%20with%20Someone.mp3", description: "Detach from toxic dynamics and find internal resolution.", icon: "fa-comments-slash" },
+            { title: "Step Out of Comfort Zone Hypnosis", file: "Hypnosis%20to%20Step%20Out%20of%20Your%20Comfort%20Zone.mp3", description: "Expand your horizon and build courage for risks.", icon: "fa-walking" },
+            { title: "Boost Self-Worth Hypnosis", file: "Hypnosis%20to%20boost%20self-worth.mp3", description: "Rebuild the foundation of your identity and value.", icon: "fa-gem" },
+            { title: "Boost Confidence Hypnosis", file: "Hypnosis%20to%20boost%20your%20confidence.mp3", description: "Install unshakeable certainty in your ability to lead.", icon: "fa-shield-alt" },
+            { title: "Forgive Yourself Hypnosis", file: "Hypnosis%20to%20forgive%20yourself.mp3", description: "Release the weight and grant yourself grace.", icon: "fa-hands-helping" },
+            { title: "Fear of Being Seen Hypnosis", file: "Let%20Go%20of%20the%20Fear%20of%20Being%20Seen%20Powerful%20Hypnosis%20%26%20Guided%20Visualization%20for%20Letting%20Go.mp3", description: "Guided visualization for letting go of the fear of judgment.", icon: "fa-eye-slash" },
+            { title: "Sleep for Abundance Hypnosis", file: "Sleep%20Hypnosis%20for%20Abundance%20Attract%20Wealth%20%26%20Success%20While%20You%20Sleep.mp3", description: "Attract wealth and success while you sleep.", icon: "fa-moon" },
+            { title: "Sleep Countdown Hypnosis", file: "hypnosis%20countdown%20for%20sleep.mp3", description: "A gentle countdown to help you drift into deep sleep.", icon: "fa-bed" },
+            { title: "Stress Relief & Relaxation Hypnosis", file: "hypnosis%20for%20stress%20relief%20and%20to%20create%20relaxation.mp3", description: "Lower cortisol levels and return to a state of calm.", icon: "fa-spa" }
+        ];
+
+        let audio = new Audio();
+        let currentTrackIdx = -1;
+
+        // Populate Grid
+        const grid = document.querySelector('.audio-grid');
+        tracks.forEach((track, idx) => {
+            const card = document.createElement('div');
+            card.className = 'audio-card';
+            card.innerHTML = `
+                <div class="audio-info">
+                    <div class="audio-icon-wrap"><i class="fas ${track.icon}"></i></div>
+                    <div>
+                        <h3>${track.title}</h3>
+                        <p>${track.description}</p>
+                    </div>
+                </div>
+                <button class="btn-play-track" onclick="playTrack(${idx})">
+                    <i class="fas fa-play"></i> <span>Play Track</span>
+                </button>
+            `;
+            grid.appendChild(card);
+        });
+
+        // Player Elements
+        const masterPlayer = document.getElementById('master-audio-player');
+        const playBtn = document.getElementById('p-play');
+        const pauseBtn = document.getElementById('p-pause');
+        const trackTitle = document.getElementById('current-track-title');
+        const timer = document.getElementById('player-timer');
+        const progress = document.getElementById('p-progress');
+        const seekSlider = document.getElementById('p-seek');
+        const volumeSlider = document.getElementById('p-volume');
+
+        function playTrack(idx) {
+            if (currentTrackIdx === idx) {
+                if (audio.paused) resume(); else pause();
+                return;
+            }
+
+            currentTrackIdx = idx;
+            const track = tracks[idx];
+            audio.src = `${STORAGE_BASE}${track.file}${STORAGE_SUFFIX}`;
+            trackTitle.textContent = track.title;
+            
+            masterPlayer.classList.add('active');
+            
+            // Visual feedback on cards
+            document.querySelectorAll('.audio-card').forEach((c, i) => {
+                c.classList.toggle('playing', i === idx);
+                c.querySelector('i.fa-play, i.fa-pause').className = (i === idx) ? 'fas fa-pause' : 'fas fa-play';
+                c.querySelector('span').textContent = (i === idx) ? 'Playing...' : 'Play Track';
+            });
+
+            resume();
+        }
+
+        function resume() {
+            audio.play();
+            playBtn.style.display = 'none';
+            pauseBtn.style.display = 'flex';
+            if (currentTrackIdx !== -1) {
+                const activeCard = document.querySelectorAll('.audio-card')[currentTrackIdx];
+                activeCard.querySelector('i.fa-play, i.fa-pause').className = 'fas fa-pause';
+            }
+        }
+
+        function pause() {
+            audio.pause();
+            playBtn.style.display = 'flex';
+            pauseBtn.style.display = 'none';
+            if (currentTrackIdx !== -1) {
+                const activeCard = document.querySelectorAll('.audio-card')[currentTrackIdx];
+                activeCard.querySelector('i.fa-play, i.fa-pause').className = 'fas fa-play';
+                activeCard.querySelector('span').textContent = 'Paused';
+            }
+        }
+
+        // Control listeners
+        playBtn.onclick = resume;
+        pauseBtn.onclick = pause;
+        document.getElementById('p-next').onclick = () => playTrack((currentTrackIdx + 1) % tracks.length);
+        document.getElementById('p-prev').onclick = () => playTrack((currentTrackIdx - 1 + tracks.length) % tracks.length);
+
+        audio.ontimeupdate = () => {
+            const current = audio.currentTime;
+            const duration = audio.duration || 0;
+            const pct = (current / duration) * 100;
+            
+            progress.style.width = `${pct}%`;
+            seekSlider.value = current;
+            seekSlider.max = duration;
+
+            timer.textContent = `${formatTime(current)} / ${formatTime(duration)}`;
+        };
+
+        seekSlider.oninput = () => {
+            audio.currentTime = seekSlider.value;
+        };
+
+        volumeSlider.oninput = () => {
+            audio.volume = volumeSlider.value;
+        };
+
+        audio.onended = () => {
+            playTrack((currentTrackIdx + 1) % tracks.length);
+        };
+
+        function formatTime(secs) {
+            const mins = Math.floor(secs / 60);
+            const s = Math.floor(secs % 60);
+            return `${mins}:${s < 10 ? '0' : ''}${s}`;
+        }
+    </script>
+</SystemLayout>

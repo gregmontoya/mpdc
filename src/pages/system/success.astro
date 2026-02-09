@@ -1,0 +1,309 @@
+---
+import '../../styles/style.css';
+---
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thank You! | Men's Divorce Mindset System</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
+    <!-- Google tag (gtag.js) -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-T26PKTMJB1');
+    </script>
+
+    <!-- Event snippet for Purchase conversion page -->
+    <script>
+      gtag('event', 'conversion', {
+          'send_to': 'AW-16453989063/purchase',
+          'value': 49.0,
+          'currency': 'USD',
+          'transaction_id': ''
+      });
+    </script>
+    <style>
+        :root {
+            --color-bg-primary: #0b3b36;
+            --color-accent: #C4613A;
+            --color-text-light: #ffffff;
+            --color-text-muted: #e8e1d4;
+        }
+
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background-color: var(--color-bg-primary);
+            color: var(--color-text-light);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-image:
+                linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px);
+            background-size: 40px 40px;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+
+        .success-container {
+            width: 100%;
+            padding: 2rem;
+            display: flex;
+            justify-content: center;
+            position: relative;
+            z-index: 10;
+        }
+
+        .success-card {
+            width: 100%;
+            max-width: 600px;
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border: 2px solid rgba(196, 97, 58, 0.3);
+            border-radius: 16px;
+            padding: 4rem 3rem;
+            text-align: center;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.5);
+            animation: slideUp 0.8s cubic-bezier(0.2, 0.8, 0.2, 1);
+        }
+
+        .success-title {
+            font-size: 3rem;
+            font-weight: 900;
+            margin: 0 0 0.5rem 0;
+            letter-spacing: -1px;
+            background: linear-gradient(135deg, #fff 0%, #C4613A 100%);
+            -webkit-background-clip: text;
+            background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .checklist {
+            text-align: left;
+            margin: 2rem 0;
+            background: rgba(255, 255, 255, 0.02);
+            border-radius: 20px;
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .checklist-item {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 12px;
+            font-size: 0.95rem;
+            color: var(--color-text-muted);
+        }
+
+        .checklist-item i {
+            color: var(--color-accent);
+            font-size: 1.1rem;
+        }
+
+        .checklist-item.complete {
+            color: #fff;
+            font-weight: 600;
+        }
+
+        .success-icon-wrapper {
+            margin-bottom: 1.5rem;
+        }
+
+        .success-icon {
+            font-size: 3rem;
+            color: var(--color-accent);
+        }
+
+        .success-subtitle {
+            color: var(--color-text-muted);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 1rem;
+            margin: 2rem 0;
+        }
+
+        .info-item {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .info-label {
+            font-size: 0.85rem;
+            color: var(--color-text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .info-value {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: var(--color-accent);
+        }
+
+        .btn-access {
+            display: inline-block;
+            background-color: var(--color-accent);
+            color: white;
+            padding: 1.25rem 2.5rem;
+            border-radius: 8px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-decoration: none;
+            margin: 2rem 0 1.5rem 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(196, 97, 58, 0.4);
+        }
+
+        .btn-access:hover {
+            background-color: #a54f2f;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(196, 97, 58, 0.6);
+        }
+
+        .email-alert {
+            background-color: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(196, 97, 58, 0.3);
+            border-radius: 8px;
+            padding: 1.5rem;
+            margin-top: 1.5rem;
+            color: var(--color-text-muted);
+        }
+
+        @keyframes slideUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-grid">
+    <!-- Google Tag Manager (noscript) -->
+    <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KCZBZGJ"
+    height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+    <!-- End Google Tag Manager (noscript) -->
+
+    <div class="success-container">
+        <div class="success-card">
+            <div class="success-icon-wrapper">
+                <div class="success-icon">
+                    <i class="fas fa-crown"></i>
+                </div>
+            </div>
+
+            <h1 class="success-title">SYSTEM ACTIVATED.</h1>
+            <p class="success-subtitle">You have officially stepped out of the fog. Your new life begins with the first module.</p>
+
+            <div class="checklist">
+                <div class="checklist-item complete">
+                    <i class="fas fa-check-circle"></i> Secure Payment Verified
+                </div>
+                <div class="checklist-item complete">
+                    <i class="fas fa-check-circle"></i> Account Automatically Created
+                </div>
+                <div class="checklist-item">
+                    <i class="far fa-circle"></i> Check your inbox for access keys
+                </div>
+                <div class="checklist-item">
+                    <i class="far fa-circle"></i> Login and complete Module 1
+                </div>
+            </div>
+
+            <div class="info-grid">
+                <div class="info-item">
+                    <span class="info-label">Order Reference</span>
+                    <span class="info-value" id="order-number">...</span>
+                </div>
+                <div class="info-item">
+                    <span class="info-label">Registered Email</span>
+                    <span class="info-value" id="customer-email">...</span>
+                </div>
+            </div>
+
+            <a href="/system/login" class="btn-access">ENTER THE SYSTEM NOW <i class="fas fa-bolt"
+                    style="margin-left: 10px;"></i></a>
+
+            <div class="email-alert">
+                <i class="fas fa-unlock-alt" style="color: var(--color-accent); margin-right: 8px;"></i>
+                <strong>Access Pending:</strong><br>
+                Your temporary password has been sent to your primary inbox.
+            </div>
+
+            <a href="mailto:hello@menspostdivorcecoaching.com" style="color: var(--color-text-muted); text-decoration: none; font-size: 0.85rem; margin-top: 2rem; display: block; opacity: 0.6; transition: opacity 0.2s;" onmouseover="this.style.opacity=1" onmouseout="this.style.opacity=0.6">Need help? Contact hello@menspostdivorcecoaching.com</a>
+        </div>
+    </div>
+
+    <script>
+        // Get customer info from localStorage or URL params
+        const urlParams = new URLSearchParams(window.location.search);
+        const email = urlParams.get('email') || localStorage.getItem('mpdc_customer_email') || 'your-email@example.com';
+        const emailEl = document.getElementById('customer-email');
+        if (emailEl) emailEl.textContent = email;
+
+        // Mock Order Number
+        const orderNumber = 'MPDC-' + Date.now().toString().slice(-6);
+        const orderEl = document.getElementById('order-number');
+        if (orderEl) orderEl.textContent = orderNumber;
+
+        // Confetti Logic
+        function createConfetti() {
+            const colors = ['#C4613A', '#e8e1d4', '#ffffff'];
+            for (let i = 0; i < 70; i++) {
+                const confetti = document.createElement('div');
+                confetti.style.position = 'absolute';
+                confetti.style.width = Math.random() * 10 + 5 + 'px';
+                confetti.style.height = Math.random() * 5 + 5 + 'px';
+                confetti.style.top = '-10px';
+                confetti.style.left = Math.random() * 100 + 'vw';
+                confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+                confetti.style.zIndex = '1';
+                confetti.style.opacity = Math.random();
+                confetti.style.transform = `rotate(${Math.random() * 360}deg)`;
+                confetti.style.animation = `fall ${(Math.random() * 3 + 3)}s cubic-bezier(0.25, 0.46, 0.45, 0.94) forwards`;
+                
+                if (!document.getElementById('confetti-style')) {
+                    const style = document.createElement('style');
+                    style.id = 'confetti-style';
+                    style.innerHTML = `@keyframes fall { to { transform: translateY(110vh) rotate(1080deg); opacity: 0; } }`;
+                    document.head.appendChild(style);
+                }
+
+                document.body.appendChild(confetti);
+                setTimeout(() => confetti.remove(), 6000);
+            }
+        }
+        setTimeout(createConfetti, 300);
+    </script>
+</body>
+
+</html>

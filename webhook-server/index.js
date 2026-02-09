@@ -3,14 +3,52 @@ const crypto = require('crypto');
 const path = require('path');
 const { Resend } = require('resend');
 const { createClient } = require('@supabase/supabase-js');
+const admin = require('firebase-admin');
+let stripe;
+if (process.env.STRIPE_SECRET_KEY) {
+    stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+} else {
+    console.error('❌ STRIPE_SECRET_KEY is missing from environment variables');
+}
+
+
+// Initialize Firebase Admin (Using Env Vars)
+if (!admin.apps.length) {
+    try {
+        admin.initializeApp({
+            credential: admin.credential.cert({
+                projectId: process.env.FIREBASE_PROJECT_ID,
+                clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+                privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+            })
+        });
+        console.log('✅ Firebase Admin Initialized');
+    } catch (e) {
+        console.error('❌ Firebase Admin Init Error:', e.message);
+    }
+}
+
+let firestore = null;
+let firebaseAuth = null;
+
+if (admin.apps.length > 0) {
+    firestore = admin.firestore();
+    firebaseAuth = admin.auth();
+}
+
 
 const app = express();
 
 // Initialize Resend
-const resend = new Resend(process.env.RESEND_API_KEY);
+const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
+if (!resend) console.error('❌ RESEND_API_KEY is missing');
 
 // Initialize Supabase
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
+const supabase = (process.env.SUPABASE_URL && process.env.SUPABASE_KEY)
+    ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
+    : null;
+if (!supabase) console.error('❌ SUPABASE_URL or SUPABASE_KEY is missing');
+
 
 // Middleware to get raw body for Stripe signature verification
 // AND Enable CORS for frontend lead capture
@@ -67,10 +105,125 @@ app.post('/capture-lead', async (req, res) => {
     res.json({ received: true });
 });
 
+// --------------------------------------------------------------------------
+// 💳 CREATE STRIPE CHECKOUT SESSION (FORCED USD)
+// --------------------------------------------------------------------------
+app.post('/create-checkout-session', async (req, res) => {
+    const { email, name, plan = 'core' } = req.body;
+
+    try {
+        console.log(`💳 Creating Session for: ${email} (${plan})`);
+
+        // Define price based on plan
+        const amount = plan === 'bundle' ? 5800 : 4900;
+        const productName = plan === 'bundle' ? "The System + Hypnosis Bundle" : "The Men's Divorce Mindset System";
+
+        const sessionOptions = {
+            payment_method_types: ['card'],
+            customer_email: email,
+            line_items: [{
+                price_data: {
+                    currency: 'usd',
+                    product_data: {
+                        name: productName,
+                        description: 'One-time access to the MPDC System.',
+                    },
+                    unit_amount: amount,
+                },
+                quantity: 1,
+            }],
+            mode: 'payment',
+            allow_promotion_codes: true,
+            success_url: 'https://menspostdivorcecoaching.com/system/success',
+            cancel_url: 'https://menspostdivorcecoaching.com/join',
+            metadata: {
+                customer_name: name,
+                plan: plan
+            }
+        };
+
+        // 🕵️‍♂️ SECRET TEST TRIGGER
+        // If name is GREG_TEST, apply the 100% off coupon automatically
+        if (name === 'GREG_TEST' || name === 'greg_test') {
+            sessionOptions.discounts = [{ coupon: 'wyDKIgXD' }];
+        }
+
+        const session = await stripe.checkout.sessions.create(sessionOptions);
+
+        res.json({ url: session.url });
+    } catch (error) {
+        console.error('❌ Stripe Session Error:', error);
+        res.status(500).json({ error: error.message });
+    }
+});
 
 // --------------------------------------------------------------------------
-// 📧 EMAIL SENDING LOGIC (Using Resend SDK)
+// � CUSTOM PASSWORD RESET (Fully Branded via Resend)
 // --------------------------------------------------------------------------
+app.post('/request-password-reset', async (req, res) => {
+    const { email } = req.body;
+    if (!email) return res.status(400).json({ error: 'Email is required' });
+
+    try {
+        console.log(`🔑 Generating reset link for: ${email}`);
+
+        // 1. Generate the secure reset link from Firebase
+        // This link points to your standard Firebase handler but we send it via our email
+        const resetLink = await firebaseAuth.generatePasswordResetLink(email);
+
+        // 2. Send the branded email
+        await sendPasswordResetEmail(email, resetLink);
+
+        res.json({ success: true });
+    } catch (error) {
+        console.error('❌ Reset Link Error:', error.message);
+        // We return success even if user not found to prevent email enumeration (Pro practice)
+        res.json({ success: true, note: 'If account exists, email sent.' });
+    }
+});
+
+async function sendPasswordResetEmail(email, link) {
+    const emailHTML = `
+    <!DOCTYPE html>
+    <html>
+    <head>
+        <style>
+            .btn { background-color: #C4613A; color: #ffffff !important; text-decoration: none; padding: 15px 30px; border-radius: 8px; font-weight: bold; display: inline-block; }
+        </style>
+    </head>
+    <body style="font-family: sans-serif; color: #333; line-height: 1.6; padding: 20px;">
+        <div style="max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 12px; overflow: hidden;">
+            <div style="background: #0b3b36; padding: 30px; text-align: center;">
+                <h1 style="color: white; margin: 0; font-size: 18px; letter-spacing: 2px;">MPDC SYSTEM</h1>
+            </div>
+            <div style="padding: 40px;">
+                <h2 style="margin-top: 0;">Password Reset Request</h2>
+                <p>We received a request to reset your password for the Men's Divorce Mindset System.</p>
+                <p>Click the button below to set a new password. This link is secure and will expire soon.</p>
+                
+                <div style="text-align: center; margin: 40px 0;">
+                    <a href="${link}" class="btn">Reset My Password</a>
+                </div>
+                
+                <p style="font-size: 13px; color: #666;">If you didn't request this, you can safely ignore this email.</p>
+                <hr style="border: 0; border-top: 1px solid #eee; margin: 30px 0;">
+                <p style="font-size: 12px; color: #94a3b8; text-align: center;">
+                    &copy; ${new Date().getFullYear()} Athens NLP Studies, LLC.
+                </p>
+            </div>
+        </div>
+    </body>
+    </html>
+    `;
+
+    await resend.emails.send({
+        from: 'Alex Morgan <hello@menspostdivorcecoaching.com>',
+        to: email,
+        subject: '🔒 Password Reset: Men\'s Divorce Mindset System',
+        html: emailHTML
+    });
+}
+
 async function sendWelcomeEmail(email, name, password) {
     const loginUrl = 'https://menspostdivorcecoaching.com/system/login.html';
 
@@ -190,6 +343,41 @@ async function sendWelcomeEmail(email, name, password) {
 }
 
 // --------------------------------------------------------------------------
+// 🚨 ADMIN NOTIFICATION
+// --------------------------------------------------------------------------
+async function sendAdminNotification(email, name, amount, accessLevel) {
+    const emailHTML = `
+    <div style="font-family: sans-serif; padding: 20px; color: #333;">
+        <h1 style="color: #22c55e;">💰 New Sale detected!</h1>
+        <div style="background: #f4f4f4; padding: 15px; border-radius: 8px; margin: 20px 0;">
+            <p style="margin: 5px 0;"><strong>Customer:</strong> ${name} (${email})</p>
+            <p style="margin: 5px 0;"><strong>Amount:</strong> $${(amount / 100).toFixed(2)}</p>
+            <p style="margin: 5px 0;"><strong>Plan:</strong> ${accessLevel.toUpperCase()}</p>
+            <p style="margin: 5px 0;"><strong>Time:</strong> ${new Date().toLocaleString()}</p>
+        </div>
+        <p>This user has been automatically provisioned in Firebase and Firestore.</p>
+    </div>
+    `;
+
+    try {
+        const { data, error } = await resend.emails.send({
+            from: 'MPDC System <hello@menspostdivorcecoaching.com>',
+            to: ['hello@menspostdivorcecoaching.com', 'gregmontoya1@gmail.com'],
+            subject: `💰 New Sale: $${(amount / 100).toFixed(2)} from ${name}`,
+            html: emailHTML
+        });
+
+        if (error) {
+            console.error('❌ Admin Notification Error:', error);
+        } else {
+            console.log(`✅ Admin notification sent to team`);
+        }
+    } catch (error) {
+        console.error('❌ Fatal Admin Email Error:', error);
+    }
+}
+
+// --------------------------------------------------------------------------
 // 🔐 WEBHOOK VERIFICATION (Manual)
 // --------------------------------------------------------------------------
 function verifyStripeSignature(payload, signatureHeader) {
@@ -258,27 +446,81 @@ app.post('/webhook', async (req, res) => {
                 return res.status(400).send('No email found');
             }
 
+            // Determine Access Level based on Metadata Plan OR Amount (Handling Workflow Differences)
+            // Core: $49 (4900 cents)
+            // Bundle: $58 (5800 cents)
+            const plan = session.metadata?.plan || 'core';
+            const amountTotal = session.amount_total; // in cents
+            let accessLevel = 'student'; // Default
+
+            // If plan is bundle OR they paid $58+, give bundle access
+            if (plan === 'bundle' || amountTotal >= 5800) {
+                accessLevel = 'student_bundle';
+                console.log('🌟 BUNDLE PURCHASE DETECTED');
+            } else {
+                console.log('✅ STANDARD PURCHASE DETECTED');
+            }
+
             // Generate password & hash
             const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%';
             let password = '';
             for (let i = 0; i < 12; i++) password += chars.charAt(Math.floor(Math.random() * chars.length));
             const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
 
-            // 1. Create User in CRM
-            console.log(`Creating user: ${email}`);
-            const { error: dbError } = await supabase.from('profiles').insert([
-                { email: email, name: name, access_level: 'student' }
-            ]);
-
-            if (dbError) {
-                console.error('Supabase Error:', dbError);
-                // Continue, don't block email
-            } else {
-                console.log('✅ User saved to CRM');
+            // 1. Create User in CRM (Supabase - Optional Backup)
+            try {
+                const { error: dbError } = await supabase.from('profiles').insert([
+                    { email: email, name: name, access_level: accessLevel }
+                ]);
+                if (dbError) console.error('Supabase Error:', dbError);
+                else console.log('✅ User saved to Supabase (CRM)');
+            } catch (e) {
+                console.error('Supabase Catch Error:', e.message);
             }
 
-            // 2. Send Email
+            // 2. Create User in Firebase (PRIMARY FOR DASHBOARD ACCESS)
+            try {
+                console.log(`🔥 Provisioning Firebase for: ${email}`);
+
+                // Create Auth User
+                const userRecord = await firebaseAuth.createUser({
+                    email: email,
+                    password: password,
+                    displayName: name,
+                });
+
+                // Create Firestore Profile
+                await firestore.collection('profiles').doc(userRecord.uid).set({
+                    email: email,
+                    name: name,
+                    access_level: accessLevel,
+                    created_at: admin.firestore.FieldValue.serverTimestamp(),
+                    purchase_amount: amountTotal / 100
+                });
+
+                console.log('✅ Firebase Account & Profile Created');
+            } catch (fbError) {
+                console.error('❌ Firebase Provisioning Error:', fbError.message);
+                // If user already exists, just update their access_level
+                if (fbError.code === 'auth/email-already-exists') {
+                    try {
+                        const user = await firebaseAuth.getUserByEmail(email);
+                        await firestore.collection('profiles').doc(user.uid).set({
+                            access_level: accessLevel,
+                            last_purchase_at: admin.firestore.FieldValue.serverTimestamp()
+                        }, { merge: true });
+                        console.log('✅ Existing user access_level updated in Firestore');
+                    } catch (e) {
+                        console.error('❌ Failed to update existing user:', e.message);
+                    }
+                }
+            }
+
+            // 3. Send Welcome Email
             await sendWelcomeEmail(email, name, password);
+
+            // 4. Send Admin Notification
+            await sendAdminNotification(email, name, amountTotal, accessLevel);
 
             res.json({ received: true, email });
         } else {
