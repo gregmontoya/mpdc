@@ -7,7 +7,7 @@ import '../styles/mega-menu.css';
 import '../styles/footer.css';
 import '../styles/cookie.css';
 
-const { title = "Men's Post-Divorce Coaching - Rebuild Your Life", simpleHeader = false, simpleFooter = false } = Astro.props;
+const { title = "Men's Post-Divorce Coaching - Rebuild Your Life", simpleHeader = false, simpleFooter = false, bodyClass = "" } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -39,7 +39,7 @@ const { title = "Men's Post-Divorce Coaching - Rebuild Your Life", simpleHeader 
     <slot name="head" />
 </head>
 
-<body>
+<body class={bodyClass}>
     {!simpleHeader && <Header />}
     <slot />
     {!simpleFooter && <Footer />}

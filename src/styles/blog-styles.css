@@ -61,10 +61,11 @@ body.blog-page {
    ======================================== */
 
 .article-header.split-hero {
-    background-color: var(--color-bg-primary);
+    background-color: #ffffff;
     padding: 0;
     margin-bottom: 3rem;
     overflow: hidden;
+    border-bottom: 1px solid var(--color-border);
 }
 
 .header-container {
@@ -102,9 +103,8 @@ body.blog-page {
 .article-header h1 {
     font-family: var(--font-heading);
     font-size: 3.5rem;
-    /* Slightly larger for split view */
     line-height: 1.1;
-    color: var(--color-text-light);
+    color: var(--color-text-dark);
     margin-bottom: 1.5rem;
     font-weight: 800;
     letter-spacing: -1px;
@@ -113,7 +113,7 @@ body.blog-page {
 .article-subtitle {
     font-size: 1.25rem;
     line-height: 1.6;
-    color: var(--color-text-muted);
+    color: #4b5563;
     margin-bottom: 2.5rem;
     max-width: 600px;
 }
@@ -128,9 +128,8 @@ body.blog-page {
 
 .breadcrumb {
     font-size: 0.875rem;
-    color: var(--color-text-muted);
+    color: #6b7280;
     margin-bottom: 1.5rem;
-    opacity: 0.8;
 }
 
 .breadcrumb a {
@@ -150,21 +149,20 @@ body.blog-page {
 
 .author-name {
     font-weight: 700;
-    color: var(--color-text-light);
+    color: var(--color-text-dark);
     font-size: 0.95rem;
     margin-bottom: 0.25rem;
 }
 
 .publish-date {
     font-size: 0.875rem;
-    color: var(--color-text-muted);
-    opacity: 0.8;
+    color: #6b7280;
 }
 
 .share-btn {
     background-color: transparent;
-    border: 2px solid var(--color-text-light);
-    color: var(--color-text-light);
+    border: 2px solid var(--color-bg-primary);
+    color: var(--color-bg-primary);
     padding: 0.5rem 1.5rem;
     border-radius: 6px;
     font-weight: 600;
@@ -174,8 +172,8 @@ body.blog-page {
 }
 
 .share-btn:hover {
-    background-color: var(--color-text-light);
-    color: var(--color-bg-primary);
+    background-color: var(--color-bg-primary);
+    color: white;
 }
 
 @media (max-width: 968px) {

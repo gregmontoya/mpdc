@@ -1,7 +1,7 @@
 ---
 import { getCollection } from 'astro:content';
-import Layout from '../../layouts/Layout.astro';
-import '../../styles/blog-styles.css';
+import Layout from '../../../layouts/Layout.astro';
+import '../../../styles/blog-styles.css';
 
 export async function getStaticPaths() {
     const allPosts = await getCollection('blog');
@@ -60,7 +60,7 @@ const categoryCounts = allPosts.reduce((acc, post) => {
                             <li>
                                 <a class={`category-link ${slug === categorySlug ? 'active' : ''}`} 
                                    data-category={cat.toLowerCase().split(' ')[0]} 
-                                   href={`/learn/${slug}`}>
+                                   href={`/learn/category/${slug}`}>
                                     {cat} <span class="count">({categoryCounts[cat] || 0})</span>
                                 </a>
                             </li>

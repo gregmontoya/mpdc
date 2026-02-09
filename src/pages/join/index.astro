@@ -18,6 +18,7 @@ import '../../styles/modules.css'; // Use if previously created
         <!-- HLS Video Support -->
         <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
         <script is:inline src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+        <script is:inline src="https://js.stripe.com/v3/"></script>
         <!-- Fonts from Live Site -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -59,9 +60,11 @@ Are You Stuck Living in<br data-astro-cid-ky4cslmu> <span style="color: var(--co
 You're physically divorced, but mentally owned. Break the invisible chains and finally become the man she couldn't handle.
 </p> <div style="color: var(--color-text-muted); font-size: 1.1rem; font-weight: 600; margin-bottom: 3.5rem; text-transform: uppercase; letter-spacing: 1px;" data-astro-cid-ky4cslmu>
 The 5-Step System to Rebuild Your Identity & Reclaim Your Edge
-</div> <!-- Video Player (Ready for Firebase Hosting) --> <div class="hero-video-wrapper" data-astro-cid-ky4cslmu> <div class="video-container" style="border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 30px 60px rgba(0,0,0,0.5); position: relative;" data-astro-cid-ky4cslmu> <video id="vsl-video" controls playsinline poster="/images/social-preview.png" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; background: #000;" data-astro-cid-ky4cslmu> <source src="/videos/VSL.mp4" type="video/mp4" data-astro-cid-ky4cslmu>
-Your browser does not support the video tag.
-</video> <!-- High-Converting Play Overlay --> <div id="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; transition: opacity 0.3s ease;" data-astro-cid-ky4cslmu> <div class="play-button-wrapper" style="text-align: center;" data-astro-cid-ky4cslmu> <div style="width: 100px; height: 100px; background: var(--color-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; box-shadow: 0 0 30px rgba(196, 97, 58, 0.5); transition: transform 0.3s ease;" data-astro-cid-ky4cslmu> <div style="width: 0; height: 0; border-top: 20px solid transparent; border-bottom: 20px solid transparent; border-left: 30px solid #fff; margin-left: 8px;" data-astro-cid-ky4cslmu></div> </div> <span style="color: #fff; font-weight: 900; letter-spacing: 3px; font-size: 1.25rem; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0,0,0,0.5);" data-astro-cid-ky4cslmu>Watch The Video Now</span> </div> </div> </div> </div> </div> <!-- "Low Ticket Profits" Format White Card --> <div class="ltp-card" style="background: #fff; border-radius: 12px; padding: 2rem; color: var(--color-text-dark); box-shadow: 0 40px 100px rgba(0,0,0,0.4); margin-top: 4rem; display: flex; gap: 2rem; align-items: stretch; text-align: left; max-width: 1080px; margin-left: auto; margin-right: auto;" data-astro-cid-ky4cslmu> <!-- Left: Sales Copy in LTP Format --> <div style="flex: 1.2; padding-right: 0;" data-astro-cid-ky4cslmu> <p style="font-size: 1.35rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--color-text-dark);" data-astro-cid-ky4cslmu>
+</div> <!-- Video Player (Ready for Firebase Hosting) --> <div class="hero-video-wrapper" data-astro-cid-ky4cslmu> <div class="video-container" style="border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 30px 60px rgba(0,0,0,0.5); position: relative;" data-astro-cid-ky4cslmu>                    <video id="vsl-video" class="video-js vjs-big-play-centered" controls playsinline poster="/images/social-preview.png" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; background: #000;" data-astro-cid-ky4cslmu>
+                        <source src="https://storage.googleapis.com/mpdc-website-32dae.firebasestorage.app/streaming/VSL/manifest.m3u8" type="application/x-mpegURL">
+                        Your browser does not support the video tag.
+                    </video>
+ <!-- High-Converting Play Overlay --> <div id="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; transition: opacity 0.3s ease;" data-astro-cid-ky4cslmu> <div class="play-button-wrapper" style="text-align: center;" data-astro-cid-ky4cslmu> <div style="width: 100px; height: 100px; background: var(--color-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; box-shadow: 0 0 30px rgba(196, 97, 58, 0.5); transition: transform 0.3s ease;" data-astro-cid-ky4cslmu> <div style="width: 0; height: 0; border-top: 20px solid transparent; border-bottom: 20px solid transparent; border-left: 30px solid #fff; margin-left: 8px;" data-astro-cid-ky4cslmu></div> </div> <span style="color: #fff; font-weight: 900; letter-spacing: 3px; font-size: 1.25rem; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0,0,0,0.5);" data-astro-cid-ky4cslmu>Watch The Video Now</span> </div> </div> </div> </div> </div> <!-- "Low Ticket Profits" Format White Card --> <div class="ltp-card" style="background: #fff; border-radius: 12px; padding: 2rem; color: var(--color-text-dark); box-shadow: 0 40px 100px rgba(0,0,0,0.4); margin-top: 4rem; display: flex; gap: 2rem; align-items: stretch; text-align: left; max-width: 1080px; margin-left: auto; margin-right: auto;" data-astro-cid-ky4cslmu> <!-- Left: Sales Copy in LTP Format --> <div style="flex: 1.2; padding-right: 0;" data-astro-cid-ky4cslmu> <p style="font-size: 1.35rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--color-text-dark);" data-astro-cid-ky4cslmu>
 What if you could actually <strong data-astro-cid-ky4cslmu>stop reacting</strong> to your past — while <strong data-astro-cid-ky4cslmu>rebuilding your identity</strong> (not just repressing the pain) starting now?
 </p> <p style="font-size: 1.35rem; line-height: 1.6; margin-bottom: 2rem; color: var(--color-text-dark);" data-astro-cid-ky4cslmu>
 That's exactly what you'll learn inside the <strong data-astro-cid-ky4cslmu>Men's Divorce Mindset System</strong> — the same protocol that's helped hundreds of men move from hollow effort to a life of <strong data-astro-cid-ky4cslmu>clarity and purpose</strong>.
@@ -119,7 +122,7 @@ Don't just rely on willpower. Plug in these audio tracks before bed to silence t
 PROCEED TO CHECKOUT - <span class="checkout-total" data-astro-cid-ky4cslmu>$49</span> →
 </button> <!-- Trust Signals Section --> <div style="margin-top: 2.5rem; text-align: center;" data-astro-cid-ky4cslmu> <!-- 30-Day Money Back --> <div style="display: flex; align-items: center; justify-content: center; gap: 1.25rem; margin-bottom: 2rem;" data-astro-cid-ky4cslmu> <!-- Gold Badge Seal --> <div style="width: 85px; height: 85px; position: relative; background: linear-gradient(135deg, #C5A059 0%, #E2C17D 50%, #C5A059 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.15);" data-astro-cid-ky4cslmu> <div style="position: absolute; top: -4px; left: -4px; right: -4px; bottom: -4px; border: 3px dotted #C5A059; border-radius: 50%;" data-astro-cid-ky4cslmu></div> <div style="text-align: center; color: #fff; font-family: sans-serif; z-index: 1;" data-astro-cid-ky4cslmu> <div style="font-size: 8px; letter-spacing: 0.5px; opacity: 0.9;" data-astro-cid-ky4cslmu>★★★★</div> <div style="font-size: 16px; font-weight: 900; line-height: 1;" data-astro-cid-ky4cslmu>100%</div> <div style="font-size: 8px; font-weight: 700; line-height: 1.1; margin: 2px 0;" data-astro-cid-ky4cslmu>MONEY BACK</div> <div style="font-size: 8px; letter-spacing: 0.5px; opacity: 0.9;" data-astro-cid-ky4cslmu>★★★★</div> </div> </div> <!-- Dashed Box Text --> <div style="border: 2px dashed rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem 1.25rem; text-align: left;" data-astro-cid-ky4cslmu> <div style="font-size: 1.3rem; font-weight: 900; color: #1a1a1a; line-height: 1.1; text-transform: uppercase; letter-spacing: -0.5px;" data-astro-cid-ky4cslmu>30-DAY MONEY</div> <div style="font-size: 1.3rem; font-weight: 900; color: #1a1a1a; line-height: 1.1; text-transform: uppercase; letter-spacing: -0.5px;" data-astro-cid-ky4cslmu>BACK GUARANTEE</div> </div> </div> <!-- Security Text --> <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; color: #1a1a1a; font-weight: 800; font-size: 1.05rem; margin-bottom: 1.5rem;" data-astro-cid-ky4cslmu> <span style="font-size: 1.1rem;" data-astro-cid-ky4cslmu>🔒</span> 100% Secure 256-Bit Encrypted Checkout
 </div> <!-- Payment Icons --> <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; opacity: 0.8; font-size: 24px; color: #555;" data-astro-cid-ky4cslmu> <i class="fab fa-cc-visa" data-astro-cid-ky4cslmu></i> <i class="fab fa-cc-mastercard" data-astro-cid-ky4cslmu></i> <i class="fab fa-cc-amex" data-astro-cid-ky4cslmu></i> <i class="fab fa-cc-discover" data-astro-cid-ky4cslmu></i> <i class="fab fa-stripe" style="font-size: 32px;" data-astro-cid-ky4cslmu></i> <div style="display: flex; align-items: center; gap: 4px; background: #fff; border: 1px solid #ddd; padding: 2px 6px; border-radius: 4px; height: 20px; margin-left: 0.5rem;" data-astro-cid-ky4cslmu> <span style="color: #5cb85c; font-size: 10px;" data-astro-cid-ky4cslmu>✔</span> <span style="font-size: 9px; font-weight: 800; color: #666; text-transform: uppercase; letter-spacing: 0.5px;" data-astro-cid-ky4cslmu>SECURE</span> </div> </div> <p style="color: #888; font-size: 0.85rem; margin-top: 1.5rem;" data-astro-cid-ky4cslmu>
-Your detailed access information will be sent to your email immediately.<br data-astro-cid-ky4cslmu> <span style="font-size: 0.75rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 8px; display: block;" data-astro-cid-ky4cslmu>Athens NLP Studies, LLC</span> </p> </div> </div> </div> </div> </section> <script type="module" src="/_astro/index.astro_astro_type_script_index_0_lang.Bq4R7Y5h.js"></script>   <!-- Premium Institutional Footer --><footer class="site-footer"> <div class="container"> <!-- Disclosure Section --> <div class="footer-disclosure"> <p>
+Your detailed access information will be sent to your email immediately.<br data-astro-cid-ky4cslmu> <span style="font-size: 0.75rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 8px; display: block;" data-astro-cid-ky4cslmu>Athens NLP Studies, LLC</span> </p> </div> </div> </div> </div> </section>   <!-- Premium Institutional Footer --><footer class="site-footer"> <div class="container"> <!-- Disclosure Section --> <div class="footer-disclosure"> <p>
 Men’s Post Divorce Coaching and the Men’s Divorce Mindset System are educational products and coaching
                 services. I am not an attorney, financial advisor, or licensed therapist. The information provided is
                 for educational and self-improvement purposes only and does not constitute legal, financial, or medical
@@ -258,7 +261,7 @@ Sheridan, WY 82801, US
         
         // Run check
         checkSeoStatus();
-    </script> <!-- Attribution Tracking --> <script type="module" src="/_astro/Layout.astro_astro_type_script_index_0_lang.bNviALJ1.js"></script> 
+    </script>
     </div>
 
     <script is:inline>
@@ -266,20 +269,33 @@ Sheridan, WY 82801, US
         document.addEventListener('DOMContentLoaded', () => {
             // Fix Video Player
             if (typeof videojs !== 'undefined') {
-                 // Find the video element - live site usually has id="vsl-video" or similar
-                 const videoEl = document.querySelector('video');
+                 const videoEl = document.querySelector('#vsl-video');
+                 const overlay = document.querySelector('#video-overlay');
+                 
                  if(videoEl) {
-                    videoEl.id = 'vsl-player-restored';
-                    videoEl.classList.add('video-js', 'vjs-big-play-centered');
-                    
-                    videojs('vsl-player-restored', {
+                    const player = videojs('vsl-video', {
                         fluid: true,
                         controls: true,
-                        preload: 'auto',
-                        sources: [{
-                            src: 'https://storage.googleapis.com/mpdc-website-32dae.firebasestorage.app/streaming/VSL/manifest.m3u8',
-                            type: 'application/x-mpegURL'
-                        }]
+                        preload: 'auto'
+                    });
+
+                    // Handle Overlay Click
+                    if (overlay) {
+                        overlay.addEventListener('click', () => {
+                            overlay.style.opacity = '0';
+                            setTimeout(() => {
+                                overlay.style.display = 'none';
+                                player.play();
+                            }, 300);
+                        });
+                    }
+
+                    // Also hide overlay if player starts playing via native controls
+                    player.on('play', () => {
+                        if (overlay) {
+                            overlay.style.opacity = '0';
+                            setTimeout(() => { overlay.style.display = 'none'; }, 300);
+                        }
                     });
                  }
             }
@@ -294,8 +310,28 @@ Sheridan, WY 82801, US
                     const days = Math.floor(distance / (1000 * 60 * 60 * 24));
                     const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
                     const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    timerEl.innerText = `${days}d ${hours}h ${minutes}m`;
+                    
+                    if (timerEl) {
+                        timerEl.innerText = `${days}d ${hours}h ${minutes}m`;
+                    }
                 }, 1000);
+            }
+
+            // Order Bump Logic (Main checkout)
+            const bumpCheckbox = document.getElementById('bump-offer-main');
+            const upsellRow = document.getElementById('upsell-row-main');
+            const totalEl = document.getElementById('order-total-main');
+            
+            if (bumpCheckbox && totalEl) {
+                bumpCheckbox.addEventListener('change', function() {
+                    if (this.checked) {
+                        if (upsellRow) upsellRow.style.setProperty('display', 'flex', 'important');
+                        totalEl.innerText = '$58.00';
+                    } else {
+                        if (upsellRow) upsellRow.style.setProperty('display', 'none', 'important');
+                        totalEl.innerText = '$49.00';
+                    }
+                });
             }
         });
     </script>

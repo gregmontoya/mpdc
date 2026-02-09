@@ -47,7 +47,7 @@ const categoryCounts = allPosts.reduce((acc, post) => {
                         const slug = cat.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-');
                         return (
                             <li>
-                                <a class="category-link" data-category={cat.toLowerCase().split(' ')[0]} href={`/learn/${slug}`}>
+                                <a class="category-link" data-category={cat.toLowerCase().split(' ')[0]} href={`/learn/category/${slug}`}>
                                     {cat} <span class="count">({categoryCounts[cat] || 0})</span>
                                 </a>
                             </li>

@@ -1,0 +1,250 @@
+---
+---
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPDC CRM | Backup Log</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/crm/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        body { font-family: 'Inter', sans-serif; background: #0f172a; color: #f8fafc; }
+        .app-container { display: flex; height: 100vh; overflow: hidden; }
+        .sidebar { width: 240px; background: #1e293b; border-right: 1px solid #334155; display: flex; flex-direction: column; padding: 20px; }
+        .main-content { flex: 1; overflow-y: auto; padding: 32px; background: #0f172a; }
+        
+        .backup-card {
+            background: #1e293b;
+            border: 1px solid #334155;
+            border-radius: 12px;
+            padding: 24px;
+            margin-bottom: 24px;
+        }
+        .status-badge {
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+        }
+        .status-success { background: rgba(16, 185, 129, 0.2); color: #10b981; }
+        
+        .history-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        .history-table th {
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #64748b;
+            padding: 12px;
+            border-bottom: 1px solid #334155;
+        }
+        .history-table td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #334155;
+            font-size: 13px;
+        }
+        .version-id { font-family: monospace; color: #3b82f6; }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">M</div>
+                <h1 class="logo-text">MPDC<span>CRM</span></h1>
+            </div>
+
+            <nav class="main-nav">
+                <a href="/crm" class="nav-item">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/crm/analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
+                <a href="/crm/changelog" class="nav-item">
+                    <i class="fa-solid fa-code-branch"></i>
+                    <span>Changelog</span>
+                </a>
+                <a href="/crm/backups" class="nav-item active">
+                    <i class="fa-solid fa-database"></i>
+                    <span>Backup Log</span>
+                </a>
+                <a href="/crm/clients" class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="/crm/leads" class="nav-item">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Leads</span>
+                </a>
+                <a href="/crm/prospects" class="nav-item">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>IG Prospects</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Deals</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-envelope"></i>
+                    <span>Inbox</span>
+                    <span class="badge">3</span>
+                </a>
+                <div class="pt-4 pb-2 text-xs font-bold text-white/40 uppercase tracking-widest px-4" style="margin-top: 15px; font-size: 10px; letter-spacing: 1px;">Marketing</div>
+                <a href="/crm/seo" class="nav-item">
+                    <i class="fa-solid fa-search"></i>
+                    <span>SEO Manager</span>
+                </a>
+                <a href="/crm/schema" class="nav-item">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Schema Injector</span>
+                </a>
+                <a href="/crm/cro" class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>CRO Analysis</span>
+                </a>
+            </nav>
+
+            <div class="secondary-nav">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Help Center</span>
+                </a>
+            </div>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Greg+Montoya&background=3b82f6&color=fff" alt="User"
+                    class="avatar">
+                <div class="user-info">
+                    <p class="user-name">Greg Montoya</p>
+                    <p class="user-role">Admin</p>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <!-- Header -->
+            <header class="top-header">
+                <div class="search-bar">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <input type="text" placeholder="Search leads, clients, or deals...">
+                </div>
+                <div class="header-actions">
+                    <button class="icon-btn" aria-label="Notifications">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="fa-solid fa-plus"></i> New Lead
+                    </button>
+                </div>
+            </header>
+
+            <div style="margin-top: 32px; margin-bottom: 32px;">
+                <h1 style="font-size: 24px; font-weight: 700; margin-bottom: 8px;">Backup Log</h1>
+                <p style="color: #94a3b8;">Automated snapshot tracking for Production and Dev environments.</p>
+            </div>
+
+            <div class="backup-card">
+                <h3 style="font-size: 16px; margin-bottom: 20px; color: #fff;">Environment Snapshots</h3>
+                <table class="history-table">
+                    <thead>
+                        <tr>
+                            <th>Environment</th>
+                            <th>Frequency</th>
+                            <th>Status</th>
+                            <th>Last Backup</th>
+                            <th>Provider</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><strong>Production (menspost...)</strong></td>
+                            <td>Real-time Versioning</td>
+                            <td><span class="status-badge status-success">Healthy</span></td>
+                            <td>Today, 21:50 (Post-Deploy)</td>
+                            <td>Firebase Hosting</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Dev (Staging)</strong></td>
+                            <td>Real-time Versioning</td>
+                            <td><span class="status-badge status-success">Healthy</span></td>
+                            <td>Today, 22:02 (Post-Deploy)</td>
+                            <td>Firebase Hosting</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Lead Database (Supabase)</strong></td>
+                            <td>Daily (3:00 AM)</td>
+                            <td><span class="status-badge status-success">Healthy</span></td>
+                            <td>Today, 03:00 AM</td>
+                            <td>Supabase Core</td>
+                        </tr>
+                        <tr>
+                            <td><strong>Identity (Firebase Auth)</strong></td>
+                            <td>Continuous Replication</td>
+                            <td><span class="status-badge status-success">Healthy</span></td>
+                            <td>Live Sync</td>
+                            <td>Google Cloud</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="backup-card">
+                <h3 style="font-size: 16px; margin-bottom: 20px; color: #fff;">Recent App Rollback Points</h3>
+                <table class="history-table" style="font-size: 12px;">
+                    <thead>
+                        <tr>
+                            <th>Snapshot ID</th>
+                            <th>Date / Time</th>
+                            <th>Environment</th>
+                            <th>Trigger</th>
+                            <th>Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="version-id">v1770155415</td>
+                            <td>Feb 9, 2026 - 21:54</td>
+                            <td>Production</td>
+                            <td>Deployment Update</td>
+                            <td><button style="background:transparent; border:1px solid #334155; color:#94a3b8; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">Rollback</button></td>
+                        </tr>
+                         <tr>
+                            <td class="version-id">v1770155250</td>
+                            <td>Feb 9, 2026 - 21:52</td>
+                            <td>Production</td>
+                            <td>Deployment Update</td>
+                            <td><button style="background:transparent; border:1px solid #334155; color:#94a3b8; padding:4px 8px; border-radius:4px; font-size:10px; cursor:pointer;">Rollback</button></td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="font-size: 11px; color: #64748b; margin-top: 15px; font-style: italic;">
+                    Note: Firebase Hosting keeps the last 36 versions of your site for instant rollback. Antigravity handles daily commits to the Git repository for secondary source-code backup.
+                </p>
+            </div>
+        </main>
+    </div>
+</body>
+</html>
