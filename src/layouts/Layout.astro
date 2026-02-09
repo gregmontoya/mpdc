@@ -7,7 +7,7 @@ import '../styles/mega-menu.css';
 import '../styles/footer.css';
 import '../styles/cookie.css';
 
-const { title = "Men's Post-Divorce Coaching - Rebuild Your Life", simpleHeader = false } = Astro.props;
+const { title = "Men's Post-Divorce Coaching - Rebuild Your Life", simpleHeader = false, simpleFooter = false } = Astro.props;
 ---
 
 <!DOCTYPE html>
@@ -36,12 +36,13 @@ const { title = "Men's Post-Divorce Coaching - Rebuild Your Life", simpleHeader 
         href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;600;700&family=Bebas+Neue&display=swap"
         rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <slot name="head" />
 </head>
 
 <body>
     {!simpleHeader && <Header />}
     <slot />
-    <Footer />
+    {!simpleFooter && <Footer />}
     
     <!-- Mobile Menu Script -->
     <script is:inline>

@@ -1,16 +1,18 @@
+---
 import { getCollection } from 'astro:content';
-import Layout from './Layout.astro';
+import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
-import alexMorganImg from '../assets/images/alex-morgan.png';
+// Correct image path might be needed, assuming assets alias or relative path
+import alexMorganImg from '../assets/images/alex-morgan.png'; 
 import '../styles/blog-styles.css';
 
-const { frontmatter, slug } = Astro.props;
+const { frontmatter } = Astro.props;
 const { title, description, publishDate, author = "Alex Morgan", category, categoryUrl, readTime, toc = [] } = frontmatter;
 
 // Fetch related articles
 const allPosts = await getCollection('blog');
 const relatedPosts = allPosts
-    .filter(post => post.slug !== slug)
+    .filter(post => post.slug !== Astro.props.slug) // Use Astro.props.slug or pass slug in props
     .sort(() => Math.random() - 0.5)
     .slice(0, 3);
 ---

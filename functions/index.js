@@ -281,8 +281,36 @@ exports.chat = onRequest({ cors: true, secrets: [], maxInstances: 10 }, async (r
 exports.transcodeVideo = onObjectFinalized({ region: "us-west1", memory: "512MiB" }, async (event) => {
     const { TranscoderServiceClient } = require("@google-cloud/video-transcoder").v1;
     const transcoderClient = new TranscoderServiceClient();
-    // ... logic for transcoding ...
-    logger.log(`Processing file: ${event.data.name}`);
+
+    // Only process videos in masters/
+    if (!event.data.name.startsWith('masters/')) return;
+
+    logger.log(`🎬 Starting Transcode: ${event.data.name}`);
+
+    // Configuration
+    const projectId = process.env.GCLOUD_PROJECT || "mpdc-website-32dae";
+    const location = "us-central1"; // Transcoder API region
+    const parent = `projects/${projectId}/locations/${location}`;
+
+    const file = event.data;
+    const fileName = file.name.split('/').pop();
+    const baseName = fileName.substring(0, fileName.lastIndexOf('.')) || fileName;
+
+    const inputUri = `gs://${file.bucket}/${file.name}`;
+    const outputUri = `gs://${file.bucket}/streaming/${baseName}/`;
+
+    const job = {
+        inputUri,
+        outputUri,
+        templateId: "preset/web-hd"
+    };
+
+    try {
+        const [response] = await transcoderClient.createJob({ parent, job });
+        logger.log(`✅ Job Created: ${response.name}`);
+    } catch (e) {
+        logger.error(`❌ Transcode Failed: ${e.message}`);
+    }
 });
 
 // --------------------------------------------------------------------------
