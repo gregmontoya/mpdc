@@ -13,3 +13,5 @@ assets/videos/
 
 /crm/
 .npm-cache
+_backups/
+_manual_backups/
