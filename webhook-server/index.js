@@ -114,9 +114,37 @@ app.post('/create-checkout-session', async (req, res) => {
     try {
         console.log(`💳 Creating Session for: ${email} (${plan})`);
 
-        // Define price based on plan
-        const amount = plan === 'bundle' ? 5800 : 4900;
-        const productName = plan === 'bundle' ? "The System + Hypnosis Bundle" : "The Men's Divorce Mindset System";
+        // Define price based on plan (Now forced to $27)
+        const amount = 2700;
+        const productName = "The Men's Divorce Mindset System";
+
+        // ----------------------------------------------------------------------
+        // 🧲 SILENT PROSPECT CAPTURE (Pre-Checkout)
+        // ----------------------------------------------------------------------
+        try {
+            if (firestore) {
+                await firestore.collection('prospects').add({
+                    email,
+                    name,
+                    source: 'checkout_start',
+                    plan: plan,
+                    status: 'prospect',
+                    timestamp: admin.firestore.FieldValue.serverTimestamp()
+                });
+            }
+
+            if (resend) {
+                await resend.contacts.create({
+                    email: email,
+                    first_name: name,
+                    unsubscribed: false,
+                    audience_id: process.env.RESEND_AUDIENCE_ID
+                });
+            }
+            console.log(`✅ Silent prospect capture complete for: ${email}`);
+        } catch (leadError) {
+            console.error('❌ Background Prospect Capture Error:', leadError.message);
+        }
 
         const sessionOptions = {
             payment_method_types: ['card'],
@@ -446,14 +474,33 @@ app.post('/webhook', async (req, res) => {
                 return res.status(400).send('No email found');
             }
 
-            // Determine Access Level based on Metadata Plan OR Amount (Handling Workflow Differences)
-            // Core: $49 (4900 cents)
-            // Bundle: $58 (5800 cents)
+            // ----------------------------------------------------------------------
+            // 🧲 MARK PROSPECT AS CONVERTED
+            // ----------------------------------------------------------------------
+            try {
+                if (firestore) {
+                    const prospectQuery = await firestore.collection('prospects').where('email', '==', email).get();
+                    if (!prospectQuery.empty) {
+                        const batch = firestore.batch();
+                        prospectQuery.docs.forEach(doc => {
+                            batch.update(doc.ref, { status: 'converted', convertedAt: admin.firestore.FieldValue.serverTimestamp() });
+                        });
+                        await batch.commit();
+                        console.log(`🎯 Prospect ${email} converted to buyer.`);
+                    }
+                }
+            } catch (pError) {
+                console.error('❌ Failed to update prospect status:', pError.message);
+            }
+
+            // Determine Access Level based on Metadata Plan OR Amount
+            // Core: $27 (2700 cents) - UPDATED
+            // Bundle: $58 (5800 cents) - LEGACY
             const plan = session.metadata?.plan || 'core';
             const amountTotal = session.amount_total; // in cents
             let accessLevel = 'student'; // Default
 
-            // If plan is bundle OR they paid $58+, give bundle access
+            // If they paid for the bundle (LEGACY) or have explicit plan metadata
             if (plan === 'bundle' || amountTotal >= 5800) {
                 accessLevel = 'student_bundle';
                 console.log('🌟 BUNDLE PURCHASE DETECTED');

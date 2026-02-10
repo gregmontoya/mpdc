@@ -42,6 +42,23 @@ exports.stripeWebhook = onRequest({ secrets: ["STRIPE_SECRET_KEY", "STRIPE_WEBHO
         const metadata = session.metadata || {};
 
         // ----------------------------------------------------------------------
+        // 🧲 MARK PROSPECT AS CONVERTED (Pro Practice)
+        // ----------------------------------------------------------------------
+        try {
+            const prospectQuery = await admin.firestore().collection("prospects").where("email", "==", email).get();
+            if (!prospectQuery.empty) {
+                const batch = admin.firestore().batch();
+                prospectQuery.docs.forEach(doc => {
+                    batch.update(doc.ref, { status: "converted", convertedAt: admin.firestore.FieldValue.serverTimestamp() });
+                });
+                await batch.commit();
+                logger.log(`✅ Prospect ${email} marked as converted.`);
+            }
+        } catch (err) {
+            logger.error("Failed to mark prospect as converted:", err.message);
+        }
+
+        // ----------------------------------------------------------------------
         // 🚀 FACEBOOK CAPI (Server-Side Tracking)
         // ----------------------------------------------------------------------
         const fbAccessToken = process.env.FB_ACCESS_TOKEN;
@@ -180,10 +197,38 @@ exports.createCheckoutSession = onRequest({ cors: true, secrets: ["STRIPE_SECRET
     const { email, name, plan = 'core', attribution = {} } = req.body;
     const stripeKey = (process.env.STRIPE_SECRET_KEY || "").trim();
     const stripe = require("stripe")(stripeKey);
+    const { Resend } = require("resend");
+    const resend = new Resend(process.env.RESEND_API_KEY);
 
     try {
-        const amount = plan === 'bundle' ? 5800 : 4900;
-        const productName = plan === 'bundle' ? "The System + Hypnosis Bundle" : "The Men's Divorce Mindset System";
+        // ----------------------------------------------------------------------
+        // 🧲 SILENT LEAD CAPTURE (Pre-Checkout)
+        // ----------------------------------------------------------------------
+        try {
+            await admin.firestore().collection("prospects").add({
+                email,
+                name,
+                source: 'checkout_start',
+                status: 'prospect',
+                plan: plan,
+                attribution: attribution,
+                timestamp: admin.firestore.FieldValue.serverTimestamp()
+            });
+
+            if (process.env.RESEND_API_KEY) {
+                await resend.contacts.create({
+                    email: email,
+                    first_name: name,
+                    unsubscribed: false,
+                    audience_id: process.env.RESEND_AUDIENCE_ID
+                });
+            }
+        } catch (leadErr) {
+            logger.error("Silent prospect capture error (non-blocking):", leadErr.message);
+        }
+
+        const amount = 2700; // FORCED TO $27
+        const productName = "The Men's Divorce Mindset System";
 
         // Merge attribution into metadata (flattened)
         // Stripe metadata has 500 characters limit per key, and 50 keys limit.
@@ -231,7 +276,7 @@ exports.createCheckoutSession = onRequest({ cors: true, secrets: ["STRIPE_SECRET
 });
 
 // --------------------------------------------------------------------------
-// 🧲 LEAD CAPTURE
+// 🧲 PROSPECT CAPTURE (Legacy/External)
 // --------------------------------------------------------------------------
 exports.captureLead = onRequest({ cors: true, secrets: ["RESEND_API_KEY"] }, async (req, res) => {
     const { email, name, source = 'join_page' } = req.body;
@@ -239,15 +284,16 @@ exports.captureLead = onRequest({ cors: true, secrets: ["RESEND_API_KEY"] }, asy
     const resend = new Resend(process.env.RESEND_API_KEY);
 
     try {
-        await admin.firestore().collection("leads").add({
+        await admin.firestore().collection("prospects").add({
             email,
             name,
             source,
+            status: "prospect",
             timestamp: admin.firestore.FieldValue.serverTimestamp()
         });
         res.json({ success: true });
     } catch (error) {
-        logger.error("Lead capture error:", error);
+        logger.error("Prospect capture error:", error);
         res.status(500).json({ error: error.message });
     }
 });
