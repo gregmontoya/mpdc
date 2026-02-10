@@ -149,29 +149,7 @@ import Footer from '../../components/Footer.astro';
 
     <div class="live-content-wrapper">
          <!-- EXACT NAVBAR HTML FROM LIVE SITE -->
-         <nav id="join-navbar" style="position: relative; z-index: 1000; background: #fff; border-bottom: 1px solid #eee; padding: 12px 0;" >             <div class="join-nav-container" style="max-width: 1110px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 1rem;" > 
-                <!-- Logo Left Area (Flex: 1 to push content) --> 
-                <div style="flex: 1; display: flex; justify-content: flex-start;">
-                    <a href="/" class="join-logo-link" style="text-decoration: none;"> 
-                        <span class="logo-text" style="color: #000; font-weight: 900; line-height: 1.1; display: block; font-size: 1.1rem;" >THE MEN'S DIVORCE<br ><span class="logo-accent" style="color: var(--color-accent);" >MINDSET SYSTEM</span></span> 
-                    </a> 
-                </div>
-
-                <!-- Offer Center (Fixed) --> 
-                <div class="offer-timer-container" style="font-weight: 700; font-size: 0.9rem; flex: 0 0 auto; display: flex; justify-content: center;" > 
-                    <div class="offer-text-wrapper" style="display: flex; align-items: center; gap: 8px;" > 
-                        <span class="promo-badge" style="color: var(--color-accent); text-transform: uppercase; background: rgba(196, 97, 58, 0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem;">LIMITED LAUNCH PROMO:</span> 
-                        <span class="promo-desc" style="color: #333;" >50% OFF THE SYSTEM</span> 
-                        <span class="promo-sep" style="opacity: 0.3;" >|</span> 
-                        <span class="timer-label" style="color: #333;" >ENDS IN:</span> 
-                        <span id="join-timer" >00d 00h 00m</span> 
-                    </div> 
-                </div> 
-
-                <!-- Spacer Right (Flex: 1 to balance the center) --> 
-                <div class="nav-spacer" style="flex: 1; display: flex; justify-content: flex-end;"></div> 
-            </div> 
-         </nav> 
+ 
 
     <script is:inline>
         // SEO & Schema Logic (Restored)
@@ -183,30 +161,49 @@ import Footer from '../../components/Footer.astro';
             messagingSenderId: "210457065303",
             appId: "1:210457065303:web:72882e734aa8054d283012"
         };
-        if (!firebase.apps.length) {
-            firebase.initializeApp(firebaseConfig);
+        
+        try {
+            if (typeof firebase !== 'undefined' && !firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+        } catch (e) {
+            console.warn('Firebase init error (ignoring for UI):', e);
         }
-        const db = firebase.firestore();
 
-        // Timer Logic
-        function updateJoinTimer() {
-             const timerEl = document.getElementById("join-timer");
-             if (!timerEl) return;
-             // Fixed End Date for Promo Cycle
-             const targetDate = new Date('February 14, 2026 23:59:59').getTime();
-             const now = new Date().getTime();
-             const distance = targetDate - now;
-             if (distance < 0) {
-                 timerEl.innerText = "OFFER EXPIRED";
-                 return;
-             }
-             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-             timerEl.innerText = `${days}d ${hours}h ${minutes}m`;
+        // Video Play Logic (FAILSAFE NATIVE MODE)
+        function playVSL() {
+            // 1. Hide Overlay INSTANTLY
+            const overlay = document.getElementById('video-overlay');
+            if (overlay) overlay.style.display = 'none';
+
+            // 2. Try VideoJS first (if loaded)
+            if (window.videojs) {
+                try {
+                    const player = videojs('vsl-video');
+                    player.muted(false);
+                    player.currentTime(0);
+                    player.controls(true);
+                    player.play().catch(e => console.log('VideoJS Play Error:', e));
+                    return;
+                } catch (e) {
+                    console.log('VideoJS Init Error, falling back to native:', e);
+                }
+            }
+            
+            // 3. Native Fallback (Robust)
+            const nativeVideo = document.querySelector('video');
+            if (nativeVideo) {
+                nativeVideo.muted = false;
+                nativeVideo.currentTime = 0;
+                nativeVideo.controls = true;
+                nativeVideo.play().catch(e => console.log('Native Play Error:', e));
+            }
         }
-        setInterval(updateJoinTimer, 1000);
-        updateJoinTimer();
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+             // Timer removed.
+        });
     </script>
     
     <!-- HERO SECTION -->
@@ -231,14 +228,7 @@ import Footer from '../../components/Footer.astro';
                             Your browser does not support the video tag.
                         </video> 
                         <!-- High-Converting Play Overlay --> 
-                        <div id="video-overlay" onclick="
-                            const player = videojs('vsl-video');
-                            player.muted(false);
-                            player.currentTime(0);
-                            player.controls(true);
-                            player.play();
-                            this.style.display = 'none';
-                        " style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; transition: opacity 0.3s ease;" > 
+                        <div id="video-overlay" onclick="playVSL()" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(rgba(0,0,0,0.2), rgba(0,0,0,0.2)); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; transition: opacity 0.3s ease;" > 
                             <div class="play-button-wrapper" style="text-align: center;" > 
                                 <div style="width: 100px; height: 100px; background: var(--color-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; box-shadow: 0 0 30px rgba(196, 97, 58, 0.5); transition: transform 0.3s ease;" > 
                                     <div style="width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid #fff; margin-left: 5px;"></div> 

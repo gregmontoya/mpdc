@@ -229,28 +229,17 @@ exports.createCheckoutSession = onRequest({ cors: true, secrets: ["STRIPE_SECRET
         }
 
         // ----------------------------------------------------------------------
-        // 🛡️ SMART PRICING LOGIC (Live Protection)
+        // 🚀 LIVE LAUNCH: $27 PRICE ENABLED
         // ----------------------------------------------------------------------
         const origin = req.get('origin') || req.get('referer') || '';
         const isStaging = origin.includes('localhost') || origin.includes('web.app') || origin.includes('firebaseapp');
 
-        // DEFAULT TO LIVE PRICE ($54 - 50% = $27? Wait. Live is $49?)
-        // Let's assume LIVE is $54 based on the HTML. 
-        // Actually, you wanted to change the price TO $27.
-        // So Staging = $27. Live = Old Price ($97? $49?).
+        let amount = 2700; // $27.00 FOR EVERYONE
 
-        let amount = 5400; // Default Live Price (Safety)
         if (isStaging) {
-            amount = 2700; // New $27 Price for Staging
-            logger.log(`🧪 Staging/Local Request Detected: Pricing set to $27`);
+            logger.log(`🧪 Staging Request: Charging $27`);
         } else {
-            // LIVE SITE LOGIC
-            amount = 9700; // KEEP THIS HIGH to prevent accidental live loss? 
-            // OR match whatever it currently is. 
-            // You said "Local is $27, Live is $49".
-            // So Live = 4900.
-            amount = 4900;
-            logger.log(`🌍 Live Request Detected: Pricing set to $49 (Safety Mode)`);
+            logger.log(`🌍 Live Request: Charging $27 (Official Launch Price)`);
         }
 
         const productName = "The Men's Divorce Mindset System";
