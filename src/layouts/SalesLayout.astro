@@ -1,0 +1,90 @@
+---
+import { ViewTransitions } from 'astro:transitions';
+
+const { title = "Men's Post-Divorce Coaching", description = "Rebuild Your Life & Reclaim Your Identity." } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{title}</title>
+    <meta name="description" content={description}>
+    <meta name="robots" content="index, follow">
+
+    <!-- Brand Fonts: Montserrat & Open Sans -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Global Footer Styles -->
+    <style is:global>
+        @import "../styles/footer.css";
+    </style>
+
+    <!-- View Transitions for Smooth Navigation -->
+    <ViewTransitions />
+
+    <!-- Sales Page Specific Reset & Base Styles -->
+    <style is:global>
+        :root {
+            /* Brand Colors - Scoped for Sales Pages */
+            --color-bg-primary: #062630; /* Dark Green Hero Background */
+            --color-accent: #C4613A; /* Copper Accent */
+            --color-neon: #fff; /* High Contrast White */
+            --color-text-dark: #1a1a1a;
+            --color-text-light: #aaa;
+            --color-text-muted: #f8f9fa; /* Light Gray Backgrounds */
+            
+            --font-heading: 'Montserrat', sans-serif;
+            --font-body: 'Open Sans', sans-serif;
+        }
+
+        /* Reset & Base */
+        *, *::before, *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html, body {
+            font-family: var(--font-body);
+            background-color: #ffffff; /* Sales pages default to White */
+            color: var(--color-text-dark);
+            line-height: 1.6;
+            overflow-x: hidden;
+            width: 100%;
+        }
+
+        h1, h2, h3, h4, h5, h6 {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            line-height: 1.2;
+            text-transform: uppercase;
+        }
+
+        a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+        ul { list-style: none; }
+        img { max-width: 100%; display: block; }
+        
+        /* Container Utility */
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+    </style>
+    
+    <!-- Injection Slot for Page Specific Head Tags (Scripts etc.) -->
+    <slot name="head" />
+</head>
+<body>
+    <!-- Sales Pages have No Header/Footer by default, or simple ones inside content -->
+    <slot />
+    
+    <!-- Injection Slot for Page Specific Scripts -->
+    <slot name="scripts" />
+</body>
+</html>

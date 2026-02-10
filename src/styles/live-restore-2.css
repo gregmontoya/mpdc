@@ -1,1 +1,545 @@
-#join-navbar[data-astro-cid-ky4cslmu]{padding:1rem 2rem}.join-nav-container[data-astro-cid-ky4cslmu]{max-width:1400px;margin:0 auto;display:grid;grid-template-columns:1fr auto 1fr;align-items:center}.join-logo-link[data-astro-cid-ky4cslmu]{text-decoration:none;display:flex;flex-direction:column;justify-self:start}.logo-text[data-astro-cid-ky4cslmu]{font-family:Montserrat,sans-serif;font-weight:800;font-size:.95rem;line-height:1.15;color:#000;text-transform:uppercase}.logo-accent[data-astro-cid-ky4cslmu]{color:var(--color-accent)}.offer-timer-container[data-astro-cid-ky4cslmu]{display:flex;align-items:center;gap:1rem;font-family:Montserrat,sans-serif;font-size:.95rem;color:#333;justify-self:center}.offer-text-wrapper[data-astro-cid-ky4cslmu]{display:flex;align-items:center;gap:.75rem}.promo-badge[data-astro-cid-ky4cslmu]{font-weight:800;color:var(--color-accent);font-size:1rem}.promo-desc[data-astro-cid-ky4cslmu]{font-weight:500;opacity:.8}.promo-sep[data-astro-cid-ky4cslmu]{opacity:.2}.timer-label[data-astro-cid-ky4cslmu]{font-weight:700}#join-timer[data-astro-cid-ky4cslmu]{font-family:monospace;font-weight:800;color:var(--color-accent);font-size:1.25rem;background-color:#f5f0e8;padding:.3rem .6rem;border-radius:4px}@media(max-width:1100px){#join-navbar[data-astro-cid-ky4cslmu]{padding:0}.join-nav-container[data-astro-cid-ky4cslmu]{grid-template-columns:1fr;gap:0}.join-logo-link[data-astro-cid-ky4cslmu]{padding:1rem;justify-self:center}.logo-text[data-astro-cid-ky4cslmu]{font-size:.85rem}.offer-timer-container[data-astro-cid-ky4cslmu]{width:100%;background:#fdfaf5;padding:1rem .75rem;border-top:1px solid #eee;justify-content:center}.promo-sep[data-astro-cid-ky4cslmu]{display:none}.promo-desc[data-astro-cid-ky4cslmu]{display:inline;font-size:.85rem}.offer-text-wrapper[data-astro-cid-ky4cslmu]{flex-direction:row;flex-wrap:wrap;justify-content:center;gap:.6rem;font-size:.9rem}.promo-badge[data-astro-cid-ky4cslmu],.timer-label[data-astro-cid-ky4cslmu]{font-size:.9rem}#join-timer[data-astro-cid-ky4cslmu]{font-size:1.15rem;padding:.4rem .6rem}}@media(max-width:600px){.logo-text[data-astro-cid-ky4cslmu]{font-size:.75rem}.promo-desc[data-astro-cid-ky4cslmu]{display:none}.offer-text-wrapper[data-astro-cid-ky4cslmu]{gap:.5rem;font-size:.85rem}.promo-badge[data-astro-cid-ky4cslmu],.timer-label[data-astro-cid-ky4cslmu]{font-size:.85rem}#join-timer[data-astro-cid-ky4cslmu]{font-size:1rem;padding:.3rem .5rem}}@media(max-width:1000px){.ltp-card[data-astro-cid-ky4cslmu]{flex-direction:column!important;padding:2rem 1.5rem!important;margin-left:1rem!important;margin-right:1rem!important}.ltp-card[data-astro-cid-ky4cslmu]>div[data-astro-cid-ky4cslmu]{width:100%!important;padding:0!important}.ltp-card[data-astro-cid-ky4cslmu] h1[data-astro-cid-ky4cslmu]{font-size:2.5rem!important}.ltp-card[data-astro-cid-ky4cslmu] p[data-astro-cid-ky4cslmu]{font-size:1.2rem!important}.ltp-card[data-astro-cid-ky4cslmu] span[data-astro-cid-ky4cslmu]{font-size:1.15rem!important}}@media(max-width:600px){.ltp-card[data-astro-cid-ky4cslmu]{padding:2.5rem 1.25rem!important;margin-left:-1.25rem!important;margin-right:-1.25rem!important;width:calc(100% + 2.5rem)!important;border-radius:0!important;border-left:none!important;border-right:none!important}.ltp-card[data-astro-cid-ky4cslmu] p[data-astro-cid-ky4cslmu]{font-size:1.1rem!important}.ltp-card[data-astro-cid-ky4cslmu] span[data-astro-cid-ky4cslmu]{font-size:1.05rem!important}.white-summary-box[data-astro-cid-ky4cslmu]{padding:1.25rem 1rem!important}.order-row[data-astro-cid-ky4cslmu]{display:grid!important;grid-template-columns:1fr auto!important;align-items:start!important;gap:1rem!important;margin-bottom:.85rem!important;text-align:left!important}.order-row[data-astro-cid-ky4cslmu] span[data-astro-cid-ky4cslmu]:first-child{font-size:1rem!important;line-height:1.4!important;font-weight:600!important}.order-row[data-astro-cid-ky4cslmu] span[data-astro-cid-ky4cslmu]:last-child{font-size:1.1rem!important;font-weight:700!important;white-space:nowrap!important;text-align:right!important}.total-row[data-astro-cid-ky4cslmu]{margin-top:1.25rem!important;padding-top:1.25rem!important;border-top:2px solid #ddd!important}.total-row[data-astro-cid-ky4cslmu] span[data-astro-cid-ky4cslmu]:first-child{font-size:1.35rem!important;text-transform:uppercase!important;letter-spacing:-.5px!important}.total-row[data-astro-cid-ky4cslmu] span[data-astro-cid-ky4cslmu]:last-child{font-size:1.6rem!important;color:#2c3e50!important}}@media(max-width:900px){.founder-grid[data-astro-cid-ky4cslmu]{grid-template-columns:1fr!important;gap:2.5rem!important}.founder-grid[data-astro-cid-ky4cslmu] h1[data-astro-cid-ky4cslmu]{font-size:2.5rem!important;text-align:center!important}.founder-grid[data-astro-cid-ky4cslmu] p[data-astro-cid-ky4cslmu]{text-align:center!important;font-size:1.15rem!important}.about-intro-text[data-astro-cid-ky4cslmu]{text-align:center!important;display:block!important}#about[data-astro-cid-ky4cslmu]{padding:4rem 1.5rem!important}.founder-image-container[data-astro-cid-ky4cslmu]{max-width:400px!important;margin:0 auto!important}.floating-cta-btn[data-astro-cid-ky4cslmu]{right:0!important;bottom:-15px!important;width:90%!important;left:5%!important;text-align:center!important}.floating-cta-btn[data-astro-cid-ky4cslmu] a[data-astro-cid-ky4cslmu]{font-size:1.1rem!important;padding:1.25rem 2rem!important}}@media(max-width:768px){#hero[data-astro-cid-ky4cslmu]{padding:4rem 1.5rem 5rem!important}#hero[data-astro-cid-ky4cslmu] h1[data-astro-cid-ky4cslmu]{font-size:2.5rem!important;margin-bottom:1.5rem!important}#hero[data-astro-cid-ky4cslmu] p[data-astro-cid-ky4cslmu]{font-size:1.25rem!important}}@media(max-width:600px){#hero[data-astro-cid-ky4cslmu]{padding:3rem 1.25rem 4rem!important}#hero[data-astro-cid-ky4cslmu] h1[data-astro-cid-ky4cslmu]{font-size:2rem!important;line-height:1.2!important}#hero[data-astro-cid-ky4cslmu] p[data-astro-cid-ky4cslmu]{font-size:1.1rem!important}}@media(max-width:768px){.syllabus-card[data-astro-cid-ky4cslmu]{flex-direction:column!important}.syllabus-card[data-astro-cid-ky4cslmu]>div[data-astro-cid-ky4cslmu]:first-child{width:100%!important;height:80px!important;flex-direction:row!important;justify-content:center!important;gap:1rem!important}.syllabus-card[data-astro-cid-ky4cslmu]>div[data-astro-cid-ky4cslmu]:first-child span[data-astro-cid-ky4cslmu]:first-child{margin-bottom:0!important}.syllabus-card[data-astro-cid-ky4cslmu]>div[data-astro-cid-ky4cslmu]:last-child{padding:2rem 1.5rem!important}.syllabus-card[data-astro-cid-ky4cslmu] h3[data-astro-cid-ky4cslmu]{font-size:1.75rem!important}.syllabus-card[data-astro-cid-ky4cslmu] p[data-astro-cid-ky4cslmu]{font-size:1.05rem!important}}@media(max-width:600px){input[data-astro-cid-ky4cslmu][type=text],input[data-astro-cid-ky4cslmu][type=email]{font-size:16px!important;padding:1rem!important}.btn-checkout[data-astro-cid-ky4cslmu]{font-size:1.2rem!important;padding:1.5rem!important}}@media(max-width:768px){div[data-astro-cid-ky4cslmu][style*="background: #fff9e6"]{padding:1.25rem 1rem!important}div[data-astro-cid-ky4cslmu][style*="background: #fff9e6"] strong[data-astro-cid-ky4cslmu]{font-size:1.1rem!important;line-height:1.3!important}div[data-astro-cid-ky4cslmu][style*="background: #fff9e6"] p[data-astro-cid-ky4cslmu]{font-size:.95rem!important;line-height:1.5!important}div[data-astro-cid-ky4cslmu][style*="background: #fff9e6"] label[data-astro-cid-ky4cslmu]{gap:1rem!important}}@media(max-width:600px){div[data-astro-cid-ky4cslmu][style*="background: #fff9e6"]{padding:1.25rem 1rem!important}div[data-astro-cid-ky4cslmu][style*="background: #fff9e6"] strong[data-astro-cid-ky4cslmu]{font-size:1.05rem!important}div[data-astro-cid-ky4cslmu][style*="background: #fff9e6"] p[data-astro-cid-ky4cslmu]{font-size:.9rem!important}}@media(max-width:600px){.trust-signals-wrapper[data-astro-cid-ky4cslmu]{flex-direction:column!important;gap:1.5rem!important}.money-back-text[data-astro-cid-ky4cslmu]{font-size:1.15rem!important}.security-text[data-astro-cid-ky4cslmu]{font-size:.95rem!important}}@media(max-width:768px){.checkout-section[data-astro-cid-ky4cslmu]{padding:5rem 1.5rem!important}.checkout-section[data-astro-cid-ky4cslmu] h1[data-astro-cid-ky4cslmu]{font-size:2.25rem!important}.checkout-section[data-astro-cid-ky4cslmu]>div[data-astro-cid-ky4cslmu]>div[data-astro-cid-ky4cslmu]{padding:2.5rem 2rem!important}}@media(max-width:600px){.checkout-section[data-astro-cid-ky4cslmu]{padding:2rem 0!important}.checkout-section[data-astro-cid-ky4cslmu] h1[data-astro-cid-ky4cslmu]{font-size:1.85rem!important;padding:0 1.25rem!important;margin-bottom:1.5rem!important}.checkout-section[data-astro-cid-ky4cslmu]>div[data-astro-cid-ky4cslmu]>div[data-astro-cid-ky4cslmu]{padding:2rem 1.25rem!important;width:100%!important;border-radius:0!important;border-left:none!important;border-right:none!important;box-shadow:none!important;margin:0!important}}@media(max-width:600px){.faq-accordion[data-astro-cid-ky4cslmu] details[data-astro-cid-ky4cslmu]{padding:1.25rem 0!important}.faq-accordion[data-astro-cid-ky4cslmu] summary[data-astro-cid-ky4cslmu]{font-size:1.1rem!important}.faq-accordion[data-astro-cid-ky4cslmu] p[data-astro-cid-ky4cslmu]{font-size:1rem!important}}@media(max-width:600px){.guarantee-section[data-astro-cid-ky4cslmu] h1[data-astro-cid-ky4cslmu]{font-size:2.5rem!important}.guarantee-section[data-astro-cid-ky4cslmu] p[data-astro-cid-ky4cslmu]{font-size:1.1rem!important}}@media(max-width:768px){section[data-astro-cid-ky4cslmu][style*="background-color: var(--color-text-muted)"]{padding:3rem 1.5rem!important}section[data-astro-cid-ky4cslmu][style*="background-color: var(--color-text-muted)"] h1[data-astro-cid-ky4cslmu]{font-size:2.75rem!important}section[data-astro-cid-ky4cslmu][style*="background-color: var(--color-text-muted)"] p[data-astro-cid-ky4cslmu]{font-size:1rem!important}}@media(max-width:600px){section[data-astro-cid-ky4cslmu][style*="background-color: var(--color-text-muted)"]{padding:2.5rem 1.25rem!important}section[data-astro-cid-ky4cslmu][style*="background-color: var(--color-text-muted)"] h1[data-astro-cid-ky4cslmu]{font-size:2.25rem!important}}@media(max-width:768px){.comparison-grid[data-astro-cid-ky4cslmu]{grid-template-columns:1fr!important;gap:2rem!important}.comparison-section[data-astro-cid-ky4cslmu] h1[data-astro-cid-ky4cslmu]{font-size:2.5rem!important}.comparison-item[data-astro-cid-ky4cslmu] span[data-astro-cid-ky4cslmu]{font-size:1.1rem!important}}@media(max-width:600px){.comparison-section[data-astro-cid-ky4cslmu]{padding:3rem 1.25rem!important}.comparison-section[data-astro-cid-ky4cslmu] h1[data-astro-cid-ky4cslmu]{font-size:2rem!important;line-height:1.2!important}.comparison-item[data-astro-cid-ky4cslmu]{margin-bottom:1.25rem!important}.comparison-item[data-astro-cid-ky4cslmu] span[data-astro-cid-ky4cslmu]{font-size:1.05rem!important}}@media(max-width:600px){.hero-video-wrapper[data-astro-cid-ky4cslmu]{margin:0 -1.25rem!important;width:calc(100% + 2.5rem)!important;border-radius:0!important;border-left:none!important;border-right:none!important}.play-button-wrapper[data-astro-cid-ky4cslmu] span[data-astro-cid-ky4cslmu]{font-size:1rem!important;letter-spacing:2px!important}}
+#join-navbar {
+    padding: 1rem 2rem
+}
+
+.join-nav-container {
+    max-width: 1400px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center
+}
+
+.join-logo-link {
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    justify-self: start
+}
+
+.logo-text {
+    font-family: var(--font-heading);
+    font-weight: 800;
+    font-size: .95rem;
+    line-height: 1.15;
+    color: #000;
+    text-transform: uppercase
+}
+
+.logo-accent {
+    color: var(--color-accent)
+}
+
+.offer-timer-container {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-body);
+    font-size: .95rem;
+    color: #333;
+    justify-self: center
+}
+
+.offer-text-wrapper {
+    display: flex;
+    align-items: center;
+    gap: .75rem
+}
+
+.promo-badge {
+    font-weight: 800;
+    color: var(--color-accent);
+    font-size: 1rem
+}
+
+.promo-desc {
+    font-weight: 500;
+    opacity: .8
+}
+
+.promo-sep {
+    opacity: .2
+}
+
+.timer-label {
+    font-weight: 700
+}
+
+#join-timer {
+    font-family: monospace;
+    font-weight: 800;
+    color: var(--color-accent);
+    font-size: 1.25rem;
+    background-color: #f5f0e8;
+    padding: .3rem .6rem;
+    border-radius: 4px
+}
+
+@media(max-width:1100px) {
+    #join-navbar {
+        padding: 0
+    }
+
+    .join-nav-container {
+        grid-template-columns: 1fr;
+        gap: 0
+    }
+
+    .join-logo-link {
+        padding: 1rem;
+        justify-self: center
+    }
+
+    .logo-text {
+        font-size: .85rem
+    }
+
+    .offer-timer-container {
+        width: 100%;
+        background: #fdfaf5;
+        padding: 1rem .75rem;
+        border-top: 1px solid #eee;
+        justify-content: center
+    }
+
+    .promo-sep {
+        display: none
+    }
+
+    .promo-desc {
+        display: inline;
+        font-size: .85rem
+    }
+
+    .offer-text-wrapper {
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: center;
+        gap: .6rem;
+        font-size: .9rem
+    }
+
+    .promo-badge,
+    .timer-label {
+        font-size: .9rem
+    }
+
+    #join-timer {
+        font-size: 1.15rem;
+        padding: .4rem .6rem
+    }
+}
+
+@media(max-width:600px) {
+    .logo-text {
+        font-size: .75rem
+    }
+
+    .promo-desc {
+        display: none
+    }
+
+    .offer-text-wrapper {
+        gap: .5rem;
+        font-size: .85rem
+    }
+
+    .promo-badge,
+    .timer-label {
+        font-size: .85rem
+    }
+
+    #join-timer {
+        font-size: 1rem;
+        padding: .3rem .5rem
+    }
+}
+
+@media(max-width:1000px) {
+    .ltp-card {
+        flex-direction: column !important;
+        padding: 2rem 1.5rem !important;
+        margin-left: 1rem !important;
+        margin-right: 1rem !important
+    }
+
+    .ltp-card>div {
+        width: 100% !important;
+        padding: 0 !important
+    }
+
+    .ltp-card h1 {
+        font-size: 2.5rem !important
+    }
+
+    .ltp-card p {
+        font-size: 1.2rem !important
+    }
+
+    .ltp-card span {
+        font-size: 1.15rem !important
+    }
+}
+
+@media(max-width:600px) {
+    .ltp-card {
+        padding: 2.5rem 1.25rem !important;
+        margin-left: -1.25rem !important;
+        margin-right: -1.25rem !important;
+        width: calc(100% + 2.5rem) !important;
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important
+    }
+
+    .ltp-card p {
+        font-size: 1.1rem !important
+    }
+
+    .ltp-card span {
+        font-size: 1.05rem !important
+    }
+
+    .white-summary-box {
+        padding: 1.25rem 1rem !important
+    }
+
+    .order-row {
+        display: grid !important;
+        grid-template-columns: 1fr auto !important;
+        align-items: start !important;
+        gap: 1rem !important;
+        margin-bottom: .85rem !important;
+        text-align: left !important
+    }
+
+    .order-row span:first-child {
+        font-size: 1rem !important;
+        line-height: 1.4 !important;
+        font-weight: 600 !important
+    }
+
+    .order-row span:last-child {
+        font-size: 1.1rem !important;
+        font-weight: 700 !important;
+        white-space: nowrap !important;
+        text-align: right !important
+    }
+
+    .total-row {
+        margin-top: 1.25rem !important;
+        padding-top: 1.25rem !important;
+        border-top: 2px solid #ddd !important
+    }
+
+    .total-row span:first-child {
+        font-size: 1.35rem !important;
+        text-transform: uppercase !important;
+        letter-spacing: -.5px !important
+    }
+
+    .total-row span:last-child {
+        font-size: 1.6rem !important;
+        color: #2c3e50 !important
+    }
+}
+
+@media(max-width:900px) {
+    .founder-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2.5rem !important
+    }
+
+    .founder-grid h1 {
+        font-size: 2.5rem !important;
+        text-align: center !important
+    }
+
+    .founder-grid p {
+        text-align: center !important;
+        font-size: 1.15rem !important
+    }
+
+    .about-intro-text {
+        text-align: center !important;
+        display: block !important
+    }
+
+    #about {
+        padding: 4rem 1.5rem !important
+    }
+
+    .founder-image-container {
+        max-width: 400px !important;
+        margin: 0 auto !important
+    }
+
+    .floating-cta-btn {
+        right: 0 !important;
+        bottom: -15px !important;
+        width: 90% !important;
+        left: 5% !important;
+        text-align: center !important
+    }
+
+    .floating-cta-btn a {
+        font-size: 1.1rem !important;
+        padding: 1.25rem 2rem !important
+    }
+}
+
+@media(max-width:768px) {
+    #hero {
+        padding: 4rem 1.5rem 5rem !important
+    }
+
+    #hero h1 {
+        font-size: 2.5rem !important;
+        margin-bottom: 1.5rem !important
+    }
+
+    #hero p {
+        font-size: 1.25rem !important
+    }
+}
+
+@media(max-width:600px) {
+    #hero {
+        padding: 3rem 1.25rem 4rem !important
+    }
+
+    #hero h1 {
+        font-size: 2rem !important;
+        line-height: 1.2 !important
+    }
+
+    #hero p {
+        font-size: 1.1rem !important
+    }
+}
+
+@media(max-width:768px) {
+    .syllabus-card {
+        flex-direction: column !important
+    }
+
+    .syllabus-card>div:first-child {
+        width: 100% !important;
+        height: 80px !important;
+        flex-direction: row !important;
+        justify-content: center !important;
+        gap: 1rem !important
+    }
+
+    .syllabus-card>div:first-child span:first-child {
+        margin-bottom: 0 !important
+    }
+
+    .syllabus-card>div:last-child {
+        padding: 2rem 1.5rem !important
+    }
+
+    .syllabus-card h3 {
+        font-size: 1.75rem !important
+    }
+
+    .syllabus-card p {
+        font-size: 1.05rem !important
+    }
+}
+
+@media(max-width:600px) {
+
+    input[type=text],
+    input[type=email] {
+        font-size: 16px !important;
+        padding: 1rem !important
+    }
+
+    .btn-checkout {
+        font-size: 1.2rem !important;
+        padding: 1.5rem !important
+    }
+}
+
+@media(max-width:768px) {
+    div[style*="background: #fff9e6"] {
+        padding: 1.25rem 1rem !important
+    }
+
+    div[style*="background: #fff9e6"] strong {
+        font-size: 1.1rem !important;
+        line-height: 1.3 !important
+    }
+
+    div[style*="background: #fff9e6"] p {
+        font-size: .95rem !important;
+        line-height: 1.5 !important
+    }
+
+    div[style*="background: #fff9e6"] label {
+        gap: 1rem !important
+    }
+}
+
+@media(max-width:600px) {
+    div[style*="background: #fff9e6"] {
+        padding: 1.25rem 1rem !important
+    }
+
+    div[style*="background: #fff9e6"] strong {
+        font-size: 1.05rem !important
+    }
+
+    div[style*="background: #fff9e6"] p {
+        font-size: .9rem !important
+    }
+}
+
+@media(max-width:600px) {
+    .trust-signals-wrapper {
+        flex-direction: column !important;
+        gap: 1.5rem !important
+    }
+
+    .money-back-text {
+        font-size: 1.15rem !important
+    }
+
+    .security-text {
+        font-size: .95rem !important
+    }
+}
+
+@media(max-width:768px) {
+    .checkout-section {
+        padding: 5rem 1.5rem !important
+    }
+
+    .checkout-section h1 {
+        font-size: 2.25rem !important
+    }
+
+    .checkout-section>div>div {
+        padding: 2.5rem 2rem !important
+    }
+}
+
+@media(max-width:600px) {
+    .checkout-section {
+        padding: 2rem 0 !important
+    }
+
+    .checkout-section h1 {
+        font-size: 1.85rem !important;
+        padding: 0 1.25rem !important;
+        margin-bottom: 1.5rem !important
+    }
+
+    .checkout-section>div>div {
+        padding: 2rem 1.25rem !important;
+        width: 100% !important;
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important;
+        box-shadow: none !important;
+        margin: 0 !important
+    }
+}
+
+@media(max-width:600px) {
+    .faq-accordion details {
+        padding: 1.25rem 0 !important
+    }
+
+    .faq-accordion summary {
+        font-size: 1.1rem !important
+    }
+
+    .faq-accordion p {
+        font-size: 1rem !important
+    }
+}
+
+@media(max-width:600px) {
+    .guarantee-section h1 {
+        font-size: 2.5rem !important
+    }
+
+    .guarantee-section p {
+        font-size: 1.1rem !important
+    }
+}
+
+@media(max-width:768px) {
+    section[style*="background-color: var(--color-text-muted)"] {
+        padding: 3rem 1.5rem !important
+    }
+
+    section[style*="background-color: var(--color-text-muted)"] h1 {
+        font-size: 2.75rem !important
+    }
+
+    section[style*="background-color: var(--color-text-muted)"] p {
+        font-size: 1rem !important
+    }
+}
+
+@media(max-width:600px) {
+    section[style*="background-color: var(--color-text-muted)"] {
+        padding: 2.5rem 1.25rem !important
+    }
+
+    section[style*="background-color: var(--color-text-muted)"] h1 {
+        font-size: 2.25rem !important
+    }
+}
+
+@media(max-width:768px) {
+    .comparison-grid {
+        grid-template-columns: 1fr !important;
+        gap: 2rem !important
+    }
+
+    .comparison-section h1 {
+        font-size: 2.5rem !important
+    }
+
+    .comparison-item span {
+        font-size: 1.1rem !important
+    }
+}
+
+@media(max-width:600px) {
+    .comparison-section {
+        padding: 3rem 1.25rem !important
+    }
+
+    .comparison-section h1 {
+        font-size: 2rem !important;
+        line-height: 1.2 !important
+    }
+
+    .comparison-item {
+        margin-bottom: 1.25rem !important
+    }
+
+    .comparison-item span {
+        font-size: 1.05rem !important
+    }
+}
+
+@media(max-width:600px) {
+    .hero-video-wrapper {
+        margin: 0 -1.25rem !important;
+        width: calc(100% + 2.5rem) !important;
+        border-radius: 0 !important;
+        border-left: none !important;
+        border-right: none !important
+    }
+
+    .play-button-wrapper span {
+        font-size: 1rem !important;
+        letter-spacing: 2px !important
+    }
+}

@@ -1,190 +1,176 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import '../../styles/live-restore-1.css';
-import '../../styles/live-restore-2.css';
-import '../../styles/promo.css';
-import '../../styles/modules.css'; // Use if previously created
+import SalesLayout from '../../layouts/SalesLayout.astro';
+import Footer from '../../components/Footer.astro';
 ---
-
-<Layout title="Are You Stuck in Your Ex-Wife's Frame? | Men's Divorce Mindset System" simpleHeader={true} simpleFooter={true}>
+<!-- ... (rest of imports) -->
+<SalesLayout 
+    title="Are You Stuck in Your Ex-Wife's Frame? | Men's Divorce Mindset System"
+    description="The step-by-step system to rebuild your identity and reclaim your edge."
+>
+<!-- ... (head content) -->
+    <!-- Live Styles Injection (Scoped to Restore Brand Colors) -->
     <fragment slot="head">
-        <!-- Live Styles -->
+        <!-- HLS Video Support -->
+        <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+        <script is:inline src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+        
+        <!-- Stripe -->
+        <script is:inline src="https://js.stripe.com/v3/"></script>
+        
         <style is:global>
-            /* Force isolation from global layout sidebars */
+            /* Typography Support for Clean Layout */
             body, html { margin-left: 0 !important; width: 100% !important; overflow-x: hidden !important; }
             .sys-main, .lms-main, .main-content { margin-left: 0 !important; padding: 0 !important; width: 100% !important; max-width: 100% !important; flex: 1; }
             .sys-sidebar, .lms-sidebar, #sidebar { display: none !important; }
             
-            /* Hide default Video.js play button because we use a custom overlay */
-            .vjs-big-play-button { display: none !important; }
+            /* Navbar Specifics from Live Site */
+            #join-navbar {
+                font-family: 'Montserrat', sans-serif !important;
+            }
+            .promo-badge {
+                background: rgba(196, 97, 58, 0.1);
+                color: var(--color-accent);
+                padding: 4px 8px;
+                border-radius: 4px;
+                font-size: 0.75rem;
+                font-weight: 800;
+                margin-right: 8px;
+            }
+
+            /* Footer Styling Handled by Global Component */
+
+            @media (max-width: 768px) {
+                .footer-grid { grid-template-columns: 1fr 1fr; }
+                .footer-bottom { flex-direction: column; gap: 1rem; text-align: center; }
+            }
+            
+            /* Restored Component Styles */
+            .syllabus-card:hover {
+                transform: translateY(-5px);
+                box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            }
+
+            .comparison-wrapper {
+                background: #fff;
+                border-radius: 12px;
+                box-shadow: 0 20px 60px rgba(0,0,0,0.08);
+                padding: 3rem;
+                max-width: 1000px;
+                margin: 0 auto;
+            }
+            .comparison-grid {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                gap: 2rem;
+            }
+            .comparison-col h3 {
+                font-family: var(--font-heading);
+                font-size: 1.5rem;
+                margin-bottom: 2rem;
+                padding-bottom: 1rem;
+                border-bottom: 2px solid #eee;
+                text-align: center;
+            }
+            .col-after h3 {
+                color: var(--color-bg-primary);
+                border-bottom-color: var(--color-bg-primary);
+            }
+            .comparison-list {
+                list-style: none;
+                padding: 0;
+            }
+            .comparison-item {
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                margin-bottom: 1.5rem;
+                font-size: 1.1rem;
+                color: #555;
+            }
+            .comparison-item .icon-box {
+                width: 24px;
+                height: 24px;
+                border-radius: 50%;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                flex-shrink: 0;
+                font-size: 12px;
+                font-weight: 900;
+            }
+            .col-before .icon-box {
+                background: #fde8e8;
+                color: #e02424;
+            }
+            .col-after .icon-box {
+                background: #def7ec;
+                color: #03543f;
+            }
+            
+            /* About Section */
+            .floating-cta-btn:hover {
+                 transform: translateY(-2px);
+                 box-shadow: 0 15px 30px rgba(196, 97, 58, 0.6);
+            }
+            
+            /* FAQ Styling */
+            details > summary {
+                list-style: none;
+            }
+            details > summary::-webkit-details-marker {
+                display: none;
+            }
+            details[open] .faq-arrow {
+                transform: rotate(180deg) !important;
+            }
+
+            @media (max-width: 768px) {
+                .founder-grid, .comparison-grid {
+                    grid-template-columns: 1fr;
+                }
+                .ltp-card {
+                    flex-direction: column;
+                    padding: 2rem !important;
+                }
+                .syllabus-card {
+                    flex-direction: column;
+                }
+                .syllabus-card > div:first-child {
+                    width: 100% !important;
+                    height: 80px;
+                    flex-direction: row !important;
+                    gap: 1rem;
+                    padding: 0 2rem;
+                }
+            }
         </style>
-        <style>#launch-banner{background:#1a2329;color:#fff;padding:.75rem 0;position:relative;z-index:2000;border-bottom:2px solid var(--color-accent, #C4613A);font-family:Montserrat,sans-serif}.banner-inner{max-width:1000px;margin:0 auto;padding:0 2rem;display:flex;align-items:center;justify-content:center;gap:3rem}.banner-branding{display:flex;align-items:center;gap:12px;flex-shrink:0}.banner-badge{background:#c4613a26;color:var(--color-accent, #C4613A);border:1px solid var(--color-accent, #C4613A);font-size:.6rem;font-weight:800;padding:2px 8px;border-radius:4px;letter-spacing:1px}.banner-title{font-size:1rem;font-weight:800;letter-spacing:-.2px}.banner-title .highlight{color:var(--color-accent, #C4613A)}.banner-timer{display:flex;gap:1.25rem;align-items:center}.timer-unit{display:flex;flex-direction:column;align-items:center}.timer-unit span{font-size:1.25rem;font-weight:800;line-height:1}.timer-unit .seconds{color:var(--color-accent, #C4613A)}.timer-unit label{font-size:.5rem;font-weight:700;opacity:.5;margin-top:3px;letter-spacing:1px}.banner-btn{background:#d4c5a9;color:#0a0c0a;padding:.6rem 1.75rem;border-radius:4px;font-weight:800;font-size:.85rem;text-decoration:none;text-transform:uppercase;letter-spacing:1px;transition:all .3s cubic-bezier(.175,.885,.32,1.275);box-shadow:0 4px 15px #d4c5a933;animation:banner-pulse 3s infinite}@keyframes banner-pulse{0%{transform:scale(1);box-shadow:0 4px 15px #d4c5a933}50%{transform:scale(1.03);box-shadow:0 4px 25px #d4c5a966}to{transform:scale(1);box-shadow:0 4px 15px #d4c5a933}}.banner-btn:hover{background:#fff;transform:translateY(-2px) scale(1.05);box-shadow:0 6px 30px #d4c5a999;animation:none}@media(max-width:800px){.banner-inner{flex-direction:column;gap:1rem;padding:1rem}.banner-branding{flex-direction:column;gap:5px}.banner-btn{width:100%;text-align:center}}
-</style>
-<style>@media(max-width:900px){:root{--spacing-section: 3rem 1.5rem !important}body{font-size:1rem!important}h1{font-size:2.25rem!important;line-height:1.2!important;word-wrap:break-word}h2{font-size:1.75rem!important}h3{font-size:1.4rem!important}p{font-size:1rem!important;line-height:1.6!important}.container,.container-wide{padding:0 1.25rem!important;width:100%!important}.section{padding:3rem 1.25rem!important}.hero-section{padding:4rem 1.25rem!important;min-height:auto!important}.hero-content{padding:0!important}.grid-2,.grid-3,.grid-about,.comparison-grid,.struggle-grid,.hero-split-grid{display:flex!important;flex-direction:column!important;gap:2.5rem!important}.checkout-container,.hero-checkout-wrapper{width:100%!important;max-width:100%!important;padding:1.5rem!important;margin:0!important;box-shadow:0 5px 20px #0000001a!important}.checkout-section{padding:3rem 1rem!important}.btn-checkout{font-size:1.1rem!important;padding:1rem!important}.module-box{flex-direction:column!important;height:auto!important;min-height:auto!important}.module-content-left{padding:2rem 1.5rem!important;order:2}.module-content-right{width:100%!important;height:250px!important;order:1}.module-title{font-size:1.75rem!important}.sys-main{margin-left:0!important;padding:5rem 1.25rem 2rem!important;width:100%!important}.sys-sidebar{transform:translate(-100%)}.sys-sidebar.open{transform:translate(0)!important}.sys-mobile-toggle{display:flex!important;top:1rem!important;left:1rem!important}.course-player-container{padding:0!important}.video-js{border-radius:12px!important}.content-stage{display:flex!important;flex-direction:column!important;gap:2rem!important}.lesson-description-card{padding:1.5rem!important}div[style*="display: flex; gap: 2rem; align-items: stretch"]{flex-direction:column!important;padding:2rem 1.5rem!important}div[style*="flex: 1.2"]{flex:auto!important;padding-right:0!important}div[style*="flex: 1; max-width: 550px"]{max-width:100%!important}}
-</style>
-<style>#cookie-banner{position:fixed;bottom:2rem;left:50%;transform:translate(-50%) translateY(100px);width:90%;max-width:850px;background:#0f1114e6;backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,.1);border-top:1px solid rgba(196,97,58,.3);color:#fff;padding:1.25rem 2rem;z-index:10000;display:none;border-radius:100px;box-shadow:0 20px 40px #0009;font-family:var(--font-body);transition:all .6s cubic-bezier(.19,1,.22,1)}#cookie-banner.show{display:flex;transform:translate(-50%) translateY(0)}.cookie-content{width:100%;display:flex;align-items:center;justify-content:space-between;gap:2rem}.cookie-text{flex:1}.cookie-text p{margin:0;font-size:.95rem;color:#cbd5e1;line-height:1.4;font-weight:500}.cookie-text a{color:var(--color-accent);text-decoration:none;font-weight:700;margin-left:5px;border-bottom:2px solid transparent;transition:all .2s ease}.cookie-text a:hover{border-bottom-color:var(--color-accent)}.cookie-buttons{display:flex;gap:.75rem;align-items:center}.cookie-btn{padding:.6rem 1.25rem;border-radius:50px;font-size:.85rem;font-weight:700;cursor:pointer;transition:all .3s ease;border:none;text-transform:uppercase;letter-spacing:.5px;white-space:nowrap}.btn-settings{background:transparent;color:#94a3b8;padding:.6rem .5rem}.btn-settings:hover{color:#fff}.btn-necessary{background:#ffffff0d;color:#fff;border:1px solid rgba(255,255,255,.1)}.btn-necessary:hover{background:#ffffff1a}.btn-allow-all{background:var(--color-accent);color:#fff;box-shadow:0 4px 15px #c4613a4d}.btn-allow-all:hover{transform:translateY(-2px);box-shadow:0 8px 20px #c4613a80;filter:brightness(1.1)}@media(max-width:900px){#cookie-banner{bottom:1rem;border-radius:20px;padding:1.5rem}.cookie-content{flex-direction:column;gap:1.25rem;text-align:center}.cookie-buttons{width:100%;justify-content:center}.cookie-btn{flex:1;padding:.75rem 1rem}}
-</style>
-        <!-- HLS Video Support -->
-        <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
-        <script is:inline src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
-        <script is:inline src="https://js.stripe.com/v3/"></script>
-        <!-- Fonts from Live Site -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet">
     </fragment>
 
     <div class="live-content-wrapper">
-             <nav id="join-navbar" style="position: relative; z-index: 1000; background: #fff; border-bottom: 1px solid #eee;" > <div class="join-nav-container" > <!-- Logo Left --> <a href="/" class="join-logo-link" > <span class="logo-text" >THE MEN'S DIVORCE<br ><span class="logo-accent" >MINDSET SYSTEM</span></span> </a> <!-- Offer Center --> <div class="offer-timer-container" > <div class="offer-text-wrapper" > <span class="promo-badge" >LIMITED LAUNCH PROMO:</span> <span class="promo-desc" >50% OFF THE SYSTEM</span> <span class="promo-sep" >|</span> <span class="timer-label" >ENDS IN:</span> <span id="join-timer" >00d 00h 00m</span> </div> </div> <!-- Spacer for Balance --> <div class="nav-spacer" ></div> </div> </nav> <script>
-        // Timer Logic for Join Page (Sync with Homepage Banner: Feb 14)
-        const targetDate = new Date('February 14, 2026 23:59:59').getTime();
+         <!-- EXACT NAVBAR HTML FROM LIVE SITE -->
+         <nav id="join-navbar" style="position: relative; z-index: 1000; background: #fff; border-bottom: 1px solid #eee; padding: 12px 0;" > 
+            <div class="join-nav-container" style="max-width: 1110px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 1rem;" > 
+                <!-- Logo Left --> 
+                <a href="/" class="join-logo-link" style="text-decoration: none;"> 
+                    <span class="logo-text" style="color: #000; font-weight: 900; line-height: 1.1; display: block; font-size: 1.1rem;" >THE MEN'S DIVORCE<br ><span class="logo-accent" style="color: var(--color-accent);" >MINDSET SYSTEM</span></span> 
+                </a> 
+                <!-- Offer Center --> 
+                <div class="offer-timer-container" style="font-weight: 700; font-size: 0.9rem;" > 
+                    <div class="offer-text-wrapper" style="display: flex; align-items: center; gap: 8px;" > 
+                        <span class="promo-badge" style="color: var(--color-accent); text-transform: uppercase; background: rgba(196, 97, 58, 0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem;">LIMITED LAUNCH PROMO:</span> 
+                        <span class="promo-desc" style="color: #333;" >50% OFF THE SYSTEM</span> 
+                        <span class="promo-sep" style="opacity: 0.3;" >|</span> 
+                        <span class="timer-label" style="color: #333;" >ENDS IN:</span> 
+                        <span id="join-timer" >00d 00h 00m</span> 
+                    </div> 
+                </div> 
+                <!-- Spacer for Balance (Hidden on Mobile) --> 
+                <div class="nav-spacer" style="width: 200px; display: none;"></div> 
+            </div> 
+         </nav> 
 
-        function updateJoinTimer() {
-            const now = new Date().getTime();
-            const distance = targetDate - now;
-
-            if (distance < 0) {
-                const timerEl = document.getElementById("join-timer");
-                if(timerEl) timerEl.innerText = "OFFER EXPIRED"; 
-                return;
-            }
-
-            const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-            const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-            const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-
-            const timerEl = document.getElementById("join-timer");
-            if(timerEl) {
-                timerEl.innerHTML = 
-                    (days < 10 ? "0" + days : days) + "d " + 
-                    (hours < 10 ? "0" + hours : hours) + "h " + 
-                    (minutes < 10 ? "0" + minutes : minutes) + "m";
-            }
-        }
-
-        setInterval(updateJoinTimer, 1000);
-        updateJoinTimer();
-    </script>    <header id="hero" class="section hero-section" style="min-height: auto; padding-top: 6rem; position: relative; padding-bottom: 6rem;" > <div class="container" style="max-width: 1400px;" > <div class="hero-content" > <h1 style="font-family: var(--font-heading); font-size: 4rem; margin-bottom: 2.5rem; line-height: 1.15; color: #fff;" >
-Are You Stuck Living in<br > <span style="color: var(--color-neon);" >Your Ex-Wife's Frame?</span> </h1> <p style="font-size: 1.6rem; margin-bottom: 1.5rem; color: #eee; font-weight: 500; line-height: 1.4; max-width: 800px; margin-left: auto; margin-right: auto;" >
-You're physically divorced, but mentally owned. Break the invisible chains and finally become the man she couldn't handle.
-</p> <div style="color: var(--color-text-muted); font-size: 1.1rem; font-weight: 600; margin-bottom: 3.5rem; text-transform: uppercase; letter-spacing: 1px;" >
-The 5-Step System to Rebuild Your Identity & Reclaim Your Edge
-</div> <!-- Video Player (Ready for Firebase Hosting) --> <div class="hero-video-wrapper" > <div class="video-container" style="border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 30px 60px rgba(0,0,0,0.5); position: relative;" >                    <video id="vsl-video" class="video-js vjs-big-play-centered" controls playsinline poster="/images/social-preview.png" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; object-fit: cover; background: #000;" >
-                        <source src="https://storage.googleapis.com/mpdc-website-32dae.firebasestorage.app/streaming/VSL/manifest.m3u8" type="application/x-mpegURL">
-                        Your browser does not support the video tag.
-                    </video>
- <!-- High-Converting Play Overlay --> <div id="video-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; transition: opacity 0.3s ease;" > <div class="play-button-wrapper" style="text-align: center;" > <div style="width: 100px; height: 100px; background: var(--color-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; box-shadow: 0 0 30px rgba(196, 97, 58, 0.5); transition: transform 0.3s ease;" > <div style="width: 0; height: 0; border-top: 20px solid transparent; border-bottom: 20px solid transparent; border-left: 30px solid #fff; margin-left: 8px;" ></div> </div> <span style="color: #fff; font-weight: 900; letter-spacing: 3px; font-size: 1.25rem; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0,0,0,0.5);" >Watch The Video Now</span> </div> </div> </div> </div> </div> <!-- "Low Ticket Profits" Format White Card --> <div class="ltp-card" style="background: #fff; border-radius: 12px; padding: 2rem; color: var(--color-text-dark); box-shadow: 0 40px 100px rgba(0,0,0,0.4); margin-top: 4rem; display: flex; gap: 2rem; align-items: stretch; text-align: left; max-width: 1080px; margin-left: auto; margin-right: auto;" > <!-- Left: Sales Copy in LTP Format --> <div style="flex: 1.2; padding-right: 0;" > <p style="font-size: 1.35rem; line-height: 1.6; margin-bottom: 1.5rem; color: var(--color-text-dark);" >
-What if you could actually <strong >stop reacting</strong> to your past — while <strong >rebuilding your identity</strong> (not just repressing the pain) starting now?
-</p> <p style="font-size: 1.35rem; line-height: 1.6; margin-bottom: 2rem; color: var(--color-text-dark);" >
-That's exactly what you'll learn inside the <strong >Men's Divorce Mindset System</strong> — the same protocol that's helped hundreds of men move from hollow effort to a life of <strong >clarity and purpose</strong>.
-</p> <p style="font-size: 1.5rem; font-style: italic; text-decoration: underline; font-weight: 700; margin-bottom: 3rem; color: var(--color-text-dark);" >
-Join 500+ Men Who Have Already Reclaimed Their Life With This Protocol
-</p> <div style="margin-bottom: 3rem;" > <!-- Bullet 1: Panic/Anxiety --> <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; font-weight: 900;" >✓</div> <span style="font-size: 1.3rem; line-height: 1.4; color: var(--color-text-dark);" >Stop the endless cycle of panic and anxiety keeping you awake at night, and finally learn how to <strong >turn off the noise instantly.</strong></span> </div> <!-- Bullet 2: Stress/Control --> <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; font-weight: 900;" >✓</div> <span style="font-size: 1.3rem; line-height: 1.4; color: var(--color-text-dark);" >Release the suffocating stress of the unknown and replace it with a <strong >clear, step-by-step roadmap</strong> that puts you back in the driver's seat.</span> </div> <!-- Bullet 3: Protocol --> <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; font-weight: 900;" >✓</div> <span style="font-size: 1.3rem; line-height: 1.4; color: var(--color-text-dark);" >This is the <strong >exact protocol</strong> to settle the chaos in your head and start moving with the 100% certainty that your best days are <strong >ahead of you, not behind you.</strong></span> </div> <!-- Bullet 4: Framework --> <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; font-weight: 900;" >✓</div> <span style="font-size: 1.3rem; line-height: 1.4; color: var(--color-text-dark);" >This is the <strong >proven, 5-step framework</strong> I use to help men rebuild their identity and reclaim their edge... <strong >on autopilot.</strong></span> </div> <!-- Bullet 5: Decision/Command --> <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 30px; height: 30px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 1rem; font-weight: 900;" >✓</div> <span style="font-size: 1.3rem; line-height: 1.4; color: var(--color-text-dark);" >Stop listening to generic advice. <strong >Decide right now</strong> that you are done with "get over it" pep talks and ready for real power.</span> </div> </div> </div> <!-- Right: EXACT SHOPPING CART STYLE FROM IMAGE --> <!-- Right: EXACT SHOPPING CART STYLE FROM IMAGE --> <!-- Right: EXACT SHOPPING CART STYLE FROM IMAGE --> <div style="flex: 1; max-width: 550px; background-color: var(--color-text-muted); border-radius: 12px; padding: 2.5rem; align-self: start; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" > <div class="checkout-container" style="background: transparent; border: none; box-shadow: none; padding: 0;" > <!-- White Order Summary Box --> <!-- White Order Summary Box --> <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 2rem; margin-bottom: 2.5rem;" class="white-summary-box" > <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem; font-size: 1.1rem; color: #555;" class="order-row" > <span >The Men's Divorce Mindset System</span> <span >$98.00</span> </div> <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 1rem; color: var(--color-accent); font-weight: 600;" class="order-row" > <span >50% OFF Promotion</span> <span >-$49.00</span> </div> <!-- Hidden Upsell Row --> <div id="upsell-row-hero" style="display: none; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 1rem; color: #2c3e50; font-weight: 600;" class="order-row" > <span >10-Session Hypnosis Bundle</span> <span >+$9.00</span> </div> <div style="border-top: 1px solid #eee; margin: 1rem 0;" ></div> <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1.75rem; font-weight: 800; color: #2c3e50;" class="order-row total-row" > <span >Total Today:</span> <span id="order-total-hero" >$49.00</span> </div> </div> <div class="form-group" style="margin-bottom: 1.5rem;" > <label for="full-name-hero" style="display: block; margin-bottom: 0.75rem; font-weight: 700; color: #2c3e50; font-size: 1rem;" >Full Name</label> <input type="text" id="full-name-hero" placeholder="Enter your full name" style="width: 100%; padding: 1.25rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1.1rem; background: #fff;" required > </div> <div class="form-group" style="margin-bottom: 2.5rem;" > <label for="email-hero" style="display: block; margin-bottom: 0.75rem; font-weight: 700; color: #2c3e50; font-size: 1rem;" >Email Address</label> <input type="email" id="email-hero" placeholder="Enter your email address" style="width: 100%; padding: 1.25rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1.1rem; background: #fff;" required > </div> <!-- ORDER BUMP --> <div style="background: #fff9e6; border: 2px dashed #e67e22; padding: 1.25rem; border-radius: 8px; margin-bottom: 2rem; text-align: left; position: relative;" > <div style="position: absolute; top: -12px; right: 20px; background: #e67e22; color: #fff; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; text-transform: uppercase; border-radius: 4px; letter-spacing: 0.5px;" >Recommended</div> <label style="display: flex; gap: 12px; cursor: pointer; align-items: start;" > <input type="checkbox" id="bump-offer-hero" style="transform: scale(1.6); margin-top: 5px; accent-color: #e67e22;" > <div > <strong style="color: #2c3e50; font-size: 1.15rem; display: block; margin-bottom: 0.5rem; line-height: 1.2;" >YES! Accelerate My Results With The 10-Session Hypnosis Bundle <span style="color: #e67e22;" >(+$9)</span></strong> <p style="font-size: 0.95rem; color: #444; margin: 0 0 0.5rem; line-height: 1.5;" >
-Don't just rely on willpower. Plug in these audio tracks before bed to silence the overthinking and wake up with unshakeable certainty. Proven to reduce stress and boost confidence 2x faster.
-</p> <p style="font-size: 0.85rem; color: #666; font-style: italic; margin: 0;" > <span style="color: #27ae60; font-weight: 700;" >✓</span> 87% of men choose this upgrade
-</p> </div> </label> </div> <button id="hero-checkout-btn" class="btn btn-checkout" onclick="proceedToStripeCheckout('hero')" style="width: 100%; background: #5cb85c; color: #fff; padding: 1.75rem; font-size: 1.4rem; font-weight: 800; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 0 #449d44; transition: all 0.2s;" >
-PROCEED TO CHECKOUT - <span class="checkout-total" >$49</span> →
-</button> <!-- Trust Signals Section --> <div style="margin-top: 2.5rem; text-align: center;" > <!-- 30-Day Money Back --> <div style="display: flex; align-items: center; justify-content: center; gap: 1.25rem; margin-bottom: 2rem;" > <!-- Gold Badge Seal --> <div style="width: 85px; height: 85px; position: relative; background: linear-gradient(135deg, #C5A059 0%, #E2C17D 50%, #C5A059 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.15);" > <div style="position: absolute; top: -4px; left: -4px; right: -4px; bottom: -4px; border: 3px dotted #C5A059; border-radius: 50%;" ></div> <div style="text-align: center; color: #fff; font-family: var(--font-heading); z-index: 1;" > <div style="font-size: 8px; letter-spacing: 0.5px; opacity: 0.9;" >★★★★</div> <div style="font-size: 16px; font-weight: 900; line-height: 1;" >100%</div> <div style="font-size: 8px; font-weight: 700; line-height: 1.1; margin: 2px 0;" >MONEY BACK</div> <div style="font-size: 8px; letter-spacing: 0.5px; opacity: 0.9;" >★★★★</div> </div> </div> <!-- Dashed Box Text --> <div style="border: 2px dashed rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem 1.25rem; text-align: left;" > <div style="font-size: 1.3rem; font-weight: 900; color: #1a1a1a; line-height: 1.1; text-transform: uppercase; letter-spacing: -0.5px;" >30-DAY MONEY</div> <div style="font-size: 1.3rem; font-weight: 900; color: #1a1a1a; line-height: 1.1; text-transform: uppercase; letter-spacing: -0.5px;" >BACK GUARANTEE</div> </div> </div> <!-- Security Text --> <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; color: #1a1a1a; font-weight: 800; font-size: 1.05rem; margin-bottom: 1.5rem;" > <span style="font-size: 1.1rem;" >🔒</span> 100% Secure 256-Bit Encrypted Checkout
-</div> <!-- Payment Icons --> <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; opacity: 0.8; font-size: 24px; color: #555;" > <i class="fab fa-cc-visa" ></i> <i class="fab fa-cc-mastercard" ></i> <i class="fab fa-cc-amex" ></i> <i class="fab fa-cc-discover" ></i> <i class="fab fa-stripe" style="font-size: 32px;" ></i> <div style="display: flex; align-items: center; gap: 4px; background: #fff; border: 1px solid #ddd; padding: 2px 6px; border-radius: 4px; height: 20px; margin-left: 0.5rem;" > <span style="color: #5cb85c; font-size: 10px;" >✔</span> <span style="font-size: 9px; font-weight: 800; color: #666; text-transform: uppercase; letter-spacing: 0.5px;" >SECURE</span> </div> </div> <p style="color: #888; font-size: 0.85rem; margin-top: 1.5rem;" >
-Your detailed access information will be sent to your email immediately.<br > <span style="font-size: 0.75rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 8px; display: block;" >Athens NLP Studies, LLC</span> </p> </div> </div> </div> </div> </div> </header>  <section class="section" style="background-color: var(--color-text-muted); padding: 4rem 2rem; color: var(--color-bg-primary);" > <div style="max-width: 900px; margin: 0 auto; text-align: center;" > <p style="font-size: 1rem; margin-bottom: 1rem; letter-spacing: 4px; text-transform: uppercase; color: var(--color-accent); font-weight: 700;" >INTRODUCING</p> <h1 style="font-family: var(--font-heading); font-size: 3.5rem; line-height: 1.15; margin-bottom: 2rem; color: var(--color-bg-primary);" >
-The Men's Divorce<br >
-Mindset System
-</h1> <!-- Course Portal Preview --> <div style="position: relative; max-width: 850px; margin: 2rem auto 0;" > <img src="/images/vsl-course-image.png" alt="Course Portal Preview" style="width: 100%; border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); border: 8px solid #fff;" > <div style="margin-top: 2rem; color: var(--color-accent); font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;" >
-▲ ACTUAL COURSE DASHBOARD
-</div> </div> </div> </section>  <section class="section" style="background-color: var(--color-text-light); padding: 4rem 2rem;" > <div style="max-width: 1100px; margin: 0 auto; text-align: center;" > <p style="font-size: 1rem; margin-bottom: 0.5rem; letter-spacing: 3px; text-transform: uppercase; color: var(--color-accent); font-weight: 700;" >WHAT YOU'LL LEARN</p> <h1 style="font-family: var(--font-heading); font-size: 3.5rem; line-height: 1.15; margin-bottom: 2rem; color: var(--color-bg-primary);" >
-The Syllabus
-</h1> <!-- Professional Stacked Syllabus --> <div style="max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; text-align: left;" > <!-- Card 1 --> <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: default;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.03)';" > <!-- Tall Branding Sidebar --> <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative; overflow: hidden; background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 20px 20px;" > <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);" ></div> <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >01</span> </div> <!-- Content Area --> <div style="padding: 3.5rem; flex: 1;" > <div style="margin-bottom: 1rem;" > <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 1: THE FOUNDATION</span> </div> <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem; line-height: 1.2; letter-spacing: -0.02em; text-transform: none;" >A Memory In Your Future</h3> <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0; font-weight: 400; max-width: 650px;" >The foundational shift required to change your trajectory. You cannot build a new life looking in the rearview mirror. This module installs the 'Future Memory' protocol—reframing your mindset to focus on creation rather than reaction.</p> </div> </div> <!-- Card 2 --> <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: default;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.03)';" > <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative; overflow: hidden;" > <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);" ></div> <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >02</span> </div> <div style="padding: 3.5rem; flex: 1;" > <div style="margin-bottom: 1rem;" > <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 2: RESOLUTION</span> </div> <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem; line-height: 1.2; letter-spacing: -0.02em; text-transform: none;" >Resolving Your Past</h3> <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0; font-weight: 400; max-width: 650px;" >Making peace with what happened so you can move forward. When you close the negative and limiting loops in your mind you change the whole meaning of your future. This makes the ‘Future Memory’ protocol easily attainable.</p> </div> </div> <!-- Card 3 --> <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: default;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.03)';" > <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative; overflow: hidden;" > <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);" ></div> <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >03</span> </div> <div style="padding: 3.5rem; flex: 1;" > <div style="margin-bottom: 1rem;" > <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 3: CONSTRUCTION</span> </div> <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem; line-height: 1.2; letter-spacing: -0.02em; text-transform: none;" >Rebuilding Your Reality Chain</h3> <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0; font-weight: 400; max-width: 650px;" >Constructing a new narrative for your life and identity. See where there is a gap to fill in so your belief systems are programmed for success. You may notice you start to automatically adjust your focus.</p> </div> </div> <!-- Card 4 --> <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: default;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.03)';" > <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative; overflow: hidden;" > <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);" ></div> <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >04</span> </div> <div style="padding: 3.5rem; flex: 1;" > <div style="margin-bottom: 1rem;" > <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 4: DESIGN</span> </div> <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem; line-height: 1.2; letter-spacing: -0.02em; text-transform: none;" >Designing Your Ideal Future</h3> <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0; font-weight: 400; max-width: 650px;" >Architect the ideal reality that you haven’t even dreamed of yet. Create an imprint in your mind that takes what is in your imagination to physical reality. This includes abundance, love, and relationships.</p> </div> </div> <!-- Card 5 --> <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); cursor: default;" onmouseover="this.style.transform='translateY(-5px)'; this.style.boxShadow='0 20px 40px rgba(0,0,0,0.08)';" onmouseout="this.style.transform='translateY(0)'; this.style.boxShadow='0 4px 20px rgba(0,0,0,0.03)';" > <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative; overflow: hidden;" > <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: linear-gradient(180deg, rgba(255,255,255,0.1) 0%, transparent 100%);" ></div> <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >05</span> </div> <div style="padding: 3.5rem; flex: 1;" > <div style="margin-bottom: 1rem;" > <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 5: ABUNDANCE</span> </div> <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem; line-height: 1.2; letter-spacing: -0.02em; text-transform: none;" >Scarcity to Abundance</h3> <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0; font-weight: 400; max-width: 650px;" >Trust yourself to make a full decision on your future. See for yourself that a crash and burn option no longer exists and instead your reality works for you to bring your biggest desires.</p> </div> </div> </div> </div> </section>  <section class="section comparison-section" > <div class="container" > <h1 style="font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 3rem; text-align: center; line-height: 1.15;" >
-Here's what changes when you start <span style="color: var(--color-neon);" >The System</span> </h1> <div class="comparison-wrapper" > <div class="comparison-grid" > <!-- Before Column --> <div class="comparison-col col-before" > <h3 >Before The System</h3> <ul class="comparison-list" > <li class="comparison-item" > <div class="icon-box" ><i class="fas fa-times" >✕</i></div> <span >Constantly stressed and reactive to her</span> </li> <li class="comparison-item" > <div class="icon-box" ><i class="fas fa-times" >✕</i></div> <span >Endless "what ifs" with little progress</span> </li> <li class="comparison-item" > <div class="icon-box" ><i class="fas fa-times" >✕</i></div> <span >Burned out and unnecessary pain</span> </li> <li class="comparison-item" > <div class="icon-box" ><i class="fas fa-times" >✕</i></div> <span >Living by default (Her Frame)</span> </li> <li class="comparison-item" > <div class="icon-box" ><i class="fas fa-times" >✕</i></div> <span >Struggling to find time for yourself</span> </li> <li class="comparison-item" > <div class="icon-box" ><i class="fas fa-times" >✕</i></div> <span >Stuck in cycles of fear and guilt</span> </li> </ul> </div> <!-- After Column --> <div class="comparison-col col-after" > <h3 >After The System</h3> <ul class="comparison-list" > <li class="comparison-item" > <div class="icon-box" ><i class="fas fa-check" >✓</i></div> <span >Calm, focused, and in control</span> </li> <li class="comparison-item" > <div class="icon-box" ><i class="fas fa-check" >✓</i></div> <span >Clear outcomes and meaningful wins</span> </li> <li class="comparison-item" > <div class="icon-box" ><i class="fas fa-check" >✓</i></div> <span >Energized and ahead of your priorities</span> </li> <li class="comparison-item" > <div class="icon-box" ><i class="fas fa-check" >✓</i></div> <span >Living by design (Your Frame)</span> </li> <li class="comparison-item" > <div class="icon-box" ><i class="fas fa-check" >✓</i></div> <span >Creating space for growth and fulfillment</span> </li> <li class="comparison-item" > <div class="icon-box" ><i class="fas fa-check" >✓</i></div> <span >Operating from intention and abundance</span> </li> </ul> </div> </div> </div> </div> </section>  <section id="about" class="section" style="background-color: #fff; color: var(--color-text-dark); padding: 6rem 2rem;" > <div class="container" style="max-width: 1100px;" > <div class="founder-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;" > <!-- Left Col: Image + Button --> <div style="position: relative;" class="founder-image-container" > <!-- Image Placeholder (Dark Green Box) --> <div style="width: 100%; aspect-ratio: 3/4; background-color: var(--color-bg-dark); border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;" > <!-- Ideally this is the Alex Morgan Image --> <img src="/images/alex-morgan.png" alt="Alex Morgan" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.8;" > </div> <!-- Floating Button --> <div style="position: absolute; bottom: -20px; right: -20px; z-index: 10;" class="floating-cta-btn" > <a href="#checkout" style="background-color: var(--color-accent); color: #fff; padding: 1rem 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; box-shadow: 0 10px 20px rgba(196, 97, 58, 0.4); text-decoration: none; display: inline-block;" >
-I'll Show You How.
-</a> </div> </div> <!-- Right Col: Copy + Box --> <div style="text-align: left;" > <p style="color: var(--color-accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 0.5rem;" class="about-intro-text" >ABOUT THE FOUNDER</p> <h1 style="font-family: var(--font-heading); font-size: 3.5rem; color: var(--color-bg-primary); margin-bottom: 0.5rem; line-height: 1.15;" >I'M ALEX MORGAN.</h1> <p style="font-weight: 700; color: #666; font-size: 1.1rem; margin-bottom: 2rem;" >Certified Mental Programmer & Founder, MPDC</p> <p style="font-size: 1.1rem; line-height: 1.7; color: var(--color-text-dark); margin-bottom: 1.5rem;" >
-I haven't just "seen" the patterns—I've decoded exactly how divorce reprograms a man's mind for failure.
-</p> <p style="font-size: 1.1rem; line-height: 1.7; color: var(--color-text-dark); margin-bottom: 1.5rem;" >
-Most men think their problem is "heartbreak" or "stress." It's not. Your problem is that your subconscious identity is still attached to a life that no longer exists. No amount of "working harder" will fix a software error in your mind.
-</p> <p style="font-size: 1.1rem; line-height: 1.7; color: var(--color-text-dark); margin-bottom: 2.5rem;" > <strong >You don't need time. You need a system.</strong> </p> <!-- Tan Box --> <div style="background-color: var(--color-text-muted); padding: 2.5rem; border-radius: 8px; border-left: 4px solid var(--color-accent);" > <p style="color: var(--color-bg-primary); font-weight: 800; font-size: 1.1rem; margin-bottom: 1.5rem;" >As your guide, I give you the code to:</p> <ul style="list-style: none; padding: 0;" > <li style="margin-bottom: 1rem; display: flex; align-items: start; gap: 0.75rem; color: var(--color-text-dark);" > <span style="font-weight: 900; color: var(--color-accent);" >✓</span> <span ><strong >Delete the "Ex-Wife Frame"</strong> so you stop reacting and start leading.</span> </li> <li style="margin-bottom: 1rem; display: flex; align-items: start; gap: 0.75rem; color: var(--color-text-dark);" > <span style="font-weight: 900; color: var(--color-accent);" >✓</span> <span ><strong >Reprogram Your Value</strong> so you never look for validation outside yourself again.</span> </li> <li style="margin-bottom: 0; display: flex; align-items: start; gap: 0.75rem; color: var(--color-text-dark);" > <span style="font-weight: 900; color: var(--color-accent);" >✓</span> <span ><strong >Install Unshakeable Clarity</strong> so your next chapter is your best chapter—guaranteed.</span> </li> </ul> </div> </div> </div> </div> </section>  <section class="section" style="background-color: var(--color-text-muted); padding: 6rem 2rem; border-top: 1px solid #eee;" > <div class="container" style="max-width: 900px;" > <div style="background: #fff; border-radius: 12px; padding: 3rem; box-shadow: 0 20px 50px rgba(0,0,0,0.1);" > <h1 style="font-family: var(--font-heading); text-align: center; color: var(--color-bg-primary); font-size: 3.5rem; margin-bottom: 3rem;" >FAQs</h1> <div class="faq-accordion" style="display: flex; flex-direction: column; gap: 1px; border-top: 2px solid var(--color-text-dark); border-bottom: 2px solid var(--color-text-dark);" > <!-- FAQ Item 1 --> <details style="padding: 1.5rem 0; cursor: pointer; border-bottom: 1px solid #eee;" > <summary style="font-weight: 700; font-size: 1.25rem; color: var(--color-bg-primary); list-style: none; display: flex; justify-content: space-between; align-items: center;" >
-How can I access the course?
-<span class="faq-arrow" style="transform: rotate(0deg); transition: transform 0.2s;" >▼</span> </summary> <p style="margin-top: 1rem; color: var(--color-text-dark); line-height: 1.6;" >
-Immediately after purchase, you will receive an email with your login credentials for the private member portal. You can access the content from any device, 24/7.
-</p> </details> <!-- FAQ Item 2 --> <details style="padding: 1.5rem 0; cursor: pointer; border-bottom: 1px solid #eee;" > <summary style="font-weight: 700; font-size: 1.25rem; color: var(--color-bg-primary); list-style: none; display: flex; justify-content: space-between; align-items: center;" >
-Is this just for men who are already divorced?
-<span class="faq-arrow" style="transform: rotate(0deg); transition: transform 0.2s;" >▼</span> </summary> <p style="margin-top: 1rem; color: var(--color-text-dark); line-height: 1.6;" >
-While the system is optimized for post-divorce rebuilding, the principles apply to any man going through a major separation or relationship breakdown who wants to rebuild their identity.
-</p> </details> <!-- FAQ Item 3 --> <details style="padding: 1.5rem 0; cursor: pointer; border-bottom: 1px solid #eee;" > <summary style="font-weight: 700; font-size: 1.25rem; color: var(--color-bg-primary); list-style: none; display: flex; justify-content: space-between; align-items: center;" >
-What if I don't have time?
-<span class="faq-arrow" style="transform: rotate(0deg); transition: transform 0.2s;" >▼</span> </summary> <p style="margin-top: 1rem; color: var(--color-text-dark); line-height: 1.6;" >
-The course is self-paced. The modules are designed to be potent and concise, respecting your time. The entire system is streamlined with just 1 hour of total video content and 4-5 focused worksheets, so you can make progress without fluff.
-</p> </details> <!-- FAQ Item 4 --> <details style="padding: 1.5rem 0; cursor: pointer; border-bottom: 1px solid #eee;" > <summary style="font-weight: 700; font-size: 1.25rem; color: var(--color-bg-primary); list-style: none; display: flex; justify-content: space-between; align-items: center;" >
-Is there a money-back guarantee?
-<span class="faq-arrow" style="transform: rotate(0deg); transition: transform 0.2s;" >▼</span> </summary> <p style="margin-top: 1rem; color: var(--color-text-dark); line-height: 1.6;" >
-Yes. We offer a 30-day, 100% money-back guarantee. If you go through the material and don't feel it's valuable, simply email us for a full refund.
-</p> </details> </div> </div> </div> </section>  <section class="section" style="background-color: #fff; padding: 6rem 2rem; padding-bottom: 0;" > <div class="container" style="max-width: 900px; text-align: center;" > <!-- Badge --> <div style="width: 120px; height: 120px; margin: 0 auto 2rem; position: relative; background: linear-gradient(135deg, #F3C465 0%, #C39946 100%); border-radius: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.1);" > <div style="font-size: 2rem; font-weight: 900; line-height: 1;" >100%</div> <div style="font-size: 0.7rem; font-weight: 700; letter-spacing: 1px;" >MONEY BACK</div> <!-- Decorative Stars --> <div style="font-size: 0.8rem; margin-top: 0.25rem;" >★★★★★</div> </div> <h1 style="font-family: var(--font-heading); font-size: 3.5rem; color: var(--color-text-dark); margin-bottom: 1.5rem; line-height: 1.15;" >
-100% MONEY-BACK GUARANTEE
-</h1> <p style="font-size: 1.25rem; color: var(--color-text-dark); margin-bottom: 2rem; font-weight: 600;" >
-I don't want your money if I can't change your life.
-</p> <div style="font-size: 1.15rem; color: var(--color-text-dark); margin-bottom: 2rem;" >
-Use the entire system risk-free. If you don't feel a massive shift in your clarity and confidence within 30 days, I'll refund every penny. No questions asked.
-</div> <div style="border-top: 2px dashed #ccc; width: 60%; margin: 0 auto 3rem;" ></div> <div style="display: flex; flex-direction: column; align-items: center; margin-bottom: 2rem;" > <div style="width: 100px; height: 100px; border-radius: 50%; background-color: #333; overflow: hidden; margin-bottom: 1.5rem; border: 4px solid var(--color-accent); box-shadow: 0 10px 30px rgba(0,0,0,0.2);" > <img src="/images/alex-morgan.png" alt="Alex Morgan" style="width: 100%; height: 100%; object-fit: cover;" > </div> <div style="font-size: 1rem; color: #666; margin-top: 0.5rem; font-weight: 600;" >Alex Morgan</div> </div> </div> </section>  <section id="checkout" class="checkout-section" style="background-color: var(--color-bg-primary); padding: 8rem 2rem; background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 40px 40px;" > <div class="container" > <h1 style="font-family: var(--font-heading); text-align: center; color: var(--color-neon); margin-bottom: 2rem; font-size: 3rem; line-height: 1.1;" >Stop letting the past define you. Define yourself.</h1> <p style="text-align: center; color: var(--color-text-light); margin-bottom: 4rem; font-size: 1.25rem; line-height: 1.6; max-width: 800px; margin-left: auto; margin-right: auto;" >
-As you complete your order, feel the weight lift knowing you've finally chosen to move forward. Lock in your new future now below.
-</p> <div style="max-width: 580px; margin: 0 auto; background-color: var(--color-text-muted); border-radius: 12px; padding: 3rem; box-shadow: 0 20px 50px rgba(0,0,0,0.3);" > <div class="checkout-container" style="background: transparent; border: none; box-shadow: none; padding: 0;" > <!-- White Order Summary Box --> <!-- White Order Summary Box --> <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 2rem; margin-bottom: 2.5rem;" class="white-summary-box" > <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem; font-size: 1.1rem; color: #555; text-align: left;" class="order-row" > <span >The Men's Divorce Mindset System</span> <span >$98.00</span> </div> <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 1rem; color: var(--color-accent); text-align: left; font-weight: 600;" class="order-row" > <span >50% OFF Promotion</span> <span >-$49.00</span> </div> <!-- Hidden Upsell Row --> <div id="upsell-row-main" style="display: none !important; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 1rem; color: #2c3e50; font-weight: 600; text-align: left;" class="order-row" > <span >10-Session Hypnosis Bundle</span> <span >+$9.00</span> </div> <div style="border-top: 1px solid #eee; margin: 1rem 0;" ></div> <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1.75rem; font-weight: 800; color: #2c3e50;" class="order-row total-row" > <span >Total Today:</span> <span id="order-total-main" >$49.00</span> </div> </div> <div class="form-group" style="margin-bottom: 1.5rem; text-align: left;" > <label for="full-name" style="display: block; margin-bottom: 0.75rem; font-weight: 700; color: #2c3e50; font-size: 1rem;" >Full Name</label> <input type="text" id="full-name" placeholder="Enter your full name" style="width: 100%; padding: 1.25rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1.1rem; background: #fff;" required > </div> <div class="form-group" style="margin-bottom: 2.5rem; text-align: left;" > <label for="email" style="display: block; margin-bottom: 0.75rem; font-weight: 700; color: #2c3e50; font-size: 1rem;" >Email Address</label> <input type="email" id="email" placeholder="Enter your email address" style="width: 100%; padding: 1.25rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1.1rem; background: #fff;" required > </div> <!-- ORDER BUMP --> <div style="background: #fff9e6; border: 2px dashed #e67e22; padding: 1.25rem; border-radius: 8px; margin-bottom: 2rem; text-align: left; position: relative;" > <div style="position: absolute; top: -12px; right: 20px; background: #e67e22; color: #fff; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; text-transform: uppercase; border-radius: 4px; letter-spacing: 0.5px;" >Recommended</div> <label style="display: flex; gap: 12px; cursor: pointer; align-items: start;" > <input type="checkbox" id="bump-offer-main" style="transform: scale(1.6); margin-top: 5px; accent-color: #e67e22;" > <div > <strong style="color: #2c3e50; font-size: 1.15rem; display: block; margin-bottom: 0.5rem; line-height: 1.2;" >YES! Accelerate My Results With The 10-Session Hypnosis Bundle <span style="color: #e67e22;" >(+$9)</span></strong> <p style="font-size: 0.95rem; color: #444; margin: 0 0 0.5rem; line-height: 1.5;" >
-Don't just rely on willpower. Plug in these audio tracks before bed to silence the overthinking and wake up with unshakeable certainty. Proven to reduce stress and boost confidence 2x faster.
-</p> <p style="font-size: 0.85rem; color: #666; font-style: italic; margin: 0;" > <span style="color: #27ae60; font-weight: 700;" >✓</span> 87% of men choose this upgrade
-</p> </div> </label> </div> <button id="main-checkout-btn" class="btn btn-checkout" onclick="proceedToStripeCheckout('main')" style="width: 100%; background: #5cb85c; color: #fff; padding: 1.75rem; font-size: 1.4rem; font-weight: 800; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 0 #449d44; transition: all 0.2s;" >
-PROCEED TO CHECKOUT - <span class="checkout-total" >$49</span> →
-</button> <!-- Trust Signals Section --> <div style="margin-top: 2.5rem; text-align: center;" > <!-- 30-Day Money Back --> <div style="display: flex; align-items: center; justify-content: center; gap: 1.25rem; margin-bottom: 2rem;" > <!-- Gold Badge Seal --> <div style="width: 85px; height: 85px; position: relative; background: linear-gradient(135deg, #C5A059 0%, #E2C17D 50%, #C5A059 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.15);" > <div style="position: absolute; top: -4px; left: -4px; right: -4px; bottom: -4px; border: 3px dotted #C5A059; border-radius: 50%;" ></div> <div style="text-align: center; color: #fff; font-family: sans-serif; z-index: 1;" > <div style="font-size: 8px; letter-spacing: 0.5px; opacity: 0.9;" >★★★★</div> <div style="font-size: 16px; font-weight: 900; line-height: 1;" >100%</div> <div style="font-size: 8px; font-weight: 700; line-height: 1.1; margin: 2px 0;" >MONEY BACK</div> <div style="font-size: 8px; letter-spacing: 0.5px; opacity: 0.9;" >★★★★</div> </div> </div> <!-- Dashed Box Text --> <div style="border: 2px dashed rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem 1.25rem; text-align: left;" > <div style="font-size: 1.3rem; font-weight: 900; color: #1a1a1a; line-height: 1.1; text-transform: uppercase; letter-spacing: -0.5px;" >30-DAY MONEY</div> <div style="font-size: 1.3rem; font-weight: 900; color: #1a1a1a; line-height: 1.1; text-transform: uppercase; letter-spacing: -0.5px;" >BACK GUARANTEE</div> </div> </div> <!-- Security Text --> <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; color: #1a1a1a; font-weight: 800; font-size: 1.05rem; margin-bottom: 1.5rem;" > <span style="font-size: 1.1rem;" >🔒</span> 100% Secure 256-Bit Encrypted Checkout
-</div> <!-- Payment Icons --> <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; opacity: 0.8; font-size: 24px; color: #555;" > <i class="fab fa-cc-visa" ></i> <i class="fab fa-cc-mastercard" ></i> <i class="fab fa-cc-amex" ></i> <i class="fab fa-cc-discover" ></i> <i class="fab fa-stripe" style="font-size: 32px;" ></i> <div style="display: flex; align-items: center; gap: 4px; background: #fff; border: 1px solid #ddd; padding: 2px 6px; border-radius: 4px; height: 20px; margin-left: 0.5rem;" > <span style="color: #5cb85c; font-size: 10px;" >✔</span> <span style="font-size: 9px; font-weight: 800; color: #666; text-transform: uppercase; letter-spacing: 0.5px;" >SECURE</span> </div> </div> <p style="color: #888; font-size: 0.85rem; margin-top: 1.5rem;" >
-Your detailed access information will be sent to your email immediately.<br > <span style="font-size: 0.75rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 8px; display: block;" >Athens NLP Studies, LLC</span> </p> </div> </div> </div> </div> </section>   <!-- Premium Institutional Footer --><footer class="site-footer"> <div class="container"> <!-- Disclosure Section --> <div class="footer-disclosure"> <p>
-Men’s Post Divorce Coaching and the Men’s Divorce Mindset System are educational products and coaching
-                services. I am not an attorney, financial advisor, or licensed therapist. The information provided is
-                for educational and self-improvement purposes only and does not constitute legal, financial, or medical
-                advice.
-</p> <p style="margin-top: 1rem;">
-Every individual's situation is unique. Results may vary based on personal effort, local laws, and
-                specific circumstances. By using this system, you acknowledge that you are responsible for your own
-                decisions and actions. This program does not guarantee specific legal outcomes or emotional states. For
-                legal advice, please consult with a qualified attorney in your jurisdiction.
-</p> <p style="margin-top: 1rem;">
-All content is protected under copyright laws and may not be reproduced or distributed without express
-                written permission.
-</p> </div> <!-- Main Footer Grid --> <div class="footer-grid"> <div class="footer-col"> <h4>The System</h4> <ul class="footer-links"> <li><a href="/home-preview">Overview</a></li> <li><a href="/home-preview#outcomes">Syllabus</a></li> <li><a href="/join">Pricing</a></li> <li><a href="/system/login">Student Login</a></li> <li><a href="/contact">Support Portal</a></li> </ul> </div> <div class="footer-col"> <h4>Company</h4> <ul class="footer-links"> <li><a href="/about">About Alex Morgan</a></li> <li><a href="/philosophy">Our Philosophy</a></li> <li><a href="/contact">Press & Media</a></li> <li><a href="/contact">Careers</a></li> <li><a href="/contact">Contact Us</a></li> </ul> </div> <div class="footer-col"> <h4>Legal</h4> <ul class="footer-links"> <li><a href="/legal">Legal Resources</a></li> <li><a href="/legal/terms">Terms of Use</a></li> <li><a href="/legal/privacy">Privacy Policy</a></li> <li><a href="/legal/refunds">Refund Policy</a></li> <li><a href="/legal/disclaimers">Disclaimers</a></li> <li><a href="/legal/ethics">Ethics Code</a></li> </ul> </div> <div class="footer-col"> <h4>Resources</h4> <ul class="footer-links"> <li><a href="/learn">Blog</a></li> <li><a href="#">Podcast</a></li> <li><a href="#">Free Guide</a></li> <li><a href="/contact">Affiliate Program</a></li> <li><a href="https://www.skool.com/the-post-divorce-advantage-8284" target="_blank">Community</a></li> </ul> </div> </div> <!-- Bottom Footer --> <div class="footer-bottom"> <div class="footer-info"> <div class="holding-company">Athens NLP Studies, LLC</div> <address class="footer-address">
-1309 Coffeen Ave Ste 1200<br>
-Sheridan, WY 82801, US
-</address> </div> <div class="copyright">
-&copy; 2026 Men's Post-Divorce Coaching. All rights reserved.
-</div> </div> </div> </footer>  <!-- Mobile Menu Script --> <script>
-        const mobileToggle = document.getElementById('mobile-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if(mobileToggle && mobileMenu){
-            mobileToggle.addEventListener('click', () => {
-                mobileToggle.classList.toggle('active');
-                mobileMenu.classList.toggle('active');
-            });
-        }
-
-        // Mobile Submenu Toggles
-        const mobileSubmenuLinks = document.querySelectorAll('.mobile-nav-link.has-submenu');
-        mobileSubmenuLinks.forEach(link => {
-            link.addEventListener('click', (e) => {
-                e.preventDefault();
-                // Close other open menus (optional, enabling accordion style)
-                mobileSubmenuLinks.forEach(otherLink => {
-                    if (otherLink !== link) {
-                        otherLink.classList.remove('active');
-                        const otherMenu = document.getElementById('submenu-' + otherLink.dataset.submenu);
-                        if(otherMenu) otherMenu.classList.remove('active');
-                    }
-                });
-
-                const targetId = 'submenu-' + link.dataset.submenu;
-                const submenu = document.getElementById(targetId);
-                
-                // Toggle current
-                link.classList.toggle('active');
-                if (submenu) {
-                    submenu.classList.toggle('active');
-                }
-            });
-        });
-    </script> <!-- Firebase SDKs for SEO Sync --> <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script> <script src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script> <script>
-        // Init Firebase (Public Config)
+    <script is:inline>
+        // SEO & Schema Logic (Restored)
         const firebaseConfig = {
             apiKey: "AIzaSyBSxrgaNnTzRMqo-9C47vZfnTTDRqyyb10",
             authDomain: "mpdc-website-32dae.firebaseapp.com",
@@ -193,165 +179,498 @@ Sheridan, WY 82801, US
             messagingSenderId: "210457065303",
             appId: "1:210457065303:web:72882e734aa8054d283012"
         };
-        
-        // Minimal Init for SEO
         if (!firebase.apps.length) {
             firebase.initializeApp(firebaseConfig);
         }
         const db = firebase.firestore();
 
-        // SEO Sync: Check if this page should be No-Index
-        async function checkSeoStatus() {
-            const path = window.location.pathname;
-            const docId = path === '/' ? 'home' : path.replace(/\//g, '_').replace(/^_/, '');
-            console.log('🔍 SEO Check: Path =', path, 'DocId =', docId);
+        // Timer Logic
+        function updateJoinTimer() {
+             const timerEl = document.getElementById("join-timer");
+             if (!timerEl) return;
+             // Fixed End Date for Promo Cycle
+             const targetDate = new Date('February 14, 2026 23:59:59').getTime();
+             const now = new Date().getTime();
+             const distance = targetDate - now;
+             if (distance < 0) {
+                 timerEl.innerText = "OFFER EXPIRED";
+                 return;
+             }
+             const days = Math.floor(distance / (1000 * 60 * 60 * 24));
+             const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+             timerEl.innerText = `${days}d ${hours}h ${minutes}m`;
+        }
+        setInterval(updateJoinTimer, 1000);
+        updateJoinTimer();
+    </script>
+    
+    <!-- HERO SECTION -->
+    <header id="hero" class="section hero-section" style="min-height: auto; padding-top: 6rem; position: relative; padding-bottom: 8rem; background-color: #0a2b27; background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); background-size: 40px 40px;" > 
+        <div class="container" style="max-width: 1110px; margin: 0 auto; padding: 0 1rem;" > 
+            <div class="hero-content" style="text-align: center; max-width: 1000px; margin: 0 auto;" > 
+                <h1 style="font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 1.5rem; line-height: 1.3; color: #fff; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;" >
+                    Are You Stuck Living in<br > <span style="color: #fff; text-decoration: underline; text-decoration-color: var(--color-accent);" >Your Ex-Wife's Frame?</span> 
+                </h1> 
+                <p style="font-size: 1.5rem; margin-bottom: 2rem; color: #eee; font-weight: 500; line-height: 1.5; max-width: 800px; margin-left: auto; margin-right: auto;" >
+                    You're physically divorced, but mentally owned. Break the invisible chains and finally become the man she couldn't handle.
+                </p> 
+                <div style="color: var(--color-text-muted); font-size: 1.1rem; font-weight: 600; margin-bottom: 3.5rem; text-transform: uppercase; letter-spacing: 2px;" >
+                    The 5-Step System to Rebuild Your Identity & Reclaim Your Edge
+                </div> 
+                
+                <!-- Video Player --> 
+                <div class="hero-video-wrapper" style="max-width: 900px; margin: 0 auto;"> 
+                    <div class="video-container" style="border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 30px 60px rgba(0,0,0,0.5); position: relative; aspect-ratio: 16/9; background: #000;" >                    
+                        <video id="vsl-video" class="video-js vjs-big-play-centered" controls playsinline poster="/images/social-preview.png" style="width: 100%; height: 100%; object-fit: cover;" >
+                            <source src="https://storage.googleapis.com/mpdc-website-32dae.firebasestorage.app/streaming/VSL/manifest.m3u8" type="application/x-mpegURL">
+                            Your browser does not support the video tag.
+                        </video> 
+                        <!-- High-Converting Play Overlay --> 
+                        <div id="video-overlay" onclick="document.getElementById('video-overlay').style.display='none'; var player = videojs('vsl-video'); player.play();" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0,0,0,0.3); display: flex; align-items: center; justify-content: center; cursor: pointer; z-index: 10; transition: opacity 0.3s ease;" > 
+                            <div class="play-button-wrapper" style="text-align: center;" > 
+                                <div style="width: 100px; height: 100px; background: var(--color-accent); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin: 0 auto 1.5rem; box-shadow: 0 0 30px rgba(196, 97, 58, 0.5); transition: transform 0.3s ease;" > 
+                                    <div style="width: 0; height: 0; border-top: 15px solid transparent; border-bottom: 15px solid transparent; border-left: 25px solid #fff; margin-left: 5px;"></div> 
+                                </div> 
+                                <span style="color: #fff; font-weight: 800; letter-spacing: 2px; font-size: 1.25rem; text-transform: uppercase; text-shadow: 0 2px 10px rgba(0,0,0,0.5); pointer-events: none;" >Watch The Video Now</span> 
+                            </div> 
+                        </div> 
+                    </div> 
+                </div> 
+                
+                <!-- Main Sales Card --> 
+                <div class="ltp-card" style="background: #fff; border-radius: 12px; padding: 3rem; color: var(--color-text-dark); box-shadow: 0 40px 100px rgba(0,0,0,0.3); margin-top: 4rem; display: flex; gap: 4rem; align-items: flex-start; text-align: left; max-width: 1110px; margin-left: auto; margin-right: auto;" > 
+                    <!-- Left: Copy --> 
+                    <div style="flex: 1.2;" > 
+                        <p style="font-size: 1.35rem; line-height: 1.6; margin-bottom: 2rem; color: var(--color-text-dark);" >
+                            What if you could actually <strong >stop reacting</strong> to your past — while <strong >rebuilding your identity</strong> (not just repressing the pain) starting now?
+                        </p> 
+                        <p style="font-size: 1.35rem; line-height: 1.6; margin-bottom: 2.5rem; color: var(--color-text-dark);" >
+                            That's exactly what you'll learn inside the <strong >Men's Divorce Mindset System</strong> — the same protocol that's helped hundreds of men move from hollow effort to a life of <strong >clarity and purpose</strong>.
+                        </p> 
+                        <p style="font-size: 1.25rem; font-style: italic; text-decoration: underline; font-weight: 700; margin-bottom: 3rem; color: var(--color-text-dark);" >
+                            Join 500+ Men Who Have Already Reclaimed Their Life With This Protocol
+                        </p> 
+                        <div style="margin-bottom: 3rem;" > 
+                            <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.9rem; font-weight: 900;" >✓</div> <span style="font-size: 1.2rem; line-height: 1.4; color: var(--color-text-dark);" >Stop the endless cycle of panic and anxiety keeping you awake at night, and finally learn how to <strong >turn off the noise instantly.</strong></span> </div>
+                            <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.9rem; font-weight: 900;" >✓</div> <span style="font-size: 1.2rem; line-height: 1.4; color: var(--color-text-dark);" >Release the suffocating stress of the unknown and replace it with a <strong >clear, step-by-step roadmap</strong> that puts you back in the driver's seat.</span> </div>
+                            <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.9rem; font-weight: 900;" >✓</div> <span style="font-size: 1.2rem; line-height: 1.4; color: var(--color-text-dark);" >This is the <strong >exact protocol</strong> to settle the chaos in your head and start moving with the 100% certainty that your best days are <strong >ahead of you, not behind you.</strong></span> </div>
+                        </div> 
+                    </div> 
+                    <!-- Right: Checkout Form --> 
+                    <div style="flex: 1; min-width: 400px; background-color: #f8f9fa; border-radius: 12px; padding: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" > 
+                        <div class="checkout-container" > 
+                            <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;" class="white-summary-box" > 
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 1rem; color: #555;" > 
+                                    <span>The Men's Divorce Mindset System</span> <span>$98.00</span> 
+                                </div> 
+                                <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; font-size: 1rem; color: var(--color-accent); font-weight: 600;" > 
+                                    <span>50% OFF Promotion</span> <span>-$49.00</span> 
+                                </div> 
+                                <div style="border-top: 1px solid #eee; margin: 1rem 0;" ></div> 
+                                <div style="display: flex; justify-content: space-between; font-size: 1.5rem; font-weight: 800; color: #2c3e50;" > 
+                                    <span>Total Today:</span> <span id="order-total-hero">$49.00</span> 
+                                </div> 
+                            </div> 
+                            <div class="form-group" style="margin-bottom: 1.5rem;" > 
+                                <label for="full-name-hero" style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: #2c3e50;" >Full Name</label> 
+                                <input type="text" id="full-name-hero" placeholder="Enter your full name" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;" > 
+                            </div> 
+                            <div class="form-group" style="margin-bottom: 2rem;" > 
+                                <label for="email-hero" style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: #2c3e50;" >Email Address</label> 
+                                <input type="email" id="email-hero" placeholder="Enter your email address" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;" > 
+                            </div> 
+                            <div style="background: #fff9e6; border: 2px dashed #e67e22; padding: 1.25rem; border-radius: 8px; margin-bottom: 2rem; position: relative;" > 
+                                <div style="position: absolute; top: -12px; right: 20px; background: #e67e22; color: #fff; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; text-transform: uppercase; border-radius: 4px;" >Recommended</div> 
+                                <label style="display: flex; gap: 12px; cursor: pointer; align-items: start;" > 
+                                    <input type="checkbox" id="bump-offer-hero" style="transform: scale(1.5); margin-top: 5px; accent-color: #e67e22;" > 
+                                    <div> 
+                                        <strong style="color: #2c3e50; display: block; margin-bottom: 0.5rem; line-height: 1.3;" >YES! Add The 10-Session Hypnosis Bundle <span style="color: #e67e22;" >(+$9)</span></strong> 
+                                        <p style="font-size: 0.9rem; color: #555; margin: 0; line-height: 1.4;" >
+                                             proven to reduce stress and boost confidence 2x faster. <span style="color: #27ae60; font-weight: 700;">87% of men choose this.</span>
+                                        </p> 
+                                    </div> 
+                                </label> 
+                            </div> 
+                            <button id="hero-checkout-btn" onclick="proceedToStripeCheckout('hero')" style="width: 100%; background: #5cb85c; color: #fff; padding: 1.5rem; font-size: 1.25rem; font-weight: 800; border: none; border-radius: 6px; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 0 #449d44;" >
+                                PROCEED TO CHECKOUT - $49 →
+                            </button> 
+                             <div style="margin-top: 1.5rem; text-align: center; font-size: 0.9rem; color: #777; display: flex; align-items: center; justify-content: center; gap: 8px;">
+                                <i class="fas fa-lock"></i> 256-Bit SSL Secure Checkout
+                            </div>
+                        </div> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </header>
+
+    <!-- INTRO & SYLLABUS -->
+    <section class="section" style="background-color: #f8f9fa; padding: 6rem 2rem; color: var(--color-bg-primary);" > 
+        <div style="max-width: 900px; margin: 0 auto; text-align: center;" > 
+            <p style="font-size: 1rem; margin-bottom: 1rem; letter-spacing: 4px; text-transform: uppercase; color: var(--color-accent); font-weight: 700;" >INTRODUCING</p> 
+            <h1 style="font-family: var(--font-heading); font-size: 3.5rem; line-height: 1.15; margin-bottom: 2rem; color: var(--color-bg-primary);" >
+                The Men's Divorce<br >Mindset System
+            </h1> 
+            <div style="position: relative; max-width: 850px; margin: 2rem auto 0;" > 
+                <img src="/images/vsl-course-image.png" alt="Course Portal Preview" style="width: 100%; border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); border: 8px solid #fff;" > 
+                <div style="margin-top: 2rem; color: var(--color-accent); font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;" >
+                    ▲ ACTUAL COURSE DASHBOARD
+                </div> 
+            </div> 
+        </div> 
+    </section>
+
+    <section class="section" style="background-color: #fff; padding: 6rem 2rem;" > 
+        <div style="max-width: 1100px; margin: 0 auto; text-align: center;" > 
+            <p style="font-size: 1rem; margin-bottom: 0.5rem; letter-spacing: 3px; text-transform: uppercase; color: var(--color-accent); font-weight: 700;" >WHAT YOU'LL LEARN</p> 
+            <h1 style="font-family: var(--font-heading); font-size: 3.5rem; line-height: 1.15; margin-bottom: 4rem; color: var(--color-bg-primary);" >
+                The Syllabus
+            </h1> 
+            <div style="max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; text-align: left;" > 
+                <!-- Syllabus Card 1 --> 
+                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); cursor: default; transition: all 0.3s;" > 
+                    <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
+                        <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
+                        <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >01</span> 
+                    </div> 
+                    <div style="padding: 3rem; flex: 1;" > 
+                        <div style="margin-bottom: 1rem;" > 
+                            <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 1: THE FOUNDATION</span> 
+                        </div> 
+                        <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem;" >A Memory In Your Future</h3> 
+                        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0;" >The foundational shift required to change your trajectory. You cannot build a new life looking in the rearview mirror.</p> 
+                    </div> 
+                </div> 
+                <!-- Syllabus Card 2 --> 
+                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); cursor: default; transition: all 0.3s;" > 
+                    <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
+                        <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
+                        <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >02</span> 
+                    </div> 
+                    <div style="padding: 3rem; flex: 1;" > 
+                        <div style="margin-bottom: 1rem;" > 
+                            <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 2: RESOLUTION</span> 
+                        </div> 
+                        <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem;" >Resolving Your Past</h3> 
+                        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0;" >Making peace with what happened so you can move forward. When you close the negative and limiting loops in your mind you change the whole meaning of your future.</p> 
+                    </div> 
+                </div>
+                 <!-- Syllabus Card 3 --> 
+                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); cursor: default; transition: all 0.3s;" > 
+                    <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
+                        <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
+                        <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >03</span> 
+                    </div> 
+                    <div style="padding: 3rem; flex: 1;" > 
+                        <div style="margin-bottom: 1rem;" > 
+                            <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 3: CONSTRUCTION</span> 
+                        </div> 
+                        <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem;" >Rebuilding Your Reality Chain</h3> 
+                        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0;" >Constructing a new narrative for your life and identity. See where there is a gap to fill in so your belief systems are programmed for success.</p> 
+                    </div> 
+                </div>
+                 <!-- Syllabus Card 4 --> 
+                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); cursor: default; transition: all 0.3s;" > 
+                    <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
+                        <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
+                        <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >04</span> 
+                    </div> 
+                    <div style="padding: 3rem; flex: 1;" > 
+                        <div style="margin-bottom: 1rem;" > 
+                            <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 4: DESIGN</span> 
+                        </div> 
+                        <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem;" >Designing Your Ideal Future</h3> 
+                        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0;" >Architect the ideal reality that you haven’t even dreamed of yet. Create an imprint in your mind that takes what is in your imagination to physical reality.</p> 
+                    </div> 
+                </div>
+                 <!-- Syllabus Card 5 --> 
+                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); cursor: default; transition: all 0.3s;" > 
+                    <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
+                        <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
+                        <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >05</span> 
+                    </div> 
+                    <div style="padding: 3rem; flex: 1;" > 
+                        <div style="margin-bottom: 1rem;" > 
+                            <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 5: ABUNDANCE</span> 
+                        </div> 
+                        <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem;" >Scarcity to Abundance</h3> 
+                        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0;" >Trust yourself to make a full decision on your future. See for yourself that a crash and burn option no longer exists.</p> 
+                    </div> 
+                </div>
+            </div> 
+        </div> 
+    </section>
+
+    <!-- COMPARISON SECTION -->
+    <section class="section comparison-section" > 
+        <div class="container" > 
+            <h1 style="font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 3rem; text-align: center; line-height: 1.15;" >
+                Here's what changes when you start <span style="color: var(--color-accent);" >The System</span> 
+            </h1> 
+            <div class="comparison-wrapper" > 
+                <div class="comparison-grid" > 
+                    <div class="comparison-col col-before" > 
+                        <h3>Before The System</h3> 
+                        <ul class="comparison-list" > 
+                            <li class="comparison-item" > <div class="icon-box" >✕</div> <span>Constantly stressed and reactive to her</span> </li> 
+                            <li class="comparison-item" > <div class="icon-box" >✕</div> <span>Endless "what ifs" with little progress</span> </li> 
+                            <li class="comparison-item" > <div class="icon-box" >✕</div> <span>Burned out and unnecessary pain</span> </li> 
+                        </ul> 
+                    </div> 
+                    <div class="comparison-col col-after" > 
+                        <h3>After The System</h3> 
+                        <ul class="comparison-list" > 
+                            <li class="comparison-item" > <div class="icon-box" >✓</div> <span>Calm, focused, and in control</span> </li> 
+                            <li class="comparison-item" > <div class="icon-box" >✓</div> <span>Clear outcomes and meaningful wins</span> </li> 
+                            <li class="comparison-item" > <div class="icon-box" >✓</div> <span>Energized and ahead of your priorities</span> </li> 
+                        </ul> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </section>
+
+    <!-- ABOUT SECTION -->
+    <section id="about" class="section" style="background-color: #fff; color: var(--color-text-dark); padding: 6rem 2rem;" > 
+        <div class="container" style="max-width: 1100px;" > 
+            <div class="founder-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;" > 
+                <div style="position: relative;" class="founder-image-container" > 
+                    <div style="width: 100%; aspect-ratio: 3/4; background-color: var(--color-bg-primary); border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;" > 
+                        <img src="/images/alex-morgan.png" alt="Alex Morgan" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" > 
+                    </div> 
+                    <div style="position: absolute; bottom: -20px; right: -20px; z-index: 10;" class="floating-cta-btn" > 
+                        <a href="#hero" style="background-color: var(--color-accent); color: #fff; padding: 1rem 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; box-shadow: 0 10px 20px rgba(196, 97, 58, 0.4); text-decoration: none; display: inline-block;" >
+                            I'll Show You How.
+                        </a> 
+                    </div> 
+                </div> 
+                <div style="text-align: left;" > 
+                    <p style="color: var(--color-accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 0.5rem;" >ABOUT THE FOUNDER</p> 
+                    <h1 style="font-family: var(--font-heading); font-size: 3.5rem; color: var(--color-bg-primary); margin-bottom: 0.5rem; line-height: 1.15;" >I'M ALEX MORGAN.</h1> 
+                    <p style="font-weight: 700; color: #666; font-size: 1.1rem; margin-bottom: 2rem;" >Certified Mental Programmer & Founder, MPDC</p> 
+                    <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1.5rem;" >most men think their problem is "heartbreak" or "stress." It's not. Your problem is that your subconscious identity is still attached to a life that no longer exists.</p> 
+                    <div style="background-color: #f8f9fa; padding: 2.5rem; border-radius: 8px; border-left: 4px solid var(--color-accent);" > 
+                        <ul style="list-style: none; padding: 0;" > 
+                            <li style="margin-bottom: 1rem; display: flex; align-items: start; gap: 0.75rem;" > <span style="font-weight: 900; color: var(--color-accent);" >✓</span> <span><strong>Delete the "Ex-Wife Frame"</strong> so you stop reacting and start leading.</span> </li> 
+                            <li style="margin-bottom: 1rem; display: flex; align-items: start; gap: 0.75rem;" > <span style="font-weight: 900; color: var(--color-accent);" >✓</span> <span><strong>Reprogram Your Value</strong> so you never look for validation outside yourself again.</span> </li> 
+                        </ul> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </section>
+
+    </section>
+
+    <!-- FAQ SECTION -->
+    <section class="section" style="background-color: #f8f9fa; padding: 6rem 2rem; border-top: 1px solid #eee;" > 
+        <div class="container" style="max-width: 900px;" > 
+            <div style="background: #fff; border-radius: 12px; padding: 4rem; box-shadow: 0 20px 50px rgba(0,0,0,0.1);" > 
+                <h1 style="font-family: var(--font-heading); text-align: center; color: var(--color-bg-primary); font-size: 3.5rem; margin-bottom: 3rem;" >FAQs</h1> 
+                <div class="faq-accordion" style="display: flex; flex-direction: column; gap: 1px;" > 
+                    <details style="padding: 1.5rem 0; cursor: pointer; border-bottom: 1px solid #eee;" > 
+                        <summary style="font-weight: 700; font-size: 1.25rem; color: var(--color-bg-primary); display: flex; justify-content: space-between; align-items: center;" >How can I access the course? <span class="faq-arrow" >▼</span></summary> 
+                        <p style="margin-top: 1rem; line-height: 1.6; color: #555;" >You will receive immediate access to the entire system via email (login credentials) as soon as your payment is processed. You can start watching the modules instantly.</p> 
+                    </details> 
+                    <details style="padding: 1.5rem 0; cursor: pointer; border-bottom: 1px solid #eee;" > 
+                        <summary style="font-weight: 700; font-size: 1.25rem; color: var(--color-bg-primary); display: flex; justify-content: space-between; align-items: center;" >Is this just for men who are already divorced? <span class="faq-arrow" >▼</span></summary> 
+                        <p style="margin-top: 1rem; line-height: 1.6; color: #555;" >While the system is optimized for post-divorce recovery, the principles of Frame and Mindset apply to any man going through a major separation or relationship breakdown.</p> 
+                    </details> 
+                    <details style="padding: 1.5rem 0; cursor: pointer; border-bottom: 1px solid #eee;" > 
+                         <summary style="font-weight: 700; font-size: 1.25rem; color: var(--color-bg-primary); display: flex; justify-content: space-between; align-items: center;" >What if I don't have time? <span class="faq-arrow" >▼</span></summary> 
+                        <p style="margin-top: 1rem; line-height: 1.6; color: #555;" >The system is designed for busy men. The core modules are direct and actionable. You can consume the content at your own pace, but most men binge it in a weekend because the shifts happen fast.</p> 
+                    </details>
+                     <details style="padding: 1.5rem 0; cursor: pointer; border-bottom: 1px solid #eee;" > 
+                        <summary style="font-weight: 700; font-size: 1.25rem; color: var(--color-bg-primary); display: flex; justify-content: space-between; align-items: center;" >Is there a money-back guarantee? <span class="faq-arrow" >▼</span></summary> 
+                        <p style="margin-top: 1rem; line-height: 1.6; color: #555;" >Yes. We offer a 30-day, 100% money-back guarantee. If you don't feel a massive shift, simply email us for a full refund.</p> 
+                    </details> 
+                </div> 
+            </div> 
+        </div> 
+    </section>
+
+    <!-- MONEY BACK GUARANTEE SECTION -->
+    <section class="section" style="background-color: #fff; padding: 6rem 2rem; text-align: center;">
+        <div class="container" style="max-width: 800px;">
+             <!-- Gold Badge Seal --> 
+             <div style="width: 120px; height: 120px; margin: 0 auto 2rem; position: relative; background: linear-gradient(135deg, #C5A059 0%, #E2C17D 50%, #C5A059 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 4px solid #fff; box-shadow: 0 10px 30px rgba(0,0,0,0.15);" > 
+                <div style="position: absolute; top: -5px; left: -5px; right: -5px; bottom: -5px; border: 3px dotted #C5A059; border-radius: 50%;" ></div> 
+                <div style="text-align: center; color: #fff; font-family: sans-serif; z-index: 1;" > 
+                    <div style="font-size: 10px; letter-spacing: 0.5px; opacity: 0.9;" >★★★★</div> 
+                    <div style="font-size: 24px; font-weight: 900; line-height: 1;" >100%</div> 
+                    <div style="font-size: 10px; font-weight: 700; line-height: 1.1; margin: 2px 0;" >MONEY BACK</div> 
+                </div> 
+            </div> 
+            <h2 style="font-family: var(--font-heading); color: var(--color-bg-primary); font-size: 2.5rem; margin-bottom: 1.5rem;">100% MONEY-BACK GUARANTEE</h2>
+            <h3 style="color: var(--color-accent); font-size: 1.5rem; margin-bottom: 2rem; font-weight: 700;">I don't want your money if I can't change your life.</h3>
+            <p style="font-size: 1.25rem; line-height: 1.8; color: #555; margin-bottom: 2rem;">
+                Use the entire system risk-free. If you don't feel a massive shift in your clarity and confidence within 30 days, I'll refund every penny. No questions asked.
+            </p>
+            <div style="font-family: 'Creatcion Demo', cursive; font-size: 2rem; color: #888;">Alex Morgan</div>
+        </div>
+    </section>
+
+    <!-- CHECKOUT SECTION (Tan Background) -->
+    <section id="checkout" class="checkout-section" style="background-color: #0b3b36 !important; padding: 8rem 2rem; background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 40px 40px;" > 
+        <div class="container" > 
+            <h1 style="font-family: var(--font-heading); text-align: center; color: #fff; margin-bottom: 2rem; font-size: 3rem; line-height: 1.1;" >Stop letting the past define you. Define yourself.</h1> 
+            <p style="text-align: center; color: #aaa; margin-bottom: 4rem; font-size: 1.25rem; line-height: 1.6; max-width: 800px; margin-left: auto; margin-right: auto;" >
+                As you complete your order, feel the weight lift knowing you've finally chosen to move forward. Lock in your new future now below.
+            </p> 
+            <div style="max-width: 580px; margin: 0 auto; background-color: #f5f1e8; border: 2px solid #d4c5a9; border-radius: 12px; padding: 3rem; box-shadow: 0 20px 50px rgba(0,0,0,0.3);" > 
+                <div class="checkout-container" style="background: transparent; border: none; box-shadow: none; padding: 0;" > 
+                    <!-- White Order Summary Box --> 
+                    <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 2rem; margin-bottom: 2.5rem;" > 
+                        <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem; font-size: 1.1rem; color: #555; text-align: left;" > 
+                            <span >The Men's Divorce Mindset System</span> <span >$98.00</span> 
+                        </div> 
+                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 1rem; color: var(--color-accent); text-align: left; font-weight: 600;" > 
+                            <span >50% OFF Promotion</span> <span >-$49.00</span> 
+                        </div> 
+                        <div style="border-top: 1px solid #eee; margin: 1rem 0;" ></div> 
+                        <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1.75rem; font-weight: 800; color: #2c3e50;" > 
+                            <span >Total Today:</span> <span id="order-total-main" >$49.00</span> 
+                        </div> 
+                    </div> 
+                    <div class="form-group" style="margin-bottom: 1.5rem; text-align: left;" > 
+                        <label for="full-name" style="display: block; margin-bottom: 0.75rem; font-weight: 700; color: #2c3e50; font-size: 1rem;" >Full Name</label> 
+                        <input type="text" id="full-name" placeholder="Enter your full name" style="width: 100%; padding: 1.25rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1.1rem; background: #fff;" > 
+                    </div> 
+                    <div class="form-group" style="margin-bottom: 2.5rem; text-align: left;" > 
+                        <label for="email" style="display: block; margin-bottom: 0.75rem; font-weight: 700; color: #2c3e50; font-size: 1rem;" >Email Address</label> 
+                        <input type="email" id="email" placeholder="Enter your email address" style="width: 100%; padding: 1.25rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1.1rem; background: #fff;" > 
+                    </div> 
+                    <!-- ORDER BUMP --> 
+                    <div style="background: #fff9e6; border: 2px dashed #e67e22; padding: 1.25rem; border-radius: 8px; margin-bottom: 2rem; text-align: left; position: relative;" > 
+                        <div style="position: absolute; top: -12px; right: 20px; background: #e67e22; color: #fff; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; text-transform: uppercase; border-radius: 4px; letter-spacing: 0.5px;" >Recommended</div> 
+                        <label style="display: flex; gap: 12px; cursor: pointer; align-items: start;" > 
+                            <input type="checkbox" id="bump-offer-main" style="transform: scale(1.6); margin-top: 5px; accent-color: #e67e22;" > 
+                            <div > 
+                                <strong style="color: #2c3e50; font-size: 1.15rem; display: block; margin-bottom: 0.5rem; line-height: 1.2;" >YES! Accelerate My Results With The 10-Session Hypnosis Bundle <span style="color: #e67e22;" >(+$9)</span></strong> 
+                                <p style="font-size: 0.95rem; color: #444; margin: 0 0 0.5rem; line-height: 1.5;" >
+                                    Don't just rely on willpower. Plug in these audio tracks before bed to silence the overthinking and wake up with unshakeable certainty.
+                                </p> 
+                                <p style="font-size: 0.85rem; color: #666; font-style: italic; margin: 0;" > <span style="color: #27ae60; font-weight: 700;" >✓</span> 87% of men choose this upgrade </p> 
+                            </div> 
+                        </label> 
+                    </div> 
+                    <button id="main-checkout-btn" onclick="proceedToStripeCheckout('main')" style="width: 100%; background: #5cb85c; color: #fff; padding: 1.75rem; font-size: 1.4rem; font-weight: 800; border: none; border-radius: 8px; cursor: pointer; text-transform: uppercase; box-shadow: 0 4px 0 #449d44; transition: all 0.2s;" >
+                        PROCEED TO CHECKOUT - <span class="checkout-total" >$49</span> →
+                    </button> 
+                    
+                    <!-- Trust Signals Section --> 
+                    <div style="margin-top: 2.5rem; text-align: center;" > 
+                        <!-- 30-Day Money Back --> 
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 1.25rem; margin-bottom: 2rem;" > 
+                            <!-- Gold Badge Seal --> 
+                            <div style="width: 85px; height: 85px; position: relative; background: linear-gradient(135deg, #C5A059 0%, #E2C17D 50%, #C5A059 100%); border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 2px solid #fff; box-shadow: 0 4px 15px rgba(0,0,0,0.15);" > 
+                                <div style="position: absolute; top: -4px; left: -4px; right: -4px; bottom: -4px; border: 3px dotted #C5A059; border-radius: 50%;" ></div> 
+                                <div style="text-align: center; color: #fff; font-family: sans-serif; z-index: 1;" > 
+                                    <div style="font-size: 8px; letter-spacing: 0.5px; opacity: 0.9;" >★★★★</div> 
+                                    <div style="font-size: 16px; font-weight: 900; line-height: 1;" >100%</div> 
+                                    <div style="font-size: 8px; font-weight: 700; line-height: 1.1; margin: 2px 0;" >MONEY BACK</div> 
+                                    <div style="font-size: 8px; letter-spacing: 0.5px; opacity: 0.9;" >★★★★</div> 
+                                </div> 
+                            </div> 
+                            <!-- Dashed Box Text --> 
+                            <div style="border: 2px dashed rgba(0,0,0,0.15); border-radius: 8px; padding: 0.75rem 1.25rem; text-align: left;" > 
+                                <div style="font-size: 1.3rem; font-weight: 900; color: #1a1a1a; line-height: 1.1; text-transform: uppercase; letter-spacing: -0.5px;" >30-DAY MONEY</div> 
+                                <div style="font-size: 1.3rem; font-weight: 900; color: #1a1a1a; line-height: 1.1; text-transform: uppercase; letter-spacing: -0.5px;" >BACK GUARANTEE</div> 
+                            </div> 
+                        </div> 
+                        <!-- Security Text --> 
+                        <div style="display: flex; align-items: center; justify-content: center; gap: 0.6rem; color: #1a1a1a; font-weight: 800; font-size: 1.05rem; margin-bottom: 1.5rem;" > 
+                            <span style="font-size: 1.1rem;" >🔒</span> 100% Secure 256-Bit Encrypted Checkout 
+                        </div> 
+                        <!-- Payment Icons --> 
+                        <div style="display: flex; justify-content: center; align-items: center; gap: 1rem; opacity: 0.8; font-size: 24px; color: #555;" > 
+                            <i class="fab fa-stripe" style="font-size: 32px;" ></i> 
+                            <div style="display: flex; align-items: center; gap: 4px; background: #fff; border: 1px solid #ddd; padding: 2px 6px; border-radius: 4px; height: 20px; margin-left: 0.5rem;" > 
+                                <span style="color: #5cb85c; font-size: 10px;" >✔</span> 
+                                <span style="font-size: 9px; font-weight: 800; color: #666; text-transform: uppercase; letter-spacing: 0.5px;" >SECURE</span> 
+                            </div> 
+                        </div> 
+                        <p style="color: #888; font-size: 0.85rem; margin-top: 1.5rem;" > 
+                            Your detailed access information will be sent to your email immediately.<br> 
+                            <span style="font-size: 0.75rem; opacity: 0.8; text-transform: uppercase; letter-spacing: 0.5px; margin-top: 8px; display: block;" >Athens NLP Studies, LLC</span> 
+                        </p> 
+                    </div> 
+                </div> 
+            </div> 
+        </div> 
+    </section>
+
+    <!-- Dynamic Footer Component -->
+    <Footer />
+
+    <!-- INLINE SCRIPT FOR CHECKOUT LOGIC -->
+    <script is:inline>
+        async function proceedToStripeCheckout(source) {
+            const nameField = source === 'hero' ? 'full-name-hero' : 'full-name';
+            const emailField = source === 'hero' ? 'email-hero' : 'email';
+            const bumpField = source === 'hero' ? 'bump-offer-hero' : 'bump-offer-main';
+            
+            const name = document.getElementById(nameField).value.trim();
+            const email = document.getElementById(emailField).value.trim();
+            const isBundle = document.getElementById(bumpField)?.checked || false;
+            
+            if (!name || !email) {
+                alert('Please enter your name and email.');
+                return;
+            }
+            
+            const btn = document.getElementById(source + '-checkout-btn');
+            const originalText = btn.innerText;
+            btn.innerText = "Processing...";
+            btn.disabled = true;
             
             try {
-                // 1. Check No-Index Status
-                const doc = await db.collection('seo_settings').doc(docId).get();
-                if (doc.exists && doc.data().noIndex) {
-                    console.log('🚫 SEO Override: Marking as No-Index');
-                    let meta = document.querySelector('meta[name="robots"]');
-                    if (!meta) {
-                        meta = document.createElement('meta');
-                        meta.name = 'robots';
-                        document.head.appendChild(meta);
-                    }
-                    meta.content = 'noindex';
+                const response = await fetch('/api/create-checkout-session', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        name,
+                        email,
+                        plan: isBundle ? 'bundle' : 'core',
+                        attribution: { source: 'local_restoration' }
+                    })
+                });
+                
+                const session = await response.json();
+                if (session.id) {
+                    const stripe = Stripe('pk_live_51OupkGEnV5y7Hgm1s8J4a8z7w93x6a5b4c3d2e1f0g'); 
+                    stripe.redirectToCheckout({ sessionId: session.id });
                 } else {
-                    console.log('✅ SEO: Not No-Index');
-                }
-
-                // 2. Inject Schema (JSON-LD) & AEO Data
-                // Fetch schemas matching current path or global '*'
-                const schemaSnap = await db.collection('schema_injections')
-                    .where('is_active', '==', true)
-                    .where('target_path', 'in', [path, '*'])
-                    .get();
-
-                console.log('🧩 SEO: Found', schemaSnap.size, 'schema injections');
-
-                if (!schemaSnap.empty) {
-                    schemaSnap.forEach(doc => {
-                        const data = doc.data();
-                        console.log('🔗 Injecting Schema:', doc.id);
-                        
-                        // 1. Prepare JSON-LD
-                        let json = data.json_data || {};
-                        
-                        // 2. Automatically Merge AEO Entity Link (Dynamic Linking)
-                        if (data.wikidata_uri) {
-                            if (!json.sameAs) json.sameAs = [];
-                            if (typeof json.sameAs === 'string') json.sameAs = [json.sameAs];
-                            if (!json.sameAs.includes(data.wikidata_uri)) {
-                                json.sameAs.push(data.wikidata_uri);
-                            }
-                        }
-
-                        // 3. Inject Script
-                        const script = document.createElement('script');
-                        script.type = 'application/ld+json';
-                        script.text = JSON.stringify(json);
-                        document.head.appendChild(script);
-
-                        // Inject AEO Summary (Answer Block Sync)
-                        if (data.aeo_summary) {
-                            console.log('✨ AEO Summary Active');
-                            // We can inject this as a hidden div for AI scrapers or a meta description override
-                            // Best practice for LLM ingestion: semantic meta tag or clean text block
-                            const aeoMeta = document.createElement('meta');
-                            aeoMeta.name = 'aeo:summary';
-                            aeoMeta.content = data.aeo_summary;
-                            document.head.appendChild(aeoMeta);
-                        }
-                    });
+                    alert('Error creating session.');
+                    btn.innerText = originalText;
+                    btn.disabled = false;
                 }
             } catch (e) {
-                // Fail silently to not impact user
-                console.log('SEO/Schema sync skipped');
+                console.error(e);
+                alert('Checkout error');
+                btn.innerText = originalText;
+                btn.disabled = false;
             }
         }
         
-        // Run check
-        checkSeoStatus();
-    </script>
-    </div>
-
-    <script is:inline>
-        // Restoration Scripts
-        document.addEventListener('DOMContentLoaded', () => {
-            // Fix Video Player
-            if (typeof videojs !== 'undefined') {
-                 const videoEl = document.querySelector('#vsl-video');
-                 const overlay = document.querySelector('#video-overlay');
-                 
-                 if(videoEl) {
-                    const player = videojs('vsl-video', {
-                        fluid: true,
-                        controls: true,
-                        preload: 'auto'
-                    });
-
-                    // Handle Overlay Click
-                    if (overlay) {
-                        overlay.addEventListener('click', () => {
-                            overlay.style.opacity = '0';
-                            setTimeout(() => {
-                                overlay.style.display = 'none';
-                                player.play();
-                            }, 300);
-                        });
-                    }
-
-                    // Also hide overlay if player starts playing via native controls
-                    player.on('play', () => {
-                        if (overlay) {
-                            overlay.style.opacity = '0';
-                            setTimeout(() => { overlay.style.display = 'none'; }, 300);
-                        }
-                    });
-                 }
-            }
-            
-            // Fix Timer
-            const timerEl = document.getElementById("join-timer") || document.querySelector('.timer-display');
-            if (timerEl) {
-                const targetDate = new Date('February 14, 2026 23:59:59').getTime();
-                setInterval(() => {
-                    const now = new Date().getTime();
-                    const distance = targetDate - now;
-                    const days = Math.floor(distance / (1000 * 60 * 60 * 24));
-                    const hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-                    const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-                    
-                    if (timerEl) {
-                        timerEl.innerText = `${days}d ${hours}h ${minutes}m`;
-                    }
-                }, 1000);
-            }
-
-            // Order Bump Logic (Supports both Hero and Main checkouts)
-            ['hero', 'main'].forEach(source => {
-                const bumpCheckbox = document.getElementById(`bump-offer-${source}`);
-                const upsellRow = document.getElementById(`upsell-row-${source}`);
-                const totalEl = document.getElementById(`order-total-${source}`);
-                const checkoutTotalSpan = document.querySelector(`#${source}-checkout-btn .checkout-total`);
+        function setupOrderBumpSync() {
+            ['hero', 'main'].forEach(suffix => {
+                const bump = document.getElementById('bump-offer-' + suffix);
+                const totalEl = document.getElementById('order-total-' + suffix);
+                const btn = document.getElementById(suffix + '-checkout-btn');
                 
-                if (bumpCheckbox && totalEl) {
-                    bumpCheckbox.addEventListener('change', function() {
-                        if (this.checked) {
-                            if (upsellRow) upsellRow.style.setProperty('display', 'flex', 'important');
-                            totalEl.innerText = '$58.00';
-                            if (checkoutTotalSpan) checkoutTotalSpan.innerText = '$58';
-                        } else {
-                            if (upsellRow) upsellRow.style.setProperty('display', 'none', 'important');
-                            totalEl.innerText = '$49.00';
-                            if (checkoutTotalSpan) checkoutTotalSpan.innerText = '$49';
-                        }
+                if (bump && totalEl && btn) {
+                    bump.addEventListener('change', (e) => {
+                        const isChecked = e.target.checked;
+                        const newTotal = isChecked ? "$58.00" : "$49.00";
+                        const newBtnText = isChecked ? "PROCEED TO CHECKOUT - $58 →" : "PROCEED TO CHECKOUT - $49 →";
+                        totalEl.innerText = newTotal;
+                        btn.innerText = newBtnText;
                     });
                 }
             });
-        });
+        }
+        document.addEventListener('DOMContentLoaded', setupOrderBumpSync);
     </script>
-    <script src="/join/main.js" is:inline></script>
-</Layout>
+</SalesLayout>
