@@ -70,10 +70,11 @@ import Footer from '../../components/Footer.astro';
                 padding-bottom: 1rem;
                 border-bottom: 2px solid #eee;
                 text-align: center;
+                color: #0b3b36 !important; /* Explicit Dark Green */
             }
             .col-after h3 {
-                color: var(--color-bg-primary);
-                border-bottom-color: var(--color-bg-primary);
+                color: var(--color-accent) !important;
+                border-bottom-color: var(--color-accent);
             }
             .comparison-list {
                 list-style: none;
@@ -85,7 +86,7 @@ import Footer from '../../components/Footer.astro';
                 gap: 15px;
                 margin-bottom: 1.5rem;
                 font-size: 1.1rem;
-                color: #555;
+                color: #1a1a1a !important; /* Explicit Dark Charcoal */
             }
             .comparison-item .icon-box {
                 width: 24px;
@@ -148,14 +149,16 @@ import Footer from '../../components/Footer.astro';
 
     <div class="live-content-wrapper">
          <!-- EXACT NAVBAR HTML FROM LIVE SITE -->
-         <nav id="join-navbar" style="position: relative; z-index: 1000; background: #fff; border-bottom: 1px solid #eee; padding: 12px 0;" > 
-            <div class="join-nav-container" style="max-width: 1110px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 1rem;" > 
-                <!-- Logo Left --> 
-                <a href="/" class="join-logo-link" style="text-decoration: none;"> 
-                    <span class="logo-text" style="color: #000; font-weight: 900; line-height: 1.1; display: block; font-size: 1.1rem;" >THE MEN'S DIVORCE<br ><span class="logo-accent" style="color: var(--color-accent);" >MINDSET SYSTEM</span></span> 
-                </a> 
-                <!-- Offer Center --> 
-                <div class="offer-timer-container" style="font-weight: 700; font-size: 0.9rem;" > 
+         <nav id="join-navbar" style="position: relative; z-index: 1000; background: #fff; border-bottom: 1px solid #eee; padding: 12px 0;" >             <div class="join-nav-container" style="max-width: 1110px; margin: 0 auto; display: flex; align-items: center; justify-content: space-between; padding: 0 1rem;" > 
+                <!-- Logo Left Area (Flex: 1 to push content) --> 
+                <div style="flex: 1; display: flex; justify-content: flex-start;">
+                    <a href="/" class="join-logo-link" style="text-decoration: none;"> 
+                        <span class="logo-text" style="color: #000; font-weight: 900; line-height: 1.1; display: block; font-size: 1.1rem;" >THE MEN'S DIVORCE<br ><span class="logo-accent" style="color: var(--color-accent);" >MINDSET SYSTEM</span></span> 
+                    </a> 
+                </div>
+
+                <!-- Offer Center (Fixed) --> 
+                <div class="offer-timer-container" style="font-weight: 700; font-size: 0.9rem; flex: 0 0 auto; display: flex; justify-content: center;" > 
                     <div class="offer-text-wrapper" style="display: flex; align-items: center; gap: 8px;" > 
                         <span class="promo-badge" style="color: var(--color-accent); text-transform: uppercase; background: rgba(196, 97, 58, 0.1); padding: 4px 8px; border-radius: 4px; font-size: 0.75rem;">LIMITED LAUNCH PROMO:</span> 
                         <span class="promo-desc" style="color: #333;" >50% OFF THE SYSTEM</span> 
@@ -164,8 +167,9 @@ import Footer from '../../components/Footer.astro';
                         <span id="join-timer" >00d 00h 00m</span> 
                     </div> 
                 </div> 
-                <!-- Spacer for Balance (Hidden on Mobile) --> 
-                <div class="nav-spacer" style="width: 200px; display: none;"></div> 
+
+                <!-- Spacer Right (Flex: 1 to balance the center) --> 
+                <div class="nav-spacer" style="flex: 1; display: flex; justify-content: flex-end;"></div> 
             </div> 
          </nav> 
 
@@ -206,9 +210,9 @@ import Footer from '../../components/Footer.astro';
     </script>
     
     <!-- HERO SECTION -->
-    <header id="hero" class="section hero-section" style="min-height: auto; padding-top: 6rem; position: relative; padding-bottom: 8rem; background-color: #0a2b27; background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); background-size: 40px 40px;" > 
-        <div class="container" style="max-width: 1110px; margin: 0 auto; padding: 0 1rem;" > 
-            <div class="hero-content" style="text-align: center; max-width: 1000px; margin: 0 auto;" > 
+    <header id="hero" class="section hero-section" style="min-height: auto; padding-top: 6rem; position: relative; padding-bottom: 8rem; background-color: var(--color-bg-primary); background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px); background-size: 40px 40px;" > 
+        <div class="container" style="max-width: 1400px; margin: 0 auto; padding: 0 1rem;" > 
+            <div class="hero-content" style="text-align: center; max-width: 1350px; margin: 0 auto;" > 
                 <h1 style="font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 1.5rem; line-height: 1.3; color: #fff; text-transform: uppercase; font-weight: 700; letter-spacing: 1px;" >
                     Are You Stuck Living in<br > <span style="color: #fff; text-decoration: underline; text-decoration-color: var(--color-accent);" >Your Ex-Wife's Frame?</span> 
                 </h1> 
@@ -220,7 +224,7 @@ import Footer from '../../components/Footer.astro';
                 </div> 
                 
                 <!-- Video Player --> 
-                <div class="hero-video-wrapper" style="max-width: 900px; margin: 0 auto;"> 
+                <div class="hero-video-wrapper" style="max-width: 1100px; margin: 0 auto;"> 
                     <div class="video-container" style="border: 2px solid rgba(255,255,255,0.1); box-shadow: 0 30px 60px rgba(0,0,0,0.5); position: relative; aspect-ratio: 16/9; background: #000;" >                    
                         <video id="vsl-video" class="video-js vjs-big-play-centered" controls playsinline poster="/images/social-preview.png" style="width: 100%; height: 100%; object-fit: cover;" >
                             <source src="https://storage.googleapis.com/mpdc-website-32dae.firebasestorage.app/streaming/VSL/manifest.m3u8" type="application/x-mpegURL">
@@ -239,11 +243,11 @@ import Footer from '../../components/Footer.astro';
                 </div> 
                 
                 <!-- Main Sales Card --> 
-                <div class="ltp-card" style="background: #fff; border-radius: 12px; padding: 3rem; color: var(--color-text-dark); box-shadow: 0 40px 100px rgba(0,0,0,0.3); margin-top: 4rem; display: flex; gap: 4rem; align-items: flex-start; text-align: left; max-width: 1110px; margin-left: auto; margin-right: auto;" > 
+                <div class="ltp-card" style="background: #fff; border-radius: 12px; padding: 3rem; color: var(--color-text-dark); box-shadow: 0 40px 100px rgba(0,0,0,0.3); margin-top: 4rem; display: flex; gap: 4rem; align-items: flex-start; text-align: left; max-width: 1250px; margin-left: auto; margin-right: auto;" > 
                     <!-- Left: Copy --> 
                     <div style="flex: 1.2;" > 
                         <p style="font-size: 1.35rem; line-height: 1.6; margin-bottom: 2rem; color: var(--color-text-dark);" >
-                            What if you could actually <strong >stop reacting</strong> to your past — while <strong >rebuilding your identity</strong> (not just repressing the pain) starting now?
+                            What if you could actually <strong >stop reacting to your past</strong> — while <strong >rebuilding your identity</strong> (not just repressing the pain) starting now?
                         </p> 
                         <p style="font-size: 1.35rem; line-height: 1.6; margin-bottom: 2.5rem; color: var(--color-text-dark);" >
                             That's exactly what you'll learn inside the <strong >Men's Divorce Mindset System</strong> — the same protocol that's helped hundreds of men move from hollow effort to a life of <strong >clarity and purpose</strong>.
@@ -255,10 +259,12 @@ import Footer from '../../components/Footer.astro';
                             <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.9rem; font-weight: 900;" >✓</div> <span style="font-size: 1.2rem; line-height: 1.4; color: var(--color-text-dark);" >Stop the endless cycle of panic and anxiety keeping you awake at night, and finally learn how to <strong >turn off the noise instantly.</strong></span> </div>
                             <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.9rem; font-weight: 900;" >✓</div> <span style="font-size: 1.2rem; line-height: 1.4; color: var(--color-text-dark);" >Release the suffocating stress of the unknown and replace it with a <strong >clear, step-by-step roadmap</strong> that puts you back in the driver's seat.</span> </div>
                             <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.9rem; font-weight: 900;" >✓</div> <span style="font-size: 1.2rem; line-height: 1.4; color: var(--color-text-dark);" >This is the <strong >exact protocol</strong> to settle the chaos in your head and start moving with the 100% certainty that your best days are <strong >ahead of you, not behind you.</strong></span> </div>
+                            <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.9rem; font-weight: 900;" >✓</div> <span style="font-size: 1.2rem; line-height: 1.4; color: var(--color-text-dark);" >This is the proven, 5-step framework I use to help men <strong >rebuild their identity and reclaim their edge... on autopilot.</strong></span> </div>
+                            <div style="display: flex; gap: 1.5rem; margin-bottom: 2rem; align-items: flex-start;" > <div style="background: #5cb85c; color: #fff; width: 28px; height: 28px; border-radius: 50%; display: flex; align-items: center; justify-content: center; flex-shrink: 0; font-size: 0.9rem; font-weight: 900;" >✓</div> <span style="font-size: 1.2rem; line-height: 1.4; color: var(--color-text-dark);" >Stop listening to generic advice. Decide right now that you are done with "get over it" pep talks and <strong >ready for real power.</strong></span> </div>
                         </div> 
                     </div> 
-                    <!-- Right: Checkout Form --> 
-                    <div style="flex: 1; min-width: 400px; background-color: #f8f9fa; border-radius: 12px; padding: 2.5rem; box-shadow: 0 10px 30px rgba(0,0,0,0.05);" > 
+                    <!-- Right: Checkout Form (Tan Background) --> 
+                    <div style="flex: 1; min-width: 400px; background-color: #f5f1e8; border: 2px solid #d4c5a9; border-radius: 12px; padding: 2.5rem; box-shadow: 0 20px 50px rgba(0,0,0,0.15);" > 
                         <div class="checkout-container" > 
                             <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 1.5rem; margin-bottom: 2rem;" class="white-summary-box" > 
                                 <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem; font-size: 1rem; color: #555;" > 
@@ -274,21 +280,22 @@ import Footer from '../../components/Footer.astro';
                             </div> 
                             <div class="form-group" style="margin-bottom: 1.5rem;" > 
                                 <label for="full-name-hero" style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: #2c3e50;" >Full Name</label> 
-                                <input type="text" id="full-name-hero" placeholder="Enter your full name" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;" > 
+                                <input type="text" id="full-name-hero" placeholder="Enter your full name" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; background: #fff;" > 
                             </div> 
                             <div class="form-group" style="margin-bottom: 2rem;" > 
                                 <label for="email-hero" style="display: block; margin-bottom: 0.5rem; font-weight: 700; color: #2c3e50;" >Email Address</label> 
-                                <input type="email" id="email-hero" placeholder="Enter your email address" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem;" > 
+                                <input type="email" id="email-hero" placeholder="Enter your email address" style="width: 100%; padding: 1rem; border: 1px solid #ddd; border-radius: 6px; font-size: 1rem; background: #fff;" > 
                             </div> 
                             <div style="background: #fff9e6; border: 2px dashed #e67e22; padding: 1.25rem; border-radius: 8px; margin-bottom: 2rem; position: relative;" > 
                                 <div style="position: absolute; top: -12px; right: 20px; background: #e67e22; color: #fff; font-size: 0.75rem; font-weight: 800; padding: 2px 8px; text-transform: uppercase; border-radius: 4px;" >Recommended</div> 
                                 <label style="display: flex; gap: 12px; cursor: pointer; align-items: start;" > 
                                     <input type="checkbox" id="bump-offer-hero" style="transform: scale(1.5); margin-top: 5px; accent-color: #e67e22;" > 
                                     <div> 
-                                        <strong style="color: #2c3e50; display: block; margin-bottom: 0.5rem; line-height: 1.3;" >YES! Add The 10-Session Hypnosis Bundle <span style="color: #e67e22;" >(+$9)</span></strong> 
+                                        <strong style="color: #2c3e50; display: block; margin-bottom: 0.5rem; line-height: 1.3;" >YES! Accelerate My Results With The 10-Session Hypnosis Bundle <span style="color: #e67e22;" >(+$9)</span></strong> 
                                         <p style="font-size: 0.9rem; color: #555; margin: 0; line-height: 1.4;" >
-                                             proven to reduce stress and boost confidence 2x faster. <span style="color: #27ae60; font-weight: 700;">87% of men choose this.</span>
+                                             Don't just rely on willpower. Plug in these audio tracks before bed to silence the overthinking and wake up with unshakeable certainty. Proven to reduce stress and boost confidence 2x faster.
                                         </p> 
+                                        <p style="font-size: 0.85rem; color: #666; font-style: italic; margin-top: 0.5rem;" > <span style="color: #27ae60; font-weight: 700;" >✓</span> 87% of men choose this upgrade </p> 
                                     </div> 
                                 </label> 
                             </div> 
@@ -306,7 +313,7 @@ import Footer from '../../components/Footer.astro';
     </header>
 
     <!-- INTRO & SYLLABUS -->
-    <section class="section" style="background-color: #f8f9fa; padding: 6rem 2rem; color: var(--color-bg-primary);" > 
+    <section class="section" style="background-color: var(--color-text-muted); padding: 8rem 2rem; color: var(--color-bg-primary); border-top: 1px solid rgba(196, 97, 58, 0.2); border-bottom: 1px solid rgba(196, 97, 58, 0.2);" > 
         <div style="max-width: 900px; margin: 0 auto; text-align: center;" > 
             <p style="font-size: 1rem; margin-bottom: 1rem; letter-spacing: 4px; text-transform: uppercase; color: var(--color-accent); font-weight: 700;" >INTRODUCING</p> 
             <h1 style="font-family: var(--font-heading); font-size: 3.5rem; line-height: 1.15; margin-bottom: 2rem; color: var(--color-bg-primary);" >
@@ -329,83 +336,83 @@ import Footer from '../../components/Footer.astro';
             </h1> 
             <div style="max-width: 1000px; margin: 0 auto; display: flex; flex-direction: column; gap: 2rem; text-align: left;" > 
                 <!-- Syllabus Card 1 --> 
-                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); cursor: default; transition: all 0.3s;" > 
-                    <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
-                        <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
-                        <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >01</span> 
+                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 10px 40px rgba(0,0,0,0.06); cursor: default; transition: all 0.3s;" > 
+                    <div style="width: 120px; background-color: var(--color-bg-primary); background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px); background-size: 20px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
+                        <span style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; opacity: 0.7; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
+                        <span style="font-size: 3.5rem; font-weight: 900; line-height: 1;" >01</span> 
                     </div> 
-                    <div style="padding: 3rem; flex: 1;" > 
-                        <div style="margin-bottom: 1rem;" > 
-                            <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 1: THE FOUNDATION</span> 
+                    <div style="padding: 3.5rem; flex: 1;" > 
+                        <div style="margin-bottom: 1.5rem;" > 
+                            <span style="background: #fdf2f0; color: var(--color-accent); font-size: 0.75rem; font-weight: 800; padding: 6px 14px; border-radius: 4px; letter-spacing: 1.5px; text-transform: uppercase; display: inline-block; border: 1px solid rgba(196, 97, 58, 0.1);" >PHASE 1: THE FOUNDATION</span> 
                         </div> 
-                        <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem;" >A Memory In Your Future</h3> 
-                        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0;" >The foundational shift required to change your trajectory. You cannot build a new life looking in the rearview mirror.</p> 
+                        <h3 style="font-family: var(--font-heading); font-size: 2.5rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem; letter-spacing: -0.5px;" >A Memory In Your Future</h3> 
+                        <p style="font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 0;" >The foundational shift required to change your trajectory. You cannot build a new life looking in the rearview mirror. This module installs the 'Future Memory' protocol—reframing your mindset to focus on creation rather than reaction.</p> 
                     </div> 
                 </div> 
                 <!-- Syllabus Card 2 --> 
-                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); cursor: default; transition: all 0.3s;" > 
-                    <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
-                        <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
-                        <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >02</span> 
+                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 10px 40px rgba(0,0,0,0.06); cursor: default; transition: all 0.3s;" > 
+                    <div style="width: 120px; background-color: var(--color-bg-primary); background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px); background-size: 20px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
+                        <span style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; opacity: 0.7; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
+                        <span style="font-size: 3.5rem; font-weight: 900; line-height: 1;" >02</span> 
                     </div> 
-                    <div style="padding: 3rem; flex: 1;" > 
-                        <div style="margin-bottom: 1rem;" > 
-                            <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 2: RESOLUTION</span> 
+                    <div style="padding: 3.5rem; flex: 1;" > 
+                        <div style="margin-bottom: 1.5rem;" > 
+                            <span style="background: #fdf2f0; color: var(--color-accent); font-size: 0.75rem; font-weight: 800; padding: 6px 14px; border-radius: 4px; letter-spacing: 1.5px; text-transform: uppercase; display: inline-block; border: 1px solid rgba(196, 97, 58, 0.1);" >PHASE 2: RESOLUTION</span> 
                         </div> 
-                        <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem;" >Resolving Your Past</h3> 
-                        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0;" >Making peace with what happened so you can move forward. When you close the negative and limiting loops in your mind you change the whole meaning of your future.</p> 
+                        <h3 style="font-family: var(--font-heading); font-size: 2.5rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem; letter-spacing: -0.5px;" >Resolving Your Past</h3> 
+                        <p style="font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 0;" >Making peace with what happened so you can move forward. When you close the negative and limiting loops in your mind you change the whole meaning of your future. This makes the ‘Future Memory’ protocol easily attainable.</p> 
                     </div> 
-                </div>
+                </div> 
                  <!-- Syllabus Card 3 --> 
-                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); cursor: default; transition: all 0.3s;" > 
-                    <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
-                        <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
-                        <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >03</span> 
+                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 10px 40px rgba(0,0,0,0.06); cursor: default; transition: all 0.3s;" > 
+                    <div style="width: 120px; background-color: var(--color-bg-primary); background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px); background-size: 20px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
+                        <span style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; opacity: 0.7; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
+                        <span style="font-size: 3.5rem; font-weight: 900; line-height: 1;" >03</span> 
                     </div> 
-                    <div style="padding: 3rem; flex: 1;" > 
-                        <div style="margin-bottom: 1rem;" > 
-                            <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 3: CONSTRUCTION</span> 
+                    <div style="padding: 3.5rem; flex: 1;" > 
+                        <div style="margin-bottom: 1.5rem;" > 
+                            <span style="background: #fdf2f0; color: var(--color-accent); font-size: 0.75rem; font-weight: 800; padding: 6px 14px; border-radius: 4px; letter-spacing: 1.5px; text-transform: uppercase; display: inline-block; border: 1px solid rgba(196, 97, 58, 0.1);" >PHASE 3: CONSTRUCTION</span> 
                         </div> 
-                        <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem;" >Rebuilding Your Reality Chain</h3> 
-                        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0;" >Constructing a new narrative for your life and identity. See where there is a gap to fill in so your belief systems are programmed for success.</p> 
+                        <h3 style="font-family: var(--font-heading); font-size: 2.5rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem; letter-spacing: -0.5px;" >Rebuilding Your Reality Chain</h3> 
+                        <p style="font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 0;" >Constructing a new narrative for your life and identity. See where there is a gap to fill in so your belief systems are programmed for success. You may notice you start to automatically adjust your focus.</p> 
                     </div> 
-                </div>
+                </div> 
                  <!-- Syllabus Card 4 --> 
-                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); cursor: default; transition: all 0.3s;" > 
-                    <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
-                        <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
-                        <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >04</span> 
+                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 10px 40px rgba(0,0,0,0.06); cursor: default; transition: all 0.3s;" > 
+                    <div style="width: 120px; background-color: var(--color-bg-primary); background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px); background-size: 20px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
+                        <span style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; opacity: 0.7; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
+                        <span style="font-size: 3.5rem; font-weight: 900; line-height: 1;" >04</span> 
                     </div> 
-                    <div style="padding: 3rem; flex: 1;" > 
-                        <div style="margin-bottom: 1rem;" > 
-                            <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 4: DESIGN</span> 
+                    <div style="padding: 3.5rem; flex: 1;" > 
+                        <div style="margin-bottom: 1.5rem;" > 
+                            <span style="background: #fdf2f0; color: var(--color-accent); font-size: 0.75rem; font-weight: 800; padding: 6px 14px; border-radius: 4px; letter-spacing: 1.5px; text-transform: uppercase; display: inline-block; border: 1px solid rgba(196, 97, 58, 0.1);" >PHASE 4: DESIGN</span> 
                         </div> 
-                        <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem;" >Designing Your Ideal Future</h3> 
-                        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0;" >Architect the ideal reality that you haven’t even dreamed of yet. Create an imprint in your mind that takes what is in your imagination to physical reality.</p> 
+                        <h3 style="font-family: var(--font-heading); font-size: 2.5rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem; letter-spacing: -0.5px;" >Designing Your Ideal Future</h3> 
+                        <p style="font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 0;" >Architect the ideal reality that you haven’t even dreamed of yet. Create an imprint in your mind that takes what is in your imagination to physical reality. This includes abundance, love, and relationships.</p> 
                     </div> 
-                </div>
+                </div> 
                  <!-- Syllabus Card 5 --> 
-                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 4px 20px rgba(0,0,0,0.03); cursor: default; transition: all 0.3s;" > 
-                    <div style="width: 120px; background-color: var(--color-bg-primary); display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
-                        <span style="font-size: 0.75rem; font-weight: 800; letter-spacing: 2px; opacity: 0.6; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
-                        <span style="font-size: 3rem; font-weight: 900; line-height: 1;" >05</span> 
+                <div class="syllabus-card" style="background-color: #ffffff; padding: 0; border-radius: 16px; display: flex; overflow: hidden; border: 2px solid var(--color-accent); box-shadow: 0 10px 40px rgba(0,0,0,0.06); cursor: default; transition: all 0.3s;" > 
+                    <div style="width: 120px; background-color: var(--color-bg-primary); background-image: linear-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px); background-size: 20px 20px; display: flex; flex-direction: column; align-items: center; justify-content: center; color: #fff; flex-shrink: 0; position: relative;"> 
+                        <span style="font-size: 0.7rem; font-weight: 800; letter-spacing: 2px; opacity: 0.7; margin-bottom: 0.5rem; text-transform: uppercase;" >MODULE</span> 
+                        <span style="font-size: 3.5rem; font-weight: 900; line-height: 1;" >05</span> 
                     </div> 
-                    <div style="padding: 3rem; flex: 1;" > 
-                        <div style="margin-bottom: 1rem;" > 
-                            <span style="background: rgba(196, 97, 58, 0.12); color: var(--color-accent); font-size: 0.75rem; font-weight: 900; padding: 6px 14px; border-radius: 4px; letter-spacing: 2px; text-transform: uppercase; display: inline-block;" >PHASE 5: ABUNDANCE</span> 
+                    <div style="padding: 3.5rem; flex: 1;" > 
+                        <div style="margin-bottom: 1.5rem;" > 
+                            <span style="background: #fdf2f0; color: var(--color-accent); font-size: 0.75rem; font-weight: 800; padding: 6px 14px; border-radius: 4px; letter-spacing: 1.5px; text-transform: uppercase; display: inline-block; border: 1px solid rgba(196, 97, 58, 0.1);" >PHASE 5: ABUNDANCE</span> 
                         </div> 
-                        <h3 style="font-family: var(--font-heading); font-size: 2.25rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem;" >Scarcity to Abundance</h3> 
-                        <p style="font-size: 1.15rem; line-height: 1.8; color: var(--color-text-dark); margin-bottom: 0;" >Trust yourself to make a full decision on your future. See for yourself that a crash and burn option no longer exists.</p> 
+                        <h3 style="font-family: var(--font-heading); font-size: 2.5rem; font-weight: 900; color: var(--color-bg-primary); margin-bottom: 1.25rem; letter-spacing: -0.5px;" >Scarcity to Abundance</h3> 
+                        <p style="font-size: 1.15rem; line-height: 1.8; color: #444; margin-bottom: 0;" >Trust yourself to make a full decision on your future. See for yourself that a crash and burn option no longer exists and instead your reality works for you to bring your biggest desires.</p> 
                     </div> 
-                </div>
+                </div> 
             </div> 
         </div> 
     </section>
 
     <!-- COMPARISON SECTION -->
-    <section class="section comparison-section" > 
+    <section class="section comparison-section" style="background-color: var(--color-text-muted); padding: 8rem 2rem; color: #1a1a1a !important; border-top: 1px solid rgba(196, 97, 58, 0.1); border-bottom: 1px solid rgba(196, 97, 58, 0.1);" > 
         <div class="container" > 
-            <h1 style="font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 3rem; text-align: center; line-height: 1.15;" >
+            <h1 style="font-family: var(--font-heading); font-size: 3.5rem; margin-bottom: 3rem; text-align: center; line-height: 1.15; color: var(--color-bg-primary);" >
                 Here's what changes when you start <span style="color: var(--color-accent);" >The System</span> 
             </h1> 
             <div class="comparison-wrapper" > 
@@ -416,6 +423,9 @@ import Footer from '../../components/Footer.astro';
                             <li class="comparison-item" > <div class="icon-box" >✕</div> <span>Constantly stressed and reactive to her</span> </li> 
                             <li class="comparison-item" > <div class="icon-box" >✕</div> <span>Endless "what ifs" with little progress</span> </li> 
                             <li class="comparison-item" > <div class="icon-box" >✕</div> <span>Burned out and unnecessary pain</span> </li> 
+                            <li class="comparison-item" > <div class="icon-box" >✕</div> <span>Living by default (Her Frame)</span> </li> 
+                            <li class="comparison-item" > <div class="icon-box" >✕</div> <span>Struggling to find time for yourself</span> </li> 
+                            <li class="comparison-item" > <div class="icon-box" >✕</div> <span>Stuck in cycles of fear and guilt</span> </li> 
                         </ul> 
                     </div> 
                     <div class="comparison-col col-after" > 
@@ -424,6 +434,9 @@ import Footer from '../../components/Footer.astro';
                             <li class="comparison-item" > <div class="icon-box" >✓</div> <span>Calm, focused, and in control</span> </li> 
                             <li class="comparison-item" > <div class="icon-box" >✓</div> <span>Clear outcomes and meaningful wins</span> </li> 
                             <li class="comparison-item" > <div class="icon-box" >✓</div> <span>Energized and ahead of your priorities</span> </li> 
+                            <li class="comparison-item" > <div class="icon-box" >✓</div> <span>Living by design (Your Frame)</span> </li> 
+                            <li class="comparison-item" > <div class="icon-box" >✓</div> <span>Creating space for growth and fulfillment</span> </li> 
+                            <li class="comparison-item" > <div class="icon-box" >✓</div> <span>Operating from intention and abundance</span> </li> 
                         </ul> 
                     </div> 
                 </div> 
@@ -448,12 +461,21 @@ import Footer from '../../components/Footer.astro';
                 <div style="text-align: left;" > 
                     <p style="color: var(--color-accent); font-weight: 700; letter-spacing: 2px; text-transform: uppercase; font-size: 0.9rem; margin-bottom: 0.5rem;" >ABOUT THE FOUNDER</p> 
                     <h1 style="font-family: var(--font-heading); font-size: 3.5rem; color: var(--color-bg-primary); margin-bottom: 0.5rem; line-height: 1.15;" >I'M ALEX MORGAN.</h1> 
-                    <p style="font-weight: 700; color: #666; font-size: 1.1rem; margin-bottom: 2rem;" >Certified Mental Programmer & Founder, MPDC</p> 
-                    <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1.5rem;" >most men think their problem is "heartbreak" or "stress." It's not. Your problem is that your subconscious identity is still attached to a life that no longer exists.</p> 
+                    <p style="font-weight: 700; color: #666; font-size: 1.1rem; margin-bottom: 1.5rem;" >Certified Mental Programmer & Founder, MPDC</p> 
+                    
+                    <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1.5rem; font-weight: 600;" >I haven't just "seen" the patterns—I've decoded exactly how divorce reprograms a man's mind for failure.</p> 
+                    
+                    <p style="font-size: 1.1rem; line-height: 1.7; margin-bottom: 1.5rem;" >Most men think their problem is "heartbreak" or "stress." It's not. Your problem is that your subconscious identity is still attached to a life that no longer exists. No amount of "working harder" will fix a software error in your mind.</p> 
+                    
+                    <p style="font-size: 1.25rem; font-weight: 700; color: var(--color-bg-primary); margin-bottom: 1.5rem;" >You don't need time. You need a system.</p>
+                    
+                    <p style="font-size: 1.1rem; margin-bottom: 1.5rem; font-weight: 600;" >As your guide, I give you the code to:</p> 
+
                     <div style="background-color: #f8f9fa; padding: 2.5rem; border-radius: 8px; border-left: 4px solid var(--color-accent);" > 
                         <ul style="list-style: none; padding: 0;" > 
-                            <li style="margin-bottom: 1rem; display: flex; align-items: start; gap: 0.75rem;" > <span style="font-weight: 900; color: var(--color-accent);" >✓</span> <span><strong>Delete the "Ex-Wife Frame"</strong> so you stop reacting and start leading.</span> </li> 
-                            <li style="margin-bottom: 1rem; display: flex; align-items: start; gap: 0.75rem;" > <span style="font-weight: 900; color: var(--color-accent);" >✓</span> <span><strong>Reprogram Your Value</strong> so you never look for validation outside yourself again.</span> </li> 
+                            <li style="margin-bottom: 1.5rem; display: flex; align-items: start; gap: 0.75rem;" > <span style="font-weight: 900; color: var(--color-accent);" >✓</span> <span><strong>Delete the "Ex-Wife Frame"</strong> so you stop reacting and start leading.</span> </li> 
+                            <li style="margin-bottom: 1.5rem; display: flex; align-items: start; gap: 0.75rem;" > <span style="font-weight: 900; color: var(--color-accent);" >✓</span> <span><strong>Reprogram Your Value</strong> so you never look for validation outside yourself again.</span> </li> 
+                            <li style="margin-bottom: 0; display: flex; align-items: start; gap: 0.75rem;" > <span style="font-weight: 900; color: var(--color-accent);" >✓</span> <span><strong>Install Unshakeable Clarity</strong> so your next chapter is your best chapter—guaranteed.</span> </li> 
                         </ul> 
                     </div> 
                 </div> 
@@ -549,7 +571,7 @@ import Footer from '../../components/Footer.astro';
                             <div > 
                                 <strong style="color: #2c3e50; font-size: 1.15rem; display: block; margin-bottom: 0.5rem; line-height: 1.2;" >YES! Accelerate My Results With The 10-Session Hypnosis Bundle <span style="color: #e67e22;" >(+$9)</span></strong> 
                                 <p style="font-size: 0.95rem; color: #444; margin: 0 0 0.5rem; line-height: 1.5;" >
-                                    Don't just rely on willpower. Plug in these audio tracks before bed to silence the overthinking and wake up with unshakeable certainty.
+                                    Don't just rely on willpower. Plug in these audio tracks before bed to silence the overthinking and wake up with unshakeable certainty. Proven to reduce stress and boost confidence 2x faster.
                                 </p> 
                                 <p style="font-size: 0.85rem; color: #666; font-style: italic; margin: 0;" > <span style="color: #27ae60; font-weight: 700;" >✓</span> 87% of men choose this upgrade </p> 
                             </div> 
