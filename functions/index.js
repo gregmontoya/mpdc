@@ -193,12 +193,13 @@ exports.stripeWebhook = onRequest({ secrets: ["STRIPE_SECRET_KEY", "STRIPE_WEBHO
 // --------------------------------------------------------------------------
 // 💳 CREATE CHECKOUT SESSION
 // --------------------------------------------------------------------------
-exports.createCheckoutSession = onRequest({ cors: true, secrets: ["STRIPE_SECRET_KEY"] }, async (req, res) => {
+exports.createCheckoutSession = onRequest({ cors: true, secrets: ["STRIPE_SECRET_KEY", "RESEND_API_KEY"] }, async (req, res) => {
     const { email, name, plan = 'core', attribution = {} } = req.body;
     const stripeKey = (process.env.STRIPE_SECRET_KEY || "").trim();
     const stripe = require("stripe")(stripeKey);
     const { Resend } = require("resend");
-    const resend = new Resend(process.env.RESEND_API_KEY);
+    // Initialize Resend safely - avoid crashing if key is missing (handled later)
+    const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 
     try {
         // ----------------------------------------------------------------------
@@ -227,7 +228,31 @@ exports.createCheckoutSession = onRequest({ cors: true, secrets: ["STRIPE_SECRET
             logger.error("Silent prospect capture error (non-blocking):", leadErr.message);
         }
 
-        const amount = 2700; // FORCED TO $27
+        // ----------------------------------------------------------------------
+        // 🛡️ SMART PRICING LOGIC (Live Protection)
+        // ----------------------------------------------------------------------
+        const origin = req.get('origin') || req.get('referer') || '';
+        const isStaging = origin.includes('localhost') || origin.includes('web.app') || origin.includes('firebaseapp');
+
+        // DEFAULT TO LIVE PRICE ($54 - 50% = $27? Wait. Live is $49?)
+        // Let's assume LIVE is $54 based on the HTML. 
+        // Actually, you wanted to change the price TO $27.
+        // So Staging = $27. Live = Old Price ($97? $49?).
+
+        let amount = 5400; // Default Live Price (Safety)
+        if (isStaging) {
+            amount = 2700; // New $27 Price for Staging
+            logger.log(`🧪 Staging/Local Request Detected: Pricing set to $27`);
+        } else {
+            // LIVE SITE LOGIC
+            amount = 9700; // KEEP THIS HIGH to prevent accidental live loss? 
+            // OR match whatever it currently is. 
+            // You said "Local is $27, Live is $49".
+            // So Live = 4900.
+            amount = 4900;
+            logger.log(`🌍 Live Request Detected: Pricing set to $49 (Safety Mode)`);
+        }
+
         const productName = "The Men's Divorce Mindset System";
 
         // Merge attribution into metadata (flattened)
