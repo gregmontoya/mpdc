@@ -1,0 +1,298 @@
+---
+import { getCollection } from 'astro:content';
+import { db } from '../../lib/server-firebase';
+import Layout from '../../layouts/Layout.astro';
+
+const { slug } = Astro.params;
+
+// Helper to turn cat name into slug
+const slugify = (text) => text.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-');
+
+// 1. Fetch Local Posts (The "Old" Posts - Guaranteed to work)
+const localPosts = await getCollection('blog');
+const formattedLocalPosts = localPosts.map(post => ({
+    id: post.slug,
+    data: {
+        title: post.data.title,
+        description: post.data.description,
+        summary: post.data.description, // field mapping
+        image: post.data.image || post.data.heroImage || '/images/default-post.jpg',
+        category: post.data.category,
+        publishedDate: post.data.publishDate,
+        slug: post.slug // local posts rely on slug
+    },
+    source: 'local'
+}));
+
+// 2. Fetch Firestore Posts (The "New" Dynamic Posts)
+let firestorePosts = [];
+try {
+    const postsSnapshot = await db.collection('posts').orderBy('publishedDate', 'desc').get();
+    firestorePosts = postsSnapshot.docs.map(doc => {
+       const d = doc.data();
+       return {
+            id: doc.id,
+            data: {
+                ...d,
+                summary: d.summary || d.description
+            },
+            source: 'firestore'
+       };
+    });
+} catch (error) {
+    console.warn("⚠️ Could not fetch Firestore posts (likely missing service account locally).");
+}
+
+// 3. Merge
+const allPosts = [...firestorePosts, ...formattedLocalPosts];
+
+// 4. Find the matching category name for this slug
+const categoryName = allPosts.find(p => slugify(p.data.category || '') === slug)?.data.category || slug;
+
+// 5. Filter posts by this category
+const categoryPosts = allPosts.filter(p => slugify(p.data.category || '') === slug).sort((a, b) => {
+    return new Date(b.data.publishedDate).getTime() - new Date(a.data.publishedDate).getTime();
+});
+
+// Calculate category counts (Dynamic - shared across all pages for the sidebar)
+const categoryCounts = allPosts.reduce((acc, post) => {
+    const cat = post.data.category || 'Uncategorized';
+    acc[cat] = (acc[cat] || 0) + 1;
+    return acc;
+}, {});
+
+if (categoryPosts.length === 0 && slug !== 'all') {
+    // Optionally redirect if category truly doesn't exist
+    // return Astro.redirect('/learn');
+}
+---
+
+<Layout title={`${categoryName} | Men's Post-Divorce Coaching`} description={`Articles and strategies related to ${categoryName}.`}>
+    <header class="section" style="padding: 6rem 0 4rem; background-color: var(--color-bg-light);">
+        <div class="container" style="max-width: 1200px; text-align: center;">
+            <p style="font-size: 1rem; letter-spacing: 3px; text-transform: uppercase; color: var(--color-accent); font-weight: 700; margin-bottom: 1rem;">
+                CATEGORY
+            </p>
+            <h1 style="font-family: var(--font-heading); font-size: 3.5rem; color: var(--color-bg-primary); margin-bottom: 1.5rem; line-height: 1.1;">
+                {categoryName}
+            </h1>
+            <p style="font-size: 1.25rem; color: #555; max-width: 700px; margin: 0 auto 3rem;">
+                Expert insights and actionable advice on {categoryName.toLowerCase()}.
+            </p>
+        </div>
+    </header>
+
+    <section class="section" style="padding: 4rem 0 6rem; background-color: #fff;">
+        <div class="container" style="max-width: 1200px;">
+            <div class="blog-grid-layout">
+                <aside class="blog-sidebar">
+                    <div class="filter-card">
+                        <h3>Categories</h3>
+                        <ul>
+                            <li>
+                                <a href="/learn" aria-label="View all articles">
+                                    <span>All Articles</span>
+                                    <span>({allPosts.length})</span>
+                                </a>
+                            </li>
+                            {Object.entries(categoryCounts).map(([cat, count]) => {
+                                const catSlug = slugify(cat);
+                                return (
+                                    <li>
+                                        <a 
+                                            href={`/category/${catSlug}`} 
+                                            class={slug === catSlug ? 'active' : ''}
+                                            aria-label={`View articles in ${cat}`}
+                                        >
+                                            <span>{cat}</span>
+                                            <span>({count})</span>
+                                        </a>
+                                    </li>
+                                );
+                            })}
+                        </ul>
+                    </div>
+                </aside>
+
+                <div class="posts-column">
+                    <div class="standard-posts-grid">
+                        {categoryPosts.map(post => (
+                            <div class="post-card">
+                                <div class="card-img">
+                                    <a href={post.source === 'local' ? `/learn/${post.id}` : `/posts/${post.id}`} aria-label={`Article: ${post.data.title}`}>
+                                        <img 
+                                            src={post.data.image || post.data.heroImage || '/images/default-post.jpg'} 
+                                            alt={post.data.title}
+                                            loading="lazy"
+                                            width={400}
+                                            height={225}
+                                        />
+                                    </a>
+                                </div>
+                                <div class="card-content">
+                                    <span class="category-tag">
+                                        {post.data.category || 'Article'}
+                                    </span>
+                                    <h3>
+                                        <a href={post.source === 'local' ? `/learn/${post.id}` : `/posts/${post.id}`} aria-label={`Read article: ${post.data.title}`}>
+                                            {post.data.title}
+                                        </a>
+                                    </h3>
+                                    <p>
+                                        {post.data.summary || post.data.description}
+                                    </p>
+                                    <a href={post.source === 'local' ? `/learn/${post.id}` : `/posts/${post.id}`} class="read-more-link">
+                                        Read More →
+                                    </a>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {categoryPosts.length === 0 && (
+                        <div style="text-align: center; padding: 4rem; background: #f9f9f9; border-radius: 12px;">
+                            <h3>No articles found in this category.</h3>
+                            <p>We are currently preparing more content for you.</p>
+                            <a href="/learn" class="read-more" style="display: inline-block; margin-top: 1rem;">Back to All Articles</a>
+                        </div>
+                    )}
+                </div>
+            </div>
+        </div>
+    </section>
+</Layout>
+
+<style>
+    .blog-grid-layout {
+        display: grid;
+        grid-template-columns: 280px 1fr;
+        gap: 4rem;
+    }
+    
+    .blog-sidebar {
+        position: sticky;
+        top: 100px;
+        height: fit-content;
+    }
+
+    .filter-card {
+        background: var(--color-bg-primary);
+        border: 1px solid rgba(255,255,255,0.1);
+        padding: 2rem;
+        border-radius: 8px;
+        color: white;
+    }
+
+    .filter-card h3 {
+        font-family: var(--font-heading);
+        font-size: 1rem;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 1.5rem;
+        color: var(--color-accent);
+    }
+
+    .filter-card ul {
+        list-style: none;
+        padding: 0;
+    }
+
+    .filter-card li {
+        margin-bottom: 0.75rem;
+    }
+
+    .filter-card a {
+        display: flex;
+        justify-content: space-between;
+        color: rgba(255,255,255,0.7);
+        text-decoration: none;
+        transition: color 0.2s;
+    }
+
+    .filter-card a.active, .filter-card a:hover {
+        color: var(--color-accent);
+        font-weight: 700;
+    }
+
+    .category-tag {
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: var(--color-accent);
+        font-weight: 700;
+        display: block;
+        margin-bottom: 1rem;
+    }
+
+    .standard-posts-grid {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        gap: 2rem;
+    }
+
+    .post-card {
+        border: 1px solid #eee;
+        border-radius: 8px;
+        overflow: hidden;
+        transition: transform 0.2s;
+    }
+
+    .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+    }
+
+    .card-img {
+        height: 220px;
+        overflow: hidden;
+    }
+
+    .card-img img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.5s;
+    }
+
+    .post-card:hover .card-img img {
+        transform: scale(1.05);
+    }
+
+    .card-content {
+        padding: 1.5rem;
+    }
+
+    .card-content h3 {
+        font-family: var(--font-heading);
+        font-size: 1.35rem;
+        margin-bottom: 0.75rem;
+        line-height: 1.3;
+    }
+
+    .card-content a {
+        color: var(--color-bg-primary);
+        text-decoration: none;
+    }
+
+    .read-more-link {
+        font-size: 0.9rem;
+        font-weight: 700;
+        color: var(--color-accent);
+        text-decoration: none;
+    }
+
+    /* Responsive */
+    @media (max-width: 900px) {
+        .blog-grid-layout {
+            grid-template-columns: 1fr;
+        }
+        .blog-sidebar {
+            display: none;
+        }
+    }
+    @media (max-width: 600px) {
+        .standard-posts-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>

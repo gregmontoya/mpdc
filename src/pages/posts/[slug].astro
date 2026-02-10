@@ -1,0 +1,103 @@
+---
+import Layout from "../../layouts/Layout.astro";
+import { db } from "../../lib/server-firebase"; // Use Admin SDK
+
+const { slug } = Astro.params;
+
+let data = null;
+try {
+  if (slug) {
+    const postSnap = await db.collection("posts").doc(slug).get();
+
+    if (postSnap.exists) {
+      data = postSnap.data();
+    }
+  }
+} catch (e) {
+  console.error("Error fetching post:", e);
+}
+
+// 2. Handle 404 if no post found
+if (!data) {
+  return Astro.redirect('/404');
+}
+
+// Pro Strategy: Build the title/desc from the DB data
+const seoTitle = `${data.title} | Men's Post-Divorce Coaching`;
+const seoDesc = data.summary || data.description; // Fallback to description if summary missing
+const seoImage = data.image || '/images/default-post.jpg';
+---
+
+<Layout title={seoTitle} description={seoDesc} image={seoImage} type="article">
+  <article class="post-container">
+    <header class="post-hero">
+       <h1>{data.title}</h1>
+       {data.publishedDate && <time datetime={data.publishedDate}>{new Date(data.publishedDate).toLocaleDateString()}</time>}
+    </header>
+
+    {data.image && <img src={data.image} alt={data.title} class="featured-image" />}
+
+    <div class="post-content">
+      {/* If content is raw HTML from a CMS */}
+      <Fragment set:html={data.content} />
+      
+      {/* Or simple text display */}
+      {/* <p>{data.content}</p> */}
+    </div>
+  </article>
+</Layout>
+
+<style>
+  .post-container {
+    max-width: 800px;
+    margin: 4rem auto;
+    padding: 0 1.5rem;
+  }
+  .post-hero {
+    text-align: center;
+    margin-bottom: 2.5rem;
+  }
+  h1 {
+    font-size: 2.5rem;
+    color: var(--color-bg-primary);
+    margin-bottom: 0.5rem;
+    line-height: 1.2;
+  }
+  time {
+    color: var(--color-text-muted);
+    font-size: 0.9rem;
+    font-style: italic;
+    display: block;
+    margin-top: 0.5rem;
+  }
+  .featured-image {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    margin-bottom: 2.5rem;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  }
+  .post-content {
+    line-height: 1.8;
+    color: var(--color-text-dark);
+    font-size: 1.1rem;
+  }
+  
+  /* Basic typography for content */
+  .post-content :global(h2) {
+    font-size: 1.8rem;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    color: var(--color-bg-primary);
+  }
+  .post-content :global(p) {
+    margin-bottom: 1.5rem;
+  }
+  .post-content :global(ul) {
+    margin-bottom: 1.5rem;
+    padding-left: 1.5rem;
+  }
+  .post-content :global(li) {
+    margin-bottom: 0.5rem;
+  }
+</style>

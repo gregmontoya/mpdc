@@ -2,14 +2,20 @@
 import { getCollection } from 'astro:content';
 import BlogPost from '../../layouts/BlogPost.astro';
 
-export async function getStaticPaths() {
-  const blogEntries = await getCollection('blog');
-  return blogEntries.map(entry => ({
-    params: { slug: entry.slug }, props: { entry },
-  }));
+// SSR Mode: We don't use getStaticPaths. Instead, we fetch data based on the slug param.
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/404');
 }
 
-const { entry } = Astro.props;
+const blogEntries = await getCollection('blog');
+const entry = blogEntries.find(post => post.slug === slug);
+
+if (!entry) {
+  return Astro.redirect('/404');
+}
+
 const { Content } = await entry.render();
 ---
 

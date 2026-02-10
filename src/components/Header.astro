@@ -62,7 +62,7 @@ const { hideNav = false } = Astro.props;
     .timer-unit .seconds {
         color: #C4613A;
     }
-    .timer-unit label {
+    .timer-unit .unit-label {
         font-size: 0.5rem;
         font-weight: 700;
         opacity: 0.5;
@@ -108,10 +108,10 @@ const { hideNav = false } = Astro.props;
             <div class="banner-title">50% OFF <span class="highlight">THE SYSTEM</span></div>
         </div>
         <div class="banner-timer">
-            <div class="timer-unit"><span id="banner-days">00</span><label>DAYS</label></div>
-            <div class="timer-unit"><span id="banner-hours">00</span><label>HRS</label></div>
-            <div class="timer-unit"><span id="banner-mins">00</span><label>MIN</label></div>
-            <div class="timer-unit"><span id="banner-secs" class="seconds">00</span><label>SEC</label></div>
+            <div class="timer-unit"><span id="banner-days">00</span><span class="unit-label">DAYS</span></div>
+            <div class="timer-unit"><span id="banner-hours">00</span><span class="unit-label">HRS</span></div>
+            <div class="timer-unit"><span id="banner-mins">00</span><span class="unit-label">MIN</span></div>
+            <div class="timer-unit"><span id="banner-secs" class="seconds">00</span><span class="unit-label">SEC</span></div>
         </div>
         <div class="banner-cta">
             <a href="/join" class="banner-btn">Claim My 50% Off</a>
@@ -163,15 +163,15 @@ const { hideNav = false } = Astro.props;
             style="position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: #00ff00; color: black; padding: 2px 10px; font-size: 10px; font-weight: bold; border-radius: 0 0 5px 5px; z-index: 2000;">
             DEV SITE: AUTOMATION ACTIVE ✅</div> 
         -->
-        <a href="/" class="logo">
-            MEN'S POST<br>DIVORCE <span>COACHING</span>
+        <a href="/" class="logo" aria-label="Men's Post Divorce Coaching Home">
+            MEN'S POST<br />DIVORCE <span>COACHING</span>
         </a>
         {!hideNav && <div class="nav-menu nav-menu-left">
             <a href="/" class="nav-link">Home</a>
             <a href="/services" class="nav-link">Community</a>
             <a href="/about" class="nav-link">About Us</a>
             <div class="nav-item-dropdown">
-                <span class="nav-link" style="cursor: pointer;">Courses</span>
+                <span class="nav-link" style="cursor: pointer;" role="button" aria-haspopup="true" aria-expanded="false" tabindex="0">Courses</span>
                 <div class="mega-dropdown" style="width: 250px; left: 0; min-width: 200px;">
                     <div class="mega-dropdown-inner" style="flex-direction: column; padding: 1rem;">
                         <a href="/join" class="mega-link-title" style="margin-bottom: 0;">The System</a>
@@ -181,7 +181,7 @@ const { hideNav = false } = Astro.props;
             </div>
 
             <div class="nav-item-dropdown">
-                <a href="/learn" class="nav-link">Resources</a>
+                <a href="/learn" class="nav-link" role="button" aria-haspopup="true" aria-expanded="false">Resources</a>
                 <div class="mega-dropdown">
                     <div class="mega-dropdown-inner">
                         <div class="mega-left">
@@ -193,23 +193,23 @@ const { hideNav = false } = Astro.props;
                         </div>
                         <div class="mega-right">
                             <div class="mega-column">
-                                <a href="/learn/category/mindset-mental-health" class="mega-link-title">Mindset & Mental Health</a>
+                                <a href="/category/mindset-mental-health" class="mega-link-title" aria-label="Mindset and Mental Health Resources">Mindset &amp; Mental Health</a>
                                 <p class="mega-desc">Recover your focus and mental strength.</p>
                             </div>
                             <div class="mega-column">
-                                <a href="/learn/category/divorce-strategy" class="mega-link-title">Divorce Strategy</a>
+                                <a href="/category/divorce-strategy" class="mega-link-title" aria-label="Divorce Strategy Resources">Divorce Strategy</a>
                                 <p class="mega-desc">Navigate the legal and logistical challenges.</p>
                             </div>
                             <div class="mega-column">
-                                <a href="/learn/category/relationships-dating" class="mega-link-title">Relationships & Dating</a>
+                                <a href="/category/relationships-dating" class="mega-link-title" aria-label="Relationships and Dating Resources">Relationships &amp; Dating</a>
                                 <p class="mega-desc">Approach new connections with confidence.</p>
                             </div>
                             <div class="mega-column">
-                                <a href="/learn/category/co-parenting" class="mega-link-title">Co-Parenting</a>
+                                <a href="/category/co-parenting" class="mega-link-title" aria-label="Co-Parenting Resources">Co-Parenting</a>
                                 <p class="mega-desc">Lead your children through the transition.</p>
                             </div>
                             <div class="mega-column">
-                                <a href="/learn/category/financial-recovery" class="mega-link-title">Financial Recovery</a>
+                                <a href="/category/financial-recovery" class="mega-link-title" aria-label="Financial Recovery Resources">Financial Recovery</a>
                                 <p class="mega-desc">Rebuild abundance and financial stability.</p>
                             </div>
                         </div>
@@ -221,7 +221,7 @@ const { hideNav = false } = Astro.props;
         </div>}
         <a href="/system/login" class="nav-btn-login">Member Login</a>
         {!hideNav && <a href="/join" class="nav-btn">GET STARTED</a>}
-        <button class="mobile-toggle" id="mobile-toggle" style="margin-left: 1rem;">
+        <button class="mobile-toggle" id="mobile-toggle" style="margin-left: 1rem;" aria-label="Toggle Mobile Menu">
             <span></span>
             <span></span>
             <span></span>
@@ -236,35 +236,35 @@ const { hideNav = false } = Astro.props;
             <a href="/" class="mobile-nav-link no-arrow">Home</a>
         </div>
         <div class="mobile-nav-item">
-            <a href="#" class="mobile-nav-link has-submenu" data-submenu="about">About Us</a>
+            <a href="/about" class="mobile-nav-link has-submenu" data-submenu="about" aria-label="About Us Menu">About Us</a>
             <div class="mobile-submenu" id="submenu-about">
                 <a href="/about">Learn More</a>
-                <a href="#">Our Leadership</a>
-                <a href="#">How it Works</a>
+                <a href="/about" aria-label="Our Leadership">Our Leadership</a>
+                <a href="/about" aria-label="How it Works">How it Works</a>
                 <a href="/mission">Our Values</a>
-                <a href="#">Press</a>
-                <a href="#">Investors</a>
+                <a href="/contact" aria-label="Press">Press</a>
+                <a href="/about" aria-label="Investors">Investors</a>
                 <a href="/contact">Contact Us</a>
-                <a href="#">Inclusive Culture</a>
-                <a href="#">Careers</a>
+                <a href="/about" aria-label="Inclusive Culture">Inclusive Culture</a>
+                <a href="/contact" aria-label="Careers">Careers</a>
             </div>
         </div>
         <div class="mobile-nav-item">
-            <a href="#" class="mobile-nav-link has-submenu" data-submenu="courses">Courses</a>
+            <a href="/join" class="mobile-nav-link has-submenu" data-submenu="courses" aria-label="Courses Menu">Courses</a>
             <div class="mobile-submenu" id="submenu-courses">
                 <a href="/join">The System</a>
             </div>
         </div>
 
         <div class="mobile-nav-item">
-            <a href="#" class="mobile-nav-link has-submenu" data-submenu="resources">Resources</a>
+            <a href="/learn" class="mobile-nav-link has-submenu" data-submenu="resources" aria-label="Resources Menu">Resources</a>
             <div class="mobile-submenu" id="submenu-resources">
                 <a href="/learn">All Articles</a>
-                <a href="/learn/category/mindset-mental-health">Mindset & Mental Health</a>
-                <a href="/learn/category/divorce-strategy">Divorce Strategy</a>
-                <a href="/learn/category/relationships-dating">Relationships & Dating</a>
-                <a href="/learn/category/co-parenting">Co-Parenting</a>
-                <a href="/learn/category/financial-recovery">Financial Recovery</a>
+                <a href="/category/mindset-mental-health">Mindset &amp; Mental Health</a>
+                <a href="/category/divorce-strategy">Divorce Strategy</a>
+                <a href="/category/relationships-dating">Relationships &amp; Dating</a>
+                <a href="/category/co-parenting">Co-Parenting</a>
+                <a href="/category/financial-recovery">Financial Recovery</a>
             </div>
         </div>
         <div class="mobile-nav-item">

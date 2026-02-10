@@ -61,7 +61,7 @@ body.blog-page {
    ======================================== */
 
 .article-header.split-hero {
-    background-color: #ffffff;
+    background-color: var(--color-bg-primary);
     padding: 0;
     margin-bottom: 3rem;
     overflow: hidden;
@@ -76,6 +76,7 @@ body.blog-page {
 }
 
 .hero-content {
+    background-color: var(--color-bg-primary);
     padding: 4rem 4rem 4rem calc((100vw - 1400px) / 2 + 2rem);
     display: flex;
     flex-direction: column;
@@ -104,7 +105,7 @@ body.blog-page {
     font-family: var(--font-heading);
     font-size: 3.5rem;
     line-height: 1.1;
-    color: var(--color-text-dark);
+    color: var(--color-text-light);
     margin-bottom: 1.5rem;
     font-weight: 800;
     letter-spacing: -1px;
@@ -113,7 +114,7 @@ body.blog-page {
 .article-subtitle {
     font-size: 1.25rem;
     line-height: 1.6;
-    color: #4b5563;
+    color: var(--color-text-muted);
     margin-bottom: 2.5rem;
     max-width: 600px;
 }
@@ -128,7 +129,7 @@ body.blog-page {
 
 .breadcrumb {
     font-size: 0.875rem;
-    color: #6b7280;
+    color: var(--color-text-muted);
     margin-bottom: 1.5rem;
 }
 
@@ -149,20 +150,20 @@ body.blog-page {
 
 .author-name {
     font-weight: 700;
-    color: var(--color-text-dark);
+    color: var(--color-text-light);
     font-size: 0.95rem;
     margin-bottom: 0.25rem;
 }
 
 .publish-date {
     font-size: 0.875rem;
-    color: #6b7280;
+    color: var(--color-text-muted);
 }
 
 .share-btn {
     background-color: transparent;
-    border: 2px solid var(--color-bg-primary);
-    color: var(--color-bg-primary);
+    border: 2px solid var(--color-text-light);
+    color: var(--color-text-light);
     padding: 0.5rem 1.5rem;
     border-radius: 6px;
     font-weight: 600;
@@ -215,7 +216,7 @@ body.blog-page {
 
 .toc-sticky {
     position: sticky;
-    top: 20px;
+    top: 100px;
     background-color: var(--color-bg-light);
     padding: 1.5rem;
     border-radius: 8px;
@@ -337,7 +338,7 @@ body.blog-page {
     border: none;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
     position: sticky;
-    top: 20px;
+    top: 100px;
 }
 
 .sidebar-cta-card h4 {
@@ -467,6 +468,7 @@ body.blog-page {
     margin-top: 2.5rem;
     font-weight: 800;
     letter-spacing: -0.5px;
+    scroll-margin-top: 120px;
 }
 
 .content-block h3 {

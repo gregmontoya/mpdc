@@ -9,6 +9,7 @@
     "backup": "node scripts/backup.js"
   },
   "dependencies": {
+    "@astrojs/node": "^9.5.2",
     "@astrojs/sitemap": "^3.7.0",
     "@google-cloud/vertexai": "^1.10.0",
     "@supabase/supabase-js": "^2.95.3",

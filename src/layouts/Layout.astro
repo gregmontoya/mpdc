@@ -6,6 +6,7 @@ import '../styles/nav.css';
 import '../styles/mega-menu.css';
 import '../styles/footer.css';
 import '../styles/cookie.css';
+import SEO from '../components/SEO.astro';
 
 const { title = "Men's Post-Divorce Coaching - Rebuild Your Life", simpleHeader = false, simpleFooter = false, bodyClass = "" } = Astro.props;
 
@@ -29,10 +30,7 @@ if (bodyClass && bodyClass.includes('blog-page')) {
     
       gtag('config', 'G-T26PKTMJB1');
     </script>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>{title}</title>
-    <meta name="robots" content="noindex, nofollow">
+    <SEO title={title} description="Men's Post-Divorce Coaching - Rebuild Your Life" />
 
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">

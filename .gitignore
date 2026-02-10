@@ -15,3 +15,9 @@ assets/videos/
 .npm-cache
 _backups/
 _manual_backups/
+service-account.json
+
+.astro/
+.firebase/
+*.backup
+*.backup.*
