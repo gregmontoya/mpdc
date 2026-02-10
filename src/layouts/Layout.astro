@@ -8,6 +8,11 @@ import '../styles/footer.css';
 import '../styles/cookie.css';
 
 const { title = "Men's Post-Divorce Coaching - Rebuild Your Life", simpleHeader = false, simpleFooter = false, bodyClass = "" } = Astro.props;
+
+// Conditionally load blog styles if on a blog page
+if (bodyClass && bodyClass.includes('blog-page')) {
+    import('../styles/blog-styles.css');
+}
 ---
 
 <!DOCTYPE html>
