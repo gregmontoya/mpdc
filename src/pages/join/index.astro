@@ -627,7 +627,12 @@ import Footer from '../../components/Footer.astro';
             btn.disabled = true;
             
             try {
-                const response = await fetch('/api/create-checkout-session', {
+                // Use localhost:3000 directly for dev to bypass proxy issues
+                const apiBase = window.location.hostname === 'localhost' 
+                    ? 'http://localhost:3000' 
+                    : '/api';
+                    
+                const response = await fetch(`${apiBase}/create-checkout-session`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({

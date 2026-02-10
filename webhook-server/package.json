@@ -15,9 +15,11 @@
   "author": "Greg Montoya",
   "license": "MIT",
   "dependencies": {
-    "firebase-admin": "^12.0.0",
     "@supabase/supabase-js": "^2.94.0",
+    "cors": "^2.8.6",
+    "dotenv": "^17.2.4",
     "express": "^4.18.2",
+    "firebase-admin": "^12.0.0",
     "node-fetch": "^3.3.2",
     "resend": "^6.9.1",
     "stripe": "^20.3.0"

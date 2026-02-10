@@ -4,6 +4,7 @@ const path = require('path');
 const { Resend } = require('resend');
 const { createClient } = require('@supabase/supabase-js');
 const admin = require('firebase-admin');
+require('dotenv').config({ path: path.join(__dirname, '.env.local') }); // Load local env
 let stripe;
 if (process.env.STRIPE_SECRET_KEY) {
     stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -38,6 +39,7 @@ if (admin.apps.length > 0) {
 
 
 const app = express();
+app.use(require('cors')());
 
 // Initialize Resend
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
@@ -170,10 +172,23 @@ app.post('/create-checkout-session', async (req, res) => {
             }
         };
 
-        // 🕵️‍♂️ SECRET TEST TRIGGER
-        // If name is GREG_TEST, apply the 100% off coupon automatically
-        if (name === 'GREG_TEST' || name === 'greg_test') {
-            sessionOptions.discounts = [{ coupon: 'wyDKIgXD' }];
+        // 🕵️‍♂️ PRO DEV TEST BYPASS (Early Exit)
+        // If name is GREG_TEST, allows comprehensive local testing
+        if ((name === 'GREG_TEST' || name === 'greg_test')) {
+            if (!stripe) {
+                console.log('🧪 PRO DEV BYPASS: Stripe Missing -> Redirecting GREG_TEST to Success.');
+                return res.json({ url: 'https://menspostdivorcecoaching.com/system/success' });
+            }
+            // If stripe is present, apply coupon
+            sessionOptions = { ...sessionOptions, discounts: [{ coupon: 'wyDKIgXD' }] };
+        }
+
+        if (!stripe) {
+            throw new Error('Stripe is not configured on this server.');
+        }
+
+        if (!stripe) {
+            throw new Error('Stripe is not configured on this server.');
         }
 
         const session = await stripe.checkout.sessions.create(sessionOptions);
