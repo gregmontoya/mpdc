@@ -186,20 +186,54 @@
         async function fetchClients() {
             if (!checkAuth()) return; // Secure the page
 
+            // 1. Fetch from Supabase
             const { data: profiles, error } = await supabase
                 .from('profiles')
                 .select('*')
                 .order('created_at', { ascending: false });
 
+            // 2. Fetch from Firebase (The Real Source for Sam)
+            let fbProfiles = [];
+            try {
+                const fbSnap = await fb_db.collection('profiles')
+                    .orderBy('updatedAt', 'desc')
+                    .get();
+                
+                fbSnap.forEach(doc => {
+                    const d = doc.data();
+                    fbProfiles.push({
+                        ...d,
+                        created_at: d.updatedAt ? d.updatedAt.toDate().toISOString() : new Date().toISOString(),
+                    });
+                });
+            } catch (err) {
+                console.warn("Firebase fetch error for clients:", err);
+            }
+
+            // Merge and Unique
+            let allProfiles = fbProfiles;
+            if (profiles) {
+                profiles.forEach(p => {
+                    if (!allProfiles.find(fp => fp.email === p.email)) {
+                        allProfiles.push(p);
+                    }
+                });
+            }
+
+            // Sort by newest
+            allProfiles.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
+
+            const profilesToRender = allProfiles;
+
             const tbody = document.getElementById('clients-table-body');
             if (tbody) tbody.innerHTML = '';
 
-            if (profiles && profiles.length > 0) {
+            if (profilesToRender && profilesToRender.length > 0) {
                 // Update header count
                 const countHeader = document.getElementById('header-client-count');
-                if (countHeader) countHeader.innerText = profiles.length;
+                if (countHeader) countHeader.innerText = profilesToRender.length;
 
-                profiles.forEach(client => {
+                profilesToRender.forEach(client => {
                     const joinDate = new Date(client.created_at).toLocaleDateString();
                     const initials = (client.name || '?').charAt(0).toUpperCase();
 

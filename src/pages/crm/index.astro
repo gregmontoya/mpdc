@@ -501,16 +501,61 @@
                 .order('created_at', { ascending: false })
                 .limit(5);
 
+            // 4. FETCH FIREBASE DATA (The "Plumbing" Source of Truth)
+            let fbActivity = [];
+            try {
+                const fbProfiles = await fb_db.collection('profiles')
+                    .orderBy('updatedAt', 'desc')
+                    .limit(5)
+                    .get();
+                
+                fbProfiles.forEach(doc => {
+                    const d = doc.data();
+                    fbActivity.push({
+                        ...d,
+                        created_at: d.updatedAt ? d.updatedAt.toDate().toISOString() : new Date().toISOString(),
+                        type: 'student',
+                        source: 'Firebase'
+                    });
+                });
+
+                const fbProspects = await fb_db.collection('prospects')
+                    .orderBy('timestamp', 'desc')
+                    .limit(5)
+                    .get();
+
+                fbProspects.forEach(doc => {
+                    const d = doc.data();
+                    fbActivity.push({
+                        ...d,
+                        created_at: d.timestamp ? d.timestamp.toDate().toISOString() : new Date().toISOString(),
+                        type: 'lead',
+                        source: 'Firebase'
+                    });
+                });
+            } catch (fbErr) {
+                console.warn("Firebase fetch error for dashboard:", fbErr);
+            }
+
             // Merge and Sort
-            let activity = [];
+            let activity = fbActivity; // Start with FB as primary truth
+            
             if (recentLeads) activity = activity.concat(recentLeads.map(i => ({ ...i, type: 'lead' })));
             if (recentStudents) activity = activity.concat(recentStudents.map(i => ({ ...i, type: 'student' })));
+
+            // Remove duplicates by email if they exist in both
+            const seen = new Set();
+            activity = activity.filter(item => {
+                if (seen.has(item.email + item.type)) return false;
+                seen.add(item.email + item.type);
+                return true;
+            });
 
             // Sort by newest first
             activity.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
 
-            // Take top 7 events
-            activity = activity.slice(0, 7);
+            // Take top 10 events
+            activity = activity.slice(0, 10);
 
             const tableBody = document.getElementById('dashboard-leads-body');
             if (tableBody) {

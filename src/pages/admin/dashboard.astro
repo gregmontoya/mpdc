@@ -21,6 +21,8 @@
     <!-- Ensure FA is loaded -->
     <!-- Supabase Client -->
     <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
+    <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
 
     <style>
         :root {
@@ -248,39 +250,74 @@
             return true;
         }
 
+        // FIREBASE CONFIG
+        const firebaseConfig = {
+            apiKey: "AIzaSyBSxrgaNnTzRMqo-9C47vZfnTTDRqyyb10",
+            authDomain: "mpdc-website-32dae.firebaseapp.com",
+            projectId: "mpdc-website-32dae",
+            storageBucket: "mpdc-website-32dae.firebasestorage.app",
+            messagingSenderId: "210457065303",
+            appId: "1:210457065303:web:72882e734aa8054d283012"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const fb_db = firebase.firestore();
+
         async function fetchData() {
             if (!checkAuth()) return;
 
-            // 1. Fetch Leads
+            // 1. Fetch Leads (Supabase)
             const { data: leads, error: leadError } = await sbClient
                 .from('leads')
                 .select('*')
                 .order('created_at', { ascending: false })
                 .limit(10);
 
-            // 2. Fetch Students
+            // 2. Fetch Students (Supabase)
             const { data: profiles, error: profileError } = await sbClient
                 .from('profiles')
                 .select('*')
                 .order('created_at', { ascending: false })
                 .limit(10);
 
-            // 3. Update Counts (Ideally we use count() query but this is quick)
-            const { count: leadCount } = await sbClient.from('leads').select('*', { count: 'exact', head: true });
-            const { count: studentCount } = await sbClient.from('profiles').select('*', { count: 'exact', head: true });
+            // 3. FETCH FIREBASE DATA (The "Plumbing" Source of Truth)
+            let fbActivity = [];
+            try {
+                const fbProfiles = await fb_db.collection('profiles').orderBy('updatedAt', 'desc').limit(10).get();
+                fbProfiles.forEach(doc => {
+                    const d = doc.data();
+                    fbActivity.push({ ...d, created_at: d.updatedAt ? d.updatedAt.toDate().toISOString() : new Date().toISOString(), type: 'student' });
+                });
+                const fbProspects = await fb_db.collection('prospects').orderBy('timestamp', 'desc').limit(10).get();
+                fbProspects.forEach(doc => {
+                    const d = doc.data();
+                    fbActivity.push({ ...d, created_at: d.timestamp ? d.timestamp.toDate().toISOString() : new Date().toISOString(), type: 'lead' });
+                });
+            } catch (fbErr) { console.warn("FB Error:", fbErr); }
 
-            // RENDER UI
+            // Merge and Unique
+            let allLeads = fbActivity.filter(i => i.type === 'lead');
+            if (leads) leads.forEach(l => { if (!allLeads.find(al => al.email === l.email)) allLeads.push(l); });
+            
+            let allStudents = fbActivity.filter(i => i.type === 'student');
+            if (profiles) profiles.forEach(p => { if (!allStudents.find(as => as.email === p.email)) allStudents.push(p); });
 
-            // KPI
-            document.getElementById('count-leads').innerText = leadCount || 0;
-            document.getElementById('count-students').innerText = studentCount || 0;
-            document.getElementById('revenue-est').innerText = '$' + ((studentCount || 0) * 97).toLocaleString();
+            // Sort
+            allLeads.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+            allStudents.sort((a,b) => new Date(b.created_at) - new Date(a.created_at));
+
+            // Update Counts
+            document.getElementById('count-leads').innerText = allLeads.length;
+            document.getElementById('count-students').innerText = allStudents.length;
+            document.getElementById('revenue-est').innerText = '$' + (allStudents.length * 97).toLocaleString();
+
+            const finalLeads = allLeads.slice(0, 10);
+            const finalStudents = allStudents.slice(0, 10);
 
             // Leads Table
             const leadsBody = document.getElementById('leads-body');
             leadsBody.innerHTML = '';
-            if (leads) {
-                leads.forEach(lead => {
+            if (finalLeads) {
+                finalLeads.forEach(lead => {
                     const date = new Date(lead.created_at).toLocaleDateString();
                     const row = `
                         <tr>
@@ -297,8 +334,8 @@
             // Students Table
             const studentsBody = document.getElementById('students-body');
             studentsBody.innerHTML = '';
-            if (profiles) {
-                profiles.forEach(student => {
+            if (finalStudents) {
+                finalStudents.forEach(student => {
                     const date = new Date(student.created_at).toLocaleDateString();
                     const row = `
                         <tr>
