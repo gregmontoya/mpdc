@@ -111,10 +111,13 @@ app.post('/capture-lead', async (req, res) => {
 // 💳 CREATE STRIPE CHECKOUT SESSION (FORCED USD)
 // --------------------------------------------------------------------------
 app.post('/create-checkout-session', async (req, res) => {
-    const { email, name, plan = 'core' } = req.body;
+    const { email, name, plan = 'core', attribution = {} } = req.body;
 
     try {
         console.log(`💳 Creating Session for: ${email} (${plan})`);
+        if (Object.keys(attribution).length > 0) {
+            console.log('🕵️‍♂️ Attribution Data:', attribution);
+        }
 
         // Define price based on plan (Now forced to $27)
         const amount = 2700;
@@ -130,6 +133,7 @@ app.post('/create-checkout-session', async (req, res) => {
                     name,
                     source: 'checkout_start',
                     plan: plan,
+                    attribution: attribution, // Save to Firestore
                     status: 'prospect',
                     timestamp: admin.firestore.FieldValue.serverTimestamp()
                 });
@@ -168,7 +172,11 @@ app.post('/create-checkout-session', async (req, res) => {
             cancel_url: 'https://menspostdivorcecoaching.com/join',
             metadata: {
                 customer_name: name,
-                plan: plan
+                plan: plan,
+                utm_source: attribution.utm_source || 'direct',
+                utm_medium: attribution.utm_medium,
+                utm_campaign: attribution.utm_campaign,
+                referrer: attribution.referrer
             }
         };
 
@@ -594,7 +602,7 @@ app.post('/webhook', async (req, res) => {
 
             // 5. Send Slack Notification
             try {
-                await sendSlackNotification(name, email, amountTotal, accessLevel);
+                await sendSlackNotification(name, email, amountTotal, accessLevel, session.metadata);
             } catch (err) {
                 console.error('⚠️ Slack Notification Failed (Non-fatal):', err.message);
             }
@@ -616,13 +624,16 @@ app.post('/webhook', async (req, res) => {
 // --------------------------------------------------------------------------
 // 💬 SLACK NOTIFICATION
 // --------------------------------------------------------------------------
-async function sendSlackNotification(name, email, amount, plan) {
+async function sendSlackNotification(name, email, amount, plan, meta = {}) {
     const webhookUrl = process.env.SLACK_WEBHOOK_URL;
 
     if (!webhookUrl) {
         console.log('⚠️ No SLACK_WEBHOOK_URL provided, skipping notification.');
         return;
     }
+
+    const source = meta.utm_source || 'Direct / Unknown';
+    const medium = meta.utm_medium ? `(${meta.utm_medium})` : '';
 
     const message = {
         blocks: [
@@ -648,8 +659,19 @@ async function sendSlackNotification(name, email, amount, plan) {
                     {
                         type: "mrkdwn",
                         text: `*Plan:*\n${plan.toUpperCase()}`
+                    },
+                    {
+                        type: "mrkdwn",
+                        text: `*Source:*\n${source} ${medium}`
                     }
                 ]
+            },
+            {
+                "type": "section",
+                "text": {
+                    "type": "mrkdwn",
+                    "text": `*Attribution Details:*\nRef: ${meta.referrer || 'N/A'}\nCamp: ${meta.utm_campaign || 'N/A'}`
+                }
             },
             {
                 type: "divider"

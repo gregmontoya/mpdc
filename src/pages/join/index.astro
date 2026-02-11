@@ -682,19 +682,25 @@ import vslCourseImg from '../../assets/images/vsl-course-image.png';
             btn.disabled = true;
             
             try {
+                // Get Real Attribution Data (Hyros-Lite)
+                let trackingData = {};
+                if (window.getAttributionData) {
+                     trackingData = window.getAttributionData();
+                }
+
                 // Use localhost:3000 directly for dev to bypass proxy issues
                 const apiBase = window.location.hostname === 'localhost' 
                     ? 'http://localhost:3000' 
-                    : '/api';
+                    : 'https://mpdc-webhook-server.vercel.app'; // Use production URL directly if needed, or /api if proxied
                     
                 const response = await fetch(`${apiBase}/create-checkout-session`, {
                     method: 'POST',
                     headers: { 'Content-Type': 'application/json' },
                     body: JSON.stringify({
-                        name,
-                        email,
+                        name: name,
+                        email: email,
                         plan: 'core',
-                        attribution: { source: 'local_restoration' }
+                        attribution: trackingData // Send the real captured UTMs
                     })
                 });
                 

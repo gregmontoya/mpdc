@@ -1,5 +1,12 @@
 # Site Updates & Changelog
 
+## v2.0.5 (2026-02-11)
+- **Feature:** Added "Hyros-Lite" Attribution System (`global-attribution.js`).
+- **Feature:** Capture UTMs, Referrers, and Landing Pages to `localStorage`.
+- **Feature:** Checkout Logic now sends attribution data to Stripe Metadata.
+- **Feature:** Slack Notifications now display "Source" and "Campaign" for every sale.
+- **Update:** Webhook Server now logs prospect source to Firestore.
+
 ## [v2.0.4] - 2026-02-11 - Robust Notifications & Slack Integration
 ### 🔔 Notification System Upgrade
 - **Slack Integration**: Added real-time sales alerts to the team Slack channel (`#sales`).
