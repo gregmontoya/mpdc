@@ -4,8 +4,8 @@ import path from 'path';
 const REQUIRED_FILES = [
   'dist/index.html',
   'dist/system/login.html',
-  'dist/join/index.html',
-  'dist/learn/index.html'
+  'dist/join.html',
+  'dist/learn.html'
 ];
 
 console.log('🔍 Running Pre-Deploy Integrity Check...');
