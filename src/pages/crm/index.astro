@@ -540,6 +540,12 @@
             // Merge and Sort
             let activity = fbActivity; // Start with FB as primary truth
             
+            // Filter out CONVERTED leads from the "Lead" view
+            activity = activity.filter(item => {
+                if (item.type === 'lead' && item.status === 'converted') return false;
+                return true;
+            });
+
             if (recentLeads) activity = activity.concat(recentLeads.map(i => ({ ...i, type: 'lead' })));
             if (recentStudents) activity = activity.concat(recentStudents.map(i => ({ ...i, type: 'student' })));
 

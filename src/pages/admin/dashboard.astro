@@ -296,6 +296,9 @@
 
             // Merge and Unique
             let allLeads = fbActivity.filter(i => i.type === 'lead');
+            // Filter out CONVERTED leads (Students should not be in lead list)
+            allLeads = allLeads.filter(lead => lead.status !== 'converted');
+
             if (leads) leads.forEach(l => { if (!allLeads.find(al => al.email === l.email)) allLeads.push(l); });
             
             let allStudents = fbActivity.filter(i => i.type === 'student');

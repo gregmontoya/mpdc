@@ -3,12 +3,16 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     
-    // User Profiles - Users can only read/write their own profile
+    // User Profiles - Dashboard needs read access to show students
     match /profiles/{userId} {
-      allow read: if request.auth != null && request.auth.uid == userId;
+      allow read: if true; // Public read for dashboard visibility (or restrict to admin)
       allow write: if request.auth != null && request.auth.uid == userId;
-      // Allow server-side writes from Cloud Functions
-      allow write: if request.auth == null;
+    }
+
+    // Prospects (Leads) - Dashboard needs read access
+    match /prospects/{prospectId} {
+      allow read: if true;
+      allow write: if true; // Webhooks write here
     }
     
     // Support Tickets - Users can create and read their own tickets
