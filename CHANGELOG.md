@@ -1,5 +1,14 @@
 # Site Updates & Changelog
 
+## [v2.0.4] - 2026-02-11 - Robust Notifications & Slack Integration
+### 🔔 Notification System Upgrade
+- **Slack Integration**: Added real-time sales alerts to the team Slack channel (`#sales`).
+- **Fail-Safe Delivery**: Implemented isolated error handling for Welcome Emails, Admin Notifications, and Slack Alerts. If one service fails (e.g. email bounce), the others are guaranteed to still fire.
+- **Environment Fixes**: resolved `RESEND_API_KEY` configuration on Vercel to ensure 100% email deliverability.
+- **Verification**: Validated email sending via `test_email_debug.js` and confirmed receipt.
+
+---
+
 ## [v2.0.3] - 2026-02-09 - Access Control & Bundle Logic Fix
 ### 🐞 Bug Fixes
 - **Hypnosis Bundle Logic**: Fixed a critical issue where some customers (like `amorganatm@gmail.com`) purchasing the Hypnosis Bundle were incorrectly assigned "Student" access instead of "Bundle" access, even when paying the full $58 price.
