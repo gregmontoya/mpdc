@@ -326,11 +326,33 @@
                     const source = lead.source === 'checkout_start' ? '🛒 Checkout' : (lead.source || 'Form');
                     const status = lead.status || 'prospect';
                     
+                    // Intelligent Contact Display
+                    let displayEmail = lead.email;
+                    let displayName = lead.name || 'Unknown';
+                    let contactMethod = '<i class="fa-solid fa-envelope"></i> Email';
+
+                    // Detect IG Handle in Email Field
+                    if (displayEmail && (!displayEmail.includes('@') || displayEmail.startsWith('@'))) {
+                         contactMethod = '<i class="fa-brands fa-instagram" style="color:#C13584;"></i> DM';
+                         // Swap if name looks like email (common autofill error)
+                         if (displayName.includes('@') && displayName.includes('.')) {
+                             const temp = displayEmail;
+                             displayEmail = displayName;
+                             displayName = temp; // IG Handle is now the Name
+                             contactMethod = '<i class="fa-solid fa-envelope"></i> Email'; // Fixed by swap
+                         }
+                    }
+
                     const row = `
                         <tr>
                             <td>${date}</td>
-                            <td style="font-weight:bold;">${lead.name || 'Unknown'}</td>
-                            <td>${lead.email}</td>
+                            <td style="font-weight:bold;">${displayName}</td>
+                            <td>
+                                <div style="display:flex; align-items:center; gap:8px;">
+                                    ${displayEmail} 
+                                    <span style="font-size:10px; opacity:0.7;">${contactMethod}</span>
+                                </div>
+                            </td>
                             <td><span style="font-size:11px; color:#888;">${source}</span></td>
                             <td><span class="status-badge badge-captured" style="text-transform:capitalize;">${status}</span></td>
                         </tr>
