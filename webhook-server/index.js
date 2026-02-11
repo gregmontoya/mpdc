@@ -361,7 +361,7 @@ app.post('/capture-lead', async (req, res) => {
                 const { data, error } = await resend.emails.send({
                     from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
                     to: [email],
-                    subject: 'Release the weight (Your Recovery Bundle is inside)',
+                    subject: '🛑 Stop replaying the Past (Your Recovery Bundle is here 🎁)',
                     html: WelcomeEmail1(name || '', email, insight)
                 });
 
