@@ -44,6 +44,8 @@ if (admin.apps.length > 0) {
 }
 
 
+const { processAutomations } = require('./automation-processor');
+const crypto = require('crypto');
 const app = express();
 app.use(require('cors')({
     origin: [/localhost:4321$/, /menspostdivorcecoaching\.com$/],
@@ -1090,6 +1092,28 @@ const runBackgroundAutomation = async () => {
 };
 
 const fourDays = 4 * 24 * 60 * 60 * 1000;
+
+// --------------------------------------------------------------------------
+// 🤖 AUTOMATION CRON (PROCESSOR)
+// --------------------------------------------------------------------------
+app.all('/api/cron/process-automation', async (req, res) => {
+    const authHeader = req.headers['authorization'];
+    const secret = process.env.CRON_SECRET;
+
+    // Security: Only allow if CRON_SECRET matches or if in development
+    if (process.env.NODE_ENV === 'production' && (!secret || authHeader !== `Bearer ${secret}`)) {
+        console.warn('⚠️ Unauthorized Automation Trigger Attempt');
+        return res.status(401).json({ error: 'Unauthorized' });
+    }
+
+    try {
+        const results = await processAutomations();
+        res.json({ success: true, results });
+    } catch (error) {
+        console.error('❌ Automation Process Failed:', error.message);
+        res.status(500).json({ error: 'Failed', details: error.message });
+    }
+});
 
 const PORT = process.env.PORT || 3000;
 
