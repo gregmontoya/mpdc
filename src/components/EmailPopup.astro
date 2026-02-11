@@ -6,10 +6,10 @@
     <button id="popup-close" class="popup-close">&times;</button>
     <div class="popup-content">
       <div class="popup-left">
-        <div class="popup-header">DON'T LEAVE IN THE FOG</div>
-        <h2 class="popup-title">Reclaim Your Focus. <span class="highlight">Now.</span></h2>
-        <p class="popup-text">
-          Grab the <strong>7-Minute Fog-Clearance Protocol</strong>. Stop reacting to the stress and start leading your life again. (Free Action Guide Download)
+        <div class="popup-header" id="popup-header-text">WAIT!</div>
+        <h2 class="popup-title" id="popup-title-text">Rebuild your life with confidence & success.</h2>
+        <p class="popup-text" id="popup-body-text">
+          Join our exclusive community and get weekly strategies to master your mindset, finances, and relationships after divorce.
         </p>
         
         <form id="popup-form" class="popup-form">
@@ -21,29 +21,30 @@
             <input type="email" id="popup-email" placeholder="Email Address" required />
             <i class="fa-solid fa-envelope input-icon"></i>
           </div>
-          <button type="submit" class="popup-submit-btn">SEND ME THE PROTOCOL →</button>
+          <button type="submit" class="popup-submit-btn" id="popup-submit-text">JOIN THE BROTHERHOOD</button>
         </form>
         
         <p class="popup-disclaimer">
-          By joining, you'll receive the protocol plus exclusive MPDC mental programming insights. Unsubscribe any time.
+          By entering your info, you'll become an MPDC Insider - with FREE access to exclusive insights. 
+          Unsub anytime in a click.
         </p>
       </div>
-      <div class="popup-right">
-        <!-- Background image set in CSS -->
+      <div class="popup-right" id="popup-image-container">
+        <!-- Image background set in CSS -->
       </div>
     </div>
   </div>
 </div>
 
 <style>
-  /* Overlay */
+  /* 🎨 RESTORED MARIE'S ORIGINAL DESIGN SYSTEM */
   .popup-overlay {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(11, 59, 54, 0.95); /* Deep Steel Green tinted overlay */
+    background: rgba(0, 0, 0, 0.85);
     z-index: 10000;
     display: flex;
     justify-content: center;
@@ -51,7 +52,7 @@
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.4s ease;
-    backdrop-filter: blur(8px);
+    backdrop-filter: blur(5px);
   }
 
   .popup-overlay.visible {
@@ -63,53 +64,48 @@
     display: none;
   }
 
-  /* Container */
   .popup-container {
-    background: #ffffff;
+    background: #1a1a1a;
     width: 900px;
     max-width: 95vw;
     height: 600px;
     max-height: 90vh;
     display: flex;
     position: relative;
-    box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.5);
-    border-radius: 12px;
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+    border: 1px solid #333;
+    animation: slideUp 0.5s ease-out;
     overflow: hidden;
-    animation: popupAppear 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   }
 
-  @keyframes popupAppear {
-    from { transform: scale(0.9) translateY(40px); opacity: 0; }
-    to { transform: scale(1) translateY(0); opacity: 1; }
+  @keyframes slideUp {
+    from { transform: translateY(50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
   }
 
-  /* Close Button */
   .popup-close {
     position: absolute;
-    top: 20px;
-    right: 20px;
-    background: #f4f4f4;
+    top: 15px;
+    right: 15px;
+    background: white;
     border: none;
-    color: #0b3b36;
-    font-size: 28px;
-    width: 44px;
-    height: 44px;
+    color: #1a1a1a;
+    font-size: 24px;
+    width: 36px;
+    height: 36px;
     border-radius: 50%;
     cursor: pointer;
     z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
-    transition: all 0.3s;
-    line-height: 1;
+    transition: transform 0.2s;
   }
 
   .popup-close:hover {
-    background: #eee;
-    transform: rotate(90deg);
+    transform: scale(1.1);
   }
 
-  /* Layout */
   .popup-content {
     display: flex;
     width: 100%;
@@ -117,18 +113,18 @@
   }
 
   .popup-left {
-    flex: 1.2;
-    padding: 60px;
+    flex: 1;
+    padding: 60px 50px;
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background: #ffffff;
-    color: #1a1a1a;
+    color: white;
+    text-align: left;
   }
 
   .popup-right {
     flex: 1;
-    background-image: url('/images/popup-man.png');
+    background-image: url('/images/popup-man.png'); /* 🖼️ Placeholder Image */
     background-size: cover;
     background-position: center;
     position: relative;
@@ -139,47 +135,41 @@
     position: absolute;
     top: 0;
     left: 0;
-    width: 100%;
+    width: 50%;
     height: 100%;
-    background: linear-gradient(to right, #ffffff, transparent 40%);
+    background: linear-gradient(to right, #1a1a1a, transparent);
   }
 
-  /* Typography */
   .popup-header {
-    font-weight: 800;
-    letter-spacing: 3px;
-    font-size: 13px;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    letter-spacing: 2px;
+    font-size: 14px;
     margin-bottom: 20px;
-    color: var(--color-accent, #C4613A);
+    color: #fff;
     text-transform: uppercase;
   }
 
   .popup-title {
     font-family: 'Montserrat', sans-serif;
-    font-size: 48px;
+    font-size: 42px;
     line-height: 1.1;
     margin-bottom: 25px;
-    color: #0b3b36;
-    font-weight: 900;
-    text-transform: uppercase;
-  }
-
-  .highlight {
-    color: var(--color-accent, #C4613A);
+    color: #fff;
+    font-weight: 700;
   }
 
   .popup-text {
-    font-size: 18px;
+    font-size: 16px;
     line-height: 1.6;
-    margin-bottom: 35px;
-    color: #444;
+    margin-bottom: 40px;
+    color: #ccc;
   }
 
-  /* Form */
   .popup-form {
     display: flex;
     flex-direction: column;
-    gap: 12px;
+    gap: 15px;
     width: 100%;
   }
 
@@ -189,101 +179,69 @@
 
   .popup-form input {
     width: 100%;
-    padding: 16px 20px 16px 50px;
-    border: 2px solid #e2e8f0;
-    background: #f8fafc;
-    color: #0b3b36;
+    padding: 16px 20px 16px 45px;
+    border: 2px solid #fff;
+    background: #fff;
+    color: #333;
     font-size: 16px;
-    border-radius: 8px;
     outline: none;
     transition: all 0.3s;
-    font-family: inherit;
   }
   
   .popup-form input:focus {
-    border-color: #C4613A;
-    background: #fff;
+    border-color: #8A2BE2;
   }
 
   .input-icon {
     position: absolute;
-    left: 20px;
+    left: 18px;
     top: 50%;
     transform: translateY(-50%);
-    color: #94a3b8;
+    color: #888;
     pointer-events: none;
   }
 
   .popup-submit-btn {
-    background: #C4613A;
+    background: linear-gradient(90deg, #8A2BE2, #4B0082); /* 💜 Marie's Purple Gradient */
     color: white;
     border: none;
-    padding: 20px;
-    border-radius: 8px;
-    font-weight: 800;
+    padding: 18px;
+    font-weight: 700;
     font-size: 16px;
-    letter-spacing: 2px;
+    letter-spacing: 1px;
     cursor: pointer;
     text-transform: uppercase;
-    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transition: transform 0.2s, box-shadow 0.2s;
     margin-top: 10px;
-    box-shadow: 0 10px 20px rgba(196, 97, 58, 0.3);
   }
 
   .popup-submit-btn:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 15px 30px rgba(196, 97, 58, 0.4);
-    background: #d46f48;
+    transform: translateY(-2px);
+    box-shadow: 0 10px 20px rgba(138, 43, 226, 0.4);
   }
 
   .popup-disclaimer {
     margin-top: 25px;
     font-size: 11px;
-    color: #94a3b8;
-    line-height: 1.6;
-    text-align: center;
+    color: #666;
+    line-height: 1.4;
   }
 
-  /* Responsive */
   @media (max-width: 768px) {
     .popup-container {
       flex-direction: column;
       height: auto;
       max-height: 95vh;
-      width: 92%;
+      width: 95%;
     }
-
-    .popup-right {
-      height: 180px;
-      flex: none;
-      background-position: center 20%;
-    }
-    
-    .popup-right::after {
-        background: linear-gradient(to top, #ffffff, transparent 60%);
-        width: 100%;
-        height: 100%;
-    }
-
-    .popup-left {
-      padding: 35px 25px;
-      flex: none;
-    }
-
-    .popup-title {
-      font-size: 32px;
-    }
-    
-    .popup-text {
-        font-size: 16px;
-        margin-bottom: 25px;
-    }
+    .popup-right { display: none; }
+    .popup-left { padding: 40px 30px; }
+    .popup-title { font-size: 32px; }
   }
 </style>
 
 <script>
-  import { getAttributionData } from '../lib/attribution.js';
-
+  // 🚀 KEEPING THE BULLETPROOF LOGIC FROM v2.1.11
   const overlay = document.getElementById('email-popup-overlay');
   const closeBtn = document.getElementById('popup-close');
   const form = document.getElementById('popup-form') as HTMLFormElement;
@@ -293,13 +251,18 @@
 
   const STORAGE_KEY = 'mpdc_lead_captured';
 
+  // 🚀 PREVIEW MODE: Force show after 3 seconds
+  const DEBUG_MODE = true; // Set to true to bypass cookie check for Greg's preview
+
   function showPopup() {
-    if (localStorage.getItem(STORAGE_KEY)) return;
-    
+    if (!DEBUG_MODE && localStorage.getItem(STORAGE_KEY)) return;
     overlay?.classList.remove('hidden');
     void overlay?.offsetWidth;
     overlay?.classList.add('visible');
   }
+
+  // Auto-show for preview
+  setTimeout(() => { showPopup(); }, 3000); 
 
   function closePopup(permanent = true) {
     overlay?.classList.remove('visible');
@@ -309,34 +272,28 @@
     }, 400);
   }
 
-  // 🚀 EXIT INTENT TRIGGER
+  // EXIT INTENT TRIGGER
   let exitIntentTriggered = false;
   document.addEventListener('mouseleave', (e) => {
-    // Only trigger if mouse leaves through the top of the viewport
     if (e.clientY <= 0 && !exitIntentTriggered) {
       exitIntentTriggered = true;
       showPopup();
     }
   });
 
-  // Backup: Show after 45 seconds anyway if they are engaged
-  setTimeout(() => {
-    if (!exitIntentTriggered) showPopup();
-  }, 45000);
+  // Backup Delay
+  setTimeout(() => { if (!exitIntentTriggered) showPopup(); }, 60000);
 
   closeBtn?.addEventListener('click', () => closePopup(true));
-  overlay?.addEventListener('click', (e) => {
-    if (e.target === overlay) closePopup(true);
-  });
+  overlay?.addEventListener('click', (e) => { if (e.target === overlay) closePopup(true); });
 
   form?.addEventListener('submit', async (e) => {
     e.preventDefault();
-    
     const name = nameInput.value;
     const email = emailInput.value;
     if (!name || !email) return;
 
-    submitBtn.innerText = "SENDING PROTOCOL...";
+    submitBtn.innerText = "CAPTURING...";
     submitBtn.disabled = true;
 
     try {
@@ -346,29 +303,16 @@
       const response = await fetch('https://mpdc-webhook-server.vercel.app/capture-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          name,
-          email,
-          guestId,
-          attribution,
-          source: 'exit_intent_popup'
-        })
+        body: JSON.stringify({ name, email, guestId, attribution, source: 'maries_popup_restored' })
       });
 
       if (response.ok) {
-        submitBtn.innerText = "CHECK YOUR EMAIL!";
-        submitBtn.style.background = "#0b3b36";
-        
-        setTimeout(() => {
-          closePopup(true);
-        }, 2500);
-      } else {
-        throw new Error('Failed to capture lead');
-      }
+        submitBtn.innerText = "SUCCESS!";
+        submitBtn.style.background = "#2ecc71";
+        setTimeout(() => closePopup(true), 2000);
+      } else { throw new Error('Failed'); }
     } catch (error) {
-      console.error("Popup Error:", error);
-      submitBtn.innerText = "ERROR, TRY AGAIN";
-      submitBtn.style.background = "#e74c3c";
+      submitBtn.innerText = "ERROR - TRY AGAIN";
       submitBtn.disabled = false;
     }
   });
