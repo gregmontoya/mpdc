@@ -51,7 +51,22 @@ const {
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-T26PKTMJB1');
+
+  // 🛡️ Stealth Mode: Exclude Portugal (Internal Traffic) & Dev
+  const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1');
+  
+  // Note: Region check is handled via common JS geoblocking or simply not initializing config
+  // For a "Hard Block" on PT without an external API, we check the user's timezone/local
+  const isPortugal = Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') || 
+                     Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') ||
+                     Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores');
+
+  if (isDev || isPortugal) {
+    console.log('🕵️ Stealth Mode Active: GA4 Tracking Paused');
+    gtag('config', 'G-T26PKTMJB1', { 'developer_mode': true });
+  } else {
+    gtag('config', 'G-T26PKTMJB1');
+  }
 </script>
 
 <!-- 🔵 Facebook Pixel (Retargeting) -->
