@@ -1,26 +1,31 @@
 const BaseLayout = require('./BaseLayout');
 
-const AbandonedCart1 = (name) => {
+const AbandonedCart1 = (name, email = '') => {
     const firstName = name ? name.split(' ')[0] : 'there';
+    const emailParam = email ? `&email=${encodeURIComponent(email)}` : '';
 
     const content = `
-        <p>Hi ${firstName},</p>
+        <p>Hey ${firstName},</p>
         
-        <p>I noticed you were checking out the <strong>Men's Divorce Mindset System</strong> a few minutes ago, but you didn't finish the process.</p>
+        <p>I saw you were on the verge of claiming the <strong>Men's Divorce Mindset System</strong>, but then you disappeared.</p>
         
-        <p>Listen, I get it. Life moves fast, or maybe you had a second thought. But I want to remind you why you clicked that button in the first place.</p>
+        <p>Was it a distraction? Or did the "replay loop" win again?</p>
         
-        <p>You’re tired of the replay loop. You’re ready to reclaim your edge. And you know that staying where you are isn’t an option.</p>
+        <p>The easiest thing to do right now is nothing. To stay in the frame she built for you. To keep replaying the same tired scripts until you're exhausted.</p>
         
-        <p>If you had a technical issue or just got distracted, I’ve saved your spot. You can pick up exactly where you left off right here:</p>
+        <p>But you aren't here for "easy." You're here because you know that version of you has to die so the man she couldn't handle can take over.</p>
+        
+        <p>I’ve saved your spot. The system is ready. The framework for your identity rebuild is waiting for you.</p>
         
         <center>
-            <a href="https://menspostdivorcecoaching.com/join" class="btn">Complete Your Comeback</a>
+            <a href="https://menspostdivorcecoaching.com/join?utm_source=email&utm_medium=abandoned_cart&utm_campaign=recovery_bundle${emailParam}" class="btn">Complete Your Comeback Now</a>
         </center>
         
-        <p style="margin-top: 30px; font-style: italic; color: #718096;">
-            Note: If you have a specific question about the modules or the guarantee, just reply to this email. I read every message.
+        <p style="margin-top: 30px;">
+            Don't let a 20-minute distraction cost you the next 20 years.
         </p>
+
+        <p>— Alex Morgan</p>
     `;
 
     return BaseLayout(content);

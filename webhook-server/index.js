@@ -1035,8 +1035,8 @@ const runBackgroundAutomation = async () => {
             await resend.emails.send({
                 from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
                 to: [prospect.email],
-                subject: 'Did life get in the way?',
-                html: AbandonedCart1(prospect.name || '')
+                subject: 'Don\'t let the loop win (Complete your comeback)',
+                html: AbandonedCart1(prospect.name || '', prospect.email)
             });
             await syncContact(prospect.email, { automation: { abandoned_sent: true, abandoned_sent_at: new Date().toISOString() } });
         }
@@ -1058,7 +1058,7 @@ const runBackgroundAutomation = async () => {
                 from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
                 to: [lead.email],
                 subject: 'Reclaiming your Frame (MPDC Method)',
-                html: NurtureDay3(lead.name || '')
+                html: NurtureDay3(lead.name || '', lead.email)
             });
             await syncContact(lead.email, { automation: { nurture_d3_sent: true, nurture_d3_date: new Date().toISOString() } });
         }

@@ -14,7 +14,7 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SER
  */
 const processAutomations = async () => {
     console.log('🤖 Starting Automation Processing...');
-    
+
     if (!resend) {
         console.error('❌ Resend API Key missing. Automation aborted.');
         return { success: false, error: 'Resend missing' };
@@ -48,12 +48,12 @@ const processAutomations = async () => {
 
         for (const lead of (abandonedLeads || [])) {
             console.log(`📧 Sending Abandoned Cart to: ${lead.email}`);
-            
+
             const { error: sendError } = await resend.emails.send({
                 from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
                 to: [lead.email],
-                subject: 'Wait... did you miss this?',
-                html: AbandonedCart1(lead.name)
+                subject: 'Don\'t let the loop win (Complete your comeback)',
+                html: AbandonedCart1(lead.name, lead.email)
             });
 
             if (sendError) {
@@ -64,8 +64,8 @@ const processAutomations = async () => {
                 // Update automation state
                 await supabase
                     .from('contacts')
-                    .update({ 
-                        automation_state: { ...lead.automation_state, cart_1_sent: true, cart_1_at: new Date().toISOString() } 
+                    .update({
+                        automation_state: { ...lead.automation_state, cart_1_sent: true, cart_1_at: new Date().toISOString() }
                     })
                     .eq('email', lead.email);
             }
@@ -96,12 +96,12 @@ const processAutomations = async () => {
 
         for (const lead of (nurtureLeads || [])) {
             console.log(`📧 Sending Day 3 Nurture to: ${lead.email}`);
-            
+
             const { error: sendError } = await resend.emails.send({
                 from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
                 to: [lead.email],
                 subject: 'The Choice (Day 3)',
-                html: NurtureDay3(lead.name)
+                html: NurtureDay3(lead.name, lead.email)
             });
 
             if (sendError) {
@@ -112,8 +112,8 @@ const processAutomations = async () => {
                 // Update automation state
                 await supabase
                     .from('contacts')
-                    .update({ 
-                        automation_state: { ...lead.automation_state, nurture_3_sent: true, nurture_3_at: new Date().toISOString() } 
+                    .update({
+                        automation_state: { ...lead.automation_state, nurture_3_sent: true, nurture_3_at: new Date().toISOString() }
                     })
                     .eq('email', lead.email);
             }
