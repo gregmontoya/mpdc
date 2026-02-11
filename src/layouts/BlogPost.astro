@@ -2,12 +2,13 @@
 import { getCollection } from 'astro:content';
 import Layout from '../layouts/Layout.astro';
 import { Image } from 'astro:assets';
+import AeoSummary from '../components/AeoSummary.astro';
 // Correct image path might be needed, assuming assets alias or relative path
 import alexMorganImg from '../assets/images/alex-morgan.png'; 
 import '../styles/blog-styles.css';
 
 const { frontmatter } = Astro.props;
-const { title, description, publishDate, author = "Alex Morgan", category, categoryUrl, readTime, toc = [] } = frontmatter;
+const { title, description, publishDate, author = "Alex Morgan", category, categoryUrl, readTime, toc = [], aeoSummary } = frontmatter;
 
 // Fetch related articles
 const allPosts = await getCollection('blog');
@@ -76,6 +77,7 @@ const relatedPosts = allPosts
 
             <!-- Center Column: Article Content -->
             <div class="article-content">
+                {aeoSummary && <AeoSummary text={aeoSummary} />}
                 <slot />
 
                 <div class="final-thoughts-spacer" style="margin-top: 4rem;"></div>

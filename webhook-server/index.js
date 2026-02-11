@@ -39,7 +39,10 @@ if (admin.apps.length > 0) {
 
 
 const app = express();
-app.use(require('cors')());
+app.use(require('cors')({
+    origin: [/localhost:4321$/, /menspostdivorcecoaching\.com$/],
+    credentials: true
+}));
 
 // --------------------------------------------------------------------------
 // 🔵 FACEBOOK CONVERSION API (CAPI) HELPERS
@@ -111,18 +114,54 @@ if (!supabase) console.error('❌ SUPABASE_URL or SUPABASE_KEY is missing');
 
 
 // Middleware to get raw body for Stripe signature verification
-// AND Enable CORS for frontend lead capture
 app.use(express.json({
     verify: (req, res, buf) => {
         req.rawBody = buf.toString();
     }
 }));
 
-app.use((req, res, next) => {
-    res.header('Access-Control-Allow-Origin', '*');
-    res.header('Access-Control-Allow-Headers', 'Content-Type');
-    if (req.method === 'OPTIONS') return res.sendStatus(200);
-    next();
+// --------------------------------------------------------------------------
+// 🕵️‍♂️ ANONYMOUS ACTIVITY TRACKER (IDENTITY BRIDGE)
+// --------------------------------------------------------------------------
+app.post('/track-activity', async (req, res) => {
+    const { guestId, url, path, referrer, attribution, userAgent } = req.body;
+
+    try {
+        console.log(`🕵️‍♂️ Activity from ${guestId}: ${path}`);
+
+        // 1. Save to Firestore (Primary Activity Log)
+        if (firestore) {
+            await firestore.collection('visitor_activity').add({
+                guestId,
+                url,
+                path,
+                referrer,
+                attribution,
+                userAgent,
+                timestamp: admin.firestore.FieldValue.serverTimestamp()
+            });
+        }
+
+        // 2. Save to Supabase (CRM / Analytics)
+        if (supabase) {
+            const { error } = await supabase
+                .from('visitor_activity')
+                .insert([{
+                    guest_id: guestId,
+                    url,
+                    path,
+                    referrer,
+                    attribution,
+                    user_agent: userAgent
+                }]);
+            if (error) console.error('Supabase Activity Error:', error.message);
+        }
+
+        res.status(200).json({ status: 'tracked' });
+    } catch (error) {
+        console.error('❌ Track Activity Error:', error.message);
+        res.status(500).json({ error: 'failed to track' });
+    }
 });
 
 // --------------------------------------------------------------------------

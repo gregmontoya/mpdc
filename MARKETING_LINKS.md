@@ -7,6 +7,8 @@ These "Go Links" are professional redirects that automatically add tracking tags
 ## 🛑 TOMORROW'S CHECKLIST (Feb 12)
 - [x] **Audit FB Pixel Event Firing**: Check Meta Events Manager. Look for "Purchase" events from today's/tomorrow's tests/sales.
 - [x] **Get FB CAPI Access Token**: GENERATED & INSTALLED. 
+- [x] **Identity Bridge**: Active. Tracking anonymous path from Blog -> Join.
+- [x] **Video SEO / AEO**: Schema injected. Inverted Pyramid summaries active on blogs.
 *   [ ] **Verify GA4 Purchase Tracking**: Ensure the $27 value is showing up in GA4 "Monetization" reports.
 
 ## 🚀 PRO RETARGETING SECRETS (Audience Strategy)

@@ -7,6 +7,12 @@
 - **Feature:** Slack Notifications now display "Source" and "Campaign" for every sale.
 - **Update:** Webhook Server now logs prospect source to Firestore.
 
+## v2.0.9 (2026-02-11)
+- **Feature**: Identity Bridge (Anonymous visitor path tracking).
+- **Feature**: Video SEO Schema (VSL visibility on Google).
+- **Feature**: AEO Summary Component (One-click SEO summaries for Blogs).
+- **Security**: Fixed CORS / Credential conflicts for multi-port dev servers.
+
 ## v2.0.8 (2026-02-11)
 - **Feature:** Activated Facebook Conversions API (CAPI) on `webhook-server`.
 - **Feature:** Added `sendFacebookCAPIEvent` helper for server-side tracking.

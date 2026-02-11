@@ -28,13 +28,26 @@ create table activity_logs (
   created_at timestamp with time zone default timezone('utc'::text, now())
 );
 
--- Make it secure (Row Level Security) - Optional but recommended standard
+-- 4. Create a table for Anonymous Guest Activity (Identity Bridge)
+create table visitor_activity (
+  id uuid default uuid_generate_v4() primary key,
+  guest_id text,
+  url text,
+  path text,
+  referrer text,
+  attribution jsonb,
+  user_agent text,
+  created_at timestamp with time zone default timezone('utc'::text, now())
+);
+
+-- Make it secure (Row Level Security)
 alter table leads enable row level security;
 alter table profiles enable row level security;
 alter table activity_logs enable row level security;
+alter table visitor_activity enable row level security;
 
--- Create policies that allow the Anon Key (Server) to Insert/Select
--- For simplicity in this Agent setup, we essentially allow "Server" full access
+-- Create policies
 create policy "Enable all access for service role" on leads for all using (true);
 create policy "Enable all access for service role" on profiles for all using (true);
 create policy "Enable all access for service role" on activity_logs for all using (true);
+create policy "Enable all access for service role" on visitor_activity for all using (true);
