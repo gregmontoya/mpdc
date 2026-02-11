@@ -277,7 +277,15 @@ import vslCourseImg from '../../assets/images/vsl-course-image.png';
 
         // Init
         document.addEventListener('DOMContentLoaded', () => {
-             // Timer removed.
+             // 🎯 PRE-FILL Logic (PRO Move)
+             const params = new URLSearchParams(window.location.search);
+             const emailParam = params.get('email');
+             if (emailParam) {
+                 ['email-hero', 'email'].forEach(id => {
+                     const el = document.getElementById(id);
+                     if (el) el.value = emailParam;
+                 });
+             }
         });
     </script>
     

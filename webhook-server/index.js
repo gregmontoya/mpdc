@@ -361,8 +361,8 @@ app.post('/capture-lead', async (req, res) => {
                 const { data, error } = await resend.emails.send({
                     from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
                     to: [email],
-                    subject: 'Welcome to the System (The version of you she couldn\'t handle)',
-                    html: WelcomeEmail1(name || '', insight)
+                    subject: 'Release the weight (Your Recovery Bundle is inside)',
+                    html: WelcomeEmail1(name || '', email, insight)
                 });
 
                 if (error) {

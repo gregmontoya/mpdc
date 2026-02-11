@@ -1,43 +1,52 @@
 const BaseLayout = require('./BaseLayout');
 
-const WelcomeEmail1 = (name, categoryInsight = '') => {
+const WelcomeEmail1 = (name, email = '', categoryInsight = '') => {
     const firstName = name ? name.split(' ')[0] : 'friend';
 
-    // The Mirror Effect: Insert dynamic content if category is known
-    const insightSection = categoryInsight ? `
-        <div style="background-color: #f0f7f6; padding: 20px; border-radius: 8px; border-left: 4px solid #0b3b36; margin: 20px 0;">
-            <p style="margin: 0; font-size: 15px; color: #0b3b36;"><strong>Personalized Insight:</strong> ${categoryInsight}</p>
-        </div>
-    ` : '';
+    // Tracking Parameters
+    const utm = `utm_source=email&utm_medium=welcome_sequence&utm_campaign=recovery_bundle&utm_content=welcome_1_cta&email=${encodeURIComponent(email)}`;
 
     const content = `
-        <p>Hi ${firstName},</p>
+        <p>Hey ${firstName},</p>
         
-        <p>I wanted to reach out and personally welcome you to the Men's Post-Divorce Coaching community.</p>
+        <p>If you’re like most men going through divorce, your mind won’t stop replaying the same thoughts: “What went wrong?” “Am I good enough?” “What if I never find another woman like her?”</p>
         
-        <p>Below are the free tools you requested to help you start <strong>deleting limiting beliefs</strong> and reclaiming your future.</p>
+        <p>Those thought loops and emotions don’t just drain you. They block your clarity, your focus, and your ability to confidently rebuild.</p>
+        
+        <p>Here’s the truth: you don’t have to fight your mind to fix it. You can retrain and reprogram it.</p>
+        
+        <p>That’s exactly why I created a short hypnosis audio. This is designed to release old beliefs, and reset your focus. It’s about giving your mind permission to let go and create space for your purpose.</p>
+        
+        <p>When that happens, everything shifts:</p>
+        <ul>
+            <li>You wake up without the weight of yesterday.</li>
+            <li>Your next steps finally make sense.</li>
+            <li>You feel motivated.</li>
+            <li>You think clearly.</li>
+        </ul>
+        
+        <p>I can confidently say this because my hypnosis audios have been listened to over 1 million times.</p>
+        
+        <p style="margin-top: 30px; font-weight: bold; color: #0b3b36; font-size: 18px;">🎁 Download your free resources below:</p>
 
-        <div style="background-color: #f7fafc; padding: 25px; border-radius: 8px; border: 1px solid #e2e8f0; margin: 30px 0;">
-            <h3 style="margin-top: 0; color: #0b3b36;">🎁 Your Free Recovery Bundle</h3>
-            
-            <p style="margin-bottom: 20px;"><strong>1. Free Limiting Beliefs Hypnosis (Audio)</strong><br>
-            Use this to bypass the conscious mind and begin deleting the stories that keep you pinned to the past.<br>
-            <a href="https://drive.google.com/file/d/1geLDm6BKUZjYDWi93RmUu2fRWsZ00JDE/view" style="color: #C4613A; font-weight: bold;">Listen to the Audio →</a></p>
+        <p>👉 <a href="https://docs.google.com/document/d/1TTQDHayQ0PpjHgqnrYaBDjfK_QE2nF9BaM2TT5abNdk/edit?tab=t.0#heading=h.ud791fjpk5jk" style="color: #C4613A; font-weight: bold; text-decoration: none;">Download the Resolve Your Past Worksheet here</a></p>
 
-            <p style="margin-bottom: 0;"><strong>2. Worksheet to Resolve Your Past</strong><br>
-            A direct-action framework for identifying and learning from thought loops, negative emotions, and limiting beliefs.<br>
-            <a href="https://menspostdivorcecoaching.com/resources/resolve-your-past" style="color: #C4613A; font-weight: bold;">Access the Worksheet →</a></p>
-        </div>
+        <p>👉 <a href="https://drive.google.com/file/d/1geLDm6BKUZjYDWi93RmUu2fRWsZ00JDE/view" style="color: #C4613A; font-weight: bold; text-decoration: none;">Download the hypnosis audio here</a></p>
 
-        <p>The version of you that she couldn't handle is still in there. My goal is simple: to give you the exact framework I used to rebuild my identity and finally stop being "mentally owned" by the past.</p>
+        <p>Your mind already knows how—it's time for you to believe in yourself.</p>
         
-        <p>Over the next few days, I'm going to send you some of my most powerful direct-action strategies. Keep an eye on your inbox.</p>
+        <p>Along with the hypnosis audio, I want to invite you into the <strong>Men's Divorce Mindset System</strong>. This is the exact protocol to resolve the past, delete the limiting beliefs, and rebuild your life on autopilot.</p>
         
-        <p>In the meantime, if you're ready to skip the line and get the full system today, you can find it here:</p>
+        <p>👉 <a href="https://menspostdivorcecoaching.com/join?${utm}" style="color: #C4613A; font-weight: bold; text-decoration: none;">Access the Complete System Now</a></p>
         
-        <center>
-            <a href="https://menspostdivorcecoaching.com/join" class="btn">Reclaim Your Edge</a>
-        </center>
+        <p>You’ve carried the weight long enough. It’s time to release it.</p>
+        
+        <p>— Alex Morgan<br>
+        <span style="color: #64748b; font-size: 14px;">Rebuild Coaching for Men Post Divorce</span></p>
+        
+        <p style="margin-top: 30px; border-top: 1px solid #eee; padding-top: 20px; font-size: 14px; color: #64748b;">
+            <strong>P.S. Ready to take this further?</strong> In a few days, I’m opening up a free 5-Day Post-Divorce Reset & Rebuild course. You’ll learn how to get your focus, confidence, and direction back fast. Watch your inbox.
+        </p>
     `;
 
     return BaseLayout(content);

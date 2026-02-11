@@ -124,7 +124,7 @@
 
   .popup-right {
     flex: 1;
-    background-image: url('/images/popup-man.png'); /* 🖼️ Placeholder Image */
+    background-image: url('/images/free-download.png'); /* 🖼️ New Asset Installed */
     background-size: cover;
     background-position: center;
     position: relative;
@@ -202,7 +202,7 @@
   }
 
   .popup-submit-btn {
-    background: linear-gradient(90deg, #8A2BE2, #4B0082); /* 💜 Marie's Purple Gradient */
+    background: #C4613A; /* � MPDC Burnt Copper Orange */
     color: white;
     border: none;
     padding: 18px;
@@ -217,7 +217,8 @@
 
   .popup-submit-btn:hover {
     transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(138, 43, 226, 0.4);
+    box-shadow: 0 10px 20px rgba(196, 97, 58, 0.4);
+    background: #d46f48;
   }
 
   .popup-disclaimer {
@@ -251,14 +252,39 @@
 
   const STORAGE_KEY = 'mpdc_lead_captured';
 
-  // 🚀 EXIT INTENT MODE
-  const DEBUG_MODE = false; 
+  // 🚀 INTELLIGENT PAGE LOGIC
+  const currentPath = window.location.pathname;
+  const isResourcePage = currentPath.includes('/resources/');
+  const isJoinPage = currentPath.includes('/join');
+  
+  // 1. COMPLETELY DISABLE on Resource/Success pages
+  if (isResourcePage) {
+    console.log('🔇 Popup disabled for resource page');
+    overlay?.remove(); // Remove from DOM entirely
+  } else {
+    // 2. SELECTIVE PRODUCTION MODE
+    const DEBUG_MODE = false; 
 
-  function showPopup() {
-    if (!DEBUG_MODE && localStorage.getItem(STORAGE_KEY)) return;
-    overlay?.classList.remove('hidden');
-    void overlay?.offsetWidth;
-    overlay?.classList.add('visible');
+    function showPopup() {
+      if (!DEBUG_MODE && localStorage.getItem(STORAGE_KEY)) return;
+      overlay?.classList.remove('hidden');
+      void overlay?.offsetWidth;
+      overlay?.classList.add('visible');
+    }
+
+    // 3. EXIT INTENT TRIGGER (Active on Join Page + Rest of Site)
+    let exitIntentTriggered = false;
+    document.addEventListener('mouseleave', (e) => {
+      if (e.clientY <= 0 && !exitIntentTriggered) {
+        exitIntentTriggered = true;
+        showPopup();
+      }
+    });
+
+    // 4. BACKUP TIMER (ONLY on Non-Sales Pages)
+    if (!isJoinPage) {
+      setTimeout(() => { if (!exitIntentTriggered) showPopup(); }, 20000); // ⏱️ 20 Second Sweet Spot
+    }
   }
 
   function closePopup(permanent = true) {
@@ -268,18 +294,6 @@
       if (permanent) localStorage.setItem(STORAGE_KEY, 'true');
     }, 400);
   }
-
-  // EXIT INTENT TRIGGER
-  let exitIntentTriggered = false;
-  document.addEventListener('mouseleave', (e) => {
-    if (e.clientY <= 0 && !exitIntentTriggered) {
-      exitIntentTriggered = true;
-      showPopup();
-    }
-  });
-
-  // Backup Delay
-  setTimeout(() => { if (!exitIntentTriggered) showPopup(); }, 60000);
 
   closeBtn?.addEventListener('click', () => closePopup(true));
   overlay?.addEventListener('click', (e) => { if (e.target === overlay) closePopup(true); });
