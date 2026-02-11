@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPDC CRM | Customer Journey Map</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/crm/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .journey-container {
+            max-width: 900px;
+            margin: 0 auto;
+            padding: 40px 20px;
+        }
+        .timeline {
+            position: relative;
+            padding-left: 50px;
+        }
+        .timeline::before {
+            content: '';
+            position: absolute;
+            left: 20px;
+            top: 0;
+            bottom: 0;
+            width: 2px;
+            background: #334155;
+        }
+        .timeline-item {
+            position: relative;
+            margin-bottom: 40px;
+        }
+        .timeline-icon {
+            position: absolute;
+            left: -50px;
+            width: 40px;
+            height: 40px;
+            background: #1e293b;
+            border: 2px solid #334155;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
+        }
+        .timeline-item.active .timeline-icon {
+            border-color: var(--accent-orange);
+            color: var(--accent-orange);
+        }
+        .timeline-content {
+            background: rgba(255,255,255,0.03);
+            border: 1px solid #334155;
+            padding: 20px;
+            border-radius: 12px;
+        }
+        .timeline-date {
+            font-size: 11px;
+            color: #64748b;
+            margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+        .timeline-title {
+            font-size: 16px;
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+        .timeline-desc {
+            font-size: 14px;
+            color: #cbd5e1;
+        }
+        .search-journey {
+            margin-bottom: 40px;
+            background: #1e293b;
+            padding: 30px;
+            border-radius: 16px;
+            border: 1px solid #334155;
+            text-align: center;
+        }
+        .search-input {
+            width: 100%;
+            max-width: 500px;
+            padding: 15px 20px;
+            background: #0f172a;
+            border: 1px solid #334155;
+            border-radius: 8px;
+            color: white;
+            font-size: 16px;
+            margin-bottom: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Sidebar Placeholder -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">M</div>
+                <h1 class="logo-text">MPDC<span>CRM</span></h1>
+            </div>
+            <nav class="main-nav">
+                <a href="/crm" class="nav-item">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/crm/journey" class="nav-item active">
+                    <i class="fa-solid fa-route"></i>
+                    <span>Journey Map</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <div class="journey-container">
+                <header style="margin-bottom: 40px;">
+                    <h1 style="font-size: 32px; font-weight: 800; color: white;">Customer Journey Map</h1>
+                    <p style="color: #64748b;">Visualize every touchpoint from anonymous click to loyal customer.</p>
+                </header>
+
+                <div class="search-journey">
+                    <h2 style="font-size: 18px; margin-bottom: 15px;">Who are we tracking?</h2>
+                    <input type="text" id="journey-search" class="search-input" placeholder="Enter Email or Guest ID...">
+                    <div>
+                        <button class="btn btn-primary" id="btn-load-journey">Analyze Path</button>
+                    </div>
+                </div>
+
+                <div id="journey-result" style="display: none;">
+                    <div id="contact-header" style="margin-bottom: 30px; display: flex; align-items: center; gap: 20px;">
+                        <!-- Contact info here -->
+                    </div>
+                    
+                    <div class="timeline" id="timeline-feed">
+                        <!-- Timeline items here -->
+                    </div>
+                </div>
+
+                <div id="journey-empty" style="text-align: center; padding: 100px 0; color: #64748b;">
+                    <i class="fa-solid fa-search" style="font-size: 48px; margin-bottom: 20px; opacity: 0.2;"></i>
+                    <p>Enter a lead's identity above to reconstruct their journey.</p>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- External SDKs -->
+    <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script is:inline>
+        const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
+        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        async function analyzeJourney() {
+            const input = document.getElementById('journey-search').value.trim();
+            if (!input) return;
+
+            document.getElementById('journey-empty').style.display = 'none';
+            document.getElementById('journey-result').style.display = 'block';
+            const timeline = document.getElementById('timeline-feed');
+            timeline.innerHTML = '<p style="color:#64748b; text-align:center;">Reconstructing path...</p>';
+
+            try {
+                // 1. Get Contact
+                const { data: contact } = await supabase
+                    .from('contacts')
+                    .select('*')
+                    .or(`email.eq.${input},guest_id.eq.${input}`)
+                    .single();
+
+                if (!contact) {
+                    timeline.innerHTML = '<p style="color:var(--accent-red); text-align:center;">Contact not found in Hub.</p>';
+                    return;
+                }
+
+                // 2. Fetch All Activity
+                // - Discovery: visitor_activity (by guest_id)
+                // - Intent: video_events (simulated for now, or from Firebase)
+                // - Lifecycle: contact status changes, automation_state
+                
+                const { data: activity } = await supabase
+                    .from('visitor_activity')
+                    .select('*')
+                    .eq('guest_id', contact.guest_id || '')
+                    .order('created_at', { ascending: false });
+
+                // 3. Render Timeline
+                timeline.innerHTML = '';
+                
+                // Add Purchase Milestone if student
+                if (contact.funnel_stage === 'student') {
+                    addTimelineItem(timeline, {
+                        icon: 'fa-solid fa-trophy',
+                        title: 'Conversion: CORE SYSTEM PURCHASED',
+                        date: contact.automation_state?.purchased_at || contact.created_at,
+                        desc: 'Official MPDC Student. Access granted.',
+                        active: true
+                    });
+                }
+
+                // Add Lead Capture Milestone
+                if (contact.email) {
+                    addTimelineItem(timeline, {
+                        icon: 'fa-solid fa-envelope',
+                        title: 'Lead Captured: Identification Bridge',
+                        date: contact.created_at,
+                        desc: `Identified as ${contact.email}. Funnel Stage: ${contact.funnel_stage}`,
+                        active: true
+                    });
+                }
+
+                // Add Browsing Activity
+                if (activity && activity.length > 0) {
+                    activity.forEach(act => {
+                        addTimelineItem(timeline, {
+                            icon: 'fa-solid fa-eye',
+                            title: `Page Viewed: ${act.path}`,
+                            date: act.created_at,
+                            desc: `Discovery via ${act.attribution?.utm_source || 'Direct'}. Path: ${act.url}`,
+                            active: false
+                        });
+                    });
+                }
+
+            } catch (err) {
+                console.error(err);
+                timeline.innerHTML = '<p style="color:var(--accent-red); text-align:center;">Error analyzing journey.</p>';
+            }
+        }
+
+        function addTimelineItem(container, data) {
+            const item = `
+                <div class="timeline-item ${data.active ? 'active' : ''}">
+                    <div class="timeline-icon"><i class="${data.icon}"></i></div>
+                    <div class="timeline-content">
+                        <div class="timeline-date">${new Date(data.date).toLocaleString()}</div>
+                        <div class="timeline-title">${data.title}</div>
+                        <div class="timeline-desc">${data.desc}</div>
+                    </div>
+                </div>
+            `;
+            container.insertAdjacentHTML('beforeend', item);
+        }
+
+        document.getElementById('btn-load-journey').addEventListener('click', analyzeJourney);
+    </script>
+</body>
+</html>

@@ -9,6 +9,8 @@ These "Go Links" are professional redirects that automatically add tracking tags
 - [x] **Get FB CAPI Access Token**: GENERATED & INSTALLED. 
 - [x] **Identity Bridge**: Active. Tracking anonymous path from Blog -> Join.
 - [x] **Video SEO / AEO**: Schema injected. Inverted Pyramid summaries active on blogs.
+- [ ] **CRM ACTION CENTER**: Build UI for "Proactive Prompts" (SEO approvals, Journey Mapping).
+- [ ] **VISUAL JOURNEY MAPS**: Add the 🗺️ tab to CRM to see engagement scores as graphs.
 *   [ ] **Verify GA4 Purchase Tracking**: Ensure the $27 value is showing up in GA4 "Monetization" reports.
 
 ## 🚀 PRO RETARGETING SECRETS (Audience Strategy)

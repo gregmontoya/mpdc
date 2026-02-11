@@ -49,6 +49,10 @@
                     <i class="fa-solid fa-chart-pie"></i>
                     <span>Analytics</span>
                 </a>
+                <a href="/crm/journey" class="nav-item">
+                    <i class="fa-solid fa-route"></i>
+                    <span>Journey Map</span>
+                </a>
                 <a href="/crm/strategy" class="nav-item">
                     <i class="fa-solid fa-chess"></i>
                     <span>Strategy</span>
@@ -146,16 +150,26 @@
             <div class="dashboard-grid">
 
                 <!-- Welcome Section -->
-                <div class="welcome-section" style="display: flex; justify-content: space-between; align-items: center;">
+                <div class="welcome-section" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
                     <div>
                         <h2>Welcome back, Greg! 👋</h2>
                         <p>Here's what's happening with your pipeline today.</p>
                     </div>
-                    <div style="text-align: right; background: rgba(196, 97, 58, 0.1); border: 1px solid var(--accent-orange); padding: 10px 20px; border-radius: 8px;">
-                        <span style="font-size: 10px; text-transform: uppercase; color: var(--accent-orange); font-weight: 800; display: block; letter-spacing: 1px;">Live VSL Signal</span>
-                        <div style="display: flex; align-items: center; gap: 8px; margin-top: 4px;">
-                            <span class="pulse" style="width: 8px; height: 8px; background: #10B981; border-radius: 50%;"></span>
-                            <span style="font-size: 16px; font-weight: 700; color: white;" id="stat-vsl-live">--</span>
+                </div>
+
+                <!-- 🔥 PROACTIVE ACTION CENTER (Signals) -->
+                <div class="action-center" style="margin-bottom: 30px;">
+                    <div style="display: flex; align-items: center; gap: 10px; margin-bottom: 15px;">
+                        <h3 style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: var(--accent-orange); font-weight: 800; display: flex; align-items: center; gap: 8px;">
+                            <span class="pulse" style="width: 8px; height: 8px; background: var(--accent-orange); border-radius: 50%;"></span>
+                            Proactive Signal Room
+                        </h3>
+                    </div>
+                    
+                    <div id="signal-grid" style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 15px;">
+                        <!-- Pulled dynamically by JS -->
+                        <div class="stat-card" style="padding: 20px; background: rgba(255,255,255,0.02); border: 1px dashed #334155; display: flex; align-items: center; justify-content: center;">
+                            <p style="color: #64748b; font-size: 13px;">Scanning for lead velocity signals...</p>
                         </div>
                     </div>
                 </div>
@@ -477,91 +491,61 @@
             if (!checkAuth()) return; // Secure Page
             if (!supabase) return;
 
-            // 1. Get Counts
-            const { count: leadCount } = await supabase.from('leads').select('*', { count: 'exact', head: true });
-            const { count: studentCount } = await supabase.from('profiles').select('*', { count: 'exact', head: true });
+            // 1. Get Counts from Unified Contacts Hub
+            const { count: leadCount } = await supabase.from('contacts').select('*', { count: 'exact', head: true }).eq('funnel_stage', 'prospect');
+            const { count: studentCount } = await supabase.from('contacts').select('*', { count: 'exact', head: true }).eq('funnel_stage', 'student');
+            const { count: abandonedCount } = await supabase.from('contacts').select('*', { count: 'exact', head: true }).eq('funnel_stage', 'prospect').not('automation_state->abandoned_sent_at', 'is', null);
 
             // 2. Update Stats
             document.getElementById('stat-total-leads') && (document.getElementById('stat-total-leads').innerText = leadCount || 0);
-            document.getElementById('stat-active-students') && (document.getElementById('stat-active-students').innerText = studentCount || 0);
-
+            document.getElementById('stat-abandoned') && (document.getElementById('stat-abandoned').innerText = abandonedCount || 0);
+            
             const revenue = (studentCount || 0) * 97;
             document.getElementById('stat-revenue') && (document.getElementById('stat-revenue').innerText = '$' + revenue.toLocaleString());
 
-            // 3. Fetch Recent Leads & Students (Unified Feed)
-            const { data: recentLeads } = await supabase
-                .from('leads')
-                .select('*')
-                .order('created_at', { ascending: false })
-                .limit(5);
+            // 3. FETCH SIGNALS (The Action Center Engine)
+            const signalGrid = document.getElementById('signal-grid');
+            if (signalGrid) {
+                const { data: hotLeads } = await supabase
+                    .from('contacts')
+                    .select('*')
+                    .gt('engagement_score', 0)
+                    .order('last_active_at', { ascending: false })
+                    .limit(3);
 
-            const { data: recentStudents } = await supabase
-                .from('profiles')
-                .select('*')
-                .order('created_at', { ascending: false })
-                .limit(5);
-
-            // 4. FETCH FIREBASE DATA (The "Plumbing" Source of Truth)
-            let fbActivity = [];
-            try {
-                const fbProfiles = await fb_db.collection('profiles')
-                    .orderBy('updatedAt', 'desc')
-                    .limit(5)
-                    .get();
-                
-                fbProfiles.forEach(doc => {
-                    const d = doc.data();
-                    fbActivity.push({
-                        ...d,
-                        created_at: d.updatedAt ? d.updatedAt.toDate().toISOString() : new Date().toISOString(),
-                        type: 'student',
-                        source: 'Firebase'
+                if (hotLeads && hotLeads.length > 0) {
+                    signalGrid.innerHTML = '';
+                    hotLeads.forEach(lead => {
+                        const card = `
+                            <div class="stat-card" style="padding: 15px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.8)); border: 1px solid rgba(196, 97, 58, 0.3); position: relative; overflow: hidden;">
+                                <div style="position: absolute; top: 0; right: 0; padding: 10px; font-size: 10px; color: var(--accent-orange); font-weight: 900;">🔥 SCORE: ${lead.engagement_score}</div>
+                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                                    <div class="avatar-sm" style="background: var(--accent-orange); color: white;">${(lead.name || 'U').charAt(0).toUpperCase()}</div>
+                                    <div>
+                                        <div style="font-weight: 700; font-size: 14px;">${lead.name || 'Anonymous Lead'}</div>
+                                        <div style="font-size: 11px; color: #64748b;">${lead.email}</div>
+                                    </div>
+                                </div>
+                                <div style="font-size: 12px; color: #cbd5e1; line-height: 1.4; margin-bottom: 12px;">
+                                    <strong>SIGNAL:</strong> ${lead.last_clicked_at ? 'Clicked Email Link' : lead.last_opened_at ? 'Opened Email' : 'High Active Intent'} - ${new Date(lead.last_active_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                </div>
+                                <div style="display: flex; gap: 10px;">
+                                    <button class="btn btn-sm btn-primary" style="background: var(--accent-orange); font-size: 10px; padding: 6px 10px; flex: 1;" onclick="window.location.href='/crm/leads?email=${lead.email}'">View Journey</button>
+                                    <button class="btn btn-sm btn-outline" style="font-size: 10px; padding: 6px 10px; flex: 1;" onclick="alert('Starting personal follow-up email...')">Personal Followup</button>
+                                </div>
+                            </div>
+                        `;
+                        signalGrid.insertAdjacentHTML('beforeend', card);
                     });
-                });
-
-                const fbProspects = await fb_db.collection('prospects')
-                    .orderBy('timestamp', 'desc')
-                    .limit(5)
-                    .get();
-
-                fbProspects.forEach(doc => {
-                    const d = doc.data();
-                    fbActivity.push({
-                        ...d,
-                        created_at: d.timestamp ? d.timestamp.toDate().toISOString() : new Date().toISOString(),
-                        type: 'lead',
-                        source: 'Firebase'
-                    });
-                });
-            } catch (fbErr) {
-                console.warn("Firebase fetch error for dashboard:", fbErr);
+                }
             }
 
-            // Merge and Sort
-            let activity = fbActivity; // Start with FB as primary truth
-            
-            // Filter out CONVERTED leads from the "Lead" view
-            activity = activity.filter(item => {
-                if (item.type === 'lead' && item.status === 'converted') return false;
-                return true;
-            });
-
-            if (recentLeads) activity = activity.concat(recentLeads.map(i => ({ ...i, type: 'lead' })));
-            if (recentStudents) activity = activity.concat(recentStudents.map(i => ({ ...i, type: 'student' })));
-
-            // Remove duplicates by email if they exist in both
-            const seen = new Set();
-            activity = activity.filter(item => {
-                if (seen.has(item.email + item.type)) return false;
-                seen.add(item.email + item.type);
-                return true;
-            });
-
-            // Sort by newest first
-            activity.sort((a, b) => new Date(b.created_at) - new Date(a.created_at));
-
-            // Take top 10 events
-            activity = activity.slice(0, 10);
+            // 4. Fetch Recent Activity Feed
+            const { data: activity } = await supabase
+                .from('contacts')
+                .select('*')
+                .order('last_active_at', { ascending: false })
+                .limit(10);
 
             const tableBody = document.getElementById('dashboard-leads-body');
             if (tableBody) {
