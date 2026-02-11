@@ -1,6 +1,7 @@
 ---
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
+import '../styles/fonts.css';
 import '../styles/style.css';
 import '../styles/nav.css';
 import '../styles/mega-menu.css';
@@ -32,14 +33,10 @@ if (bodyClass && bodyClass.includes('blog-page')) {
     </script>
     <SEO title={title} description="Men's Post-Divorce Coaching - Rebuild Your Life" />
 
-    <!-- Google Fonts -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;600;700&family=Bebas+Neue&display=swap"
-        rel="stylesheet">
+    <!-- Preload Critical Fonts -->
+    <link rel="preload" href="/fonts/montserrat-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/opensans-400.woff2" as="font" type="font/woff2" crossorigin>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <slot name="head" />

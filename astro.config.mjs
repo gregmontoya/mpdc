@@ -10,8 +10,10 @@ export default defineConfig({
   trailingSlash: 'never',
 
   build: {
-    format: 'file'
+    format: 'file',
+    inlineStylesheets: 'always'
   },
+  compressHTML: true,
 
   server: {
     proxy: {

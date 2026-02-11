@@ -3,6 +3,7 @@ import { ViewTransitions } from 'astro:transitions';
 
 import SEO from '../components/SEO.astro';
 
+import '../styles/fonts.css';
 const { title = "Men's Post-Divorce Coaching", description = "Rebuild Your Life & Reclaim Your Identity." } = Astro.props;
 ---
 
@@ -11,14 +12,13 @@ const { title = "Men's Post-Divorce Coaching", description = "Rebuild Your Life 
 <head>
     <SEO title={title} description={description} />
 
-    <!-- Brand Fonts: Montserrat & Open Sans -->
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="dns-prefetch" href="https://fonts.googleapis.com">
-    <link rel="dns-prefetch" href="https://fonts.gstatic.com">
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;800;900&family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+    <!-- Preload Critical Fonts -->
+    <link rel="preload" href="/fonts/montserrat-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/opensans-400.woff2" as="font" type="font/woff2" crossorigin>
+
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
+    
     
     <!-- Global Footer Styles -->
     <style is:global>
