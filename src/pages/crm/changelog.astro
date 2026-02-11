@@ -243,6 +243,29 @@
             <div class="changelog-feed">
                 
                 <div class="log-entry">
+                    <div class="log-icon" style="background: #10b981;"><i class="fa-solid fa-server"></i></div>
+                    <div class="log-content">
+                        <div class="log-meta">
+                            <span><strong>v2.0.4</strong></span>
+                            <span>{new Date().toLocaleDateString()}</span>
+                        </div>
+                        <div class="log-desc">
+                            <strong>Robust Notifications & Slack Integration</strong><br>
+                            Compete overhaul of the sales notification system to ensure 100% reliability.
+                            <ul style="margin-top: 8px; list-style: disc; padding-left: 20px;">
+                                <li><strong>Slack Alerts:</strong> Real-time sales notifications sent to #sales channel.</li>
+                                <li><strong>Fail-Safe Logic:</strong> Isolated error handling for Emails vs. Slack vs. Admin alerts.</li>
+                                <li><strong>Fix:</strong> Resolved Vercel environment variable issue causing missing emails.</li>
+                                <li><strong>Safety Check:</strong> Automated pre-deploy integrity verification passed.</li>
+                            </ul>
+                        </div>
+                        <div class="log-files">
+                            Modified: webhook-server/index.js, CHANGELOG.md, package.json
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="log-entry">
                     <div class="log-icon"><i class="fa-solid fa-rocket"></i></div>
                     <div class="log-content">
                         <div class="log-meta">
