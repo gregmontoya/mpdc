@@ -2,6 +2,7 @@
 import { ViewTransitions } from 'astro:transitions';
 
 import SEO from '../components/SEO.astro';
+import EmailPopup from '../components/EmailPopup.astro';
 
 import '../styles/fonts.css';
 const { title = "Men's Post-Divorce Coaching", description = "Rebuild Your Life & Reclaim Your Identity." } = Astro.props;
@@ -88,5 +89,6 @@ const { title = "Men's Post-Divorce Coaching", description = "Rebuild Your Life 
     
     <!-- Injection Slot for Page Specific Scripts -->
     <slot name="scripts" />
+    <EmailPopup />
 </body>
 </html>

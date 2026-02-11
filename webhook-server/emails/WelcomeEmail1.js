@@ -15,18 +15,18 @@ const WelcomeEmail1 = (name, categoryInsight = '') => {
         
         <p>I wanted to reach out and personally welcome you to the Men's Post-Divorce Coaching community.</p>
         
-        <p>Below are the resources you requested to help you start <strong>breaking the replay loop</strong> and reclaiming your frame.</p>
+        <p>Below are the free tools you requested to help you start <strong>deleting limiting beliefs</strong> and reclaiming your future.</p>
 
         <div style="background-color: #f7fafc; padding: 25px; border-radius: 8px; border: 1px solid #e2e8f0; margin: 30px 0;">
-            <h3 style="margin-top: 0; color: #0b3b36;">🎁 Your Recovery Bundle</h3>
+            <h3 style="margin-top: 0; color: #0b3b36;">🎁 Your Free Recovery Bundle</h3>
             
-            <p style="margin-bottom: 20px;"><strong>1. Limiting Beliefs Hypnosis (Audio)</strong><br>
+            <p style="margin-bottom: 20px;"><strong>1. Free Limiting Beliefs Hypnosis (Audio)</strong><br>
             Use this to bypass the conscious mind and begin deleting the stories that keep you pinned to the past.<br>
             <a href="https://drive.google.com/file/d/1geLDm6BKUZjYDWi93RmUu2fRWsZ00JDE/view" style="color: #C4613A; font-weight: bold;">Listen to the Audio →</a></p>
 
-            <p style="margin-bottom: 0;"><strong>2. "Resolve Your Past" Action Guide</strong><br>
+            <p style="margin-bottom: 0;"><strong>2. Worksheet to Resolve Your Past</strong><br>
             A direct-action framework for identifying and learning from thought loops, negative emotions, and limiting beliefs.<br>
-            <a href="https://menspostdivorcecoaching.com/resources/resolve-your-past" style="color: #C4613A; font-weight: bold;">Access the Guide →</a></p>
+            <a href="https://menspostdivorcecoaching.com/resources/resolve-your-past" style="color: #C4613A; font-weight: bold;">Access the Worksheet →</a></p>
         </div>
 
         <p>The version of you that she couldn't handle is still in there. My goal is simple: to give you the exact framework I used to rebuild my identity and finally stop being "mentally owned" by the past.</p>

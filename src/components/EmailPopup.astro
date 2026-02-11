@@ -6,10 +6,10 @@
     <button id="popup-close" class="popup-close">&times;</button>
     <div class="popup-content">
       <div class="popup-left">
-        <div class="popup-header" id="popup-header-text">WAIT!</div>
-        <h2 class="popup-title" id="popup-title-text">BREAK THE REPLAY LOOP.</h2>
+        <div class="popup-header" id="popup-header-text">GET THE EDGE</div>
+        <h2 class="popup-title" id="popup-title-text">DELETE LIMITING BELIEFS.</h2>
         <p class="popup-text" id="popup-body-text">
-          Replaying the past keeps you stuck. Reclaim your edge with the <strong>"Resolve Your Past" Action Guide</strong> + our <strong>Limiting Beliefs Hypnosis Audio</strong>.
+          Don't let the past own your future. Use the <strong>Worksheet to Resolve Your Past</strong> and our <strong>Free Limiting Beliefs Hypnosis</strong> to stop reacting and start leading. 100% FREE.
         </p>
         
         <form id="popup-form" class="popup-form">
@@ -21,7 +21,7 @@
             <input type="email" id="popup-email" placeholder="Email Address" required />
             <i class="fa-solid fa-envelope input-icon"></i>
           </div>
-          <button type="submit" class="popup-submit-btn" id="popup-submit-text">GET THE RECOVERY BUNDLE →</button>
+          <button type="submit" class="popup-submit-btn" id="popup-submit-text">ACCESS FREE TOOLS →</button>
         </form>
         
         <p class="popup-disclaimer">
@@ -251,8 +251,8 @@
 
   const STORAGE_KEY = 'mpdc_lead_captured';
 
-  // 🚀 PREVIEW MODE: Force show after 3 seconds
-  const DEBUG_MODE = true; // Set to true to bypass cookie check for Greg's preview
+  // 🚀 EXIT INTENT MODE
+  const DEBUG_MODE = false; 
 
   function showPopup() {
     if (!DEBUG_MODE && localStorage.getItem(STORAGE_KEY)) return;
@@ -260,9 +260,6 @@
     void overlay?.offsetWidth;
     overlay?.classList.add('visible');
   }
-
-  // Auto-show for preview
-  setTimeout(() => { showPopup(); }, 3000); 
 
   function closePopup(permanent = true) {
     overlay?.classList.remove('visible');
