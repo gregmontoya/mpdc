@@ -254,7 +254,7 @@
 
   // 🚀 INTELLIGENT PAGE LOGIC
   const currentPath = window.location.pathname;
-  const isResourcePage = currentPath.includes('/resources/');
+  const isResourcePage = currentPath.includes('/resources/') || currentPath.includes('/free-guide');
   const isJoinPage = currentPath.includes('/join');
   
   // 1. COMPLETELY DISABLE on Resource/Success pages

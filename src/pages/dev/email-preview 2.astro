@@ -1,0 +1,24 @@
+---
+import Layout from '../layouts/Layout.astro';
+import BaseLayout from '../../../webhook-server/emails/BaseLayout';
+import WelcomeEmail1 from '../../../webhook-server/emails/WelcomeEmail1';
+
+// Simulate the generation of the welcome email for preview
+const previewHtml = WelcomeEmail1("Greg", "password123");
+export const prerender = false;
+---
+
+<Layout title="Email Design Preview">
+    <div style="padding: 50px 0; background: #e2e8f0; min-height: 100vh;">
+        <div style="max-width: 800px; margin: 0 auto; background: white; padding: 20px; border-radius: 8px; box-shadow: 0 10px 25px rgba(0,0,0,0.1);">
+            <div style="margin-bottom: 20px; padding-bottom: 10px; border-bottom: 1px solid #eee;">
+                <h2 style="margin: 0; color: #333;">📧 Email System Preview (Marie Design)</h2>
+                <p style="margin: 5px 0 0; color: #666; font-size: 14px;">This is how your automated emails look in the user's inbox.</p>
+            </div>
+            
+            <div class="email-frame" style="border: 1px solid #ddd; overflow: hidden; border-radius: 4px;">
+                <iframe srcdoc={previewHtml} style="width: 100%; height: 800px; border: none;"></iframe>
+            </div>
+        </div>
+    </div>
+</Layout>
