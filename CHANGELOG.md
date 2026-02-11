@@ -7,6 +7,11 @@
 - **Feature:** Slack Notifications now display "Source" and "Campaign" for every sale.
 - **Update:** Webhook Server now logs prospect source to Firestore.
 
+## v2.0.6 (2026-02-11)
+- **Feature:** Added `/go/[slug]` Marketing Link Engine.
+- **New Links:** `/go/ig-bio`, `/go/yt-desc`, `/go/email-sig` now auto-tag visitors.
+- **Benefit:** Clean, professional links that ensure 100% attribution tracking.
+
 ## [v2.0.4] - 2026-02-11 - Robust Notifications & Slack Integration
 ### 🔔 Notification System Upgrade
 - **Slack Integration**: Added real-time sales alerts to the team Slack channel (`#sales`).

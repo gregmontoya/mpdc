@@ -1,0 +1,50 @@
+---
+/**
+ * 🚀 MPDC Marketing Redirect Engine (/go/[slug])
+ * This file handles all shortened marketing links and injects the correct UTMs.
+ * Example: menspostdivorcecoaching.com/go/ig-bio -> /?utm_source=instagram&utm_medium=bio
+ */
+
+export const prerender = true;
+
+export async function getStaticPaths() {
+  const links = [
+    // INSTAGRAM
+    { slug: 'ig-bio', url: '/?utm_source=instagram&utm_medium=bio&utm_campaign=profile_link' },
+    { slug: 'ig-story', url: '/join?utm_source=instagram&utm_medium=story&utm_campaign=organic' },
+    
+    // YOUTUBE
+    { slug: 'yt-channel', url: '/?utm_source=youtube&utm_medium=channel_header&utm_campaign=brand' },
+    { slug: 'yt-desc', url: '/join?utm_source=youtube&utm_medium=video_description&utm_campaign=video' },
+
+    // EMAIL / DIRECT
+    { slug: 'email-sig', url: '/?utm_source=email&utm_medium=signature&utm_campaign=personal' },
+    { slug: 'newsletter', url: '/join?utm_source=email&utm_medium=newsletter&utm_campaign=weekly_blast' },
+    
+    // ADS (Example placeholders)
+    { slug: 'fb-ad1', url: '/join?utm_source=facebook&utm_medium=cpc&utm_campaign=cold_traffic_v1' },
+  ];
+
+  return links.map(({ slug, url }) => ({
+    params: { slug },
+    props: { url },
+  }));
+}
+
+const { url } = Astro.props;
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="refresh" content={`0;url=${url}`} />
+    <title>Redirecting...</title>
+    <script define:vars={{ url }}>
+        window.location.href = url;
+    </script>
+</head>
+<body>
+    <p>Redirecting to <a href={url}>{url}</a>...</p>
+</body>
+</html>
