@@ -7,6 +7,10 @@
 - **Feature:** Slack Notifications now display "Source" and "Campaign" for every sale.
 - **Update:** Webhook Server now logs prospect source to Firestore.
 
+## v2.0.7 (2026-02-11)
+- **Cleanup:** Removed temporary test scripts (`test_email_debug.js`, `test_slack.js`, `plumbing-check.cjs`).
+- **Safety:** Confirmed system integrity after cleanup.
+
 ## v2.0.6 (2026-02-11)
 - **Feature:** Added `/go/[slug]` Marketing Link Engine.
 - **New Links:** `/go/ig-bio`, `/go/yt-desc`, `/go/email-sig` now auto-tag visitors.
