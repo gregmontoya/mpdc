@@ -1,0 +1,183 @@
+---
+import Layout from '../layouts/Layout.astro';
+export const prerender = true;
+---
+
+<Layout title="Resolve Your Past - MPDC Action Guide">
+    <div class="resource-container">
+        <div class="content-box">
+            <header class="resource-header">
+                <span class="eyebrow">MPDC Action Guide</span>
+                <h1>Worksheet to Resolve Your Past</h1>
+                <p class="lead">Replaying the past after divorce gets you nowhere and it keeps you stuck. Use this framework to learn from your thought loops instead of staying trapped inside them.</p>
+            </header>
+
+            <section class="module-intro">
+                <div class="alert-box">
+                    <p><strong>Note:</strong> We recommend listening to the <a href="https://drive.google.com/file/d/1geLDm6BKUZjYDWi93RmUu2fRWsZ00JDE/view" target="_blank">Hypnosis Audio</a> before starting this worksheet.</p>
+                </div>
+                <p>There are three main things to look at when resolving the past:</p>
+                <ul>
+                    <li><strong>Thought Loops:</strong> Repeated mental patterns that never reach a conclusion.</li>
+                    <li><strong>Negative Emotions:</strong> Feelings like guilt, anger, or shame that feel "on loop."</li>
+                    <li><strong>Limiting Beliefs:</strong> Decisions you made about yourself (e.g. "I'm not enough").</li>
+                </ul>
+            </section>
+
+            <section class="worksheet-body">
+                <div class="step">
+                    <h3>Step 1: Identify the Priority</h3>
+                    <p>Think about what is bothering you the most right now. Is it a loop, an emotion, or a belief? Identify it below.</p>
+                    <div class="input-line"></div>
+                </div>
+
+                <div class="step">
+                    <h3>Step 2: Define the Specific Problem</h3>
+                    <p>Ask yourself: <em>"What is the actual problem here?"</em> Be specific.</p>
+                    <div class="input-line"></div>
+                </div>
+
+                <div class="step">
+                    <h3>Step 3: Resolve & Learn</h3>
+                    <p>Ask yourself these three critical questions to shift your state:</p>
+                    
+                    <div class="question-block">
+                        <label>1. When did you decide to create this problem?</label>
+                        <p class="sub-text">Look back to the origin of this feeling or belief.</p>
+                        <div class="input-line"></div>
+                    </div>
+
+                    <div class="question-block">
+                        <label>2. What can you learn from this to let it go?</label>
+                        <p class="sub-text">A professional learning is <strong>Positive</strong>, <strong>About You</strong>, and <strong>Future-Based</strong>.</p>
+                        <div class="learning-example">
+                            <span class="bad">❌ "I don’t have to be scared anymore."</span>
+                            <span class="good">✅ "I have the confidence to accomplish anything."</span>
+                        </div>
+                        <div class="input-area"></div>
+                    </div>
+
+                    <div class="question-block">
+                        <label>3. What do you want to do or feel instead?</label>
+                        <div class="input-line"></div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </div>
+</Layout>
+
+<style>
+    .resource-container {
+        padding: 4rem 1rem;
+        background-color: #f8fafc;
+        min-height: 100vh;
+        display: flex;
+        justify-content: center;
+    }
+
+    .content-box {
+        max-width: 800px;
+        width: 100%;
+        background: white;
+        padding: 4rem;
+        border-radius: 12px;
+        box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+    }
+
+    .resource-header {
+        text-align: center;
+        margin-bottom: 4rem;
+    }
+
+    .eyebrow {
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        font-weight: 800;
+        color: #C4613A;
+        font-size: 0.8rem;
+    }
+
+    h1 {
+        font-size: 2.5rem;
+        color: #0b3b36;
+        margin: 1rem 0;
+        text-transform: uppercase;
+    }
+
+    .lead {
+        font-size: 1.1rem;
+        color: #64748b;
+        line-height: 1.6;
+    }
+
+    .alert-box {
+        background: #f0fdf4;
+        border-left: 4px solid #0b3b36;
+        padding: 1rem;
+        margin-bottom: 2rem;
+        border-radius: 4px;
+    }
+
+    .alert-box strong { color: #0b3b36; }
+
+    h3 {
+        color: #0b3b36;
+        font-size: 1.5rem;
+        margin-bottom: 1rem;
+        border-bottom: 2px solid #f1f5f9;
+        padding-bottom: 0.5rem;
+    }
+
+    .step {
+        margin-bottom: 3rem;
+    }
+
+    .question-block {
+        margin-top: 2rem;
+    }
+
+    label {
+        font-weight: 700;
+        display: block;
+        margin-bottom: 0.5rem;
+        color: #1e293b;
+    }
+
+    .sub-text {
+        font-size: 0.9rem;
+        color: #64748b;
+        margin-bottom: 1rem;
+    }
+
+    .input-line {
+        border-bottom: 1px solid #e2e8f0;
+        height: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .input-area {
+        border: 1px solid #e2e8f0;
+        height: 6rem;
+        border-radius: 4px;
+        background: #f8fafc;
+    }
+
+    .learning-example {
+        display: flex;
+        flex-direction: column;
+        gap: 0.5rem;
+        margin-bottom: 1rem;
+        font-size: 0.95rem;
+    }
+
+    .bad { color: #ef4444; }
+    .good { color: #10b981; font-weight: 600; }
+
+    @media (max-width: 768px) {
+        .content-box {
+            padding: 2rem;
+        }
+        h1 { font-size: 2rem; }
+    }
+</style>
