@@ -1,0 +1,291 @@
+---
+import Layout from '../layouts/Layout.astro';
+export const prerender = true;
+---
+
+<Layout title="Free Recovery Bundle | Men's Post-Divorce Coaching" simpleHeader={true} simpleFooter={true}>
+    <section class="ad-landing">
+        <!-- 🏛️ Custom Slim Header (Matches Screenshot) -->
+        <nav class="slim-nav">
+            <div class="nav-container">
+                <a href="/" class="logo">
+                    <img src="/images/logo.png" alt="MPDC Logo" />
+                    <div class="logo-text">
+                        <span class="top">MEN'S POST</span>
+                        <span class="bottom">DIVORCE COACHING</span>
+                    </div>
+                </a>
+                <div class="nav-links">
+                    <a href="/about">ABOUT</a>
+                    <span>|</span>
+                    <a href="/mission">MISSION</a>
+                    <span>|</span>
+                    <a href="/resources">RESOURCES</a>
+                    <span>|</span>
+                    <a href="/contact">CONTACT</a>
+                </div>
+                <a href="#optin" class="cta-mini">FREE GUIDE</a>
+            </div>
+        </nav>
+
+        <!-- 🚀 Hero Content -->
+        <div class="hero-container">
+            <h1 class="main-headline">
+                YOUR MARRIAGE ENDED.<br />
+                YOUR NEW LIFE IS JUST STARTING.
+            </h1>
+            
+            <div class="divider"></div>
+
+            <div class="copy-stack">
+                <h2 class="sub-headline">THE PROBLEM: YOU ARE STUCK ON REPLAY</h2>
+                <p>Most men try to “think” their way out of post-divorce anxiety. It doesn’t work because the problem isn’t logical, it’s biological.</p>
+                <p>Your brain is stuck in a fight-or-flight loop.</p>
+                
+                <h2 class="sub-headline mt-4">THE SOLUTION: A SYSTEM TO RESTART</h2>
+                <p>The Restart Roadmap is not therapy. It is a tactical system:</p>
+                <p>Download for <strong>FREE</strong> below:</p>
+            </div>
+
+            <!-- 🧲 Optin Card -->
+            <div id="optin" class="optin-card">
+                <form id="landing-form">
+                    <div class="form-group">
+                        <input type="text" id="name" name="name" placeholder="First Name" required />
+                    </div>
+                    <div class="form-group">
+                        <input type="email" id="email" name="email" placeholder="Email" required />
+                    </div>
+                    <button type="submit" id="submit-btn" class="submit-btn">
+                        GET THE RESTART ROADMAP (FREE)
+                    </button>
+                </form>
+                <div id="success-msg" class="hidden">
+                    <p>✅ Success! Check your inbox for the Roadmap.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 🏛️ Custom Slim Footer -->
+        <footer class="slim-footer">
+            <div class="footer-top">
+                <p>MensPostDivorceCoaching.com — 2025 All Right Reserved</p>
+                <div class="secondary-links">
+                    <a href="/careers">CAREERS</a>
+                    <a href="/privacy">PRIVACY POLICY</a>
+                    <a href="/sitemap">SITEMAP</a>
+                    <a href="/terms">TERMS</a>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <a href="/cookies">Cookies Policy</a> - <a href="/terms">Terms and Conditions</a> - <a href="/privacy">Privacy Policy</a>
+            </div>
+        </footer>
+    </section>
+</Layout>
+
+<style>
+    .ad-landing {
+        background-color: #2D6A5D; /* Dark Teal-Green from screenshot */
+        min-height: 100vh;
+        color: white;
+        font-family: 'Montserrat', sans-serif;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    /* 🏛️ HEADER */
+    .slim-nav {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.1);
+        padding: 15px 0;
+    }
+    .nav-container {
+        max-width: 1100px;
+        margin: 0 auto;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 0 20px;
+    }
+    .logo {
+        display: flex;
+        align-items: center;
+        text-decoration: none;
+        color: white;
+    }
+    .logo img { width: 45px; margin-right: 12px; }
+    .logo-text { line-height: 1; font-weight: 700; font-size: 14px; letter-spacing: 1px; }
+    .logo-text span { display: block; }
+    
+    .nav-links {
+        display: flex;
+        gap: 15px;
+        font-size: 12px;
+        font-weight: 600;
+        align-items: center;
+    }
+    .nav-links a { text-decoration: none; color: white; opacity: 0.9; }
+    .nav-links span { opacity: 0.5; }
+
+    .cta-mini {
+        background-color: #C4613A; /* Burnt Copper */
+        color: white;
+        padding: 10px 20px;
+        border-radius: 4px;
+        text-decoration: none;
+        font-weight: 700;
+        font-size: 13px;
+    }
+
+    /* 🚀 HERO Content */
+    .hero-container {
+        max-width: 800px;
+        margin: 80px auto;
+        text-align: center;
+        padding: 0 20px;
+    }
+    .main-headline {
+        font-size: 3.5rem;
+        font-weight: 800;
+        line-height: 1.1;
+        margin-bottom: 30px;
+        letter-spacing: -1px;
+    }
+    .divider {
+        width: 80px;
+        height: 2px;
+        background: white;
+        margin: 0 auto 40px;
+    }
+
+    .copy-stack {
+        margin-bottom: 50px;
+    }
+    .sub-headline {
+        font-size: 18px;
+        font-weight: 800;
+        margin-bottom: 15px;
+        letter-spacing: 1px;
+    }
+    .copy-stack p {
+        font-size: 16px;
+        line-height: 1.6;
+        opacity: 0.9;
+        margin-bottom: 10px;
+        max-width: 600px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+    .mt-4 { margin-top: 30px; }
+
+    /* 🧲 OPTIN CARD */
+    .optin-card {
+        background: white;
+        padding: 40px;
+        border-radius: 8px;
+        max-width: 500px;
+        margin: 0 auto;
+        box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    }
+    .form-group { margin-bottom: 15px; }
+    .form-group input {
+        width: 100%;
+        padding: 15px;
+        border: 1px solid #ddd;
+        border-radius: 4px;
+        font-family: inherit;
+        font-size: 16px;
+    }
+    .submit-btn {
+        width: 100%;
+        background-color: #F1883C; /* Match image slightly brighter orange */
+        color: white;
+        border: none;
+        padding: 18px;
+        border-radius: 4px;
+        font-weight: 800;
+        cursor: pointer;
+        font-size: 15px;
+        transition: transform 0.2s ease;
+    }
+    .submit-btn:hover { background-color: #d16b25; transform: scale(1.02); }
+
+    /* 🏛️ FOOTER */
+    .slim-footer {
+        width: 100%;
+        background: #1A3D36;
+        padding: 40px 20px;
+        margin-top: auto;
+        font-size: 12px;
+        text-align: center;
+    }
+    .footer-top {
+        max-width: 1100px;
+        margin: 0 auto 20px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+    .secondary-links { display: flex; gap: 20px; }
+    .secondary-links a, .footer-bottom a { color: white; text-decoration: none; opacity: 0.7; }
+    .footer-bottom { border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px; opacity: 0.6; }
+
+    .hidden { display: none; }
+    #success-msg { color: #2D6A5D; font-weight: 700; text-align: center; font-size: 18px; }
+
+    /* MOBILE REDUCTION */
+    @media (max-width: 768px) {
+        .main-headline { font-size: 2.2rem; }
+        .nav-links { display: none; }
+        .footer-top { flex-direction: column; }
+    }
+</style>
+
+<script is:inline>
+  const form = document.getElementById('landing-form');
+  const submitBtn = document.getElementById('submit-btn');
+  const successMsg = document.getElementById('success-msg');
+
+  form?.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const name = document.getElementById('name').value;
+    const email = document.getElementById('email').value;
+
+    submitBtn.innerText = "SENDING...";
+    submitBtn.disabled = true;
+
+    try {
+      // 🕵️ Capture attribution from storage
+      const attribution = window.getAttributionData ? window.getAttributionData() : {};
+      const guestId = localStorage.getItem('mpdc_guest_id');
+
+      const response = await fetch('https://mpdc-webhook-server.vercel.app/capture-lead', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ 
+            name, 
+            email, 
+            guestId, 
+            attribution, 
+            source: 'ad_landing_page_guide' 
+        })
+      });
+
+      if (response.ok) {
+        form.classList.add('hidden');
+        successMsg.classList.remove('hidden');
+        // 🔵 Record pixel lead event locally too
+        if (typeof fbq !== 'undefined') {
+            fbq('track', 'Lead');
+        }
+      }
+    } catch (err) {
+      submitBtn.innerText = "ERROR - TRY AGAIN";
+      submitBtn.disabled = false;
+    }
+  });
+</script>
