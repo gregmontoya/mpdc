@@ -584,6 +584,9 @@ app.post('/webhook', async (req, res) => {
             // 4. Send Admin Notification
             await sendAdminNotification(email, name, amountTotal, accessLevel);
 
+            // 5. Send Slack Notification
+            await sendSlackNotification(name, email, amountTotal, accessLevel);
+
             res.json({ received: true, email });
         } else {
             res.json({ received: true });
@@ -597,6 +600,76 @@ app.post('/webhook', async (req, res) => {
         });
     }
 });
+
+// --------------------------------------------------------------------------
+// 💬 SLACK NOTIFICATION
+// --------------------------------------------------------------------------
+async function sendSlackNotification(name, email, amount, plan) {
+    const webhookUrl = process.env.SLACK_WEBHOOK_URL;
+
+    if (!webhookUrl) {
+        console.log('⚠️ No SLACK_WEBHOOK_URL provided, skipping notification.');
+        return;
+    }
+
+    const message = {
+        blocks: [
+            {
+                type: "header",
+                text: {
+                    type: "plain_text",
+                    text: "💰 New Sale Received!",
+                    emoji: true
+                }
+            },
+            {
+                type: "section",
+                fields: [
+                    {
+                        type: "mrkdwn",
+                        text: `*Customer:*\n${name}\n(${email})`
+                    },
+                    {
+                        type: "mrkdwn",
+                        text: `*Amount:*\n$${(amount / 100).toFixed(2)}`
+                    },
+                    {
+                        type: "mrkdwn",
+                        text: `*Plan:*\n${plan.toUpperCase()}`
+                    }
+                ]
+            },
+            {
+                type: "divider"
+            },
+            {
+                type: "context",
+                elements: [
+                    {
+                        type: "mrkdwn",
+                        text: `📅 *Time:* ${new Date().toLocaleString('en-US', { timeZone: 'America/New_York' })}`
+                    }
+                ]
+            }
+        ]
+    };
+
+    try {
+        const response = await fetch(webhookUrl, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(message)
+        });
+
+        if (!response.ok) {
+            throw new Error(`Slack API error: ${response.status} ${response.statusText}`);
+        }
+
+        console.log('✅ Slack notification sent');
+    } catch (error) {
+        console.error('❌ Slack Notification Error:', error.message);
+    }
+}
 
 // Health check
 app.get('/health', (req, res) => {
