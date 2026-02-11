@@ -350,6 +350,16 @@ app.post('/capture-lead', async (req, res) => {
             funnel_stage: 'prospect'
         });
 
+        // 🔵 Send Facebook CAPI (Lead Event)
+        sendFacebookCAPIEvent('Lead', {
+            email,
+            fbc: attribution?.fbc,
+            fbp: attribution?.fbp
+        }, {
+            content_name: 'Marie Recovery Bundle Popup',
+            source: 'popup'
+        }, req);
+
         // 2. Automated Welcome Flow (Email #1)
         if (contact && (!contact.automation_state || !contact.automation_state.welcome_v1_sent)) {
             console.log(`🚀 Triggering Welcome Flow for: ${email}`);
@@ -403,7 +413,11 @@ app.post('/create-checkout-session', async (req, res) => {
         const productName = "The Men's Divorce Mindset System";
 
         // 🔵 Send Facebook CAPI (Lead Event)
-        sendFacebookCAPIEvent('Lead', { email }, { content_name: productName }, req);
+        sendFacebookCAPIEvent('Lead', {
+            email,
+            fbc: attribution.fbc,
+            fbp: attribution.fbp
+        }, { content_name: productName }, req);
 
         // ----------------------------------------------------------------------
         // 🧲 SILENT PROSPECT CAPTURE (In-House Marketing Cloud)
@@ -449,11 +463,13 @@ app.post('/create-checkout-session', async (req, res) => {
             }],
             mode: 'payment',
             allow_promotion_codes: true,
-            success_url: 'https://menspostdivorcecoaching.com/system/success',
-            cancel_url: 'https://menspostdivorcecoaching.com/join',
+            success_url: `${req.headers.origin}/join/success?session_id={CHECK_SESSION_ID}`,
+            cancel_url: `${req.headers.origin}/join`,
             metadata: {
                 customer_name: name,
                 plan: plan,
+                fbc: attribution.fbc || '',
+                fbp: attribution.fbp || '',
                 utm_source: attribution.utm_source || 'direct',
                 utm_medium: attribution.utm_medium,
                 utm_campaign: attribution.utm_campaign,
@@ -812,7 +828,11 @@ app.post('/webhook', async (req, res) => {
             let accessLevel = 'student'; // Default
 
             // 🔵 Send Facebook CAPI (Purchase Event)
-            sendFacebookCAPIEvent('Purchase', { email }, {
+            sendFacebookCAPIEvent('Purchase', {
+                email,
+                fbc: session.metadata?.fbc,
+                fbp: session.metadata?.fbp
+            }, {
                 value: (amountTotal / 100).toFixed(2),
                 currency: 'USD',
                 content_name: 'The Men\'s Divorce Mindset System'

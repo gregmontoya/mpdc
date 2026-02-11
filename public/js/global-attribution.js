@@ -21,10 +21,22 @@
         return data;
     };
 
-    // Helper to get current data
+    // Helper to get cookies (Vital for FB CAPI)
+    const getCookie = (name) => {
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; ${name}=`);
+        if (parts.length === 2) return parts.pop().split(';').shift();
+        return null;
+    };
+
+    // Helper to get current stored data
     const getStoredData = () => {
         try {
-            return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+            const data = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {};
+            // Refresh Cookies on every load
+            data.fbp = getCookie('_fbp') || data.fbp;
+            data.fbc = getCookie('_fbc') || data.fbc;
+            return data;
         } catch (e) {
             return {};
         }
