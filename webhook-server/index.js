@@ -579,13 +579,25 @@ app.post('/webhook', async (req, res) => {
             }
 
             // 3. Send Welcome Email
-            await sendWelcomeEmail(email, name, password);
+            try {
+                await sendWelcomeEmail(email, name, password);
+            } catch (err) {
+                console.error('⚠️ Welcome Email Failed (Non-fatal):', err.message);
+            }
 
             // 4. Send Admin Notification
-            await sendAdminNotification(email, name, amountTotal, accessLevel);
+            try {
+                await sendAdminNotification(email, name, amountTotal, accessLevel);
+            } catch (err) {
+                console.error('⚠️ Admin Email Failed (Non-fatal):', err.message);
+            }
 
             // 5. Send Slack Notification
-            await sendSlackNotification(name, email, amountTotal, accessLevel);
+            try {
+                await sendSlackNotification(name, email, amountTotal, accessLevel);
+            } catch (err) {
+                console.error('⚠️ Slack Notification Failed (Non-fatal):', err.message);
+            }
 
             res.json({ received: true, email });
         } else {
