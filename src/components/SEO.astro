@@ -48,21 +48,21 @@ const {
 <!-- 📊 Google Analytics (GA4) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
 <script is:inline>
+  // 🛡️ Global Stealth Mode Check (Internal Traffic Exclusion)
+  const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1');
+  const isPortugal = Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') || 
+                     Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') ||
+                     Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores');
+  const isStealth = isDev || isPortugal;
+
+  if (isStealth) console.log('🕵️ Stealth Mode Active: Internal tracking paused.');
+
+  // 📊 Google Analytics (GA4) Initialization
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
-  // 🛡️ Stealth Mode: Exclude Portugal (Internal Traffic) & Dev
-  const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1');
-  
-  // Note: Region check is handled via common JS geoblocking or simply not initializing config
-  // For a "Hard Block" on PT without an external API, we check the user's timezone/local
-  const isPortugal = Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') || 
-                     Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') ||
-                     Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores');
-
-  if (isDev || isPortugal) {
-    console.log('🕵️ Stealth Mode Active: GA4 Tracking Paused');
+  if (isStealth) {
     gtag('config', 'G-T26PKTMJB1', { 'developer_mode': true });
   } else {
     gtag('config', 'G-T26PKTMJB1');
@@ -71,16 +71,26 @@ const {
 
 <!-- 🔵 Facebook Pixel (Retargeting) -->
 <script is:inline>
-  !function(f,b,e,v,n,t,s)
-  {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-  n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-  if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-  n.queue=[];t=b.createElement(e);t.async=!0;
-  t.src=v;s=b.getElementsByTagName(e)[0];
-  s.parentNode.insertBefore(t,s)}(window, document,'script',
-  'https://connect.facebook.net/en_US/fbevents.js');
-  fbq('init', '1524876641955362'); // <-- Real Pixel ID for MPDC
-  fbq('track', 'PageView');
+  // Only initialize FB if not in Stealth Mode
+  if (!window.location.hostname.includes('localhost') && 
+      !Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') &&
+      !Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') &&
+      !Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores')) {
+    
+    !function(f,b,e,v,n,t,s)
+    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+    n.queue=[];t=b.createElement(e);t.async=!0;
+    t.src=v;s=b.getElementsByTagName(e)[0];
+    s.parentNode.insertBefore(t,s)}(window, document,'script',
+    'https://connect.facebook.net/en_US/fbevents.js');
+    
+    fbq('init', '1524876641955362'); 
+    fbq('track', 'PageView');
+  } else {
+    console.log('🔵 FB Pixel: Bypassed for Stealth Mode');
+  }
 </script>
 <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=1524876641955362&ev=PageView&noscript=1"
