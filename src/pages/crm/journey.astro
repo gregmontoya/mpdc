@@ -105,6 +105,10 @@
                     <i class="fa-solid fa-grid-2"></i>
                     <span>Dashboard</span>
                 </a>
+                <a href="/crm/analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
                 <a href="/crm/journey" class="nav-item active">
                     <i class="fa-solid fa-route"></i>
                     <span>Journey Map</span>
@@ -112,6 +116,14 @@
                 <a href="/crm/strategy" class="nav-item">
                     <i class="fa-solid fa-chess"></i>
                     <span>Strategy</span>
+                </a>
+                <a href="/crm/clients" class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="/crm/leads" class="nav-item">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Leads</span>
                 </a>
             </nav>
         </aside>
@@ -160,76 +172,118 @@
             const input = document.getElementById('journey-search').value.trim();
             if (!input) return;
 
+            console.log(`🔎 Analyzing Identity: ${input}`);
             document.getElementById('journey-empty').style.display = 'none';
             document.getElementById('journey-result').style.display = 'block';
             const timeline = document.getElementById('timeline-feed');
-            timeline.innerHTML = '<p style="color:#64748b; text-align:center;">Reconstructing path...</p>';
+            timeline.innerHTML = '<div style="text-align:center; padding:20px;"><div class="pulse" style="width:10px; height:10px; background:var(--accent-orange); margin:0 auto 10px;"></div><p style="color:#64748b; font-size:12px;">Reconstructing path...</p></div>';
+
+            let contact = null;
 
             try {
-                // 1. Get Contact
-                const { data: contact } = await supabase
-                    .from('contacts')
-                    .select('*')
-                    .or(`email.eq.${input},guest_id.eq.${input}`)
-                    .single();
-
-                if (!contact) {
-                    timeline.innerHTML = '<p style="color:var(--accent-red); text-align:center;">Contact not found in Hub.</p>';
-                    return;
+                // 1. Try checking the "Contacts Hub" first
+                try {
+                    const { data: hubContact, error: hubError } = await supabase
+                        .from('contacts')
+                        .select('*')
+                        .or(`email.eq.${input},guest_id.eq.${input}`)
+                        .maybeSingle();
+                    
+                    if (hubContact) {
+                        console.log('✅ Identity found in Marketing Cloud Hub');
+                        contact = hubContact;
+                    }
+                } catch (e) {
+                    console.warn('Contacts table search failed (likely missing):', e.message);
                 }
 
-                // 2. Fetch All Activity
-                // - Discovery: visitor_activity (by guest_id)
-                // - Intent: video_events (simulated for now, or from Firebase)
-                // - Lifecycle: contact status changes, automation_state
-                
-                const { data: activity } = await supabase
-                    .from('visitor_activity')
-                    .select('*')
-                    .eq('guest_id', contact.guest_id || '')
-                    .order('created_at', { ascending: false });
+                // 2. If not found, fallback to Member Profiles
+                if (!contact) {
+                    console.log('🔄 Checking Member Database...');
+                    const { data: profile, error: profError } = await supabase
+                        .from('profiles')
+                        .select('*')
+                        .eq('email', input)
+                        .maybeSingle();
+                    
+                    if (profile) {
+                        console.log('✅ Identity found in Member Profiles');
+                        contact = {
+                            ...profile,
+                            funnel_stage: 'student',
+                            created_at: profile.created_at
+                        };
+                    }
+                }
+
+                if (!contact) {
+                    timeline.innerHTML = `
+                        <div style="text-align:center; padding: 40px;">
+                            <p style="color:var(--accent-orange); font-weight:bold; margin-bottom:10px;">IDENTITY NOT RESOLVED</p>
+                            <p style="font-size:13px; color:#64748b; margin-bottom: 20px;">We couldn't find "${input}" in the Hub or Member database.</p>
+                            <div style="background: rgba(255,255,255,0.02); border: 1px dashed #334155; padding: 15px; border-radius: 8px; font-size: 11px; color: #64748b; text-align: left;">
+                                <strong>Common Reasons:</strong><br>
+                                • The visitor hasn't filled out a form yet<br>
+                                • It's a test email not in your system<br>
+                                • Supabase 'Contacts' table hasn't been created yet
+                            </div>
+                        </div>
+                    `;
+                    return;
+                }
 
                 // 3. Render Timeline
                 timeline.innerHTML = '';
                 
-                // Add Purchase Milestone if student
-                if (contact.funnel_stage === 'student') {
+                // Milestone: Conversion
+                if (contact.funnel_stage === 'student' || contact.access_level === 'student') {
                     addTimelineItem(timeline, {
                         icon: 'fa-solid fa-trophy',
-                        title: 'Conversion: CORE SYSTEM PURCHASED',
-                        date: contact.automation_state?.purchased_at || contact.created_at,
-                        desc: 'Official MPDC Student. Access granted.',
+                        title: 'Conversion: CORE SYSTEM ACCESS',
+                        date: contact.last_login_at || contact.created_at,
+                        desc: 'Official MPDC Student. Access level verified via database.',
                         active: true
                     });
                 }
 
-                // Add Lead Capture Milestone
-                if (contact.email) {
-                    addTimelineItem(timeline, {
-                        icon: 'fa-solid fa-envelope',
-                        title: 'Lead Captured: Identification Bridge',
-                        date: contact.created_at,
-                        desc: `Identified as ${contact.email}. Funnel Stage: ${contact.funnel_stage}`,
-                        active: true
-                    });
-                }
+                // Milestone: Identity Capture
+                addTimelineItem(timeline, {
+                    icon: 'fa-solid fa-id-card',
+                    title: 'Identity Resolved',
+                    date: contact.created_at,
+                    desc: `Record identified as ${contact.email}. Funnel Stage: ${contact.funnel_stage || 'Member'}.`,
+                    active: true
+                });
 
-                // Add Browsing Activity
-                if (activity && activity.length > 0) {
-                    activity.forEach(act => {
-                        addTimelineItem(timeline, {
-                            icon: 'fa-solid fa-eye',
-                            title: `Page Viewed: ${act.path}`,
-                            date: act.created_at,
-                            desc: `Discovery via ${act.attribution?.utm_source || 'Direct'}. Path: ${act.url}`,
-                            active: false
+                // 4. Try fetching Browsing History
+                try {
+                    const { data: activity, error: actError } = await supabase
+                        .from('visitor_activity')
+                        .select('*')
+                        .eq('guest_id', contact.guest_id || '')
+                        .order('created_at', { ascending: false });
+
+                    if (activity && activity.length > 0) {
+                        activity.forEach(act => {
+                            addTimelineItem(timeline, {
+                                icon: 'fa-solid fa-shoe-prints',
+                                title: `Discovery: /${act.path.split('/').pop() || 'home'}`,
+                                date: act.created_at,
+                                desc: `Viewed ${act.path} via ${act.attribution?.utm_source || 'Direct'}.`,
+                                active: false
+                            });
                         });
-                    });
+                    } else {
+                        timeline.insertAdjacentHTML('beforeend', '<p style="text-align:center; font-size:12px; color:#444; margin-top:20px; border-top: 1px solid #1e293b; padding-top: 20px;">No browsing history logs found for this identity bridge yet.</p>');
+                    }
+                } catch (e) {
+                    console.warn('Visitor Activity table search failed:', e.message);
+                    timeline.insertAdjacentHTML('beforeend', '<p style="text-align:center; font-size:11px; color:#c4613a; margin-top:20px; opacity: 0.6;">(Connect "visitor_activity" table in Supabase to unlock shoeprints)</p>');
                 }
 
             } catch (err) {
-                console.error(err);
-                timeline.innerHTML = '<p style="color:var(--accent-red); text-align:center;">Error analyzing journey.</p>';
+                console.error('CRITICAL JOURNEY ERROR:', err);
+                timeline.innerHTML = `<p style="color:var(--accent-red); text-align:center;">Radar System Error: ${err.message}</p>`;
             }
         }
 
@@ -248,6 +302,9 @@
         }
 
         document.getElementById('btn-load-journey').addEventListener('click', analyzeJourney);
+        document.getElementById('journey-search').addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') analyzeJourney();
+        });
     </script>
 </body>
 </html>
