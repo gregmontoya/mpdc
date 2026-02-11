@@ -1,6 +1,10 @@
 ---
 import SalesLayout from '../../layouts/SalesLayout.astro';
+export const prerender = true;
 import Footer from '../../components/Footer.astro';
+import { Image } from 'astro:assets';
+import alexMorganImg from '../../assets/images/alex-morgan.png';
+import vslCourseImg from '../../assets/images/vsl-course-image.png';
 ---
 <!-- ... (rest of imports) -->
 <SalesLayout 
@@ -354,7 +358,13 @@ import Footer from '../../components/Footer.astro';
                 The Men's Divorce<br >Mindset System
             </h1> 
             <div style="position: relative; max-width: 850px; margin: 2rem auto 0;" > 
-                <img src="/images/vsl-course-image.png" alt="Course Portal Preview" style="width: 100%; border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); border: 8px solid #fff;" > 
+                <Image 
+                    src={vslCourseImg} 
+                    alt="Course Portal Preview" 
+                    width={850}
+                    height={480}
+                    style="width: 100%; height: auto; border-radius: 12px; box-shadow: 0 30px 60px rgba(0,0,0,0.15); border: 8px solid #fff;" 
+                /> 
                 <div style="margin-top: 2rem; color: var(--color-accent); font-size: 1rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;" >
                     ▲ ACTUAL COURSE DASHBOARD
                 </div> 
@@ -484,7 +494,13 @@ import Footer from '../../components/Footer.astro';
             <div class="founder-grid" style="display: grid; grid-template-columns: 1fr 1fr; gap: 4rem; align-items: start;" > 
                 <div style="position: relative;" class="founder-image-container" > 
                     <div style="width: 100%; aspect-ratio: 3/4; background-color: var(--color-bg-primary); border-radius: 8px; position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center;" > 
-                        <img src="/images/alex-morgan.png" alt="Alex Morgan" style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" > 
+                        <Image 
+                            src={alexMorganImg} 
+                            alt="Alex Morgan" 
+                            width={600}
+                            height={800}
+                            style="width: 100%; height: 100%; object-fit: cover; opacity: 0.9;" 
+                        /> 
                     </div> 
                     <div style="position: absolute; bottom: -20px; right: -20px; z-index: 10;" class="floating-cta-btn" > 
                         <a href="#hero" style="background-color: var(--color-accent); color: #fff; padding: 1rem 2rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; border-radius: 4px; box-shadow: 0 10px 20px rgba(196, 97, 58, 0.4); text-decoration: none; display: inline-block;" >

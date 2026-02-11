@@ -44,7 +44,13 @@ const relatedPosts = allPosts
                     </div>
                 </div>
                 <div class="hero-image-side">
-                    <img src={frontmatter.image || "/images/blog/rebuild-life.png"} alt={title} />
+                    <Image 
+                        src={frontmatter.image || "/images/blog/rebuild-life.png"} 
+                        alt={title} 
+                        width={600}
+                        height={400}
+                        class="hero-img-optimized"
+                    />
                 </div>
             </div>
         </header>
@@ -109,7 +115,12 @@ const relatedPosts = allPosts
                 {relatedPosts.map(post => (
                     <article class="related-card">
                         <div class="related-image">
-                            <img src={post.data.image || `https://placehold.co/400x250/061c1a/ffffff?text=${post.data.category.split(' ')[0]}`} alt={post.data.title}>
+                            <Image 
+                                src={post.data.image || "/images/default-post.jpg"} 
+                                alt={post.data.title}
+                                width={400}
+                                height={250}
+                            />
                         </div>
                         <div class="related-content">
                             <h3>{post.data.title}</h3>

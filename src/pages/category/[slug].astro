@@ -1,5 +1,6 @@
 ---
 import { getCollection } from 'astro:content';
+export const prerender = true;
 import { db } from '../../lib/server-firebase';
 import Layout from '../../layouts/Layout.astro';
 
@@ -7,6 +8,36 @@ const { slug } = Astro.params;
 
 // Helper to turn cat name into slug
 const slugify = (text) => text.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-');
+
+export async function getStaticPaths() {
+    // 1. Fetch Local Posts
+    const localPosts = await getCollection('blog');
+    
+    // 2. Fetch Firestore Posts (for build-time static generation)
+    // We need to import db and admin here if not available globally, 
+    // but we have them at the top.
+    let firestorePosts = [];
+    try {
+        const postsSnapshot = await db.collection('posts').get();
+        firestorePosts = postsSnapshot.docs.map(doc => doc.data());
+    } catch (e) {
+        console.warn("Build-time Firestore fetch failed, using local only.");
+    }
+
+    const allPosts = [...localPosts.map(p => p.data), ...firestorePosts];
+    const categories = [...new Set(allPosts.map(p => p.category))].filter(Boolean);
+    
+    // Define slugify inside getStaticPaths so it's available
+    const slugify = (text) => text.toLowerCase().replace(/ & /g, '-').replace(/ /g, '-');
+    
+    // Include specific ones to be safe
+    const hardcoded = ['mindset-mental-health', 'divorce-strategy', 'relationships-dating', 'co-parenting', 'financial-recovery'];
+    const slugs = new Set([...categories.map(slugify), ...hardcoded]);
+
+    return Array.from(slugs).map(slug => ({
+        params: { slug }
+    }));
+}
 
 // 1. Fetch Local Posts (The "Old" Posts - Guaranteed to work)
 const localPosts = await getCollection('blog');

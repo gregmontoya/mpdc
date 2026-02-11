@@ -28,4 +28,8 @@
 ## 📈 Optimization (Future)
 
 - [ ] **Offline Conversions Upload**: Set up a process to periodically upload Stripe successful payments back to Google/FB for better ad optimization.
-- [ ] **Revenue Dashboard**: Create a "Revenue by Source" chart in the CRM using the new attribution metadata.
+## ⚡ Performance & Core Web Vitals
+
+- [ ] **Execute Technical Performance Plan**: See [PERFORMANCE_PLAN.md](./PERFORMANCE_PLAN.md) for full task list.
+- [ ] **Self-Host Key Fonts**: Move Montserrat/Inter to local assets.
+- [ ] **Implement Partytown**: Offload tracking scripts to background workers.

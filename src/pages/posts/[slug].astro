@@ -1,6 +1,20 @@
 ---
 import Layout from "../../layouts/Layout.astro";
+export const prerender = true;
 import { db } from "../../lib/server-firebase"; // Use Admin SDK
+
+export async function getStaticPaths() {
+  let posts = [];
+  try {
+    const postsSnap = await db.collection("posts").get();
+    posts = postsSnap.docs.map(doc => ({
+      params: { slug: doc.id }
+    }));
+  } catch (e) {
+    console.error("Error fetching posts for static generation:", e);
+  }
+  return posts;
+}
 
 const { slug } = Astro.params;
 
