@@ -30,6 +30,26 @@ import '../../styles/style.css';
           'value': 27.0,
           'currency': 'USD'
       });
+
+      // 🛒 GA4 Ecommerce Purchase (Monetization Fix)
+      const orderId = 'MPDC-' + Date.now().toString().slice(-6);
+      gtag('event', 'purchase', {
+          transaction_id: orderId,
+          value: 27.00,
+          tax: 0.00,
+          shipping: 0.00,
+          currency: 'USD',
+          items: [
+            {
+              item_id: 'CORE_SYSTEM',
+              item_name: "The Men's Divorce Mindset System",
+              affiliation: 'Direct Website',
+              price: 27.00,
+              index: 1,
+              quantity: 1
+            }
+          ]
+        });
     </script>
 
     <!-- 🔵 Facebook Pixel (Retargeting) -->
