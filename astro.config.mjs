@@ -13,5 +13,23 @@ export default defineConfig({
   },
   compressHTML: true,
 
-  integrations: [sitemap()]
+  integrations: [
+    sitemap({
+      filter: (page) => {
+        const internalPaths = [
+          '/crm',
+          '/admin',
+          '/system',
+          '/go/',
+          '/dev/',
+          '/blocks',
+          '/coming-soon-backup',
+          '-backup',
+          '-OLD-BACKUP',
+          'LIVE_SOURCE'
+        ];
+        return !internalPaths.some(path => page.includes(path));
+      }
+    })
+  ]
 });
