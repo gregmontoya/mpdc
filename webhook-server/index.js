@@ -41,6 +41,64 @@ if (admin.apps.length > 0) {
 const app = express();
 app.use(require('cors')());
 
+// --------------------------------------------------------------------------
+// 🔵 FACEBOOK CONVERSION API (CAPI) HELPERS
+// --------------------------------------------------------------------------
+const hashData = (data) => {
+    if (!data) return null;
+    return crypto.createHash('sha256').update(data.toLowerCase().trim()).digest('hex');
+};
+
+const sendFacebookCAPIEvent = async (eventName, userData = {}, customData = {}, req = null) => {
+    const pixelId = process.env.FB_PIXEL_ID || '1524876641955362';
+    const accessToken = process.env.FB_ACCESS_TOKEN;
+
+    // Capture Client Context from Request
+    let clientIp = '127.0.0.1';
+    let userAgent = 'Server-Sent-Event';
+
+    if (req) {
+        clientIp = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
+        if (clientIp.includes(',')) clientIp = clientIp.split(',')[0].trim();
+        userAgent = req.headers['user-agent'];
+    }
+
+    if (!accessToken) {
+        console.log(`⚠️ FB_ACCESS_TOKEN missing. CAPI (${eventName}) would have sent for ${userData.email || 'anonymous'}`);
+        return;
+    }
+
+    const payload = {
+        data: [{
+            event_name: eventName,
+            event_time: Math.floor(Date.now() / 1000),
+            action_source: 'website',
+            event_source_url: 'https://menspostdivorcecoaching.com/join',
+            user_data: {
+                em: userData.email ? [hashData(userData.email)] : [],
+                client_ip_address: clientIp,
+                client_user_agent: userAgent,
+                fbc: userData.fbc || null,
+                fbp: userData.fbp || null
+            },
+            custom_data: customData
+        }]
+    };
+
+    try {
+        const fetch = (await import('node-fetch')).default;
+        const response = await fetch(`https://graph.facebook.com/v17.0/${pixelId}/events?access_token=${accessToken}`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(payload)
+        });
+        const result = await response.json();
+        console.log(`🔵 FB CAPI (${eventName}) Result:`, result);
+    } catch (error) {
+        console.error(`❌ FB CAPI (${eventName}) Error:`, error);
+    }
+};
+
 // Initialize Resend
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 if (!resend) console.error('❌ RESEND_API_KEY is missing');
@@ -122,6 +180,9 @@ app.post('/create-checkout-session', async (req, res) => {
         // Define price based on plan (Now forced to $27)
         const amount = 2700;
         const productName = "The Men's Divorce Mindset System";
+
+        // 🔵 Send Facebook CAPI (Lead Event)
+        sendFacebookCAPIEvent('Lead', { email }, { content_name: productName }, req);
 
         // ----------------------------------------------------------------------
         // 🧲 SILENT PROSPECT CAPTURE (Pre-Checkout)
@@ -522,6 +583,13 @@ app.post('/webhook', async (req, res) => {
             const plan = session.metadata?.plan || 'core';
             const amountTotal = session.amount_total; // in cents
             let accessLevel = 'student'; // Default
+
+            // 🔵 Send Facebook CAPI (Purchase Event)
+            sendFacebookCAPIEvent('Purchase', { email }, {
+                value: (amountTotal / 100).toFixed(2),
+                currency: 'USD',
+                content_name: 'The Men\'s Divorce Mindset System'
+            }, req);
 
             // If they paid for the bundle (LEGACY) or have explicit plan metadata
             if (plan === 'bundle' || amountTotal >= 5800) {

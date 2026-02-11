@@ -2,6 +2,20 @@
 
 These "Go Links" are professional redirects that automatically add tracking tags (UTMs) to your visitors. Use these instead of raw URLs to ensure your attribution data (Stripe/Slack) is accurate.
 
+### 🎯 Marketing & Tracking Engine
+
+## 🛑 TOMORROW'S CHECKLIST (Feb 12)
+- [x] **Audit FB Pixel Event Firing**: Check Meta Events Manager. Look for "Purchase" events from today's/tomorrow's tests/sales.
+- [x] **Get FB CAPI Access Token**: GENERATED & INSTALLED. 
+*   [ ] **Verify GA4 Purchase Tracking**: Ensure the $27 value is showing up in GA4 "Monetization" reports.
+
+## 🚀 PRO RETARGETING SECRETS (Audience Strategy)
+Pros don't just target "People who didn't buy." They segment by **Intent Depth**:
+1.  **VSL Watchers**: Create a custom audience in Meta for "People who watched > 75% of your video." These are your highest-quality leads.
+2.  **Decision-Phase Leads**: Target people who hit the `/join` page (Lead event) but didn't buy. Show them **Testimonial** ads (Social Proof).
+3.  **Discovery-Phase Leads**: Target people who hit the blog but not `/join`. Show them **Education** ads (VSL snippets).
+4.  **EXCLUSION (Crucial)**: Always exclude the "Purchase" audience from your prospecting ads to save money.
+
 ### 📱 Instagram
 - **Bio Link:** `https://menspostdivorcecoaching.com/go/ig-bio`
   - *Destination:* `/join` (VSL Page)

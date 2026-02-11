@@ -7,6 +7,12 @@
 - **Feature:** Slack Notifications now display "Source" and "Campaign" for every sale.
 - **Update:** Webhook Server now logs prospect source to Firestore.
 
+## v2.0.8 (2026-02-11)
+- **Feature:** Activated Facebook Conversions API (CAPI) on `webhook-server`.
+- **Feature:** Added `sendFacebookCAPIEvent` helper for server-side tracking.
+- **Feature:** Implemented Server-Side "Lead" and "Purchase" events (Bypasses ad-blockers).
+- **Security:** Installed CAPI Access Token into environment variables.
+
 ## v2.0.7 (2026-02-11)
 - **Cleanup:** Removed temporary test scripts (`test_email_debug.js`, `test_slack.js`, `plumbing-check.cjs`).
 - **Safety:** Confirmed system integrity after cleanup.
