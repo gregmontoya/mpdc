@@ -5,6 +5,12 @@ const { Resend } = require('resend');
 const { createClient } = require('@supabase/supabase-js');
 const admin = require('firebase-admin');
 require('dotenv').config({ path: path.join(__dirname, '.env.local') }); // Load local env
+
+// Email Templates
+const WelcomeEmail1 = require('./emails/WelcomeEmail1');
+const AbandonedCart1 = require('./emails/AbandonedCart1');
+const NurtureDay3 = require('./emails/NurtureDay3');
+const WinBack1 = require('./emails/WinBack1');
 let stripe;
 if (process.env.STRIPE_SECRET_KEY) {
     stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
@@ -102,6 +108,70 @@ const sendFacebookCAPIEvent = async (eventName, userData = {}, customData = {}, 
     }
 };
 
+const syncContact = async (email, data = {}) => {
+    if (!supabase || !email) return null;
+
+    try {
+        // 1. Get current contact if exists
+        const { data: currentContact } = await supabase
+            .from('contacts')
+            .select('*')
+            .eq('email', email)
+            .single();
+
+        const updateData = {
+            email,
+            name: data.name || currentContact?.name,
+            marketing_status: data.marketing_status || currentContact?.marketing_status || 'subscribed',
+            funnel_stage: data.funnel_stage || currentContact?.funnel_stage || 'lead',
+            guest_id: data.guestId || currentContact?.guest_id,
+            last_active_at: new Date().toISOString(),
+            engagement_score: (currentContact?.engagement_score || 0) + (data.incrementScore || 0)
+        };
+
+        if (data.lastOpened) updateData.last_opened_at = new Date().toISOString();
+        if (data.lastClicked) updateData.last_clicked_at = new Date().toISOString();
+
+        // Merge tags
+        if (data.tag) {
+            const currentTags = currentContact?.tags || [];
+            if (!currentTags.includes(data.tag)) {
+                updateData.tags = [...currentTags, data.tag];
+            }
+        }
+
+        // Merge Attribution (Last-click wins for new campaigns)
+        if (data.attribution) {
+            updateData.attribution = {
+                ...(currentContact?.attribution || {}),
+                ...data.attribution
+            };
+        }
+
+        // Merge Automation State
+        if (data.automation) {
+            updateData.automation_state = {
+                ...(currentContact?.automation_state || {}),
+                ...data.automation
+            };
+        }
+
+        const { data: saved, error } = await supabase
+            .from('contacts')
+            .upsert(updateData, { onConflict: 'email' })
+            .select()
+            .single();
+
+        if (error) throw error;
+
+        console.log(`👤 Contact Synced: ${email} [${updateData.funnel_stage}]`);
+        return saved;
+    } catch (error) {
+        console.error('❌ Sync Contact Error:', error.message);
+        return null;
+    }
+};
+
 // Initialize Resend
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 if (!resend) console.error('❌ RESEND_API_KEY is missing');
@@ -164,51 +234,161 @@ app.post('/track-activity', async (req, res) => {
     }
 });
 
-// --------------------------------------------------------------------------
-// 🧲 LEAD CAPTURE ENDPOINT
-// --------------------------------------------------------------------------
-app.post('/capture-lead', async (req, res) => {
-    const { email, name } = req.body;
+const getInterestInsight = async (guestId) => {
+    if (!supabase || !guestId) return '';
 
-    console.log('------------------------------------------');
-    console.log('🧲 LEAD CAPTURED (Pre-Checkout):');
-    console.log(`📧 Email: ${email}`);
-
-    // 0. Save to Supabase (CRM)
-    const { error } = await supabase
-        .from('leads')
-        .insert([{ email, name, source: 'checkout_button' }]);
-
-    if (error) console.error('Supabase Lead Error:', error);
-    else console.log('✅ Lead saved to Supabase (CRM)');
-
-    // Add to Resend Audience (Using SDK)
     try {
-        let audienceId = process.env.RESEND_AUDIENCE_ID;
+        const { data: activity } = await supabase
+            .from('visitor_activity')
+            .select('path')
+            .eq('guest_id', guestId)
+            .limit(10);
 
-        const { data, error } = await resend.contacts.create({
-            email: email,
-            first_name: name,
-            unsubscribed: false,
-            audience_id: audienceId
+        if (!activity || activity.length === 0) return '';
+
+        const paths = activity.map(a => a.path).join(' ');
+
+        if (paths.includes('boundaries')) return "I noticed you were looking into boundaries. In divorce, your frame is your only protection against a chaotic ex-partner.";
+        if (paths.includes('rebuild')) return "Rebuilding your life isn't about time; it's about shifting your identity away from 'The Husband' to 'The Individual'.";
+        if (paths.includes('identity')) return "Your old identity died with the marriage. The work we do here is about installing a version of you that is unshakeable.";
+
+        return '';
+    } catch (e) {
+        return '';
+    }
+};
+
+// --------------------------------------------------------------------------
+// 👤 USER LOGIN TRACKING
+// --------------------------------------------------------------------------
+app.post('/track-login', async (req, res) => {
+    const { email } = req.body;
+    if (!email || !supabase) return res.status(400).json({ error: 'Email required' });
+
+    try {
+        const now = new Date().toISOString();
+
+        // Update Supabase Profiles
+        const { error: profileError } = await supabase
+            .from('profiles')
+            .update({ last_login_at: now })
+            .eq('email', email);
+
+        // Update Contacts Heartbeat
+        await syncContact(email, { last_active_at: now });
+
+        res.status(200).json({ status: 'tracked' });
+    } catch (error) {
+        console.error('❌ Track Login Error:', error.message);
+        res.status(500).json({ error: 'fail' });
+    }
+});
+app.post('/webhooks/resend', async (req, res) => {
+    const event = req.body;
+
+    // Resend sends the email in data.to or data.recipient
+    const email = event.data?.to?.[0] || event.data?.recipient;
+    const type = event.type; // email.opened, email.clicked
+
+    if (!email) return res.status(200).send('No email found');
+
+    console.log(`📩 Resend Event: ${type} for ${email}`);
+
+    try {
+        let scoreInc = 0;
+        let updateAttrs = {};
+
+        if (type === 'email.opened') {
+            scoreInc = 1;
+            updateAttrs.lastOpened = true;
+        } else if (type === 'email.clicked') {
+            scoreInc = 5; // Clicks are huge
+            updateAttrs.lastClicked = true;
+        }
+
+        const contact = await syncContact(email, {
+            incrementScore: scoreInc,
+            ...updateAttrs
         });
 
-        if (error) console.error('Resend Contact Error:', error);
-        else console.log('✅ Added to Resend Audience');
+        // 🚨 VELOCITY ALERT: Trigger Slack on high score milestones
+        if (contact && contact.engagement_score > 0 && contact.engagement_score % 5 === 0) {
+            await sendSlackNotification(
+                contact.name || 'Anonymous Lead',
+                email,
+                0,
+                'LEAD VELOCITY',
+                {
+                    utm_source: `Engagement Score: ${contact.engagement_score}`,
+                    utm_medium: '🔥 High Intensity Signal'
+                }
+            );
+        }
 
-    } catch (err) {
-        console.error('❌ Resend API Error:', err);
+        res.status(200).json({ received: true });
+    } catch (error) {
+        console.error('❌ Resend Webhook Error:', error.message);
+        res.status(200).send('Error but acknowledged'); // Keep Resend happy
     }
+});
+app.post('/capture-lead', async (req, res) => {
+    const { email, name, guestId, attribution } = req.body;
 
     console.log('------------------------------------------');
-    res.json({ received: true });
+    console.log('🧲 LEAD CAPTURED (In-House Cloud):');
+    console.log(`📧 Email: ${email}`);
+
+    try {
+        // 1. Sync to In-House Contacts Database
+        const contact = await syncContact(email, {
+            name,
+            guestId,
+            attribution,
+            tag: 'prospect',
+            funnel_stage: 'prospect'
+        });
+
+        // 2. Automated Welcome Flow (Email #1)
+        if (contact && (!contact.automation_state || !contact.automation_state.welcome_v1_sent)) {
+            console.log(`🚀 Triggering Welcome Flow for: ${email}`);
+
+            // The Mirror Effect: Get insight from browsing history
+            const insight = await getInterestInsight(guestId);
+
+            if (resend) {
+                const { data, error } = await resend.emails.send({
+                    from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
+                    to: [email],
+                    subject: 'Welcome to the System (The version of you she couldn\'t handle)',
+                    html: WelcomeEmail1(name || '', insight)
+                });
+
+                if (error) {
+                    console.error('❌ Resend Welcome Error:', error);
+                } else {
+                    console.log('✅ Welcome Email #1 Sent');
+                    // Mark as sent
+                    await syncContact(email, {
+                        automation: { welcome_v1_sent: true, welcome_v1_date: new Date().toISOString() }
+                    });
+                }
+            }
+        } else {
+            console.log('ℹ️ Welcome email already sent or contact sync failed.');
+        }
+
+        res.status(200).json({ status: 'captured' });
+    } catch (error) {
+        console.error('❌ Lead Capture Error:', error.message);
+        res.status(500).json({ error: 'failed to capture' });
+    }
 });
 
 // --------------------------------------------------------------------------
 // 💳 CREATE STRIPE CHECKOUT SESSION (FORCED USD)
 // --------------------------------------------------------------------------
 app.post('/create-checkout-session', async (req, res) => {
-    const { email, name, plan = 'core', attribution = {} } = req.body;
+    const { email, name, plan = 'core', attribution = {}, guestId } = req.body;
 
     try {
         console.log(`💳 Creating Session for: ${email} (${plan})`);
@@ -224,32 +404,31 @@ app.post('/create-checkout-session', async (req, res) => {
         sendFacebookCAPIEvent('Lead', { email }, { content_name: productName }, req);
 
         // ----------------------------------------------------------------------
-        // 🧲 SILENT PROSPECT CAPTURE (Pre-Checkout)
+        // 🧲 SILENT PROSPECT CAPTURE (In-House Marketing Cloud)
         // ----------------------------------------------------------------------
         try {
+            await syncContact(email, {
+                name,
+                guestId,
+                attribution,
+                tag: 'checkout_started',
+                funnel_stage: 'prospect'
+            });
+
             if (firestore) {
                 await firestore.collection('prospects').add({
                     email,
                     name,
                     source: 'checkout_start',
                     plan: plan,
-                    attribution: attribution, // Save to Firestore
+                    attribution: attribution,
                     status: 'prospect',
                     timestamp: admin.firestore.FieldValue.serverTimestamp()
                 });
             }
-
-            if (resend) {
-                await resend.contacts.create({
-                    email: email,
-                    first_name: name,
-                    unsubscribed: false,
-                    audience_id: process.env.RESEND_AUDIENCE_ID
-                });
-            }
-            console.log(`✅ Silent prospect capture complete for: ${email}`);
+            console.log(`✅ CRM lead sync complete for: ${email}`);
         } catch (leadError) {
-            console.error('❌ Background Prospect Capture Error:', leadError.message);
+            console.error('❌ Background Prospect Sync Error:', leadError.message);
         }
 
         const sessionOptions = {
@@ -598,9 +777,16 @@ app.post('/webhook', async (req, res) => {
             }
 
             // ----------------------------------------------------------------------
-            // 🧲 MARK PROSPECT AS CONVERTED
+            // 🧲 MARK PROSPECT AS CONVERTED (Marketing Cloud)
             // ----------------------------------------------------------------------
             try {
+                await syncContact(email, {
+                    name,
+                    tag: 'customer',
+                    funnel_stage: 'student',
+                    automation: { purchased_at: new Date().toISOString() }
+                });
+
                 if (firestore) {
                     const prospectQuery = await firestore.collection('prospects').where('email', '==', email).get();
                     if (!prospectQuery.empty) {
@@ -817,6 +1003,94 @@ app.get('/health', (req, res) => {
     res.json({ status: 'ok', timestamp: new Date().toISOString() });
 });
 
+// --------------------------------------------------------------------------
+// 🤖 PROACTIVE AUTOMATION WORKER (Demand Gen Engine)
+// --------------------------------------------------------------------------
+const runBackgroundAutomation = async () => {
+    if (!supabase || !resend) return;
+
+    console.log('🤖 Background Worker: Patrolling sequences...');
+
+    try {
+        const now = Date.now();
+        const fifteenMins = 15 * 60 * 1000;
+        const threeDays = 3 * 24 * 60 * 60 * 1000;
+        const fourteenDays = 14 * 24 * 60 * 60 * 1000;
+
+        // ----------------------------------------------------------------------
+        // 1. ABANDONED CART (15-45 mins)
+        // ----------------------------------------------------------------------
+        const { data: abandoned } = await supabase
+            .from('contacts')
+            .select('*')
+            .eq('funnel_stage', 'prospect')
+            .lt('last_active_at', new Date(now - fifteenMins).toISOString())
+            .gt('last_active_at', new Date(now - 45 * 60 * 1000).toISOString());
+
+        for (const prospect of (abandoned || [])) {
+            if (prospect.automation_state?.abandoned_sent) continue;
+            console.log(`📧 Sending Abandoned Cart: ${prospect.email}`);
+            await resend.emails.send({
+                from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
+                to: [prospect.email],
+                subject: 'Did life get in the way?',
+                html: AbandonedCart1(prospect.name || '')
+            });
+            await syncContact(prospect.email, { automation: { abandoned_sent: true, abandoned_sent_at: new Date().toISOString() } });
+        }
+
+        // ----------------------------------------------------------------------
+        // 2. DAY 3 NURTURE (72 hours)
+        // ----------------------------------------------------------------------
+        const { data: nurtureLeads } = await supabase
+            .from('contacts')
+            .select('*')
+            .eq('funnel_stage', 'prospect')
+            .lt('created_at', new Date(now - threeDays).toISOString())
+            .gt('created_at', new Date(now - fourDays).toISOString()); // Limit to 24h window
+
+        for (const lead of (nurtureLeads || [])) {
+            if (lead.automation_state?.nurture_d3_sent) continue;
+            console.log(`📧 Sending Day 3 Nurture: ${lead.email}`);
+            await resend.emails.send({
+                from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
+                to: [lead.email],
+                subject: 'Reclaiming your Frame (MPDC Method)',
+                html: NurtureDay3(lead.name || '')
+            });
+            await syncContact(lead.email, { automation: { nurture_d3_sent: true, nurture_d3_date: new Date().toISOString() } });
+        }
+
+        // ----------------------------------------------------------------------
+        // 3. STUDENT WIN-BACK (14 days inactive)
+        // ----------------------------------------------------------------------
+        const { data: inactiveStudents } = await supabase
+            .from('profiles')
+            .select('*')
+            .lt('last_login_at', new Date(now - fourteenDays).toISOString());
+
+        for (const student of (inactiveStudents || [])) {
+            // Use contact for automation state tracking
+            const { data: contact } = await supabase.from('contacts').select('*').eq('email', student.email).single();
+            if (contact?.automation_state?.winback_14d_sent) continue;
+
+            console.log(`📧 Sending Win-Back: ${student.email}`);
+            await resend.emails.send({
+                from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
+                to: [student.email],
+                subject: 'Don\'t let the old habits win',
+                html: WinBack1(student.name || '')
+            });
+            await syncContact(student.email, { automation: { winback_14d_sent: true, winback_14d_date: new Date().toISOString() } });
+        }
+
+    } catch (err) {
+        console.error('❌ Automation Worker Error:', err.message);
+    }
+};
+
+const fourDays = 4 * 24 * 60 * 60 * 1000;
+
 const PORT = process.env.PORT || 3000;
 
 if (process.env.VERCEL) {
@@ -826,5 +1100,10 @@ if (process.env.VERCEL) {
     // Start server locally
     app.listen(PORT, () => {
         console.log(`🚀 Webhook server running on port ${PORT}`);
+
+        // Start background automation every 5 minutes
+        setInterval(runBackgroundAutomation, 5 * 60 * 1000);
+        // Run immediately on start
+        setTimeout(runBackgroundAutomation, 10000);
     });
 }

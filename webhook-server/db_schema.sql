@@ -16,6 +16,7 @@ create table profiles (
   name text,
   stripe_customer_id text,
   access_level text default 'student',
+  last_login_at timestamp with time zone,
   created_at timestamp with time zone default timezone('utc'::text, now())
 );
 
@@ -40,14 +41,34 @@ create table visitor_activity (
   created_at timestamp with time zone default timezone('utc'::text, now())
 );
 
+-- 5. Create a Unified Contacts Table (The Marketing Cloud Core)
+create table contacts (
+  id uuid default uuid_generate_v4() primary key,
+  email text unique not null,
+  name text,
+  marketing_status text default 'subscribed', -- subscribed, unsubscribed, bounced
+  funnel_stage text default 'lead', -- lead, prospect, student, advocate
+  tags text[] default '{}',
+  automation_state jsonb default '{}', -- e.g. {"welcome_flow": "sent_1"}
+  attribution jsonb default '{}', -- utms, referrer
+  guest_id text,
+  engagement_score int default 0,
+  last_opened_at timestamp with time zone,
+  last_clicked_at timestamp with time zone,
+  last_active_at timestamp with time zone default timezone('utc'::text, now()),
+  created_at timestamp with time zone default timezone('utc'::text, now())
+);
+
 -- Make it secure (Row Level Security)
 alter table leads enable row level security;
 alter table profiles enable row level security;
 alter table activity_logs enable row level security;
 alter table visitor_activity enable row level security;
+alter table contacts enable row level security;
 
 -- Create policies
 create policy "Enable all access for service role" on leads for all using (true);
 create policy "Enable all access for service role" on profiles for all using (true);
 create policy "Enable all access for service role" on activity_logs for all using (true);
 create policy "Enable all access for service role" on visitor_activity for all using (true);
+create policy "Enable all access for service role" on contacts for all using (true);

@@ -313,6 +313,18 @@ import '../../styles/cookie.css';
 
                 await auth.signInWithEmailAndPassword(email, password);
                 
+                // Track Login Heartbeat (PRO Move)
+                try {
+                    const apiBase = window.location.hostname === 'localhost' ? 'http://localhost:3000' : 'https://mpdc-webhook-server.vercel.app';
+                    await fetch(`${apiBase}/track-login`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({ email })
+                    });
+                } catch (e) {
+                    console.error('Heartbeat Error:', e);
+                }
+
                 // Success: Redirect
                 window.location.assign('/system/dashboard');
 

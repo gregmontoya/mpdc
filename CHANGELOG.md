@@ -7,6 +7,12 @@
 - **Feature:** Slack Notifications now display "Source" and "Campaign" for every sale.
 - **Update:** Webhook Server now logs prospect source to Firestore.
 
+## v2.1.0 (2026-02-11)
+- **Feature**: In-House Marketing Cloud Core.
+- **Database**: New `contacts` hub with consolidated attribution, tagging, and funnel stage tracking.
+- **Automation**: Launched "Welcome Drip" flow with premium HTML templates.
+- **Integration**: Linked Identity Bridge (Guest IDs) to Email Leads for full-path attribution.
+
 ## v2.0.9 (2026-02-11)
 - **Feature**: Identity Bridge (Anonymous visitor path tracking).
 - **Feature**: Video SEO Schema (VSL visibility on Google).

@@ -722,6 +722,7 @@ import vslCourseImg from '../../assets/images/vsl-course-image.png';
                         name: name,
                         email: email,
                         plan: 'core',
+                        guestId: localStorage.getItem('mpdc_guest_id'),
                         attribution: trackingData // Send the real captured UTMs
                     })
                 });
