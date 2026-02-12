@@ -59,7 +59,3 @@ The change is inevitable; the *outcome* is up to you. Most men fall into a [vict
 ## Final Thoughts
 Divorce is the hardest "upgrade" you will ever go through. It strips away the comforts that made you complacent and forces you to rebuild from the ground up. Take ownership of the process, and you will emerge as a version of yourself that the "married version" never could have reached.
 
-***
-
-### Take the Logical Next Step
-You've felt the change—now it's time to lead it. To move from systemic collapse to a tactical comeback, you need a proven framework. The **[Men’s Divorce Mindset System](/join)** is the definitive logic-first roadmap for men who are ready to stop the spiral and start their comeback.

@@ -67,7 +67,3 @@ In cases of extreme high-conflict or weaponized allegations—such as a [DVPO le
 
 <div id="next-step"></div>
 
-***
-
-### Take the Logical Next Step
-Stopping the mental loop is the only way to reclaim your clarity. To move from overthinking to decisive action, you need a proven framework. The **[Men’s Divorce Mindset System](/join)** is the definitive logic-first roadmap for men who are ready to stop the spiral and start their comeback.

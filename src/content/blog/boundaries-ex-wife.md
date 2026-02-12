@@ -80,7 +80,3 @@ Never argue over the phone. If a conversation becomes emotional, end it immediat
 ## Final Thoughts
 Boundaries are the infrastructure of your freedom. Without them, your ex-wife still occupies a room in your mind—rent-free. Evict the drama, silo the logistics, and focus all your energy on building the man you were meant to be.
 
-***
-
-### Take the Logical Next Step
-Boundaries are the first step toward social autonomy. To move from reactive conflict to total life control, you need a proven system. The **[Men’s Divorce Mindset System](/join)** is the definitive roadmap for men who are ready to stop the spiral and start their comeback.

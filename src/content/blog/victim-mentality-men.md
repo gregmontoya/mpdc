@@ -84,7 +84,3 @@ The victim lives in a "Reactive Frame." The empowered man lives in a "Proactive 
 ## Final Thoughts
 You can be a victim, or you can be a man who had a difficult divorce. You cannot be both. The moment you stop asking "Why did this happen?" and start asking "What am I going to do now?", your comeback has officially begun.
 
-***
-
-### Take the Logical Next Step
-Breaking the victim mentality is the foundation of your new life. To move from passive suffering to active ownership, you need a proven framework. The **[Men’s Divorce Mindset System](/join)** is the definitive logic-first roadmap for men who are ready to stop the spiral and start their comeback.

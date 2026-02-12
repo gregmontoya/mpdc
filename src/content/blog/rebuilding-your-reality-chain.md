@@ -64,9 +64,3 @@ The Reality Chain is always working. Right now, it is either building a future b
 
 If you are ready to stop being the ball and start being the player, the first step is **Awareness.** You must see the chain before you can break it. Once you see the mechanics, the "Uncertainty" of divorce vanishes, replaced by a tactical roadmap for your second act.
 
----
-
-### Take Control of Your Reality
-The Men's Divorce Mindset System is a proven 5-step framework designed to take you from the "Spiral" to a state of unshakeable "Abundance." 
-
-**[Explore The Mindset System →](/join)**

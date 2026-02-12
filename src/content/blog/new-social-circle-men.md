@@ -81,7 +81,3 @@ Many of your current friends still see you as half of a couple. Their expectatio
 ## Final Thoughts
 Building a new circle is an act of leadership. It requires you to step out of your comfort zone and find men who are better than you. Don't settle for a sympathy network; build an engine of growth.
 
-***
-
-### Take the Logical Next Step
-Social pruning is the first step toward a high-value life. To move from isolation to a powerful network, you need a proven system. The **[Men’s Divorce Mindset System](/join)** is the definitive roadmap for men who are ready to stop the spiral and start their comeback.

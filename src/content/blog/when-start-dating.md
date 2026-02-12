@@ -80,7 +80,3 @@ When you are "hunting" for validation, you appear desperate and low-value. When 
 ## Final Thoughts
 Dating is a high-stakes environment. If you enter it while you are still "bleeding" from your divorce, you will only contaminate your future. Do the work, reach the threshold, and enter the market as a man of high authority.
 
-***
-
-### Take the Logical Next Step
-Dating with clarity is only possible when you have a complete system for your recovery. To move from confusion to total confidence, you need a proven roadmap. The **[Men’s Divorce Mindset System](/join)** is the definitive guide for men who are ready to stop the spiral and start their comeback.

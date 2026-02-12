@@ -79,7 +79,3 @@ Strategy #5 is the filter for all the others. You must accept that your current 
 ## Final Thoughts
 Rebuilding is a choice. You can let the divorce be the chapter where your story ends, or you can let it be the inciting incident for your greatest comeback. Follow the blueprint, trust the logic, and take ownership of the man you are becoming.
 
-***
-
-### Take the Logical Next Step
-A blueprint is only useful if you have the tools to build it. To move from theory to execution, you need a proven system. The **[Men’s Divorce Mindset System](/join)** is the definitive roadmap for men who are ready to stop the spiral and start their comeback.

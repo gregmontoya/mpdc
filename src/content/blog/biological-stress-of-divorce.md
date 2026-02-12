@@ -88,11 +88,4 @@ If you leave your environment, your social circle, and your thought patterns unc
 
 Recovery is not about "waiting for time to heal." It is about understanding the hardware of your mind and installing the correct software to lead your family, your business, and your own life through the transition.
 
----
-
-### **Take the Next Step**
-If you are ready to stop surviving and start designing your comeback, explore how we help men rebuild their identity through logic-heavy, tactical coaching.
-
-**[Explore The Men's Divorce Mindset System →](/join)**
-
 *Expert Note: This article is intended for informational purposes on stress and performance. If you are experiencing symptoms of clinical PTSD or severe depression, please seek guidance from a licensed health professional.*

@@ -86,7 +86,3 @@ The "Husband" identity provided a container for your emotions. When that contain
 ## Final Thoughts
 Anger isn't your enemy; your *reaction* to it is. Use the energy of your resentment to fuel your physical and professional comeback, rather than letting it burn down what remains of your life.
 
-***
-
-### Take the Logical Next Step
-Understanding your anger is the first step toward reclaiming your edge. To move from raw emotion to tactical life-rebuilding, you need a proven framework. The **[Men’s Divorce Mindset System](/join)** is the definitive logic-first roadmap for men who are ready to stop the spiral and start their comeback.

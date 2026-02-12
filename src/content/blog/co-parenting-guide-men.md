@@ -79,7 +79,3 @@ Parallel parenting is not "ignoring" the other parent; it's **siloing the confli
 ## Final Thoughts
 Your kids are watching how you handle this. They don't need you to win arguments with their mother; they need you to win the battle for your own character. Be the leader, maintain the frame, and show them what a man looks like when he's rebuilding his life.
 
-***
-
-### Take the Logical Next Step
-Parallel parenting is the only way to reclaim your role as a father without the drama. To move from survival mode to high-performance parenting, you need a proven framework. The **[Men’s Divorce Mindset System](/join)** is the definitive roadmap for men who are ready to stop the spiral and start their comeback.

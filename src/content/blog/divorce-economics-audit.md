@@ -76,11 +76,4 @@ In the [Men's Divorce Mindset System](/join), we move beyond the "Budget" and in
 
 Success in post-divorce economics is about **Efficiency.** You are now a leaner, faster organization. If you manage the transition with logic today, you build a legacy that is yours alone tomorrow.
 
----
-
-### **Take Control of Your Future**
-Stopping the financial drain requires a complete mindset shift. If you are ready to stop the reactive spending and start building your tactical roadmap, our system is the blueprint you need.
-
-**[Explore The Men's Divorce Mindset System →](/join)**
-
 *Note: Athens NLP Studies, LLC and MPDC do not provide formal financial or legal advice. Always consult with a certified financial planner and your attorney regarding your specific situation.*
