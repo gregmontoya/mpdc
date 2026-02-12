@@ -256,12 +256,12 @@
     height: 100%;
     background-color: #ffffff;
     z-index: 1500;
-    padding: 100px 1.5rem 2rem 1.5rem;
-    /* Space for fixed header */
+    padding: 70px 0 0 0;
+    /* Align with header height */
     display: flex;
     flex-direction: column;
     transform: translateX(100%);
-    transition: transform 0.3s cubic-bezier(0.165, 0.84, 0.44, 1);
+    transition: transform 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
     overflow-y: auto;
 }
 
@@ -269,138 +269,116 @@
     transform: translateX(0);
 }
 
-.mobile-nav-links {
+.mobile-cta-banner {
+    background-color: #C4613A;
+    /* Burnt Copper */
+    padding: 1.5rem;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+.mobile-cta-pill {
+    background: #E8E1D4;
+    /* Light Sandstone */
+    color: #0b3b36;
+    padding: 0.75rem 1.75rem;
+    border-radius: 50px;
+    font-size: 1.1rem;
+    font-weight: 800;
+    text-decoration: none;
+    display: inline-block;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.mobile-nav-list {
     display: flex;
     flex-direction: column;
 }
 
 .mobile-nav-item {
-    border-bottom: 1px solid #e5e7eb;
-    /* Light grey divider like Casa */
+    border-bottom: 1px solid #f0f0f0;
+    /* Ultra light divider */
+    padding: 0 1.5rem;
 }
 
 .mobile-nav-link,
 .mobile-nav-toggle {
     font-family: var(--font-heading);
-    font-size: 1.25rem;
-    font-weight: 700;
+    font-size: 1.2rem;
+    font-weight: 600;
     color: #1a1f24;
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 1.2rem 0;
+    padding: 1.4rem 0;
     width: 100%;
     background: transparent;
     border: none;
     cursor: pointer;
     text-align: left;
+    transition: color 0.3s ease;
     -webkit-tap-highlight-color: transparent;
-}
-
-/* Custom Chevron for Toggles */
-.chevron-icon {
-    width: 20px;
-    height: 20px;
-    position: relative;
-    transition: transform 0.3s ease;
-}
-
-.chevron-icon::before,
-.chevron-icon::after {
-    content: '';
-    position: absolute;
-    background-color: #111827;
-    border-radius: 2px;
-    transition: all 0.3s ease;
-}
-
-/* Create a plus icon that turns into a minus, or a chevron */
-/* Let's go with a clean Chevron */
-.chevron-icon::before {
-    top: 10px;
-    left: 4px;
-    width: 8px;
-    height: 2px;
-    transform: rotate(45deg);
-}
-
-.chevron-icon::after {
-    top: 10px;
-    right: 4px;
-    width: 8px;
-    height: 2px;
-    transform: rotate(-45deg);
-}
-
-.mobile-nav-toggle.active .chevron-icon {
-    transform: rotate(-180deg);
 }
 
 .mobile-nav-toggle.active {
     color: var(--color-accent);
 }
 
-.mobile-nav-link.no-arrow::after {
-    display: none;
+/* Marie Forleo Style Indicator (>) */
+.marie-indicator {
+    width: 10px;
+    height: 10px;
+    border-top: 2.5px solid #1a1f24;
+    border-right: 2.5px solid #1a1f24;
+    transform: rotate(45deg);
+    transition: all 0.3s ease;
+    opacity: 0.7;
+    margin-right: 5px;
+}
+
+.mobile-nav-toggle.active .marie-indicator {
+    transform: rotate(135deg);
+    /* Point down when expanded */
+    border-color: var(--color-accent);
 }
 
 .mobile-submenu {
     max-height: 0;
     overflow: hidden;
     transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-    background-color: #f8fafc;
-    border-radius: 8px;
-    margin-bottom: 0.5rem;
+    background-color: #fff;
 }
 
 .mobile-submenu.active {
     max-height: 500px;
-    padding: 0.5rem 0;
-    margin-bottom: 1rem;
+    padding-bottom: 1rem;
 }
 
 .mobile-submenu a {
     display: block;
-    padding: 0.8rem 1.25rem;
-    font-size: 1rem;
+    padding: 0.8rem 1rem;
+    font-size: 1.05rem;
     color: #4b5563;
     text-decoration: none;
-    font-weight: 600;
+    font-weight: 500;
+    border-left: 3px solid var(--color-accent);
+    margin-bottom: 0.5rem;
+    background: #fcfcfc;
 }
 
-.mobile-menu-footer {
-    margin-top: auto;
-    padding-top: 2rem;
-}
-
-.mobile-menu-btn {
-    display: block;
-    width: 100%;
-    background-color: #C4613A;
-    /* Brand Copper */
-    color: #ffffff !important;
+.mobile-menu-bottom {
+    padding: 2.5rem 1.5rem;
     text-align: center;
-    padding: 1.1rem;
-    border-radius: 6px;
-    font-weight: 700;
-    font-size: 1rem;
-    text-decoration: none;
-    margin-bottom: 0.75rem;
 }
 
-/* SECOND BUTTON STYLE (Casa Style) */
-.mobile-menu-btn-outline {
-    background-color: #fff;
-    color: #C4613A !important;
-    border: 2px solid #C4613A;
-    text-align: center;
-    padding: 1.1rem;
-    border-radius: 6px;
+.mobile-login-link {
+    color: #1a1f24;
     font-weight: 700;
-    font-size: 1rem;
-    text-decoration: none;
-    display: block;
+    text-decoration: underline;
+    text-underline-offset: 4px;
+    font-size: 1.1rem;
 }
 
 

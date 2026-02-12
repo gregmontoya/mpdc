@@ -80,53 +80,68 @@ const { hideNav = false } = Astro.props;
 
 <!-- MOBILE MENU OVERLAY -->
 <div class="mobile-menu" id="mobile-menu">
-    {!hideNav && <div class="mobile-nav-links">
-        <div class="mobile-nav-item">
-            <a href="/" class="mobile-nav-link no-arrow">Home</a>
-        </div>
-        
-        <div class="mobile-nav-item">
-            <button class="mobile-nav-toggle" data-submenu="courses">
-                <span>Courses</span>
-                <i class="chevron-icon"></i>
-            </button>
-            <div class="mobile-submenu" id="submenu-courses">
-                <a href="/join">The System (Core Protocol)</a>
+    {!hideNav && (
+        <div class="mobile-menu-content">
+            <!-- Marie-Style Top CTA Banner -->
+            <div class="mobile-cta-banner">
+                <a href="/join" class="mobile-cta-pill">Start My Comeback!</a>
+            </div>
+
+            <nav class="mobile-nav-list">
+                <div class="mobile-nav-item">
+                    <button class="mobile-nav-toggle" data-submenu="courses">
+                        <span>Courses</span>
+                        <span class="marie-indicator"></span>
+                    </button>
+                    <div class="mobile-submenu" id="submenu-courses">
+                        <a href="/join">The System (Core Protocol)</a>
+                    </div>
+                </div>
+
+                <div class="mobile-nav-item">
+                    <a href="/" class="mobile-nav-link">Home</a>
+                </div>
+
+                <div class="mobile-nav-item">
+                    <a href="/learn" class="mobile-nav-link">Blog & Resources</a>
+                </div>
+
+                <div class="mobile-nav-item">
+                    <button class="mobile-nav-toggle" data-submenu="resources">
+                        <span>Categories</span>
+                        <span class="marie-indicator"></span>
+                    </button>
+                    <div class="mobile-submenu" id="submenu-resources">
+                        <a href="/category/mindset-mental-health">Mindset & Mental Health</a>
+                        <a href="/category/divorce-strategy">Divorce Strategy</a>
+                        <a href="/category/relationships-dating">Relationships & Dating</a>
+                        <a href="/category/co-parenting">Co-Parenting</a>
+                        <a href="/category/financial-recovery">Financial Recovery</a>
+                    </div>
+                </div>
+
+                <div class="mobile-nav-item">
+                    <a href="/about" class="mobile-nav-link">About Alex</a>
+                </div>
+
+                <div class="mobile-nav-item">
+                    <a href="/services" class="mobile-nav-link">Community</a>
+                </div>
+
+                <div class="mobile-nav-item">
+                    <a href="/clarity-call" class="mobile-nav-link" style="color: var(--color-accent);">Book Clarity Call</a>
+                </div>
+
+                <div class="mobile-nav-item">
+                    <a href="/contact" class="mobile-nav-link">Contact</a>
+                </div>
+            </nav>
+            
+            <div class="mobile-menu-bottom">
+                <a href="/system/login" class="mobile-login-link">Member Login</a>
             </div>
         </div>
-
-        <div class="mobile-nav-item">
-            <button class="mobile-nav-toggle" data-submenu="resources">
-                <span>Resources</span>
-                <i class="chevron-icon"></i>
-            </button>
-            <div class="mobile-submenu" id="submenu-resources">
-                <a href="/learn" style="font-weight: 800; color: var(--color-bg-primary);">View All Articles</a>
-                <a href="/category/mindset-mental-health">Mindset & Mental Health</a>
-                <a href="/category/divorce-strategy">Divorce Strategy</a>
-                <a href="/category/relationships-dating">Relationships & Dating</a>
-                <a href="/category/co-parenting">Co-Parenting</a>
-                <a href="/category/financial-recovery">Financial Recovery</a>
-            </div>
-        </div>
-
-        <div class="mobile-nav-item">
-            <a href="/about" class="mobile-nav-link">About Alex</a>
-        </div>
-        <div class="mobile-nav-item">
-            <a href="/services" class="mobile-nav-link no-arrow">Community</a>
-        </div>
-        <div class="mobile-nav-item">
-            <a href="/clarity-call" class="mobile-nav-link no-arrow" style="color: var(--color-accent);">Book Clarity Call</a>
-        </div>
-        <div class="mobile-nav-item">
-            <a href="/contact" class="mobile-nav-link no-arrow">Contact</a>
-        </div>
-    </div>}
-    <div class="mobile-menu-footer">
-        <a href="/system/login" class="mobile-menu-btn mobile-menu-btn-outline">Member Login</a>
-        {!hideNav && <a href="/join" class="mobile-menu-btn">GET STARTED</a>}
-    </div>
+    )}
 </div>
 
 <script is:inline>
