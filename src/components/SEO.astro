@@ -162,6 +162,18 @@ const breadcrumbSchema = {
     } else {
       console.log('🔵 FB Pixel: Bypassed for Stealth Mode');
     }
+
+    // 3. Load Microsoft Clarity
+    if (!isStealth) {
+      (function(c,l,a,r,i,t,y){
+          c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
+          t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
+          y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
+      })(window, document, "clarity", "script", "vdb5xxjl6u");
+      console.log('👁️ Microsoft Clarity: Initialized (Delayed)');
+    } else {
+      console.log('👁️ Microsoft Clarity: Bypassed for Stealth Mode');
+    }
   }
 
   // Fire on 3s delay OR first interaction to protect Core Web Vitals
@@ -174,5 +186,4 @@ const breadcrumbSchema = {
 
 <noscript>
   <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1524876641955362&ev=PageView&noscript=1" />
-</noscript>
 </noscript>
