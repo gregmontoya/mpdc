@@ -120,13 +120,18 @@ const breadcrumbSchema = {
     window.analyticsLoaded = true;
 
     // 🛡️ Global Stealth Mode Check (Internal Traffic Exclusion)
+    const urlParams = new URLSearchParams(window.location.search);
+    const forceTracking = urlParams.get('test_tracking') === 'true';
+
     const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1');
     const isPortugal = Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') || 
                        Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') ||
                        Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores');
-    const isStealth = isDev || isPortugal;
+    
+    const isStealth = (isDev || isPortugal) && !forceTracking;
 
     if (isStealth) console.log('🕵️ Stealth Mode Active: Internal tracking paused.');
+    if (forceTracking) console.log('🚀 Stealth Mode Bypassed: Tracking forced for testing.');
 
     // 1. Load Google Analytics (GA4)
     const gaScript = document.createElement('script');
