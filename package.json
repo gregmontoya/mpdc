@@ -7,7 +7,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "backup": "node scripts/backup.js",
-    "deploy-safe": "npm run build && node scripts/pre-deploy-check.js && npx firebase-tools deploy --only hosting"
+    "deploy-safe": "npm run build && node scripts/pre-deploy-check.js && npx firebase-tools deploy --only hosting && node scripts/submit-to-bing.js"
   },
   "dependencies": {
     "@astrojs/node": "^9.5.2",
