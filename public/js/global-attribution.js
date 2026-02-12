@@ -57,7 +57,7 @@
     const pingActivity = async (data) => {
         const apiBase = window.location.hostname === 'localhost'
             ? 'http://localhost:3000'
-            : 'https://mpdc-webhook-server.vercel.app';
+            : 'https://webhook-server-xi-nine.vercel.app';
 
         try {
             const guestId = getGuestId();

@@ -4,7 +4,9 @@ const NurtureDay3 = require('./emails/NurtureDay3');
 const Resend = require('resend').Resend;
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
+const supabase = (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
+    ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+    : null;
 
 /**
  * THE AUTOMATION PROCESSOR
@@ -15,9 +17,9 @@ const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SER
 const processAutomations = async () => {
     console.log('🤖 Starting Automation Processing...');
 
-    if (!resend) {
-        console.error('❌ Resend API Key missing. Automation aborted.');
-        return { success: false, error: 'Resend missing' };
+    if (!resend || !supabase) {
+        console.error('❌ Resend or Supabase configuration missing. Automation aborted.');
+        return { success: false, error: 'Configuration missing' };
     }
 
     const results = {

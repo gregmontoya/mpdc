@@ -311,16 +311,21 @@
       const attribution = (window as any).getAttributionData ? (window as any).getAttributionData() : {};
       const guestId = localStorage.getItem('mpdc_guest_id');
 
-      const response = await fetch('https://mpdc-webhook-server.vercel.app/capture-lead', {
+      const response = await fetch('https://webhook-server-xi-nine.vercel.app/capture-lead', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ name, email, guestId, attribution, source: 'maries_popup_restored' })
       });
 
       if (response.ok) {
-        submitBtn.innerText = "SUCCESS!";
+        submitBtn.innerText = "THANK YOU!";
         submitBtn.style.background = "#2ecc71";
-        setTimeout(() => closePopup(true), 2000);
+        
+        // 🚀 Redirect to Join Page after a short delay
+        setTimeout(() => {
+          closePopup(true);
+          window.location.href = '/join';
+        }, 1500);
       } else { throw new Error('Failed'); }
     } catch (error) {
       submitBtn.innerText = "ERROR - TRY AGAIN";

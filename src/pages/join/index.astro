@@ -721,7 +721,7 @@ import vslCourseImg from '../../assets/images/vsl-course-image.png';
                 // Use localhost:3000 directly for dev to bypass proxy issues
                 const apiBase = window.location.hostname === 'localhost' 
                     ? 'http://localhost:3000' 
-                    : 'https://mpdc-webhook-server.vercel.app'; // Use production URL directly if needed, or /api if proxied
+                    : 'https://webhook-server-xi-nine.vercel.app'; // Use production URL directly if needed, or /api if proxied
                     
                 const response = await fetch(`${apiBase}/create-checkout-session`, {
                     method: 'POST',

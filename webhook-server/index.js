@@ -22,14 +22,18 @@ if (process.env.STRIPE_SECRET_KEY) {
 // Initialize Firebase Admin (Using Env Vars)
 if (!admin.apps.length) {
     try {
-        admin.initializeApp({
-            credential: admin.credential.cert({
-                projectId: process.env.FIREBASE_PROJECT_ID,
-                clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
-                privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
-            })
-        });
-        console.log('✅ Firebase Admin Initialized');
+        if (process.env.FIREBASE_PROJECT_ID && process.env.FIREBASE_CLIENT_EMAIL && process.env.FIREBASE_PRIVATE_KEY) {
+            admin.initializeApp({
+                credential: admin.credential.cert({
+                    projectId: process.env.FIREBASE_PROJECT_ID,
+                    clientEmail: process.env.FIREBASE_CLIENT_EMAIL,
+                    privateKey: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+                })
+            });
+            console.log('✅ Firebase Admin Initialized');
+        } else {
+            console.warn('⚠️ Firebase environment variables missing. Admin SDK not initialized.');
+        }
     } catch (e) {
         console.error('❌ Firebase Admin Init Error:', e.message);
     }
@@ -45,7 +49,6 @@ if (admin.apps.length > 0) {
 
 
 const { processAutomations } = require('./automation-processor');
-const crypto = require('crypto');
 const app = express();
 app.use(require('cors')({
     origin: [/localhost:4321$/, /menspostdivorcecoaching\.com$/],
@@ -753,10 +756,10 @@ async function sendLeadNotification(email, name, attribution = {}) {
     try {
         const { data, error } = await resend.emails.send({
             from: 'MPDC Alerts <hello@menspostdivorcecoaching.com>',
-            to: ['hello@menspostdivorcecoaching.com', 'gregmontoya1@gmail.com'],
-            subject: `🧲 New Lead: ${email} (${attribution.utm_source || 'Organic'})`,
+            to: ['hello@menspostdivorcecoaching.com', 'gregmontoya1@gmail.com', 'amorganatm@gmail.com'],
+            subject: `🧲 New MPDC Lead: ${email} (${attribution.utm_source || 'Organic'})`,
             html: emailHTML,
-            reply_to: email // Allow Greg to reply directly to the lead if he wants
+            reply_to: email // Allow Greg/Alex to reply directly to the lead
         });
 
         if (error) {
