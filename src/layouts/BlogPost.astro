@@ -123,8 +123,10 @@ const faqSchema = {
 
             <!-- Center Column: Article Content -->
             <div class="article-content">
-                {aeoSummary && <AeoSummary text={aeoSummary} />}
-                <slot />
+                <div class="content-block">
+                    {aeoSummary && <AeoSummary text={aeoSummary} />}
+                    <slot />
+                </div>
 
                 <div class="final-thoughts-spacer" style="margin-top: 4rem;"></div>
 
