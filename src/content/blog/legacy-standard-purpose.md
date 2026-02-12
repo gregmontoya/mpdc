@@ -31,7 +31,7 @@ If you find yourself waking up without a sense of direction, you are in a "Purpo
 
 For years, your "Mission" was delegated. You worked for "The Family," you provided for "The House," and you made decisions based on "Her." While this feels noble, it is a high-risk strategy because your purpose became **Contingent Identity.** If the person you are serving leaves, your purpose vanishes with them.
 
-In **Module 5: Scarcity to Abundance**, we teach men to move from Contingent Identity to **Autonomous Identity.** 
+In [Module 5: Scarcity to Abundance (Men's Divorce Mindset System)](/join), we teach men to move from Contingent Identity to **Autonomous Identity.** 
 
 ## Legacy vs. Ego: The Critical Pivot
 
@@ -68,7 +68,7 @@ Most "Divorce Support Groups" are actually "Victim Support Groups." They invite 
 
 The secret to moving on from betrayal is to make your future so bright that your past becomes a "Historical Footnote." 
 
-When you fully implement the **Reality Chain** (Module 3) logic, you realize that your ex-wife's betrayal was an event, not a definition. It was a data point that showed the marriage was unsustainable. Once the data is processed, you pivot.
+When you fully implement the [Reality Chain (Module 3 of our system)](/join) logic, you realize that your ex-wife's betrayal was an event, not a definition. It was a data point that showed the marriage was unsustainable. Once the data is processed, you pivot.
 
 You are now the architect. You are the builder. And the **Legacy Standard** you set today will define the next 40 years of your existence.
 

@@ -29,7 +29,7 @@ To rebuild your wealth, you must stop reacting to your bank statements and start
 
 For years, your financial life was built on a "Two-Player" architecture. Your taxes, your insurance, your mortgage, and your lifestyle were all optimized for a dual-income or dual-resident household. 
 
-The moment the [Reality Chain](/learn/rebuilding-your-reality-chain) of the marriage breaks, the economics of your life fracture. You are now attempting to maintain the same (or similar) lifestyle with a significantly higher "Cost of Operation." 
+The moment the [Reality Chain](/learn/rebuilding-your-reality-chain) of the marriage breaks, the economics of your life fracture. You are now attempting to maintain the same (or similar) lifestyle with a significantly higher "Cost of Operation." as we detail in the [Systems Breakdown](/learn/how-divorce-changes-a-man) of post-divorce life.
 
 According to research from the [National Center for Family & Marriage Research](https://www.bgsu.edu/ncfmr.html), men over the age of 50 ("Gray Divorce") often see a 21% drop in household income, but because they are now operating a solo household, the *real* impact on their lifestyle is much higher.
 
@@ -50,7 +50,7 @@ When your brain is in a state of [Biological Stress](/learn/biological-stress-of
 *   **The Convenience Tax**: Over-spending on takeout, travel, and services because you lack the "Bandwidth" to manage your own life.
 *   **Legal Attrition**: Fighting over "The Principle" in court—spending $10,000 in legal fees to win a $2,000 asset.
 
-This is not a money problem; it is an **Identity Problem.** You are spending resources to solve a feeling. In the **Men's Divorce Mindset System**, we teach that you cannot buy your way into a new frame. You must build it through logic.
+This is not a money problem; it is an **Identity Problem.** You are spending resources to solve a feeling. In the [Men's Divorce Mindset System](/join), we teach that you cannot buy your way into a new frame. You must build it through logic.
 
 ## The Tactical Audit: Three Steps to Stability
 
@@ -69,7 +69,7 @@ Review your recurring expenses. How many of them exist purely to support the "Hu
 
 The goal of your second act is not just survival; it is **Wealth Sovereignty.**
 
-In **Module 5: Scarcity to Abundance**, we move beyond the "Budget" and into the "Standard." An Abundance mindset recognizes that while your local accounts may be fractured, your **Value-Generation Capability** is intact. 
+In [Module 5: Scarcity to Abundance (part of the Men's Divorce Mindset System)](/join), we move beyond the "Budget" and into the "Standard." An Abundance mindset recognizes that while your local accounts may be fractured, your **Value-Generation Capability** is intact. 
 
 - **Focus on the Asset**: Your biggest asset is not your house; it is your [Neurological Regulation](/learn/stop-overthinking-men). If you are clear and logical, you can out-earn any divorce settlement.
 - **Silo the Past**: Support payments and settlements are "Fixed Operating Expenses." Once the number is set, stop thinking about it. Every minute spent resenting a check you have to write is a minute you aren't spending on your new mission.

@@ -62,7 +62,7 @@ Many men feel they were "good husbands" who were betrayed. This sense of injusti
 <div id="immediate-impact"></div>
 
 ## From Blame to Blueprint
-Victimhood is often the final stage of the mindset collapse. It starts with [unprocessed anger](/learn/managing-anger-men) and solidifies during the phase of [chronic overthinking](/learn/stop-overthinking-men). When you cannot solve the "Why," you settle for "It's not my fault." While that may be true, it's also a dead end.
+Victimhood is often the final stage of the mindset collapse. It starts with [unprocessed anger](/learn/managing-anger-men) and solidifies during the phase of [chronic overthinking](/learn/stop-overthinking-men). To stop the slide, you need a [rebuilding blueprint (Men's Divorce Mindset System)](/join). When you cannot solve the "Why," you settle for "It's not my fault." While that may be true, it's also a dead end.
 
 <div id="behavioral-changes"></div>
 

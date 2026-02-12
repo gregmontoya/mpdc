@@ -55,7 +55,7 @@ This is why many men find themselves getting sick, losing weight, or suffering f
 
 ## Level 3: The Identity Fracture
 
-In the **Men's Divorce Mindset System**, we focus heavily on the "Identity" layer because it is the root of the biological trigger.
+In the [Men's Divorce Mindset System](/join), we focus heavily on the "Identity" layer because it is the root of the biological trigger.
 
 For years, your brain built a network of "Suggestions" and "Thoughts" around the role of **Husband.** Your home, your routine, and your social circle were all anchors for this identity. When the divorce happens, that entire neural network is suddenly "orphaned." 
 
@@ -75,16 +75,16 @@ The Vagus nerve is the "main cable" of your parasympathetic nervous system (the 
 ### 2. Transitioning to "Towards-Motivation"
 Most men are trapped in "Away-From" motivation: *"I just want the pain to stop."* 
 
-Neurologically, this keeps you in survival mode. You must give the brain a concrete "Identity Target" (Module 1). This shifts your focus from the **Threat** (the past) to the **Outcome** (the future). When the brain has a clear direction, the Amygdala settles down because the "uncertainty" (the biggest trigger) is replaced with a plan.
+Neurologically, this keeps you in survival mode. You must give the brain a concrete [Identity Target (Module 1 of our system)](/join). This shifts your focus from the **Threat** (the past) to the **Outcome** (the future). When the brain has a clear direction, the Amygdala settles down because the "uncertainty" (the biggest trigger) is replaced with a plan.
 
 ### 3. Setting Logic Standards
-In **Module 5: Scarcity to Abundance**, we teach men to move from "Habits" to "Standards." Habits require willpower; Standards are simply who you are. By setting a standard that *"I do not react to emotional triggers,"* you begin to rewire the neural pathways that are currently keeping you in a state of panic.
+In [Module 5: Scarcity to Abundance (Men's Divorce Mindset System)](/join), we teach men to move from "Habits" to "Standards." Habits require willpower; Standards are simply who you are. By setting a standard that *"I do not react to emotional triggers,"* you begin to rewire the neural pathways that are currently keeping you in a state of panic.
 
 ## The Path to Long-Term Stability
 
 Biology will always win in the short term, but **Architecture** wins in the long term. 
 
-If you leave your environment, your social circle, and your thought patterns unchanged, your brain will stay in survival mode indefinitely. You must intentionally design a new "Reality Chain" (Module 3) that supports your new identity.
+If you leave your environment, your social circle, and your thought patterns unchanged, your brain will stay in survival mode indefinitely. You must intentionally design a new [Reality Chain (Module 3 of our system)](/join) that supports your new identity.
 
 Recovery is not about "waiting for time to heal." It is about understanding the hardware of your mind and installing the correct software to lead your family, your business, and your own life through the transition.
 
