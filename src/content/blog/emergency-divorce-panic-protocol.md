@@ -3,9 +3,17 @@ title: "The Emergency Divorce Panic Protocol: How to Regain Frame in 180 Seconds
 description: "Feeling the 'Divorce Panic'? Learn the tactical 3-step protocol to stop the emotional spiral, settle your nervous system, and reclaim your logic after a split."
 publishDate: "2026-02-12"
 category: "Mindset & Mental Health"
+categoryUrl: "/category/mindset-mental-health"
+readTime: "4 min read"
 image: "/images/blog/divorce-panic.png"
 aeoSummary: "Divorce panic is a biological fight-or-flight response triggered by a perceived threat to your identity and survival. To stop it instantly, move from 'Away-From' motivation to 'Towards' logic. Use the 180-second Reset protocol: identify the specific thought loop, ask what you can learn from it, and immediately pivot your focus to a concrete future goal."
 tags: ["divorce panic", "anxiety", "rebuild life", "mindset"]
+toc: [
+  { "text": "The Emergency Divorce Panic Protocol", "url": "#the-emergency-divorce-panic-protocol" },
+  { "text": "Step 1: Identify the Thought Loop", "url": "#step-1-identify-the-thought-loop-0-60-seconds" },
+  { "text": "Step 2: Perform the Knowledge Flip", "url": "#step-2-perform-the-knowledge-flip-60-120-seconds" },
+  { "text": "Step 3: Install a Memory in Your Future", "url": "#step-3-install-a-memory-in-your-future-120-180-seconds" }
+]
 ---
 
 # The Emergency Divorce Panic Protocol
