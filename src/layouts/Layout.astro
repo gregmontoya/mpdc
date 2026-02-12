@@ -37,7 +37,21 @@ if (bodyClass && bodyClass.includes('blog-page')) {
     <link rel="preload" href="/fonts/opensans-700.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/bebas-neue.woff2" as="font" type="font/woff2" crossorigin>
 
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
+    <script is:inline>
+        // CWV Optimization: Delay FontAwesome load
+        function loadFontAwesome() {
+            if (window.faLoaded) return;
+            window.faLoaded = true;
+            const link = document.createElement('link');
+            link.rel = 'stylesheet';
+            link.href = 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css';
+            document.head.appendChild(link);
+            console.log('🎨 FontAwesome: Loaded (Delayed)');
+        }
+        window.addEventListener('load', () => setTimeout(loadFontAwesome, 3500));
+        window.addEventListener('scroll', loadFontAwesome, { once: true, passive: true });
+        window.addEventListener('mousedown', loadFontAwesome, { once: true });
+    </script>
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
     <slot name="head" />
 </head>
