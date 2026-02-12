@@ -512,6 +512,20 @@ body.blog-page {
     color: var(--color-bg-primary);
 }
 
+.content-block a {
+    color: var(--color-accent);
+    text-decoration: none;
+    font-weight: 600;
+    transition: color 0.3s ease;
+    border-bottom: 1px solid transparent;
+}
+
+.content-block a:hover {
+    color: var(--color-accent-hover);
+    border-bottom-color: var(--color-accent-hover);
+}
+
+
 /* ========================================
    SPECIAL CONTENT BLOCKS
    ======================================== */
