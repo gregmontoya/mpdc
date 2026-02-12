@@ -477,9 +477,12 @@ app.post('/create-checkout-session', async (req, res) => {
                 fbc: attribution.fbc || '',
                 fbp: attribution.fbp || '',
                 utm_source: attribution.utm_source || 'direct',
-                utm_medium: attribution.utm_medium,
-                utm_campaign: attribution.utm_campaign,
-                referrer: attribution.referrer
+                utm_medium: attribution.utm_medium || '',
+                utm_campaign: attribution.utm_campaign || '',
+                utm_content: attribution.utm_content || '',
+                utm_term: attribution.utm_term || '',
+                referrer: attribution.referrer || '',
+                guest_id: guestId || ''
             }
         };
 
@@ -849,6 +852,15 @@ app.post('/webhook', async (req, res) => {
                     name,
                     tag: 'customer',
                     funnel_stage: 'student',
+                    guestId: session.metadata?.guest_id,
+                    attribution: {
+                        utm_source: session.metadata?.utm_source,
+                        utm_medium: session.metadata?.utm_medium,
+                        utm_campaign: session.metadata?.utm_campaign,
+                        utm_content: session.metadata?.utm_content,
+                        utm_term: session.metadata?.utm_term,
+                        referrer: session.metadata?.referrer
+                    },
                     automation: { purchased_at: new Date().toISOString() }
                 });
 

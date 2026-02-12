@@ -7,13 +7,22 @@ export interface Props {
   type?: string;
 }
 
+import seoConfig from '../data/seo-config.json';
+
 const {
-  title,
-  description,
+  title: defaultTitle,
+  description: defaultDescription,
   image = '/images/social-share.jpg', // Default image if not provided
   url = Astro.url,
   type = 'website',
 } = Astro.props;
+
+// 🕵️‍♂️ Dynamic Lookup (Self-Healing SEO)
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const config = (seoConfig as any)[path] || {};
+
+const title = config.title || defaultTitle;
+const description = config.description || defaultDescription;
 ---
 
 <!-- Global Metadata -->
