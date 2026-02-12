@@ -17,6 +17,8 @@ const {
   type = 'website',
 } = Astro.props;
 
+import KnowledgeGraph from './KnowledgeGraph.astro';
+
 // 🕵️‍♂️ Dynamic Lookup (Self-Healing SEO)
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const config = (seoConfig as any)[path] || {};
@@ -24,6 +26,8 @@ const config = (seoConfig as any)[path] || {};
 const title = config.title || defaultTitle;
 const description = config.description || defaultDescription;
 ---
+
+<KnowledgeGraph />
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />

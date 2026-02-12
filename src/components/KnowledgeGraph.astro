@@ -1,0 +1,73 @@
+---
+/**
+ * KnowledgeGraph.astro
+ * Establishes the core entities (Organization & Person) for search engines.
+ * This is the foundation for AEO (Answer Engine Optimization).
+ */
+
+const siteUrl = "https://menspostdivorcecoaching.com";
+const brandName = "Men's Post-Divorce Coaching";
+const legalName = "Athens NLP Studies, LLC";
+const personName = "Alex Morgan";
+const logoUrl = `${siteUrl}/favicon.svg`; // Assuming favicon is the logo for now
+
+const organizationSchema = {
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "@id": `${siteUrl}/#organization`,
+  "name": brandName,
+  "legalName": legalName,
+  "url": siteUrl,
+  "logo": {
+    "@type": "ImageObject",
+    "url": logoUrl,
+    "width": "512",
+    "height": "512"
+  },
+  "address": {
+    "@type": "PostalAddress",
+    "streetAddress": "1309 Coffeen Ave Ste 1200",
+    "addressLocality": "Sheridan",
+    "addressRegion": "WY",
+    "postalCode": "82801",
+    "addressCountry": "US"
+  },
+  "sameAs": [
+    "https://www.skool.com/the-post-divorce-advantage-8284"
+  ]
+};
+
+const personSchema = {
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "@id": `${siteUrl}/#person`,
+  "name": personName,
+  "url": `${siteUrl}/about`,
+  "image": {
+    "@type": "ImageObject",
+    "url": `${siteUrl}/images/alex-morgan.png`
+  },
+  "description": "Alex Morgan is a specialist in divorce recovery for men, focusing on logic-first mindset shifts and practical life rebuilding.",
+  "worksFor": {
+    "@id": `${siteUrl}/#organization`
+  },
+  "sameAs": [
+    "https://www.skool.com/the-post-divorce-advantage-8284"
+  ]
+};
+
+const websiteSchema = {
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "@id": `${siteUrl}/#website`,
+  "url": siteUrl,
+  "name": brandName,
+  "publisher": {
+    "@id": `${siteUrl}/#organization`
+  }
+};
+---
+
+<script type="application/ld+json" is:inline set:html={JSON.stringify(organizationSchema)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(personSchema)} />
+<script type="application/ld+json" is:inline set:html={JSON.stringify(websiteSchema)} />
