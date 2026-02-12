@@ -122,5 +122,13 @@
     "/legal/refunds": {
         "title": "Refund Policy & Guarantee | MensPostDivorceCoaching.com",
         "description": "Information on our satisfaction guarantee and the refund policies for our digital systems and coaching products."
+    },
+    "/learn/divorce-economics-audit": {
+        "title": "The Divorce Economics Audit: Financial Survival for Men | MPDC",
+        "description": "Stop the financial bleed after divorce. Learn tactical strategies for auditing your expenses, preserving capital, and rebuilding solo wealth."
+    },
+    "/learn/legacy-standard-purpose": {
+        "title": "The Legacy Standard: Reclaiming Your Purpose After Betrayal | MPDC",
+        "description": "Move beyond the victim loop. Define a mission-first legacy and high-value standards that an ex-wife's betrayal cannot touch."
     }
 }

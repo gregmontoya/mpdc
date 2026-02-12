@@ -70,7 +70,7 @@ To ensure your next relationship is built on a "Logic-First" foundation, you mus
 
 1.  **Identify the First Erosion**: When did you first give up your frame to avoid a conflict?
 2.  **Extract the Learning**: According to [Emotionally Focused Therapy (EFT)](https://iceeft.com/what-is-eft/), these "small" betrayals of self lead to a total loss of connection. 
-3.  **Set the Standard**: What is the non-negotiable standard you will hold for yourself in the future? (See our guide on [Setting Boundaries with your Ex](/learn/boundaries-ex-wife) to start practicing this now).
+3.  **Set the Standard**: What is the non-negotiable standard you will hold for yourself in the future? (See our guide on the [Legacy Standard](/learn/legacy-standard-purpose) to start building this now).
 
 The "Red Flag Decoder" is not about bitterness; it's about **Sovereignty.** You are building a life that is so well-designed (Module 4) that no single person's exit can destroy your world.
 

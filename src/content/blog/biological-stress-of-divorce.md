@@ -30,8 +30,7 @@ To rebuild your life, you must first understand the hardware you’re operating 
 
 For millions of years, human survival depended on two things: **Tribal Connection** and **Social Role.** 
 
-In a tribal setting, being cast out (divorce) meant death by exposure or predation. Your brain still carries this ancient programming. When your marriage collapses, your subconscious mind doesn't see a "legal separation"—it sees a loss of safety, a loss of resources, and a loss of identity. 
-
+In a tribal setting, being cast out (divorce) meant death by exposure or predation. Your brain still carries this ancient programming. When your marriage collapses, your subconscious mind doesn't see a "legal separation"—it sees a loss of safety, a loss of resources, and a loss of identity. This leads to the [cortisol-driven spending patterns](/learn/divorce-economics-audit) we see in many rebuilding men.
 This triggers a primitive survival response that bypasses your logic entirely. 
 
 ## Level 1: The Amygdala Hijack (The logic Blackout)
