@@ -1,10 +1,10 @@
 ---
-title: "The Complete Guide to Co-Parenting for Divorced Men"
-description: "Navigate co-parenting with confidence and clarity. Essential guide for divorced fathers."
+title: "The Logic-First Guide to Co-Parenting for Divorced Men"
+description: "Navigate high-conflict co-parenting with the 'Parallel Parenting' model. Essential tactical guide for divorced fathers."
 publishDate: "October 28, 2025"
 image: "/images/blog/co-parenting.png"
 category: "Co-Parenting"
-categoryUrl: "/learn/category/co-parenting"
+categoryUrl: "/category/co-parenting"
 readTime: "8 min read"
 toc:
   - text: "The Complete Guide to Co-Parenting for Divorced Men (Quick Answer)"
@@ -47,7 +47,7 @@ If you attempt to "co-parent" with an ex-wife who is actively trying to trigger 
 1. **Total Autonomy:** What happens at your house is 100% your responsibility. What happens at her house is 0% your concern.
 2. **The Professional Standard:** Interacting with your ex-wife as if she is a difficult business client—polite, brief, and objective.
 3. **The Buffer Zone:** Using a shared calendar or parenting app to eliminate the need for direct verbal communication.
-4. **Frame Persistence:** Maintaining a stable, [logic-first environment](/learn/5-strategies-rebuild-life-divorce) for your kids, regardless of the chaos in the other household.
+4. **Frame Persistence:** Maintaining a stable, [logic-first environment](/learn/5-strategies-rebuild-life-divorce) for your kids, regardless of the chaos in the other household. This is how you [Rebuild Your Reality Chain](/learn/rebuilding-your-reality-chain)—by refusing to let outside variables dictate your inner household standards.
 
 <div id="quick-answer"></div>
 

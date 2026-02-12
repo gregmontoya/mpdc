@@ -1,10 +1,10 @@
 ---
-title: "Managing Anger and Resentment for Divorced Men"
-description: "Healthy ways to process anger and resentment after divorce for long-term emotional health."
+title: "Channeling Divorce Anger into Professional Growth"
+description: "Stop venting and start channeling. Learn the tactical ways to use divorce-related rage as fuel for your second act."
 publishDate: "October 28, 2025"
 image: "/images/blog/managing-anger.png"
 category: "Mindset & Mental Health"
-categoryUrl: "/learn/category/mindset-mental-health"
+categoryUrl: "/category/mindset-mental-health"
 readTime: "8 min read"
 toc:
   - text: "Managing Anger and Resentment for Divorced Men (Quick Answer)"
@@ -41,7 +41,7 @@ aeoSummary: "Anger after divorce is a physiological survival mechanism triggered
 
 How divorce changes a man is not just emotional — it is neurological, behavioral, physical, and identity-shattering.
 
-While society often expects men to “move on” quickly after divorce, the biological reality of anger is much more complex. For most men, anger isn't just a mood—it's a physiological response to the destruction of their family structure and [emotional grounding](/learn/how-divorce-changes-a-man). This anger, if left unchanneled, becomes a toxic weight that prevents any real recovery.
+While many expect men to “move on” quickly after divorce, the biological reality of anger is much more complex. As we detail in our landmark study on the [Biological Stress of Divorce](/learn/biological-stress-of-divorce), anger isn't just a mood—it's a physiological response to the destruction of your family structure and [emotional grounding](/learn/how-divorce-changes-a-man). This anger, if left unchanneled, becomes a toxic weight that prevents any real recovery.
 
 **The Biological Impact of Divorce Anger:**
 - Chronic elevation of cortisol and adrenaline.

@@ -1,10 +1,10 @@
 ---
-title: "Breaking Free from Victim Mentality for Divorced Men"
-description: "Break free from the victim mindset and reclaim your power and autonomy."
+title: "Breaking the Victim Loop: From 'Why Me' to Extreme Ownership"
+description: "Victimhood is a comfort trap for the primitive brain. Learn the logic-first ways to reclaim your power."
 publishDate: "October 28, 2025"
 image: "/images/blog/victim-mentality.png"
 category: "Mindset & Mental Health"
-categoryUrl: "/learn/category/mindset-mental-health"
+categoryUrl: "/category/mindset-mental-health"
 readTime: "8 min read"
 toc:
   - text: "Breaking Free from Victim Mentality for Divorced Men (Quick Answer)"
@@ -41,7 +41,7 @@ aeoSummary: "To escape victim mentality after divorce, men must shift from 'Exte
 
 How divorce changes a man is not just emotional — it is a battle for ownership over his own life.
 
-While you may have been treated unfairly in the divorce, staying in the role of the "victim" is the most dangerous trap a man can fall into. Victimhood feels safe because it removes responsibility, but it also removes power. True [post-divorce grounding](/learn/how-divorce-changes-a-man) only happens when you realize that even if you didn't choose the situation, you must choose the response.
+While you may have been treated unfairly in the divorce, staying in the role of the "victim" is the most dangerous trap a man can fall into. As we discuss in the [Biological Stress of Divorce](/learn/biological-stress-of-divorce), your brain settles for victimhood because it is a low-energy survival state. But victimhood removes your power to design a future. True [post-divorce grounding](/learn/how-divorce-changes-a-man) only happens when you realize that even if you didn't choose the situation, you must choose the response.
 
 **The Architecture of Victim Mentality:**
 - The Blame Game: Focusing 100% on what *she* did and 0% on what *you* can do.

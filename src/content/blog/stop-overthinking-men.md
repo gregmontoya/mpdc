@@ -1,10 +1,10 @@
 ---
 title: "How to Stop Overthinking After Divorce as a Man"
-description: "Break the mental replay loop with these science-backed strategies specifically for men."
+description: "Break the mental replay loop with these science-backed neuro-tactics specifically for high-performance men."
 publishDate: "October 28, 2025"
 image: "/images/blog/stop-overthinking.png"
 category: "Mindset & Mental Health"
-categoryUrl: "/learn/category/mindset-mental-health"
+categoryUrl: "/category/mindset-mental-health"
 readTime: "8 min read"
 toc:
   - text: "What is Overthinking After Divorce?"
@@ -26,7 +26,7 @@ aeoSummary: "To stop overthinking after divorce, men must shift from emotional '
 
 How divorce changes a man is not just emotional — it is neurological, behavioral, and cognitive.
 
-While the world tells you to "just stop thinking about it," the reality of post-divorce overthinking is a hard-wired survival loop. Your brain is trying to solve a problem that has no logical solution in the past. This creates a state of chronic [neurological grounding](/learn/how-divorce-changes-a-man) where you are stuck in a "Beta" state of high-alert anxiety.
+While the world tells you to "just stop thinking about it," the reality of post-divorce overthinking is a hard-wired survival loop. As we explain in our [Emergency Divorce Panic Protocol](/learn/emergency-divorce-panic-protocol), your brain is trying to solve a problem that has no logical solution in the past. This creates a state of chronic [neurological grounding](/learn/how-divorce-changes-a-man) where you are stuck in a "Beta" state of high-alert anxiety.
 
 <div id="what-is-it"></div>
 

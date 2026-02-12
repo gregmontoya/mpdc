@@ -1,10 +1,10 @@
 ---
-title: "Setting Boundaries with Your Ex-Wife"
-description: "Set firm boundaries with your ex-wife to protect your peace and emotional well-being."
+title: "Setting Tactical Boundaries with Your Ex-Wife"
+description: "Set firm, logic-first boundaries with your ex-wife to protect your peace, your parenting, and your second act."
 publishDate: "October 28, 2025"
 image: "/images/blog/setting-boundaries.png"
 category: "Co-Parenting"
-categoryUrl: "/learn/category/co-parenting"
+categoryUrl: "/category/co-parenting"
 readTime: "8 min read"
 toc:
   - text: "Setting Boundaries with Your Ex-Wife (Quick Answer)"
@@ -57,7 +57,7 @@ Boundaries are the "Firewall" of your new life. To set them effectively, you mus
 <div id="why-different"></div>
 
 ## Why Men Struggle with Boundaries
-Men often feel a residual "Provider/Protector" guilt even after the divorce. This makes them susceptible to emotional manipulation. You must realize that maintaining her emotional comfort is no longer your job description. Breaking this habit is a key part of moving past [victim mentality](/learn/victim-mentality-men).
+Men often feel a residual "Provider/Protector" guilt even after the divorce. This makes them susceptible to emotional manipulation. You must realize that maintaining her emotional comfort is no longer your job description. If you find yourself constantly "blindsided" by her reactions, you likely missed the early warnings detailed in our [Red Flag Decoder](/learn/red-flag-decoder). Breaking this habit is a key part of moving past [victim mentality](/learn/victim-mentality-men).
 
 <div id="immediate-impact"></div>
 

@@ -1,10 +1,10 @@
 ---
-title: "Building a New Social Circle After Divorce for Men"
-description: "Practical steps to rebuild your network and find your tribe after divorce."
+title: "Building an 'A-Team' Social Circle After Divorce"
+description: "Why your social life is your external mind. Learn how to prune legacy connections and build a high-value tribe."
 publishDate: "October 28, 2025"
 image: "/images/blog/social-circle.png"
 category: "Relationships & Dating"
-categoryUrl: "/learn/category/relationships-dating"
+categoryUrl: "/category/relationships-dating"
 readTime: "8 min read"
 toc:
   - text: "Building a New Social Circle After Divorce for Men (Quick Answer)"

@@ -1,38 +1,22 @@
 ---
-title: "How Divorce Changes a Man"
-description: "How divorce changes a man is not just emotional — it is neurological, behavioral, physical, and identity-shattering."
+title: "How Divorce Changes a Man: The Systems Breakdown"
+description: "How divorce changes a man is not just emotional — it is neurological, behavioral, physical, and identity-shattering. Learn how to lead through the transition."
 publishDate: "October 28, 2025"
 image: "/images/blog/featured-change.png"
 category: "Divorce Strategy"
-categoryUrl: "/learn/category/divorce-strategy"
+categoryUrl: "/category/divorce-strategy"
 readTime: "8 min read"
 toc:
   - text: "How Divorce Changes a Man (Quick Answer)"
     url: "#quick-answer"
   - text: "Why Divorce Hits Men Differently"
     url: "#why-different"
-  - text: "Introduction to the Divorce Process"
-    url: "#divorce-process"
-  - text: "The Immediate Ways Divorce Transforms a Man’s Life"
-    url: "#immediate-impact"
-  - text: "Common Behavioral Changes Men Experience After Divorce"
-    url: "#behavioral-changes"
-  - text: "Who a Man Is Before Divorce vs After Divorce"
+  - text: "The Identity Fracture"
     url: "#identity-shift"
-  - text: "Emotional and Psychological Changes Men Experience"
-    url: "#emotional-psych"
-  - text: "The Self-Blame Cycle"
-    url: "#self-blame"
-  - text: "Suppressed Emotions and Their Consequences"
-    url: "#suppressed-emotions"
-  - text: "Physical and Health Impacts of Divorce"
-    url: "#health-impacts"
-  - text: "Financial Transformation and Economic Stress"
-    url: "#financial-impact"
-  - text: "Father-Child Relationship Changes"
-    url: "#fatherhood"
-  - text: "Social Life and Relationship Restructuring"
-    url: "#social-life"
+  - text: "The Biological Toll"
+    url: "#biological-toll"
+  - text: "From Change to Strategy"
+    url: "#strategy-to-strategy"
   - text: "Final Thoughts"
     url: "#final-thoughts"
 aeoSummary: "Divorce changes a man through a total systemic restructuring of his biological, financial, and social existence. Reclaiming life requires shifting from 'Reactive Adaptation' to 'Proactive Reconstruction' by addressing the 10-40% drop in living standards, the identity fracture of shifting to schedule-based parenting, and the biological toll of chronic cortisol levels through a logic-first evolution framework."
@@ -61,7 +45,7 @@ For many men, their entire "Frame" was built around being a husband and a provid
 <div id="immediate-impact"></div>
 
 ## The Biological Toll
-In the early stages, your body is flooded with cortisol. This is the root cause of [post-divorce overthinking](/learn/stop-overthinking-men) and [unprocessed anger](/learn/managing-anger-men). You are in a survival state, which makes long-term tactical planning nearly impossible without a structured framework.
+In the early stages, your body is flooded with cortisol. As we detail in our investigation of the [Biological Stress of Divorce](/learn/biological-stress-of-divorce), your brain literally perceives the split as a threat to your survival. This is the root cause of [post-divorce overthinking](/learn/stop-overthinking-men) and [unprocessed anger](/learn/managing-anger-men). You are in a survival state, which makes long-term tactical planning nearly impossible without a structured framework.
 
 <div id="behavioral-changes"></div>
 
