@@ -59,7 +59,9 @@ if (bodyClass && bodyClass.includes('blog-page')) {
 
 <body class={bodyClass}>
     {!simpleHeader && <Header />}
-    <slot />
+    <main id="main-content">
+        <slot />
+    </main>
     {!simpleFooter && <Footer />}
     
     <EmailPopup />

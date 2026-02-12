@@ -85,7 +85,9 @@ const { title = "Men's Post-Divorce Coaching", description = "Rebuild Your Life 
 </head>
 <body>
     <!-- Sales Pages have No Header/Footer by default, or simple ones inside content -->
-    <slot />
+    <main id="main-content">
+        <slot />
+    </main>
     
     <!-- Injection Slot for Page Specific Scripts -->
     <slot name="scripts" />
