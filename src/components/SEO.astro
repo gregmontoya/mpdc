@@ -113,42 +113,40 @@ const breadcrumbSchema = {
 <!-- 🕵️‍♂️ MPDC Global Attribution Tracker -->
 <script is:inline src="/js/global-attribution.js" defer></script>
 
-<!-- 📊 Google Analytics (GA4) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
+<!-- 📊 Google Analytics & FB Pixel (CWV Optimized Delayed Load) -->
 <script is:inline>
-  // 🛡️ Global Stealth Mode Check (Internal Traffic Exclusion)
-  const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1');
-  const isPortugal = Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') || 
-                     Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') ||
-                     Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores');
-  const isStealth = isDev || isPortugal;
+  function loadAnalytics() {
+    if (window.analyticsLoaded) return;
+    window.analyticsLoaded = true;
 
-  if (isStealth) console.log('🕵️ Stealth Mode Active: Internal tracking paused.');
+    // 🛡️ Global Stealth Mode Check (Internal Traffic Exclusion)
+    const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1');
+    const isPortugal = Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') || 
+                       Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') ||
+                       Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores');
+    const isStealth = isDev || isPortugal;
 
-  // 📊 Google Analytics (GA4) Initialization
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+    if (isStealth) console.log('🕵️ Stealth Mode Active: Internal tracking paused.');
 
-  if (isStealth) {
-    gtag('config', 'G-T26PKTMJB1', { 'developer_mode': true });
-  } else {
-    gtag('config', 'G-T26PKTMJB1');
-  }
-</script>
+    // 1. Load Google Analytics (GA4)
+    const gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1";
+    document.head.appendChild(gaScript);
 
-<!-- 🔵 Facebook Pixel (Retargeting) - Stealth Delay Optimization -->
-<script is:inline>
-  function loadFB() {
-    if (window.fbLoaded) return;
-    window.fbLoaded = true;
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
 
-    // Only initialize FB if not in Stealth Mode
-    if (!window.location.hostname.includes('localhost') && 
-        !Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') &&
-        !Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') &&
-        !Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores')) {
-      
+    if (isStealth) {
+      gtag('config', 'G-T26PKTMJB1', { 'developer_mode': true });
+    } else {
+      gtag('config', 'G-T26PKTMJB1');
+    }
+    console.log('📊 GA4: Initialized (Delayed)');
+
+    // 2. Load Facebook Pixel
+    if (!isStealth) {
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -166,14 +164,15 @@ const breadcrumbSchema = {
     }
   }
 
-  // Fire on 3s delay OR first interaction
+  // Fire on 3s delay OR first interaction to protect Core Web Vitals
   window.addEventListener('load', () => {
-    setTimeout(loadFB, 3500);
+    setTimeout(loadAnalytics, 3000);
   });
-  window.addEventListener('scroll', loadFB, { once: true, passive: true });
-  window.addEventListener('mousedown', loadFB, { once: true });
+  window.addEventListener('scroll', loadAnalytics, { once: true, passive: true });
+  window.addEventListener('mousedown', loadAnalytics, { once: true });
 </script>
-<noscript><img height="1" width="1" style="display:none"
-  src="https://www.facebook.com/tr?id=1524876641955362&ev=PageView&noscript=1"
-/></noscript>
+
+<noscript>
+  <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1524876641955362&ev=PageView&noscript=1" />
+</noscript>
 </noscript>
