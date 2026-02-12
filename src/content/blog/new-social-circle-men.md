@@ -2,7 +2,7 @@
 title: "Building an 'A-Team' Social Circle After Divorce"
 description: "Why your social life is your external mind. Learn how to prune legacy connections and build a high-value tribe."
 publishDate: "October 28, 2025"
-image: "/images/blog/social-circle.png"
+image: "../../assets/images/blog/social-circle.png"
 category: "Relationships & Dating"
 categoryUrl: "/category/relationships-dating"
 readTime: "8 min read"

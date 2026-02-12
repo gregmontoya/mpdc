@@ -2,7 +2,7 @@
 title: "The High-Value Threshold: When to Date After Divorce"
 description: "Dating is a diagnostic test, not a race. Learn the tactical checklist to know if you are ready to re-enter the market."
 publishDate: "October 28, 2025"
-image: "/images/blog/start-dating.png"
+image: "../../assets/images/blog/start-dating.png"
 category: "Relationships & Dating"
 categoryUrl: "/category/relationships-dating"
 readTime: "8 min read"

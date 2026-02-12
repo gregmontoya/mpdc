@@ -2,7 +2,7 @@
 title: "When to Start Dating After Divorce: The Recovery Protocol"
 description: "Thinking about 'getting back out there'? Discover the tactical indicators that you are truly ready to date after divorce without relapsing into toxic patterns."
 publishDate: "February 12, 2026"
-image: "/images/blog/dating-protocol.png"
+image: "../../assets/images/blog/dating-protocol.png"
 category: "Relationships & Dating"
 categoryUrl: "/category/relationships-dating"
 readTime: "7 min read"

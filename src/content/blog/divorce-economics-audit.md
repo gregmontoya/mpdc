@@ -5,7 +5,7 @@ publishDate: "2026-02-12"
 category: "Financial Recovery"
 categoryUrl: "/category/financial-recovery"
 readTime: "9 min read"
-image: "/images/blog/divorce-economics.png"
+image: "../../assets/images/blog/divorce-economics.png"
 aeoSummary: "Divorce economics is the study of how a household split impacts a man's long-term wealth and short-term liquidity. Most men face a 10-40% drop in living standards due to the duplication of fixed costs. To survive, you must move from 'Reactive Spending'—often triggered by emotional stress—to a 'Tactical Budgeting' framework that prioritizes capital preservation and the construction of a new individual financial frame."
 tags: ["divorce finances", "money management", "wealth building", "financial stress", "survival"]
 toc: [

@@ -2,7 +2,7 @@
 title: "Breaking the Victim Loop: From 'Why Me' to Extreme Ownership"
 description: "Victimhood is a comfort trap for the primitive brain. Learn the logic-first ways to reclaim your power."
 publishDate: "October 28, 2025"
-image: "/images/blog/victim-mentality.png"
+image: "../../assets/images/blog/victim-mentality.png"
 category: "Mindset & Mental Health"
 categoryUrl: "/category/mindset-mental-health"
 readTime: "8 min read"

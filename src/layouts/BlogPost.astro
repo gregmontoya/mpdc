@@ -89,15 +89,27 @@ const faqSchema = {
                     </div>
                 </div>
                 <div class="hero-image-side">
-                    <Image 
-                        src={frontmatter.image || "/images/blog/rebuild-life.png"} 
-                        alt={title} 
-                        width={600}
-                        height={400}
-                        class="hero-img-optimized"
-                        loading="eager"
-                        fetchpriority="high"
-                    />
+                    {typeof frontmatter.image === 'object' ? (
+                        <Image 
+                            src={frontmatter.image} 
+                            alt={title} 
+                            width={800}
+                            height={500}
+                            class="hero-img-optimized"
+                            loading="eager"
+                            fetchpriority="high"
+                        />
+                    ) : (
+                        <Image 
+                            src={frontmatter.image || "/images/blog/rebuild-life.png"} 
+                            alt={title} 
+                            width={800}
+                            height={500}
+                            class="hero-img-optimized"
+                            loading="eager"
+                            fetchpriority="high"
+                        />
+                    )}
                 </div>
             </div>
         </header>
@@ -165,12 +177,21 @@ const faqSchema = {
                 {relatedPosts.map(post => (
                     <article class="related-card">
                         <div class="related-image">
-                            <Image 
-                                src={post.data.image || "/images/default-post.jpg"} 
-                                alt={post.data.title}
-                                width={300}
-                                height={200}
-                            />
+                            {typeof post.data.image === 'object' ? (
+                                <Image 
+                                    src={post.data.image} 
+                                    alt={post.data.title}
+                                    width={400}
+                                    height={250}
+                                />
+                            ) : (
+                                <img 
+                                    src={post.data.image || "/images/default-post.jpg"} 
+                                    alt={post.data.title}
+                                    width={400}
+                                    height={250}
+                                />
+                            )}
                         </div>
                         <div class="related-content">
                             <h3>{post.data.title}</h3>

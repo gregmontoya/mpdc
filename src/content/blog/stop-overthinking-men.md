@@ -2,7 +2,7 @@
 title: "How to Stop Overthinking After Divorce as a Man"
 description: "Break the mental replay loop with these science-backed neuro-tactics specifically for high-performance men."
 publishDate: "October 28, 2025"
-image: "/images/blog/stop-overthinking.png"
+image: "../../assets/images/blog/stop-overthinking.png"
 category: "Mindset & Mental Health"
 categoryUrl: "/category/mindset-mental-health"
 readTime: "8 min read"

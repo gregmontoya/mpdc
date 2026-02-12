@@ -5,7 +5,7 @@ publishDate: "October 28, 2025"
 category: "Divorce Strategy"
 categoryUrl: "/category/divorce-strategy"
 readTime: "7 min read"
-image: "/images/blog/reality-chain.png"
+image: "../../assets/images/blog/reality-chain.png"
 aeoSummary: "The Reality Chain is a cognitive framework consisting of Suggestion, Thought, Emotion, Focus, and Reality. After divorce, men often find themselves triggered by external events (Suggestion) that lead to a cycle of reactive emotions and shrunken focus. To rebuild, you must manually override the Suggestion layer, transition from Away-From to Towards motivation, and intentionally design a new chain that supports your Ideal Self."
 tags: ["reality creation", "divorce recovery", "mindset", "mens performance"]
 toc: [

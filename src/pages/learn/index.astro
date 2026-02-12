@@ -108,13 +108,23 @@ const categoryCounts = allPosts.reduce((acc, post) => {
                         <div class="featured-post-card">
                             <div class="featured-img">
                                 <a href={featuredPost.source === 'local' ? `/learn/${featuredPost.id}` : `/posts/${featuredPost.id}`} aria-label={`Featured: ${featuredPost.data.title}`}>
-                                    <img 
-                                        src={featuredPost.data.image || '/images/default-post.jpg'} 
-                                        alt={featuredPost.data.title}
-                                        loading="eager"
-                                        width={800}
-                                        height={450}
-                                    />
+                                    {typeof featuredPost.data.image === 'object' ? (
+                                        <Image 
+                                            src={featuredPost.data.image} 
+                                            alt={featuredPost.data.title}
+                                            width={800}
+                                            height={450}
+                                            loading="eager"
+                                        />
+                                    ) : (
+                                        <img 
+                                            src={featuredPost.data.image || '/images/default-post.jpg'} 
+                                            alt={featuredPost.data.title}
+                                            loading="eager"
+                                            width={800}
+                                            height={450}
+                                        />
+                                    )}
                                 </a>
                             </div>
                             <div class="featured-content">
@@ -141,13 +151,23 @@ const categoryCounts = allPosts.reduce((acc, post) => {
                             <div class="post-card">
                                 <div class="card-img">
                                     <a href={post.source === 'local' ? `/learn/${post.id}` : `/posts/${post.id}`} aria-label={`Article: ${post.data.title}`}>
-                                        <img 
-                                            src={post.data.image || '/images/default-post.jpg'} 
-                                            alt={post.data.title}
-                                            loading="lazy"
-                                            width={400}
-                                            height={225}
-                                        />
+                                        {typeof post.data.image === 'object' ? (
+                                            <Image 
+                                                src={post.data.image} 
+                                                alt={post.data.title}
+                                                width={400}
+                                                height={225}
+                                                loading="lazy"
+                                            />
+                                        ) : (
+                                            <img 
+                                                src={post.data.image || '/images/default-post.jpg'} 
+                                                alt={post.data.title}
+                                                loading="lazy"
+                                                width={400}
+                                                height={225}
+                                            />
+                                        )}
                                     </a>
                                 </div>
                                 <div class="card-content">

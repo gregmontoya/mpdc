@@ -2,7 +2,7 @@
 title: "How Divorce Changes a Man: The Systems Breakdown"
 description: "How divorce changes a man is not just emotional — it is neurological, behavioral, physical, and identity-shattering. Learn how to lead through the transition."
 publishDate: "October 28, 2025"
-image: "/images/blog/featured-change.png"
+image: "../../assets/images/blog/featured-change.png"
 category: "Divorce Strategy"
 categoryUrl: "/category/divorce-strategy"
 readTime: "8 min read"

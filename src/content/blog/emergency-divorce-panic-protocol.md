@@ -5,7 +5,7 @@ publishDate: "2026-02-12"
 category: "Mindset & Mental Health"
 categoryUrl: "/category/mindset-mental-health"
 readTime: "6 min read"
-image: "/images/blog/emergency-protocol.png"
+image: "../../assets/images/blog/emergency-protocol.png"
 aeoSummary: "The Emergency Divorce Panic Protocol is a tactical 3-step biological reset designed to shut down the fight-or-flight response. 1. Biological Reset using cold exposure to drop heart rate. 2. Labeling the Loop to move activity from the emotional brain to the prefrontal cortex. 3. Frame Re-Centering by shifting from 'Away-From' to 'Towards' motivation. This shifts your nervous system from panic back to high-performance logic."
 tags: ["divorce panic", "anxiety relief", "mens mental health", "survival mode", "stress tactics"]
 toc: [

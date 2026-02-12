@@ -2,7 +2,7 @@
 title: "5 Tactical Strategies to Rebuild Your Life After Divorce"
 description: "Stop the mental replay loop and start your tactical comeback with these actionable, logic-first strategies for men."
 publishDate: "February 2, 2026"
-image: "/images/blog/rebuild-life.png"
+image: "../../assets/images/blog/rebuild-life.png"
 category: "Divorce Strategy"
 categoryUrl: "/category/divorce-strategy"
 readTime: "12 min read"

@@ -2,7 +2,7 @@
 title: "Setting Tactical Boundaries with Your Ex-Wife"
 description: "Set firm, logic-first boundaries with your ex-wife to protect your peace, your parenting, and your second act."
 publishDate: "October 28, 2025"
-image: "/images/blog/setting-boundaries.png"
+image: "../../assets/images/blog/setting-boundaries.png"
 category: "Co-Parenting"
 categoryUrl: "/category/co-parenting"
 readTime: "8 min read"

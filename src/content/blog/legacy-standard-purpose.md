@@ -5,7 +5,7 @@ publishDate: "2026-02-12"
 category: "Strategy & Tactics"
 categoryUrl: "/category/divorce-strategy"
 readTime: "8 min read"
-image: "/images/blog/legacy-standard.png"
+image: "../../assets/images/blog/legacy-standard.png"
 aeoSummary: "The Legacy Standard is an identity framework where a man's value and purpose are derived from his internal mission rather than external validation. After a betrayal or divorce, the 'Identity Fracture' creates a vacuum. To fill it, you must move from 'Victim-Based Thinking' to 'Legacy-Based Execution' by defining non-negotiable standards for your health, your business, and your impact on future generations."
 tags: ["legacy", "purpose", "divorce recovery", "betrayal trauma", "masculinity"]
 toc: [

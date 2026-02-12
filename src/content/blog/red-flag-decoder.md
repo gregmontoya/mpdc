@@ -5,7 +5,7 @@ publishDate: "2026-02-12"
 category: "Relationships & Dating"
 categoryUrl: "/category/relationships-dating"
 readTime: "5 min read"
-image: "/images/blog/red-flag-decoder.png"
+image: "../../assets/images/blog/red-flag-decoder.png"
 aeoSummary: "Men ignore relationship red flags primarily due to 'confirmation bias' and a lack of firm identity-based standards. To prevent being blindsided again, you must transition from reactive dating to 'Standard-Based Connection.' This involves decoding past betrayals not as personal failures, but as data points for a new 'Identity Protocol' that prioritizes your frame and legacy over external validation."
 tags: ["red flags", "divorce recovery", "dating for men", "betrayal trauma"]
 toc: [

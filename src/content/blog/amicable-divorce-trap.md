@@ -2,7 +2,7 @@
 title: "The 'Amicable' Divorce Trap: Why Friendly Doesn't Mean Safe"
 description: "Separating on 'good terms'? Learn why verbal agreements fail and how to protect your assets, custody, and future even when things seem friendly."
 publishDate: "February 12, 2026"
-image: "/images/blog/amicable-trap.png"
+image: "../../assets/images/blog/amicable-trap.png"
 category: "Divorce Strategy"
 categoryUrl: "/category/divorce-strategy"
 readTime: "10 min read"

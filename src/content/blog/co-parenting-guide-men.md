@@ -2,7 +2,7 @@
 title: "The Logic-First Guide to Co-Parenting for Divorced Men"
 description: "Navigate high-conflict co-parenting with the 'Parallel Parenting' model. Essential tactical guide for divorced fathers."
 publishDate: "October 28, 2025"
-image: "/images/blog/co-parenting.png"
+image: "../../assets/images/blog/co-parenting.png"
 category: "Co-Parenting"
 categoryUrl: "/category/co-parenting"
 readTime: "8 min read"

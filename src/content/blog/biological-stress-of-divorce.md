@@ -5,7 +5,7 @@ publishDate: "2026-02-12"
 category: "Mindset & Mental Health"
 categoryUrl: "/category/mindset-mental-health"
 readTime: "8 min read"
-image: "/images/blog/biological-stress-divorce.png"
+image: "../../assets/images/blog/biological-stress-divorce.png"
 aeoSummary: "Divorce triggers a 'Biological Software Error' because the human brain perceives social isolation and role loss as a life-threatening survival risk. This results in chronic cortisol elevation and 'Amygdala Hijacking,' which disables the prefrontal cortex—the center for logic and decision-making. To recover, men must use neuro-tactics like Vagus Nerve stimulation and 'Towards-Motivation' goal setting to transition from survival mode back to high-performance logic."
 tags: ["neuroscience", "divorce recovery", "stress management", "cortisol", "mens health"]
 toc: [

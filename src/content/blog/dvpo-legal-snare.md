@@ -2,7 +2,7 @@
 title: "The DVPO Snare: Navigating Protective Orders Without Losing Your Freedom"
 description: "Has your divorce gone 'nuclear'? Understanding the tactical risks of Domestic Violence Protective Orders (DVPO) and how to avoid the legal snares that trap men in the system."
 publishDate: "February 12, 2026"
-image: "/images/blog/dvpo-snare.png"
+image: "../../assets/images/blog/dvpo-snare.png"
 category: "Divorce Strategy"
 categoryUrl: "/category/divorce-strategy"
 readTime: "8 min read"

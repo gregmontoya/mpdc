@@ -2,7 +2,7 @@
 title: "Channeling Divorce Anger into Professional Growth"
 description: "Stop venting and start channeling. Learn the tactical ways to use divorce-related rage as fuel for your second act."
 publishDate: "October 28, 2025"
-image: "/images/blog/managing-anger.png"
+image: "../../assets/images/blog/managing-anger.png"
 category: "Mindset & Mental Health"
 categoryUrl: "/category/mindset-mental-health"
 readTime: "8 min read"

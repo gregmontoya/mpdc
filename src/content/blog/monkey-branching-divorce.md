@@ -2,7 +2,7 @@
 title: "Monkey Branching: Why She Left for a 'Downgrade'"
 description: "Discovering your ex-wife traded your life for a 'loser'? Understanding the psychology of monkey branching, weight loss transformations, and the biological exit strategy of divorce."
 publishDate: "February 12, 2026"
-image: "/images/blog/monkey-branching.png"
+image: "../../assets/images/blog/monkey-branching.png"
 category: "Relationships & Dating"
 categoryUrl: "/category/relationships-dating"
 readTime: "9 min read"
