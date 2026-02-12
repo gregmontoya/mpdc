@@ -17,6 +17,11 @@ This document tracks all strategic implementations, analytics setups, and future
 - [x] **Retargeting Audiences**:
     - "Almost Bought" (Checkout Abandoners).
     - "Video Engagers" (50%+ Watch Time).
+- [x] **Bing IndexNow Integration**:
+    - Automated URL submission to Bing on every deployment.
+    - Instant indexing for all new/updated content.
+    - See `BING_INDEXNOW_GUIDE.md` for implementation details.
+
 
 ### 🚀 Future Ideas / To-Do
 - [ ] **Retention Cohort Analysis**: Track how long students stay active in the course.

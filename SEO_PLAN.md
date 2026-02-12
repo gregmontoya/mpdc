@@ -41,3 +41,4 @@ These are correctly blocked in `robots.txt`.
 1.  **Submit Sitemap:** Go to Google Search Console -> Sitemaps -> Submit `https://menspostdivorcecoaching.com/sitemap-index.xml`
 2.  **Verify robots.txt:** Check `https://menspostdivorcecoaching.com/robots.txt`
 3.  **Inspect URL:** Use "URL Inspection" in Search Console on `/join` to confirm it's indexable.
+4.  **Bing IndexNow:** ✅ **AUTOMATED** - All URLs automatically submitted to Bing on every deployment (see `BING_INDEXNOW_GUIDE.md`)
