@@ -6,9 +6,13 @@
  * Runs after each deployment via npm run deploy-safe
  */
 
-const https = require('https');
-const fs = require('fs');
-const path = require('path');
+import https from 'https';
+import fs from 'fs';
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
 // Configuration
 const BING_API_KEY = '6b47a441cc39414883d8c7f36533b54a';
