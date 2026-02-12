@@ -279,7 +279,8 @@
     /* Light grey divider like Casa */
 }
 
-.mobile-nav-link {
+.mobile-nav-link,
+.mobile-nav-toggle {
     font-family: var(--font-heading);
     font-size: 1.25rem;
     font-weight: 700;
@@ -289,41 +290,74 @@
     align-items: center;
     justify-content: space-between;
     padding: 1.2rem 0;
-    /* Tighter Casa-style height */
     width: 100%;
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    text-align: left;
+    -webkit-tap-highlight-color: transparent;
 }
 
-/* Casa-style Dropdown Chevron */
-.mobile-nav-link.has-submenu::after {
-    content: '';
-    width: 10px;
-    height: 6px;
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 10 6'%3E%3Cpath stroke='%23111827' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='m1 1 4 4 4-4'/%3E%3C/svg%3E");
-    background-repeat: no-repeat;
-    background-position: center;
+/* Custom Chevron for Toggles */
+.chevron-icon {
+    width: 20px;
+    height: 20px;
+    position: relative;
     transition: transform 0.3s ease;
-    margin-right: 5px;
 }
 
-.mobile-nav-link.has-submenu.active::after {
+.chevron-icon::before,
+.chevron-icon::after {
+    content: '';
+    position: absolute;
+    background-color: #111827;
+    border-radius: 2px;
+    transition: all 0.3s ease;
+}
+
+/* Create a plus icon that turns into a minus, or a chevron */
+/* Let's go with a clean Chevron */
+.chevron-icon::before {
+    top: 10px;
+    left: 4px;
+    width: 8px;
+    height: 2px;
+    transform: rotate(45deg);
+}
+
+.chevron-icon::after {
+    top: 10px;
+    right: 4px;
+    width: 8px;
+    height: 2px;
+    transform: rotate(-45deg);
+}
+
+.mobile-nav-toggle.active .chevron-icon {
     transform: rotate(-180deg);
+}
+
+.mobile-nav-toggle.active {
+    color: var(--color-accent);
 }
 
 .mobile-nav-link.no-arrow::after {
     display: none;
 }
 
-/* SUBMENU (Simple nested list) */
 .mobile-submenu {
     max-height: 0;
     overflow: hidden;
-    transition: max-height 0.4s ease;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     background-color: #f8fafc;
-    /* Very light blue-grey for sub-depth */
+    border-radius: 8px;
+    margin-bottom: 0.5rem;
 }
 
 .mobile-submenu.active {
-    max-height: 1000px;
+    max-height: 500px;
+    padding: 0.5rem 0;
+    margin-bottom: 1rem;
 }
 
 .mobile-submenu a {
