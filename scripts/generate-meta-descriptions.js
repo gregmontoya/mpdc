@@ -130,6 +130,7 @@ function updateSeoConfig(updates) {
     const seoConfig = JSON.parse(fs.readFileSync(SEO_CONFIG_PATH, 'utf8'));
 
     let updatedCount = 0;
+    let addedCount = 0;
     let keptCount = 0;
 
     for (const [url, data] of Object.entries(updates)) {
@@ -142,6 +143,13 @@ function updateSeoConfig(updates) {
                 updatedCount++;
                 console.log(`  ✓ Updated (${data.source}): ${url}`);
             }
+        } else {
+            seoConfig[url] = {
+                title: `${data.title} | MPDC`,
+                description: data.description
+            };
+            addedCount++;
+            console.log(`  + Added new: ${url}`);
         }
     }
 
@@ -152,7 +160,7 @@ function updateSeoConfig(updates) {
         'utf8'
     );
 
-    return { updatedCount, keptCount };
+    return { updatedCount, addedCount, keptCount };
 }
 
 /**
@@ -197,13 +205,14 @@ function main() {
     // Update seo-config.json
     console.log('\n========================================');
     console.log('Updating seo-config.json...\n');
-    const { updatedCount, keptCount } = updateSeoConfig(updates);
+    const { updatedCount, addedCount, keptCount } = updateSeoConfig(updates);
 
     console.log('\n========================================');
     console.log('  Summary');
     console.log('========================================');
     console.log(`Processed: ${processedCount} articles`);
     console.log(`Updated: ${updatedCount} meta descriptions`);
+    console.log(`Added: ${addedCount} new entries`);
     console.log(`Kept existing: ${keptCount} descriptions`);
     console.log('✅ Complete!\n');
 }

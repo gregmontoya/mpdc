@@ -735,12 +735,31 @@ import vslCourseImg from '../../assets/images/vsl-course-image.png';
                     })
                 });
 
+                // 🔵 Trigger Identity & Conversion events (Elite Stack Bridge)
+                if (window.posthog) {
+                    posthog.identify(email, {
+                        name: name,
+                        email: email,
+                        $set: { source: 'join_page_checkout' }
+                    });
+                }
+                
                 // 🔵 Trigger Facebook Lead Event (PRO Move)
                 if (typeof fbq !== 'undefined') {
                     fbq('track', 'Lead', {
                         content_name: 'Core System Checkout',
                         value: 0.00,
                         currency: 'USD'
+                    });
+                }
+
+                // 🔵 Trigger GA4 Enhanced Contact Event
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'generate_lead', {
+                        'user_email': email,
+                        'user_name': name,
+                        'event_category': 'engagement',
+                        'event_label': 'Checkout Started'
                     });
                 }
                 

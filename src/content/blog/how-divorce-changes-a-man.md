@@ -40,12 +40,12 @@ Divorce changes a man by destroying the "Status Quo" that provided him with dail
 <div id="why-different"></div>
 
 ## The Identity Fracture
-For many men, their entire "Frame" was built around being a husband and a provider. When the marriage ends, the Frame breaks. This leads to a state of [emotional grounding](/learn/how-divorce-changes-a-man) where you feel lost because you no longer have a "mission" to serve. 
+For many men, their entire "Frame" was built around being a husband and a provider. When the marriage ends, the Frame breaks. This leads to a state of [emotional grounding](/learn/how-divorce-changes-a-man) where you feel lost because you no longer have a "mission" to serve. If you are currently in a transition phase, beware of the [amicable divorce trap](/learn/amicable-divorce-trap)—where "good terms" are used to delay your legal protection.
 
 <div id="immediate-impact"></div>
 
 ## The Biological Toll
-In the early stages, your body is flooded with cortisol. As we detail in our investigation of the [Biological Stress of Divorce](/learn/biological-stress-of-divorce), your brain literally perceives the split as a threat to your survival. This is the root cause of [post-divorce overthinking](/learn/stop-overthinking-men) and [unprocessed anger](/learn/managing-anger-men). You are in a survival state, which makes long-term tactical planning nearly impossible without a structured framework.
+In the early stages, your body is flooded with cortisol. As we detail in our investigation of the [Biological Stress of Divorce](/learn/biological-stress-of-divorce), your brain literally perceives the split as a threat to your survival. This is the root cause of [post-divorce overthinking](/learn/stop-overthinking-men), [unprocessed anger](/learn/managing-anger-men), and the "Nuclear Phase" where [DVPO snares](/learn/dvpo-legal-snare) can be weaponized against you. You are in a survival state, which makes long-term tactical planning nearly impossible without a structured framework.
 
 <div id="behavioral-changes"></div>
 

@@ -63,7 +63,7 @@ To stop the loop, you must shift from **Content-Level Thinking** (the details of
 <div id="edge-cases"></div>
 
 ## Edge Cases: High-Conflict Scenarios
-In cases of extreme high-conflict or false accusations, overthinking is a natural survival response. In these scenarios, use the **Tactical Containment** method. You don't try to "stop" the thoughts; you contain them to a specific "problem-solving hour" in your day, preventing them from bleeding into your work or parenting time.
+In cases of extreme high-conflict or weaponized allegations—such as a [DVPO legal snare](/learn/dvpo-legal-snare)—overthinking is a natural survival response. In these scenarios, use the **Tactical Containment** method. You don't try to "stop" the thoughts; you contain them to a specific "problem-solving hour" in your day, preventing them from bleeding into your work or parenting time.
 
 <div id="next-step"></div>
 

@@ -57,7 +57,7 @@ Victim mentality is a comfort trap. To escape it, you must move from *External V
 <div id="why-different"></div>
 
 ## The "Nice Guy" Victim Trap
-Many men feel they were "good husbands" who were betrayed. This sense of injustice creates a specific type of victimhood called the "Nice Guy Trap." You believe that because you did your best, you shouldn't be suffering. But the reality of divorce doesn't care about fairness; it only cares about your ability to adapt and survive.
+Many men feel they were "good husbands" who were betrayed. This sense of injustice creates a specific type of victimhood called the "Nice Guy Trap." You believe that because you did your best, you shouldn't be suffering. This is often triggered when you discover your ex-wife has engaged in [monkey branching](/learn/monkey-branching-divorce) to a lower-value partner. But the reality of divorce doesn't care about fairness; it only cares about your ability to adapt and survive.
 
 <div id="immediate-impact"></div>
 
