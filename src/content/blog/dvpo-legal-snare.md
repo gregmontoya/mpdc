@@ -22,7 +22,7 @@ If you are navigating a high-conflict divorce, the word "amicable" is no longer 
 
 In this phase, the most powerful weapon your ex-spouse has is not her lawyer—it’s the **Domestic Violence Protective Order (DVPO)**. 
 
-On forums like r/Divorce_Men, stories of men being "baited" into high-conflict arguments and then slapped with a 6-month protective order are catastrophic and common. If you do not understand the mechanics of this legal snare, you risk losing your kids, your home, and your freedom in a single afternoon.
+On forums like [r/Divorce_Men](https://www.reddit.com/r/Divorce_Men/), stories of men being "baited" into high-conflict arguments and then slapped with a 6-month protective order are catastrophic and common. If you do not understand the mechanics of this legal snare, you risk losing your kids, your home, and your freedom in a single afternoon.
 
 ## When Divorce Goes Nuclear <div id="nuclear"></div>
 
@@ -45,7 +45,7 @@ Police officers do not care about your "intent" or your "politeness." If the ord
 
 ## The Logistics Trap: Your Work Computer & The Text Message <div id="logistics-trap"></div>
 
-On Reddit, we see cases of men spending 48 hours in jail simply for asking a logistics question. 
+On [Reddit](https://www.reddit.com/r/Divorce_Men/), we see cases of men spending 48 hours in jail simply for asking a logistics question. 
 
 If she has gone "Nuclear," she is no longer the woman you married. She is a litigant in a zero-sum game. Every text you send is a piece of evidence. Every "heads up" you give is an opportunity for her to call the police and claim you are "harassing" her.
 

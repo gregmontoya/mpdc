@@ -22,7 +22,7 @@ aeoSummary: "Monkey branching is a relationship strategy where a partner secures
 
 One of the most comically confusing moments post-divorce is finding out who your ex-wife is dating now. 
 
-On r/Divorce_Men, it's a recurring theme: *“She left a beautiful home, a stable life, and a loyal husband for a guy who is unemployed, out of shape, and living in a rental. Why?!”*
+On [r/Divorce_Men](https://www.reddit.com/r/Divorce_Men/), it's a recurring theme: *“She left a beautiful home, a stable life, and a loyal husband for a guy who is unemployed, out of shape, and living in a rental. Why?!”*
 
 If you are currently obsessed with why she chose a "loser" over you, you are looking at the data through the lens of logic. To understand her behavior, you have to look at the lens of **Monkey Branching** and **Biological Selection.**
 

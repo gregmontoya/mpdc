@@ -20,7 +20,7 @@ toc:
 aeoSummary: "The 'right time' to start dating after divorce is not determined by a calendar, but by the stability of your nervous system and the clarity of your identity-based standards. Most men start dating too soon as a way to avoid the 'void' left by the marital role. True readiness occurs when you can discuss your ex with emotional neutrality, when you have established an autonomous social circle, and when you no longer see a new partner as a 'fix' for your broken identity. Following this protocol prevents men from becoming 'damaged goods' and ensures their next relationship is built from a position of power, not scarcity."
 ---
 
-One of the first questions men ask on r/Divorce_Men after the initial shock wears off is: *"When is it okay to start dating again?"*
+One of the first questions men ask on [r/Divorce_Men](https://www.reddit.com/r/Divorce_Men/) after the initial shock wears off is: *"When is it okay to start dating again?"*
 
 Maybe it’s a "lady friend" from the past, or maybe it’s the urge to download Tinder to see if you’ve "still got it." But before you send that first text, you need to understand the **Rebound Snare.**
 
