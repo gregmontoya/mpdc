@@ -25,9 +25,17 @@ if (bodyClass && bodyClass.includes('blog-page')) {
     <meta name="p:domain_verify" content="57dd46a805327939488e827ea7d046dd"/>
     <SEO title={title} description="Men's Post-Divorce Coaching - Rebuild Your Life" />
 
-    <!-- Preload Critical Fonts -->
+    <!-- Preconnect to CDNs -->
+    <link rel="preconnect" href="https://www.googletagmanager.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+
+    <!-- Preload Critical Fonts (Resolving Critical Request Chain) -->
     <link rel="preload" href="/fonts/montserrat-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/montserrat-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/montserrat-900.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/opensans-400.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/opensans-700.woff2" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="/fonts/bebas-neue.woff2" as="font" type="font/woff2" crossorigin>
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" media="print" onload="this.media='all'">
     <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"></noscript>
