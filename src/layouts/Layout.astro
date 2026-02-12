@@ -62,17 +62,6 @@ if (bodyClass && bodyClass.includes('blog-page')) {
     <slot />
     {!simpleFooter && <Footer />}
     
-    <!-- Mobile Menu Script -->
-    <script is:inline>
-        const mobileToggle = document.getElementById('mobile-toggle');
-        const mobileMenu = document.getElementById('mobile-menu');
-        if(mobileToggle && mobileMenu){
-            mobileToggle.addEventListener('click', () => {
-                mobileToggle.classList.toggle('active');
-                mobileMenu.classList.toggle('active');
-            });
-        }
-    </script>
     <EmailPopup />
 </body>
 </html>

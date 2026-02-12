@@ -131,31 +131,40 @@ const { hideNav = false } = Astro.props;
 
 <script is:inline>
     // Unified Mobile Menu Script
-    (function() {
+    function initMobileMenu() {
         const mobileToggle = document.getElementById('mobile-toggle');
         const mobileMenu = document.getElementById('mobile-menu');
         const navToggles = document.querySelectorAll('.mobile-nav-toggle');
 
+        console.log('📱 Mobile Menu Init: Found', navToggles.length, 'sub-toggles');
+
         if(mobileToggle && mobileMenu){
-            mobileToggle.addEventListener('click', () => {
+            // Remove old listeners if any (important for Astro transitions)
+            mobileToggle.onclick = null;
+            mobileToggle.onclick = () => {
                 mobileToggle.classList.toggle('active');
                 mobileMenu.classList.toggle('active');
-                // Prevent body scroll when menu is open
                 document.body.style.overflow = mobileMenu.classList.contains('active') ? 'hidden' : '';
-            });
+            };
         }
 
         // Accordion Logic
         navToggles.forEach(toggle => {
-            toggle.addEventListener('click', () => {
+            toggle.onclick = null;
+            toggle.onclick = (e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                
                 const submenuId = toggle.getAttribute('data-submenu');
                 const submenu = document.getElementById(`submenu-${submenuId}`);
                 
+                console.log('📂 Toggling Submenu:', submenuId);
+                
                 // Toggle active class on button and submenu
                 toggle.classList.toggle('active');
-                submenu.classList.toggle('active');
+                if (submenu) submenu.classList.toggle('active');
 
-                // Close other submenus if open (Optional, but cleaner)
+                // Close other submenus if open
                 navToggles.forEach(otherToggle => {
                     if (otherToggle !== toggle) {
                         otherToggle.classList.remove('active');
@@ -163,7 +172,14 @@ const { hideNav = false } = Astro.props;
                         if(otherSub) otherSub.classList.remove('active');
                     }
                 });
-            });
+            };
         });
-    })();
+    }
+
+    // Run on standard load
+    document.addEventListener('DOMContentLoaded', initMobileMenu);
+    // Run if Astro transitions are used
+    document.addEventListener('astro:page-load', initMobileMenu);
+    // Immediate call for good measure
+    initMobileMenu();
 </script>
