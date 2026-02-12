@@ -79,7 +79,7 @@ Developing healthy coping skills is crucial for managing these stresses. Typical
 <div id="identity-shift"></div>
 
 ## Identity and Emotional Ownership
-The "Husband" identity provided a container for your emotions. When that container is removed, the anger has nowhere to go. Rebuilding a new container—based on autonomy and individual purpose—is the only way to permanently lower the emotional volume.
+The "Husband" identity provided a container for your emotions. When that container is removed, the anger has nowhere to go. Rebuilding a new container—based on autonomy, [firm boundaries](/learn/boundaries-ex-wife), and individual purpose—is the only way to permanently lower the emotional volume.
 
 <div id="final-thoughts"></div>
 

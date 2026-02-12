@@ -69,7 +69,7 @@ Victimhood is often the final stage of the mindset collapse. It starts with [unp
 ## Signs You're in a Victim Frame
 - Constantly talking about the "unfairness" of the legal system or your ex-wife.
 - Avoiding professional or personal growth because "what's the point now?"
-- Seeking sympathy from friends and family rather than tactical advice.
+- Seeking sympathy from friends and family rather than tactical advice. This is why you need to audit your [social A-Team](/learn/new-social-circle-men) to ensure they are pulling you forward rather than anchoring you to your pain.
 - Feeling like life is happening *to* you, rather than you happening to life.
 
 > **Technical Note:** Extreme ownership is the only antidote to victimhood. You must take responsibility for your recovery, even if you weren't responsible for the rupture.

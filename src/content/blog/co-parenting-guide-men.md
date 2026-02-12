@@ -57,7 +57,7 @@ Co-parenting works in healthy divorces. In high-conflict ones, you must use **Pa
 <div id="why-different"></div>
 
 ## The "Hired Professional" Mindset
-Imagine you are a high-level consultant hired to manage a project. The client (your ex-wife) is difficult and emotional. If you get angry, you lose the contract. If you stay objective and deliver results (raising healthy kids), you win. This shift in perspective is the only way to avoid [unprocessed resentment](/learn/managing-anger-men).
+Imagine you are a high-level consultant hired to manage a project. The client (your ex-wife) is difficult and emotional. If you get angry, you lose the contract. If you stay objective and deliver results (raising healthy kids), you win. This shift in perspective is the only way to avoid [unprocessed resentment](/learn/managing-anger-men). Often, the conflict you face now is a continuation of the [systemic red flags](/learn/red-flag-decoder) that were present during the marriage but never properly audited.
 
 <div id="immediate-impact"></div>
 

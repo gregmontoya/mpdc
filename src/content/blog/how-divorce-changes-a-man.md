@@ -27,10 +27,10 @@ How divorce changes a man is not just emotional — it is a total systemic restr
 While the emotional pain is significant, the most profound changes happen in the structures that define a man's life: his finances, his role as a father, his physical health, and his social status. To survive this shift, you must stop viewing divorce as a "loss" and start viewing it as a **forced evolution**.
 
 **The Systemic Impact of Divorce:**
-- **Financial Baseline:** A typical man's standard of living drops by roughly 10-40% post-divorce due to dual-household costs and legal fees.
-- **Fatherhood Role:** Shifting from "Presence-Based Parenting" (being there daily) to "Schedule-Based Parenting" (visitation) requires a massive identity adjustment.
+- **Financial Baseline:** A typical man's standard of living drops by roughly 10-40% post-divorce—a [systemic financial fracture](/learn/divorce-economics-audit) that requires a tactical audit.
+- **Fatherhood Role:** Shifting from "Presence-Based Parenting" (being there daily) to [Schedule-Based Parenting](/learn/co-parenting-guide-men) requires a massive identity adjustment.
 - **Physical Health:** Divorced men face a 39% higher mortality rate and significantly higher risks of stress-related cardiovascular issues.
-- **Social Entropy:** 60-80% of shared social circles dissolve, leaving men in a state of sudden isolation.
+- **Social Entropy:** 60-80% of shared social circles dissolve, leaving men in a state of [sudden isolation](/learn/new-social-circle-men).
 
 <div id="quick-answer"></div>
 

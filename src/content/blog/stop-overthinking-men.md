@@ -31,7 +31,7 @@ While the world tells you to "just stop thinking about it," the reality of post-
 <div id="what-is-it"></div>
 
 ## What is Overthinking After Divorce? (The Quick Answer)
-Overthinking is not a personality trait; it is a symptom of an unregulated nervous system. In the context of divorce, it is the "Replay Loop"—running past arguments to find a different outcome, hyper-vigilance over texts, and analysis paralysis over future decisions. It is the sound of a mind trying to find a "frame" that no longer exists.
+Overthinking is not a personality trait; it is a symptom of an [unregulated nervous system](/learn/biological-stress-of-divorce). In the context of divorce, it is the "Replay Loop"—running past arguments to find a different outcome, hyper-vigilance over texts, and analysis paralysis over future decisions. It is the sound of a mind trying to find a "frame" that no longer exists.
 
 <div id="why-it-matters"></div>
 

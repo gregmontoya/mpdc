@@ -45,7 +45,7 @@ The reality is that operating two separate households is 40% to 50% more expensi
 
 There is a hidden cost to divorce that most financial advisors miss: **Reactive Consumption.**
 
-When your brain is in a state of [Biological Stress](/learn/biological-stress-of-divorce), you seek "Dopamine Hits" to offset the cortisol. This often manifests as:
+When your brain is in a state of [Biological Stress](/learn/biological-stress-of-divorce) (see our guide on [Biological Stress of Divorce](/learn/biological-stress-of-divorce)), you seek "Dopamine Hits" to offset the cortisol. This often manifests as:
 *   **The Rebound Spend**: Buying a "New Life" car or wardrobe to offset the pain of the split.
 *   **The Convenience Tax**: Over-spending on takeout, travel, and services because you lack the "Bandwidth" to manage your own life.
 *   **Legal Attrition**: Fighting over "The Principle" in court—spending $10,000 in legal fees to win a $2,000 asset.

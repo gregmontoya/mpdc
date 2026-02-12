@@ -32,10 +32,10 @@ To move from systemic collapse to a tactical comeback, you need a blueprint that
 
 **The 5 Pillars of the Post-Divorce Blueprint:**
 1. **Neurological Regulation:** Breaking the [chronic overthinking loop](/learn/stop-overthinking-men).
-2. **Biological Baseline:** Restoring the physical energy needed for high-stakes decision making.
-3. **Mission-First Identity:** Moving from "Husband" to "Autonomous Individual."
-4. **Social Siloing:** Building a high-value network of men who hold you accountable.
-5. **Extreme Ownership:** Taking 100% responsibility for the [restructuring of your life](/learn/how-divorce-changes-a-man).
+2. **Biological Baseline:** Restoring the [physical energy](/learn/biological-stress-of-divorce) needed for high-stakes decision making.
+3. **Mission-First Identity:** Moving from "Husband" to [Autonomous Individual](/learn/legacy-standard-purpose).
+4. **Social Siloing:** Building a [high-value network](/learn/new-social-circle-men) of men who hold you accountable.
+5. **Extreme Ownership:** Taking 100% responsibility for the [restructuring of your life](/learn/victim-mentality-men).
 
 <div id="quick-answer"></div>
 
