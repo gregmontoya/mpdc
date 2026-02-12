@@ -69,7 +69,7 @@ Review your recurring expenses. How many of them exist purely to support the "Hu
 
 The goal of your second act is not just survival; it is **Wealth Sovereignty.**
 
-In [Module 5: Scarcity to Abundance (part of the Men's Divorce Mindset System)](/join), we move beyond the "Budget" and into the "Standard." An Abundance mindset recognizes that while your local accounts may be fractured, your **Value-Generation Capability** is intact. 
+In the [Men's Divorce Mindset System](/join), we move beyond the "Budget" and into the "Standard." An Abundance mindset recognizes that while your local accounts may be fractured, your **Value-Generation Capability** is intact.
 
 - **Focus on the Asset**: Your biggest asset is not your house; it is your [Neurological Regulation](/learn/stop-overthinking-men). If you are clear and logical, you can out-earn any divorce settlement.
 - **Silo the Past**: Support payments and settlements are "Fixed Operating Expenses." Once the number is set, stop thinking about it. Every minute spent resenting a check you have to write is a minute you aren't spending on your new mission.

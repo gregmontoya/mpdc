@@ -75,16 +75,16 @@ The Vagus nerve is the "main cable" of your parasympathetic nervous system (the 
 ### 2. Transitioning to "Towards-Motivation"
 Most men are trapped in "Away-From" motivation: *"I just want the pain to stop."* 
 
-Neurologically, this keeps you in survival mode. You must give the brain a concrete [Identity Target (Module 1 of our system)](/join). This shifts your focus from the **Threat** (the past) to the **Outcome** (the future). When the brain has a clear direction, the Amygdala settles down because the "uncertainty" (the biggest trigger) is replaced with a plan.
+Neurologically, this keeps you in survival mode. You must give the brain a concrete [identity target (taught in our system)](/join). This shifts your focus from the **Threat** (the past) to the **Outcome** (the future). When the brain has a clear direction, the Amygdala settles down because the "uncertainty" (the biggest trigger) is replaced with a plan.
 
 ### 3. Setting Logic Standards
-In [Module 5: Scarcity to Abundance (Men's Divorce Mindset System)](/join), we teach men to move from "Habits" to "Standards." Habits require willpower; Standards are simply who you are. By setting a standard that *"I do not react to emotional triggers,"* you begin to rewire the neural pathways that are currently keeping you in a state of panic.
+In the [Men's Divorce Mindset System](/join), we teach men to move from "Habits" to "Standards." Habits require willpower; Standards are simply who you are. By setting a standard that *"I do not react to emotional triggers,"* you begin to rewire the neural pathways that are currently keeping you in a state of panic.
 
 ## The Path to Long-Term Stability
 
 Biology will always win in the short term, but **Architecture** wins in the long term. 
 
-If you leave your environment, your social circle, and your thought patterns unchanged, your brain will stay in survival mode indefinitely. You must intentionally design a new [Reality Chain (Module 3 of our system)](/join) that supports your new identity.
+If you leave your environment, your social circle, and your thought patterns unchanged, your brain will stay in survival mode indefinitely. You must intentionally design a new [Reality Chain (taught in our system)](/join) that supports your new identity.
 
 Recovery is not about "waiting for time to heal." It is about understanding the hardware of your mind and installing the correct software to lead your family, your business, and your own life through the transition.
 

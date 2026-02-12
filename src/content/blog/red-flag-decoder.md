@@ -46,7 +46,7 @@ This is the most critical and most ignored red flag. It’s the subtle shift whe
 **The Decoder Point**: Respect is the prerequisite for love. If you allow your frame to Erode, she cannot respect you. If she cannot respect you, she cannot love you. The "Red Flag" was the first time you stayed silent when your boundaries were crossed.
 
 ### 2. The Narrative Shift (Level 2)
-Watch for when the "Story" of the relationship changes. If she begins to rewrite the past—claiming it was "always bad" or that "you were never there"—this is a biological signal of **De-coupling.** Her brain is manually breaking the [Reality Chain (Module 3 of our system)](/join) to prepare for the exit.
+Watch for when the "Story" of the relationship changes. If she begins to rewrite the past—claiming it was "always bad" or that "you were never there"—this is a biological signal of **De-coupling.** Her brain is manually breaking the [Reality Chain (taught in our system)](/join) to prepare for the exit.
 
 **The Decoder Point**: When a person rewrites the past, they are making it safe to leave in the future.
 
@@ -57,7 +57,7 @@ In the months leading up to a "Blindside," there is almost always a shift in how
 
 Betrayal is only possible when your happiness is **tethered** to someone else’s behavior. 
 
-In [Module 5: Scarcity to Abundance (part of the Men's Divorce Mindset System)](/join), we teach men to build an "Identity Anchor." This is a set of non-negotiable standards that exist regardless of who you are with.
+In the [Men's Divorce Mindset System](/join), we teach men to build an "Identity Anchor"—a set of non-negotiable standards that exist regardless of who you are with.
 - **Scarcity Identity**: "I need her to be happy so I can feel like a successful man." (High risk of being blindsided).
 - **Abundance Identity**: "I am a high-value man on a mission. If a partner doesn't align with these Standards, they do not have access to my reality." (Zero risk of being blindsided).
 
@@ -71,7 +71,7 @@ To ensure your next relationship is built on a "Logic-First" foundation, you mus
 2.  **Extract the Learning**: According to [Emotionally Focused Therapy (EFT)](https://iceeft.com/what-is-eft/), these "small" betrayals of self lead to a total loss of connection. 
 3.  **Set the Standard**: What is the non-negotiable standard you will hold for yourself in the future? (See our guide on the [Legacy Standard](/learn/legacy-standard-purpose) to start building this now).
 
-The "Red Flag Decoder" is not about bitterness; it's about **Sovereignty.** You are building a life that is so well-designed ([Module 4 of our system](/join)) that no single person's exit can destroy your world.
+The "Red Flag Decoder" is not about bitterness; it's about **Sovereignty.** You are building a life that is [so well-designed](/join) that no single person's exit can destroy your world.
 
 ---
 

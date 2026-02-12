@@ -37,7 +37,7 @@ Your nervous system has a "kill switch" for the fight-or-flight response. The fa
 ### 60-120 Seconds: Labeling the Loop
 Once your heart rate has stabilized, you must move the activity from your emotional brain back to your logical brain. You do this by **Labeling.** 
 
-Research from [UCLA's Social Cognitive Neuroscience Lab](https://www.scn.ucla.edu/) shows that "Affect Labeling"—simply putting a name to an emotion—significantly reduces Amygdala activity. In [Module 2: The Reset (part of the Men's Divorce Mindset System)](/join), we identify three main loops that trap men:
+Research from [UCLA's Social Cognitive Neuroscience Lab](https://www.scn.ucla.edu/) shows that "Affect Labeling"—simply putting a name to an emotion—significantly reduces Amygdala activity. In the [Men's Divorce Mindset System](/join), we identify three main loops that trap men:
 1.  **The Boredom-Freedom Loop**: Panicking because your new freedom feels like aimlessness.
 2.  **The Motivation-Burnout Loop**: Reactively working to "outrun" the pain.
 3.  **The Isolation-Numbness Loop**: Withdrawing until you feel nothing at all.
@@ -48,7 +48,7 @@ Now that you are back in the driver's seat, you need a target. Most men in panic
 *   *"I don't want to be broke."*
 *   *"I don't want to be lonely."*
 
-Neurologically, "Away-From" motivation keeps you in survival mode. Your brain is scanning for threats to avoid, which keeps your cortisol levels high. To enter a state of [Abundance (Module 5 of our system)](/join), you must install what we call **"A Memory in Your Future."**
+Neurologically, "Away-From" motivation keeps you in survival mode. Your brain is scanning for threats to avoid, which keeps your cortisol levels high. To enter a state of [Abundance (taught in our system)](/join), you must install what we call **"A Memory in Your Future."**
 
 This is a specific, grounded goal placed clearly in your mind. It’s not a fantasy; it’s an instruction. When your mind has a "Towards" target, the panic dissipates because the "Uncertainty Gap"—the space where anxiety lives—is filled with a tactical roadmap.
 
@@ -56,7 +56,7 @@ This is a specific, grounded goal placed clearly in your mind. It’s not a fant
 
 Frame is not about being "tough"; it’s about being **Unshakeable.** 
 
-A man with a stable frame understands that triggers are just data. A text from his ex is just a string of characters. A legal update is just a move in a game. By applying the [Reality Chain (Module 3 of our system)](/join) logic, you stop being the ball and start being the player.
+A man with a stable frame understands that triggers are just data. A text from his ex is just a string of characters. A legal update is just a move in a game. By applying the [Reality Chain logic (taught in our system)](/join), you stop being the ball and start being the player.
 
 ### Your Tactical Next Steps:
 1.  **Stop the Overthinking**: Read our deep dive on [Mastering the Male Mindset](/learn/stop-overthinking-men) to see how to prevent the next spiral.

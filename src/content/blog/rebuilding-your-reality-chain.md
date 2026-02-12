@@ -47,11 +47,11 @@ Most men try to fix their "Reality" without changing their "Focus." They try to 
 
 Away-From motivation creates panic movement. It’s like running away from a fire—you might escape the flames, but you have no idea where you are going. 
 
-To rebuild the chain, you must transition to **Towards-Motivation.** This requires a [Full Decision (Intro Module of our system)](/join) to stop running and start designing. When you have a concrete [Memory in Your Future](/learn/emergency-divorce-panic-protocol), your Focus shifts from the threat to the target.
+To rebuild the chain, you must transition to **Towards-Motivation.** This requires a [full decision (taught in our system)](/join) to stop running and start designing. When you have a concrete [Memory in Your Future](/learn/emergency-divorce-panic-protocol), your Focus shifts from the threat to the target.
 
 ## Designing Your New Framework
 
-In [Module 4: Designing Your Ideal Future (Men's Divorce Mindset System)](/join), we move from willpower to architecture. You don't "try" to be happy; you design an environment where happiness is the logical outcome.
+In the [Men's Divorce Mindset System](/join), we move from willpower to architecture. You don't "try" to be happy; you design an environment where happiness is the logical outcome.
 
 - **Subtract the Toxicity**: If a person, a habit, or a thought loop doesn't support your health, your children, or your income, it no longer gets access to your time.
 - **Sequence the Growth**: Don't try to fix everything at once. Focus on one pillar a month—Health, Business, Mindset, Legacy. 
