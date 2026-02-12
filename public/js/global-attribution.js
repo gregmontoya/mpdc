@@ -63,6 +63,17 @@
         const fingerprint = getFingerprint();
         const isNewVisit = !storedData.first_touch.timestamp;
 
+        // 🛡️ Stealth Mode Check (Internal Traffic & Bots)
+        const urlParams = new URLSearchParams(window.location.search);
+        const forceTracking = urlParams.get('test_tracking') === 'true';
+        const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1');
+        const isPortugal = Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') || 
+                           Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') ||
+                           Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores');
+        const isBot = /bot|googlebot|crawler|spider|robot|crawling|Lighthouse|PageSpeed/i.test(navigator.userAgent);
+        
+        const isStealth = (isDev || isPortugal || isBot) && !forceTracking;
+
         let updatedData = { ...storedData };
 
         // FIRST TOUCH (The 'Introduction')
@@ -105,8 +116,18 @@
         localStorage.setItem(STORAGE_KEY, JSON.stringify(updatedData));
         window.mpdc_data = { ...updatedData, guest_id: guestId };
 
-        // PING WEBHOOK
-        pingActivity(window.mpdc_data);
+        // PING WEBHOOK (Delayed to protect CWV & respect Stealth Mode)
+        if (!isStealth) {
+            if (document.readyState === 'complete') {
+                setTimeout(() => pingActivity(window.mpdc_data), 3000);
+            } else {
+                window.addEventListener('load', () => {
+                    setTimeout(() => pingActivity(window.mpdc_data), 3000);
+                });
+            }
+        } else {
+            console.log('🕵️‍♂️ MPDC Tracker: Stealth Mode active (Tracking paused)');
+        }
 
         // Debug Table
         console.log('🕵️‍♂️ MPDC Attribution Data:');
