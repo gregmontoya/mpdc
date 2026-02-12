@@ -11,6 +11,7 @@ const blogCollection = defineCollection({
         categoryUrl: z.string(),
         readTime: z.string(),
         image: z.string().optional(),
+        aeoSummary: z.string().optional(),
         tags: z.array(z.string()).optional(),
         toc: z.array(z.object({
             text: z.string(),

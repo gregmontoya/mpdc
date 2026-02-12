@@ -25,9 +25,64 @@ const config = (seoConfig as any)[path] || {};
 
 const title = config.title || defaultTitle;
 const description = config.description || defaultDescription;
+
+// 🗺️ Server-Side Breadcrumb Logic
+const parts = path.split('/').filter(p => p);
+const breadcrumbs = [
+  {
+    "@type": "ListItem",
+    "position": 1,
+    "name": "Home",
+    "item": "https://menspostdivorcecoaching.com/"
+  }
+];
+
+let builtPath = "https://menspostdivorcecoaching.com/";
+parts.forEach((part, index) => {
+  builtPath += part + "/";
+  const name = part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, ' ');
+  breadcrumbs.push({
+    "@type": "ListItem",
+    "position": index + 2,
+    "name": name,
+    "item": builtPath.replace(/\/$/, '')
+  });
+});
+
+const breadcrumbSchema = {
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": breadcrumbs
+};
 ---
 
 <KnowledgeGraph />
+
+<!-- 🚀 Speculation Rules API (Instant Load) -->
+<script type="speculationrules" is:inline>
+{
+  "prerender": [
+    {
+      "source": "list",
+      "urls": ["/join", "/learn"]
+    },
+    {
+      "source": "document",
+      "where": {
+        "and": [
+          { "href_matches": "/*" },
+          { "not": { "href_matches": "/crm/*" } },
+          { "not": { "href_matches": "/admin/*" } }
+        ]
+      },
+      "eagerness": "moderate"
+    }
+  ]
+}
+</script>
+
+<!-- 🗺️ Automated BreadcrumbList Schema -->
+<script type="application/ld+json" set:html={JSON.stringify(breadcrumbSchema)} is:inline />
 
 <!-- Global Metadata -->
 <meta charset="utf-8" />
@@ -82,29 +137,43 @@ const description = config.description || defaultDescription;
   }
 </script>
 
-<!-- 🔵 Facebook Pixel (Retargeting) -->
+<!-- 🔵 Facebook Pixel (Retargeting) - Stealth Delay Optimization -->
 <script is:inline>
-  // Only initialize FB if not in Stealth Mode
-  if (!window.location.hostname.includes('localhost') && 
-      !Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') &&
-      !Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') &&
-      !Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores')) {
-    
-    !function(f,b,e,v,n,t,s)
-    {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
-    n.callMethod.apply(n,arguments):n.queue.push(arguments)};
-    if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
-    n.queue=[];t=b.createElement(e);t.async=!0;
-    t.src=v;s=b.getElementsByTagName(e)[0];
-    s.parentNode.insertBefore(t,s)}(window, document,'script',
-    'https://connect.facebook.net/en_US/fbevents.js');
-    
-    fbq('init', '1524876641955362'); 
-    fbq('track', 'PageView');
-  } else {
-    console.log('🔵 FB Pixel: Bypassed for Stealth Mode');
+  function loadFB() {
+    if (window.fbLoaded) return;
+    window.fbLoaded = true;
+
+    // Only initialize FB if not in Stealth Mode
+    if (!window.location.hostname.includes('localhost') && 
+        !Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') &&
+        !Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') &&
+        !Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores')) {
+      
+      !function(f,b,e,v,n,t,s)
+      {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+      n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+      if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+      n.queue=[];t=b.createElement(e);t.async=!0;
+      t.src=v;s=b.getElementsByTagName(e)[0];
+      s.parentNode.insertBefore(t,s)}(window, document,'script',
+      'https://connect.facebook.net/en_US/fbevents.js');
+      
+      fbq('init', '1524876641955362'); 
+      fbq('track', 'PageView');
+      console.log('🔵 FB Pixel: Initialized (Delayed)');
+    } else {
+      console.log('🔵 FB Pixel: Bypassed for Stealth Mode');
+    }
   }
+
+  // Fire on 3s delay OR first interaction
+  window.addEventListener('load', () => {
+    setTimeout(loadFB, 3500);
+  });
+  window.addEventListener('scroll', loadFB, { once: true, passive: true });
+  window.addEventListener('mousedown', loadFB, { once: true });
 </script>
 <noscript><img height="1" width="1" style="display:none"
   src="https://www.facebook.com/tr?id=1524876641955362&ev=PageView&noscript=1"
 /></noscript>
+</noscript>
