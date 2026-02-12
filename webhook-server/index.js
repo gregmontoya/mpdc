@@ -360,6 +360,9 @@ app.post('/capture-lead', async (req, res) => {
             source: 'popup'
         }, req);
 
+        // 🔔 Internal Lead Notification (Real-time visibility)
+        await sendLeadNotification(email, name, attribution);
+
         // 2. Automated Welcome Flow (Email #1)
         if (contact && (!contact.automation_state || !contact.automation_state.welcome_v1_sent)) {
             console.log(`🚀 Triggering Welcome Flow for: ${email}`);
@@ -722,6 +725,47 @@ async function sendAdminNotification(email, name, amount, accessLevel) {
         }
     } catch (error) {
         console.error('❌ Fatal Admin Email Error:', error);
+    }
+}
+
+async function sendLeadNotification(email, name, attribution = {}) {
+    const emailHTML = `
+    <div style="font-family: sans-serif; padding: 20px; color: #333; border-left: 4px solid #C4613A;">
+        <h1 style="color: #C4613A; margin-top: 0;">🧲 New Lead Captured!</h1>
+        <div style="background: #f8fafc; padding: 20px; border-radius: 8px; margin: 20px 0; border: 1px solid #e2e8f0;">
+            <p style="margin: 8px 0; font-size: 16px;"><strong>Email:</strong> ${email}</p>
+            <p style="margin: 8px 0; font-size: 16px;"><strong>Name:</strong> ${name || 'Anonymous'}</p>
+            <hr style="border: 0; border-top: 1px solid #e2e8f0; margin: 15px 0;">
+            <p style="margin: 5px 0; color: #64748b;"><strong>Source:</strong> ${attribution.utm_source || 'Direct / Organic'}</p>
+            <p style="margin: 5px 0; color: #64748b;"><strong>Medium:</strong> ${attribution.utm_medium || 'N/A'}</p>
+            <p style="margin: 5px 0; color: #64748b;"><strong>Campaign:</strong> ${attribution.utm_campaign || 'N/A'}</p>
+            <p style="margin: 5px 0; color: #64748b;"><strong>Ad Content:</strong> ${attribution.utm_content || 'N/A'}</p>
+        </div>
+        <div style="text-align: center; margin-top: 30px;">
+            <a href="https://menspostdivorcecoaching.com/crm/leads" style="background-color: #0B3B36; color: white; padding: 12px 25px; text-decoration: none; border-radius: 5px; font-weight: bold;">View Lead in CRM</a>
+        </div>
+        <p style="font-size: 12px; color: #94a3b8; margin-top: 40px; text-align: center;">
+            Sent by MPDC Demand Gen Engine — ${new Date().toLocaleString()}
+        </p>
+    </div>
+    `;
+
+    try {
+        const { data, error } = await resend.emails.send({
+            from: 'MPDC Alerts <hello@menspostdivorcecoaching.com>',
+            to: ['hello@menspostdivorcecoaching.com', 'gregmontoya1@gmail.com'],
+            subject: `🧲 New Lead: ${email} (${attribution.utm_source || 'Organic'})`,
+            html: emailHTML,
+            reply_to: email // Allow Greg to reply directly to the lead if he wants
+        });
+
+        if (error) {
+            console.error('❌ Lead Notification Error:', error);
+        } else {
+            console.log(`✅ Lead notification sent to team for: ${email}`);
+        }
+    } catch (error) {
+        console.error('❌ Fatal Lead Email Error:', error);
     }
 }
 
