@@ -95,4 +95,39 @@ export const prerender = true;
 
         </div>
     </section>
+
+    <!-- 📊 Analytics Bridge Script -->
+    <script is:inline>
+        const contactForm = document.querySelector('form');
+        if (contactForm) {
+            contactForm.addEventListener('submit', function() {
+                const name = document.getElementById('name').value;
+                const email = document.getElementById('email').value;
+
+                // 🦔 PostHog Identify
+                if (window.posthog) {
+                    posthog.identify(email, {
+                        name: name,
+                        email: email,
+                        $set: { source: 'contact_page' }
+                    });
+                    posthog.capture('contact_form_submitted');
+                }
+
+                // 📊 GA4 Lead Event
+                if (typeof gtag !== 'undefined') {
+                    gtag('event', 'generate_lead', {
+                        'user_email': email,
+                        'user_name': name,
+                        'content_name': 'Contact Page Submit'
+                    });
+                }
+
+                // 🔵 Meta / FB Lead Event
+                if (typeof fbq !== 'undefined') {
+                    fbq('track', 'Contact');
+                }
+            });
+        }
+    </script>
 </Layout>
