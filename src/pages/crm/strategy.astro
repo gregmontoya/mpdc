@@ -437,7 +437,9 @@
                 ['Programmatic SEO Pages', 'Proposed', 'High', 'Greg', 'SEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Create [City] dynamic routes -> Inject City Name into H1 & Title tags.'],
                 ['IndexNow Protocol Implementation', 'Proposed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Implement "ping" script for Bing/Yandex the second content is published.', true],
                 ['Automated Internal Linking Script', 'Proposed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Build Keyword-to-URL map to automatically link phrases to Pillar pages (Wikipedia Effect).', true],
-                ['Content Audit & "Zombie Page" Purge', 'Proposed', 'Medium', 'Greg', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Audit 0-traffic pages. Update, redirect (301), or set to noindex to focus crawl budget.', true]
+                ['Content Audit & "Zombie Page" Purge', 'Proposed', 'Medium', 'Greg', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Audit 0-traffic pages. Update, redirect (301), or set to noindex to focus crawl budget.', true],
+                ['AI Sitemap Implementation (llms.txt)', 'Proposed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Create Markdown-formatted /llms.txt for AI bots (ChatGPT/Gemini) to ingest clean site data.', true],
+                ['Semantic Topic Cluster Architecture', 'Proposed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Build "Pillar and Spoke" link structure to establish Topical Authority in search.', true]
             ],
             vitals: [
                 ['LCP < 1.2s (Hero Optimization)', 'Proposed', 'Critical', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Preload Hero Video Poster + Set fetchpriority="high" on LCP element.'],
@@ -446,7 +448,8 @@
                 ['Self-Hosted Fonts (Woff2)', 'Proposed', 'Medium', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Download Google Fonts to /public -> Use "font-display: swap" to kill network roundtrips.'],
                 ['Critical CSS Inlining', 'Proposed', 'High', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Inline "Above the Fold" styles directly in <head> for instant render.'],
                 ['Speculation Rules API Mastery', 'Proposed', 'High', 'Dev', 'Performance', 'Level 99 SEO', 'mpdc-crm', 'Prerender pages on link hover to achieve near-zero INP (Interaction to Next Paint).', true],
-                ['LCP Injection (Hero Optimization)', 'Proposed', 'Critical', 'Dev', 'Performance', 'Level 99 SEO', 'mpdc-crm', 'Apply fetchpriority="high" to hero images/videos to shave 500ms+ off LCP score.', true]
+                ['LCP Injection (Hero Optimization)', 'Proposed', 'Critical', 'Dev', 'Performance', 'Level 99 SEO', 'mpdc-crm', 'Apply fetchpriority="high" to hero images/videos to shave 500ms+ off LCP score.', true],
+                ['Core Web Vitals "Priority Hints"', 'Proposed', 'High', 'Dev', 'Performance', 'Level 99 SEO', 'mpdc-crm', 'Masterclass: Lazy load all non-hero assets + async decoding to free main thread.', true]
             ],
             aeo: [
                 ['Founder Node Injection', 'Proposed', 'Critical', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Inject "Person" Schema globally. Set "name": "Greg Montoya", "jobTitle": "Divorce Coach".'],
@@ -455,13 +458,16 @@
                 ['Direct Answer Optimization', 'Proposed', 'Medium', 'Greg', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Format H2s as Questions ("How to...?"). Follow immediately with <p> answer.'],
                 ['JSON-LD Entity Linking', 'Proposed', 'Critical', 'Dev', 'AEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Use "about" and "mentions" properties in Schema to link content to Wikipedia/Wikidata entities.', true],
                 ['E-E-A-T Author Enrichment', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Connect Person schema sameAs links to LinkedIn/Socials to "connect the dots" for Google Trust.', true],
-                ['FAQ Dominance Strategy', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Implement FAQPage schema on non-FAQ pages to trigger dropdowns in SERP and dominate real estate.', true]
+                ['FAQ Dominance Strategy', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Implement FAQPage schema on non-FAQ pages to trigger dropdowns in SERP and dominate real estate.', true],
+                ['Neural Schema Graph Consolidation', 'Proposed', 'Critical', 'Dev', 'AEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Consolidate multiple JSON-LD blocks into single connected @graph for better entity mapping.', true],
+                ['N-Gram Answer Injection', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Inject 40-60 word "definition" patterns into H2 headers to win Featured Snippets.', true]
             ],
             entity: [
                 ['Geographic Entity Linking', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'In "areaServed" Schema, link to Wikidata Nodes for target Cities (not just text names).'],
                 ['Dynamic Proof Components', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Cloud Function: Fetch 3 latest 5-star reviews -> Inject into "Review" Schema at build time.'],
                 ['Entity Co-occurrence', 'Proposed', 'Medium', 'Greg', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Mention "MPDC" alongside trusted entities (e.g., "Divorce", "Recovery") in same paragraph.'],
-                ['"SameAs" Social Linking', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Add all Social URLs (LinkedIn, FB, IG) to "sameAs" array in Person/Organization Schema.']
+                ['"SameAs" Social Linking', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Add all Social URLs (LinkedIn, FB, IG) to "sameAs" array in Person/Organization Schema.'],
+                ['Dynamic Proof Schema Injection', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Automatically pull and inject 5-star review data into AggregateRating schema at build time.', true]
             ],
             experiments: [
                 ['Split Test: Headlines', 'Proposed', 'High', 'Greg', 'CRO Experiment', 'CRO Strategy', 'mpdc-crm', 'Is "Recover Fast" better than "Get Your Life Back"? Test H1 on /join.'],
@@ -478,6 +484,7 @@
                 ['Schema Injector Tool', 'Completed', 'Medium', 'Dev', 'Tools', 'Schema Manager Enhancements', 'mpdc-crm', 'CRM Tool'],
                 ['SEO Manager Tool', 'Completed', 'Medium', 'Dev', 'Tools', 'SEO Dashboard Integration', 'mpdc-crm', 'CRM Tool'],
                 ['"Identity Bridge" Data Arch', 'Proposed', 'Critical', 'Dev', 'Identity Bridge', 'Identity Bridge Strategy', 'mpdc-crm', 'Design/Implement "anonymous_leads" Event Stream (IDs keyed by Cookie UUID).', true],
+                ['Edge-Side Geo-Personalization', 'Proposed', 'High', 'Dev', 'Infra Tuning', 'Level 99 SEO', 'mpdc-crm', 'Use Edge Workers to dynamically inject location-based keywords into H1s for local relevance.', true],
                 ['Identity Stitching "Brain"', 'Proposed', 'Critical', 'Dev', 'Identity Bridge', 'Identity Bridge Strategy', 'mpdc-crm', 'Cloud Function: Stitch guest_id history to official User Profile on form submit.', true],
                 ['BigQuery Event Streaming', 'Proposed', 'High', 'Dev', 'Identity Bridge', 'Identity Bridge Strategy', 'mpdc-crm', 'Move high-frequency logs to BigQuery to avoid Firestore query costs/latency.', true]
             ],
