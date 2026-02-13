@@ -9,14 +9,18 @@
   - Usage: Backgrounds, Primary Buttons, Headings
 
 - **Sandstone Beige**
-  - Hex: `#e8e1d4`
+  - Hex: `#d1c8b8`
   - Var: `--mpdc-beige`
   - Usage: Backgrounds (Light), Secondary Text, Subtle Borders
 
-- **Burnt Copper**
-  - Hex: `#C4613A`
+- **Burnt Copper (Primary)**
+  - Hex: `#B3542D`
   - Var: `--mpdc-copper`
   - Usage: Accents, CTAs, Highlights
+- **High-Contrast Copper (Text)**
+  - Hex: `#8B3A1C`
+  - Var: `--mpdc-copper-text`
+  - Usage: Text on light backgrounds, accessible badges
 
 ### Secondary Palette
 - **Charcoal Slate**

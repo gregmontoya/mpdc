@@ -3,6 +3,8 @@ import { ViewTransitions } from 'astro:transitions';
 
 import SEO from '../components/SEO.astro';
 import EmailPopup from '../components/EmailPopup.astro';
+import CookieConsent from '../components/CookieConsent.astro';
+import '../styles/cookie.css';
 
 import '../styles/fonts.css';
 const { title = "Men's Post-Divorce Coaching", description = "Rebuild Your Life & Reclaim Your Identity." } = Astro.props;
@@ -35,11 +37,13 @@ const { title = "Men's Post-Divorce Coaching", description = "Rebuild Your Life 
             /* MPDC Official Brand Colors */
             --color-bg-primary: #0b3b36; /* Deep Steel Green */
             --color-bg-dark: #0d4d47; 
-            --color-accent: #C4613A; /* Burnt Copper */
+            --color-accent: #B3542D; /* Darker Burnt Copper for 4.5:1+ contrast with White */
+            --color-accent-hover: #9c4929;
+            --color-accent-text: #8B3A1C; /* High-contrast Copper for text on light backgrounds */
             --color-neon: #C4613A;
             --color-text-dark: #1a1a1a;
             --color-text-light: #ffffff;
-            --color-text-muted: #e8e1d4; /* Sandstone Beige */
+            --color-text-muted: #666; /* Much darker for better contrast (orig #e8e1d4) */
             
             --font-heading: 'Montserrat', sans-serif;
             --font-body: 'Open Sans', sans-serif;
@@ -92,5 +96,6 @@ const { title = "Men's Post-Divorce Coaching", description = "Rebuild Your Life 
     <!-- Injection Slot for Page Specific Scripts -->
     <slot name="scripts" />
     <EmailPopup />
+    <CookieConsent />
 </body>
 </html>

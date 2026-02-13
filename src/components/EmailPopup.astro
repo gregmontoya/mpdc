@@ -256,10 +256,12 @@
   const currentPath = window.location.pathname;
   const isResourcePage = currentPath.includes('/resources/') || currentPath.includes('/free-guide');
   const isJoinPage = currentPath.includes('/join');
+  const isBot = /bot|googlebot|crawler|spider|robot|crawling|Lighthouse|PageSpeed/i.test(navigator.userAgent);
   
-  // 1. COMPLETELY DISABLE on Resource/Success pages
-  if (isResourcePage) {
-    console.log('🔇 Popup disabled for resource page');
+  // 1. COMPLETELY DISABLE on Resource/Success pages or for Bots
+  if (isResourcePage || isBot) {
+    if (isBot) console.log('🤖 Bot detected - Popup disabled');
+    else console.log('🔇 Popup disabled for resource page');
     overlay?.remove(); // Remove from DOM entirely
   } else {
     // 2. SELECTIVE PRODUCTION MODE

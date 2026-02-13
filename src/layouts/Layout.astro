@@ -9,6 +9,7 @@ import '../styles/footer.css';
 import '../styles/cookie.css';
 import SEO from '../components/SEO.astro';
 import EmailPopup from '../components/EmailPopup.astro';
+import CookieConsent from '../components/CookieConsent.astro';
 
 const { title = "Men's Post-Divorce Coaching - Rebuild Your Life", simpleHeader = false, simpleFooter = false, bodyClass = "" } = Astro.props;
 
@@ -65,5 +66,6 @@ if (bodyClass && bodyClass.includes('blog-page')) {
     {!simpleFooter && <Footer />}
     
     <EmailPopup />
+    <CookieConsent />
 </body>
 </html>

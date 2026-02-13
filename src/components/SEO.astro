@@ -117,6 +117,23 @@ const breadcrumbSchema = {
 <script is:inline>
   function loadAnalytics() {
     if (window.analyticsLoaded) return;
+
+    // 🍪 Check Cookie Preferences
+    const consentCookie = document.cookie.split('; ').find(row => row.startsWith('cookie_consent='));
+    let prefs = null;
+    
+    if (consentCookie) {
+      try {
+        prefs = JSON.parse(decodeURIComponent(consentCookie.split('=')[1]));
+      } catch (e) {}
+    }
+
+    // If no preference yet, don't load (wait for interaction)
+    if (!prefs) {
+        console.log('🍪 Waiting for cookie consent before loading analytics...');
+        return;
+    }
+
     window.analyticsLoaded = true;
 
     // 🛡️ Global Stealth Mode Check (Internal Traffic Exclusion)
@@ -133,25 +150,27 @@ const breadcrumbSchema = {
     if (isStealth) console.log('🕵️ Stealth Mode Active: Internal tracking paused.');
     if (forceTracking) console.log('🚀 Stealth Mode Bypassed: Tracking forced for testing.');
 
-    // 1. Load Google Analytics (GA4)
-    const gaScript = document.createElement('script');
-    gaScript.async = true;
-    gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1";
-    document.head.appendChild(gaScript);
+    // 1. Google Analytics (GA4) - Respects Analytics Prefs
+    if (prefs.analytics) {
+        const gaScript = document.createElement('script');
+        gaScript.async = true;
+        gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1";
+        document.head.appendChild(gaScript);
 
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-    if (isStealth) {
-      gtag('config', 'G-T26PKTMJB1', { 'developer_mode': true });
-    } else {
-      gtag('config', 'G-T26PKTMJB1');
+        if (isStealth) {
+          gtag('config', 'G-T26PKTMJB1', { 'developer_mode': true });
+        } else {
+          gtag('config', 'G-T26PKTMJB1');
+        }
+        console.log('📊 GA4: Initialized');
     }
-    console.log('📊 GA4: Initialized (Delayed)');
 
-    // 2. Load Facebook Pixel
-    if (!isStealth) {
+    // 2. Facebook Pixel - Respects Marketing Prefs
+    if (prefs.marketing && !isStealth) {
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -163,33 +182,27 @@ const breadcrumbSchema = {
       
       fbq('init', '1524876641955362'); 
       fbq('track', 'PageView');
-      console.log('🔵 FB Pixel: Initialized (Delayed)');
-    } else {
-      console.log('🔵 FB Pixel: Bypassed for Stealth Mode');
+      console.log('🔵 FB Pixel: Initialized');
     }
 
-    // 3. Load Microsoft Clarity
-    if (!isStealth) {
+    // 3. Microsoft Clarity - Respects Analytics Prefs
+    if (prefs.analytics && !isStealth) {
       (function(c,l,a,r,i,t,y){
           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
           t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
           y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);
       })(window, document, "clarity", "script", "vdb5xxjl6u");
-      console.log('👁️ Microsoft Clarity: Initialized (Delayed)');
-    } else {
-      console.log('👁️ Microsoft Clarity: Bypassed for Stealth Mode');
+      console.log('👁️ Microsoft Clarity: Initialized');
     }
 
-    // 4. Load PostHog
-    if (!isStealth) {
+    // 4. PostHog - Respects Analytics Prefs
+    if (prefs.analytics && !isStealth) {
       !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identifyReplace resetReplace".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
       posthog.init('phc_qVFegCTg52rEpI4pD5afyeRljBiFwbZzURtyYAzEL2c', {
           api_host: 'https://us.i.posthog.com',
           person_profiles: 'always'
       });
-      console.log('🦔 PostHog: Initialized (Delayed)');
-    } else {
-      console.log('🦔 PostHog: Bypassed for Stealth Mode');
+      console.log('🦔 PostHog: Initialized');
     }
   }
 
@@ -199,6 +212,13 @@ const breadcrumbSchema = {
   });
   window.addEventListener('scroll', loadAnalytics, { once: true, passive: true });
   window.addEventListener('mousedown', loadAnalytics, { once: true });
+
+  // 🔄 Listen for Preference Changes (Global Event)
+  window.addEventListener('cookie-consent-updated', () => {
+      console.log('🔄 Cookie Preferences Updated: Refreshing trackers...');
+      loadAnalytics(); 
+  });
+
 </script>
 
 <noscript>

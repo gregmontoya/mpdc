@@ -1,0 +1,185 @@
+---
+---
+<!-- Cookie Consent Banner -->
+<div id="cookie-banner">
+    <div class="cookie-content">
+        <h2>We value your privacy</h2>
+        <p>
+            We use cookies to enhance your browsing experience, serve personalised ads or content, and analyse our traffic. By clicking "Accept All", you consent to our use of cookies. <a href="/legal/privacy">Read Privacy Policy</a>
+        </p>
+    </div>
+    <div class="cookie-buttons">
+        <button id="btn-accept-all" class="cookie-btn btn-accept">Accept All</button>
+        <div class="cookie-buttons-row">
+            <button id="btn-reject-all" class="cookie-btn">Reject All</button>
+            <button id="btn-customize" class="cookie-btn">Customise</button>
+        </div>
+    </div>
+</div>
+
+<!-- Cookie Preferences Modal -->
+<div id="cookie-modal-overlay">
+    <div class="cookie-modal">
+        <div class="modal-header">
+            <h2>Cookie Preferences</h2>
+            <p>You can choose which cookies you want to allow. "Essential" cookies cannot be disabled as they are required for the site to function properly.</p>
+        </div>
+
+        <div class="cookie-categories">
+            <!-- Essential -->
+            <div class="cookie-category">
+                <div class="category-header">
+                    <span class="category-title">Essential Cookies</span>
+                    <label class="switch">
+                        <input type="checkbox" checked disabled>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="category-desc">Required for basic site functionality like secure login and preference storage.</p>
+                <table class="cookie-list-table">
+                    <thead>
+                        <tr><th>Cookie</th><th>Provider</th><th>Purpose</th><th>Duration</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>cookie_consent</td><td>MPDC</td><td>Stores your cookie preferences</td><td>1 year</td></tr>
+                        <tr><td>auth_token</td><td>MPDC</td><td>Keeps you logged in</td><td>Session</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Analytics -->
+            <div class="cookie-category">
+                <div class="category-header">
+                    <span class="category-title">Analytics Cookies</span>
+                    <label class="switch">
+                        <input type="checkbox" id="check-analytics" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="category-desc">Help us understand how visitors interact with the site, allowing us to improve user experience.</p>
+                <table class="cookie-list-table">
+                    <thead>
+                        <tr><th>Cookie</th><th>Provider</th><th>Purpose</th><th>Duration</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>_ga, _gid</td><td>Google</td><td>User tracking and session analysis</td><td>2 years</td></tr>
+                        <tr><td>_clck, _clsk</td><td>Clarity</td><td>Heatmaps and session recording</td><td>1 year</td></tr>
+                        <tr><td>ph_phc_*</td><td>PostHog</td><td>Product analytics</td><td>1 year</td></tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Marketing -->
+            <div class="cookie-category">
+                <div class="category-header">
+                    <span class="category-title">Marketing Cookies</span>
+                    <label class="switch">
+                        <input type="checkbox" id="check-marketing" checked>
+                        <span class="slider"></span>
+                    </label>
+                </div>
+                <p class="category-desc">Used to track visitors across websites to display relevant and engaging ads.</p>
+                <table class="cookie-list-table">
+                    <thead>
+                        <tr><th>Cookie</th><th>Provider</th><th>Purpose</th><th>Duration</th></tr>
+                    </thead>
+                    <tbody>
+                        <tr><td>_fbp</td><td>Facebook</td><td>Ad delivery and tracking</td><td>3 months</td></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button id="btn-save-preferences" class="cookie-btn btn-accept">Save Preferences</button>
+        </div>
+    </div>
+</div>
+
+<script is:inline>
+    const banner = document.getElementById('cookie-banner');
+    const modal = document.getElementById('cookie-modal-overlay');
+    const btnAcceptAll = document.getElementById('btn-accept-all');
+    const btnRejectAll = document.getElementById('btn-reject-all');
+    const btnCustomize = document.getElementById('btn-customize');
+    const btnSavePref = document.getElementById('btn-save-preferences');
+    
+    const checkAnalytics = document.getElementById('check-analytics');
+    const checkMarketing = document.getElementById('check-marketing');
+
+    // 🍪 Helper: Set Cookie
+    function setCookie(name, value, days) {
+        let expires = "";
+        if (days) {
+            const date = new Date();
+            date.setTime(date.getTime() + (days * 24 * 60 * 60 * 1000));
+            expires = "; expires=" + date.toUTCString();
+        }
+        document.cookie = name + "=" + (value || "") + expires + "; path=/; SameSite=Lax";
+    }
+
+    // 🍪 Helper: Get Cookie
+    function getCookie(name) {
+        const nameEQ = name + "=";
+        const ca = document.cookie.split(';');
+        for (let i = 0; i < ca.length; i++) {
+            let c = ca[i];
+            while (c.charAt(0) == ' ') c = c.substring(1, c.length);
+            if (c.indexOf(nameEQ) == 0) return c.substring(nameEQ.length, c.length);
+        }
+        return null;
+    }
+
+    // 🚀 Apply Preferences
+    function applyPreferences(prefs) {
+        window.cookiePreferences = prefs;
+        setCookie('cookie_consent', JSON.stringify(prefs), 365);
+        
+        // Hide banner
+        banner.classList.remove('show');
+        modal.classList.remove('show');
+
+        // 🔄 Dispatch event for other scripts (like SEO.astro)
+        window.dispatchEvent(new CustomEvent('cookie-consent-updated', { detail: prefs }));
+        console.log('🍪 Cookie Preferences Applied:', prefs);
+    }
+
+    // Init
+    window.addEventListener('load', () => {
+        const existingPrefsStr = getCookie('cookie_consent');
+        if (!existingPrefsStr) {
+            banner.classList.add('show');
+        } else {
+            try {
+                const prefs = JSON.parse(decodeURIComponent(existingPrefsStr));
+                if (checkAnalytics) checkAnalytics.checked = prefs.analytics;
+                if (checkMarketing) checkMarketing.checked = prefs.marketing;
+            } catch (e) {}
+        }
+    });
+
+    // Events
+    btnAcceptAll.addEventListener('click', () => {
+        applyPreferences({ analytics: true, marketing: true });
+    });
+
+    btnRejectAll.addEventListener('click', () => {
+        applyPreferences({ analytics: false, marketing: false });
+    });
+
+    btnCustomize.addEventListener('click', () => {
+        modal.classList.add('show');
+    });
+
+    btnSavePref.addEventListener('click', () => {
+        applyPreferences({
+            analytics: checkAnalytics.checked,
+            marketing: checkMarketing.checked
+        });
+    });
+
+    // Close modal on overlay click
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('show');
+    });
+</script>

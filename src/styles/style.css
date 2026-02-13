@@ -4,16 +4,18 @@
     /* Deep Steel Green */
     --color-bg-dark: #0d4d47;
     /* Darker Green */
-    --color-accent: #C4613A;
-    /* Burnt Copper */
-    --color-accent-hover: #a54f2f;
+    --color-accent: #B3542D;
+    /* Darker Burnt Copper for 4.5:1+ contrast with White */
+    --color-accent-hover: #9c4929;
     /* Darker Copper */
+    --color-accent-text: #8B3A1C;
+    /* High-contrast Copper for text on light backgrounds */
     --color-neon: #C4613A;
-    /* Burnt Copper */
+    /* Keeping original for glowing effects where contrast is less critical */
     --color-text-light: #ffffff;
     /* White */
-    --color-text-muted: #e8e1d4;
-    /* Sandstone Beige */
+    --color-text-muted: #d1c8b8;
+    /* Darkened Sandstone for better contrast (orig #e8e1d4) */
     --color-text-dark: #1A1F24;
     /* Charcoal Slate */
 

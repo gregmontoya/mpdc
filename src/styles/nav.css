@@ -105,7 +105,7 @@
 
 /* Accent Link (Clarity Call) */
 .nav-link-accent {
-    color: var(--color-accent) !important;
+    color: var(--color-accent-text) !important;
     font-weight: 800 !important;
 }
 
@@ -307,7 +307,7 @@
     font-family: var(--font-heading);
     font-size: 1.2rem;
     font-weight: 600;
-    color: #1a1f24;
+    color: #000000;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -323,7 +323,7 @@
 }
 
 .mobile-nav-toggle.active {
-    color: var(--color-accent);
+    color: var(--color-accent-text);
 }
 
 /* Marie Forleo Style Indicator (>) */
@@ -360,7 +360,7 @@
     display: block;
     padding: 0.8rem 1rem;
     font-size: 1.05rem;
-    color: #4b5563;
+    color: #111827;
     text-decoration: none;
     font-weight: 500;
     border-left: 3px solid var(--color-accent);
