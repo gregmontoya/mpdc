@@ -4,8 +4,8 @@ const NurtureDay3 = require('./emails/NurtureDay3');
 const Resend = require('resend').Resend;
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-const supabase = (process.env.SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
-    ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+const supabase = (process.env.SUPABASE_URL && (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY))
+    ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY)
     : null;
 
 /**
@@ -29,33 +29,34 @@ const processAutomations = async () => {
     };
 
     // -------------------------------------------------------------------------
-    // 💳 1. ABANDONED CART (1 HOUR)
+    // 💳 1. ABANDONED CART (After 20 mins)
     // -------------------------------------------------------------------------
     try {
-        const oneHourAgo = new Date(Date.now() - 1 * 60 * 60 * 1000).toISOString();
-        const fourHoursAgo = new Date(Date.now() - 4 * 60 * 60 * 1000).toISOString();
+        const twentyMinsAgo = new Date(Date.now() - 20 * 60 * 1000).toISOString();
 
-        // Find prospects who started checkout > 1hr ago but < 4hr ago
-        // and haven't received cart_1 email and haven't purchased
+        // Find prospects who started checkout > 20 mins ago
+        // and haven't received abandon email and haven't purchased
         const { data: abandonedLeads, error: cartError } = await supabase
             .from('contacts')
             .select('*')
             .eq('funnel_stage', 'prospect')
-            .is('automation_state->cart_1_sent', null)
-            .lt('last_active_at', oneHourAgo);
+            .lt('last_active_at', twentyMinsAgo);
 
         if (cartError) throw cartError;
 
         console.log(`🔍 Found ${abandonedLeads?.length || 0} potential abandoned carts.`);
 
         for (const lead of (abandonedLeads || [])) {
+            // Check both flag variations
+            if (lead.automation_state?.abandoned_sent || lead.automation_state?.cart_1_sent) continue;
+
             console.log(`📧 Sending Abandoned Cart to: ${lead.email}`);
 
             const { error: sendError } = await resend.emails.send({
                 from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
                 to: [lead.email],
                 subject: 'Don\'t let the loop win (Complete your comeback)',
-                html: AbandonedCart1(lead.name, lead.email)
+                html: AbandonedCart1(lead.name || '', lead.email)
             });
 
             if (sendError) {
@@ -63,14 +64,17 @@ const processAutomations = async () => {
                 results.errors.push(`${lead.email}: ${sendError.message}`);
             } else {
                 results.abandoned_cart_sent++;
-                // Update automation state
+                // Update automation state (Sync with index.js flag)
                 await supabase
                     .from('contacts')
                     .update({
-                        automation_state: { ...lead.automation_state, cart_1_sent: true, cart_1_at: new Date().toISOString() }
+                        automation_state: { ...lead.automation_state, abandoned_sent: true, abandoned_sent_at: new Date().toISOString() }
                     })
                     .eq('email', lead.email);
             }
+
+            // Respect rate limits (2 req/sec)
+            await new Promise(resolve => setTimeout(resolve, 600));
         }
     } catch (e) {
         console.error('❌ Abandoned Cart Process Error:', e.message);
@@ -84,12 +88,10 @@ const processAutomations = async () => {
         const seventyTwoHoursAgo = new Date(Date.now() - 72 * 60 * 60 * 1000).toISOString();
 
         // Find leads who joined > 72h ago and haven't received nurture_3
-        // and haven't purchased (funnel_stage should still be 'lead' or 'prospect')
         const { data: nurtureLeads, error: nurtureError } = await supabase
             .from('contacts')
             .select('*')
             .neq('funnel_stage', 'student')
-            .is('automation_state->nurture_3_sent', null)
             .lt('created_at', seventyTwoHoursAgo);
 
         if (nurtureError) throw nurtureError;
@@ -97,13 +99,15 @@ const processAutomations = async () => {
         console.log(`🔍 Found ${nurtureLeads?.length || 0} leads for Day 3 Nurture.`);
 
         for (const lead of (nurtureLeads || [])) {
+            if (lead.automation_state?.nurture_d3_sent || lead.automation_state?.nurture_3_sent) continue;
+
             console.log(`📧 Sending Day 3 Nurture to: ${lead.email}`);
 
             const { error: sendError } = await resend.emails.send({
                 from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
                 to: [lead.email],
-                subject: 'The Choice (Day 3)',
-                html: NurtureDay3(lead.name, lead.email)
+                subject: 'Reclaiming your Frame (MPDC Method)',
+                html: NurtureDay3(lead.name || '', lead.email)
             });
 
             if (sendError) {
@@ -115,10 +119,13 @@ const processAutomations = async () => {
                 await supabase
                     .from('contacts')
                     .update({
-                        automation_state: { ...lead.automation_state, nurture_3_sent: true, nurture_3_at: new Date().toISOString() }
+                        automation_state: { ...lead.automation_state, nurture_d3_sent: true, nurture_d3_date: new Date().toISOString() }
                     })
                     .eq('email', lead.email);
             }
+
+            // Respect rate limits
+            await new Promise(resolve => setTimeout(resolve, 600));
         }
     } catch (e) {
         console.error('❌ Nurture Day 3 Process Error:', e.message);
@@ -126,7 +133,6 @@ const processAutomations = async () => {
     }
 
     console.log('✅ Automation Processing Complete.');
-    console.log(results);
     return results;
 };
 

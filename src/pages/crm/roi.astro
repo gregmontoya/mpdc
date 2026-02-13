@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MPDC CRM | Campaign Intelligence & ROI</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="/crm/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .roi-card {
+            background: #ffffff;
+            border-radius: 12px;
+            padding: 24px;
+            box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+            margin-bottom: 24px;
+        }
+        .roi-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+        .roi-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+        .roi-table th {
+            text-align: left;
+            padding: 12px;
+            border-bottom: 2px solid #f1f5f9;
+            color: #64748b;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+        }
+        .roi-table td {
+            padding: 16px 12px;
+            border-bottom: 1px solid #f1f5f9;
+            font-size: 14px;
+            color: #1e293b;
+        }
+        .metric-badge {
+            padding: 4px 10px;
+            border-radius: 999px;
+            font-weight: 600;
+            font-size: 12px;
+        }
+        .metric-positive { background: #f0fdf4; color: #166534; }
+        .metric-neutral { background: #f8fafc; color: #475569; }
+        .campaign-name { font-weight: 700; color: #0f172a; }
+        .spend-input {
+            width: 80px;
+            padding: 6px;
+            border: 1px solid #e2e8f0;
+            border-radius: 4px;
+            font-size: 13px;
+        }
+        .intelligence-banner {
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
+            color: white;
+            padding: 30px;
+            border-radius: 12px;
+            margin-bottom: 30px;
+            position: relative;
+            overflow: hidden;
+        }
+        .intelligence-banner::after {
+            content: "\f201";
+            font-family: "Font Awesome 6 Free";
+            font-weight: 900;
+            position: absolute;
+            right: -20px;
+            bottom: -20px;
+            font-size: 120px;
+            opacity: 0.1;
+            transform: rotate(-15deg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="app-container">
+        <!-- Sidebar (Omitted for brevity, but matches your layout) -->
+        <aside class="sidebar">
+            <div class="logo-container">
+                <div class="logo-icon">M</div>
+                <h1 class="logo-text">MPDC<span>CRM</span></h1>
+            </div>
+
+            <nav class="main-nav">
+                <a href="/crm" class="nav-item">
+                    <i class="fa-solid fa-grid-2"></i>
+                    <span>Dashboard</span>
+                </a>
+                <a href="/crm/analytics" class="nav-item">
+                    <i class="fa-solid fa-chart-pie"></i>
+                    <span>Analytics</span>
+                </a>
+                <a href="/crm/journey" class="nav-item">
+                    <i class="fa-solid fa-route"></i>
+                    <span>Journey Map</span>
+                </a>
+                <a href="/crm/roi" class="nav-item active">
+                    <i class="fa-solid fa-chart-line"></i>
+                    <span>Campaign ROI</span>
+                </a>
+                <a href="/crm/strategy" class="nav-item">
+                    <i class="fa-solid fa-chess"></i>
+                    <span>Strategy</span>
+                </a>
+                <a href="/crm/clients" class="nav-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clients</span>
+                </a>
+                <a href="/crm/leads" class="nav-item">
+                    <i class="fa-solid fa-bullseye"></i>
+                    <span>Leads</span>
+                </a>
+                <a href="/crm/prospects" class="nav-item">
+                    <i class="fa-brands fa-instagram"></i>
+                    <span>IG Prospects</span>
+                </a>
+                <div class="pt-4 pb-2 text-xs font-bold text-white/40 uppercase tracking-widest px-4" style="margin-top: 15px; font-size: 10px; letter-spacing: 1px;">Marketing</div>
+                <a href="/crm/seo" class="nav-item">
+                    <i class="fa-solid fa-search"></i>
+                    <span>SEO Manager</span>
+                </a>
+                <a href="/crm/schema" class="nav-item">
+                    <i class="fa-solid fa-code"></i>
+                    <span>Schema Injector</span>
+                </a>
+                <a href="/crm/cro" class="nav-item">
+                    <i class="fa-solid fa-chart-column"></i>
+                    <span>CRO Analysis</span>
+                </a>
+            </nav>
+
+            <div class="secondary-nav">
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Settings</span>
+                </a>
+                <a href="#" class="nav-item">
+                    <i class="fa-solid fa-circle-question"></i>
+                    <span>Help Center</span>
+                </a>
+            </div>
+
+            <div class="user-profile">
+                <img src="https://ui-avatars.com/api/?name=Greg+Montoya&background=3b82f6&color=fff" alt="User"
+                    class="avatar">
+                <div class="user-info">
+                    <p class="user-name">Greg Montoya</p>
+                    <p class="user-role">Admin</p>
+                </div>
+                <i class="fa-solid fa-chevron-right"></i>
+            </div>
+        </aside>
+
+        <main class="main-content">
+            <header class="top-header">
+                <div class="page-title">
+                    <h2>Intelligence Command <span class="header-count">ROI Analysis</span></h2>
+                </div>
+            </header>
+
+            <div class="dashboard-content">
+                <div class="intelligence-banner">
+                    <h1 style="font-size: 24px; margin-bottom: 10px;">Campaign ROAS & Attribution</h1>
+                    <p style="opacity: 0.8; max-width: 600px;">
+                        Closed-loop tracking between your Facebook spend and actual Stripe revenue. 
+                        Every lead is mapped back to the creative and campaign that captured them.
+                    </p>
+                </div>
+
+                <div class="roi-card">
+                    <div class="roi-header">
+                        <h3>Campaign Performance</h3>
+                        <div class="actions">
+                            <button class="btn btn-outline btn-sm" onclick="location.reload()">
+                                <i class="fa-solid fa-rotate"></i> Sync Live Data
+                            </button>
+                        </div>
+                    </div>
+
+                    <table class="roi-table">
+                        <thead>
+                            <tr>
+                                <th>Campaign Name</th>
+                                <th>Total Leads</th>
+                                <th>Buyers (ROAS)</th>
+                                <th>Conv. Rate</th>
+                                <th>Revenue</th>
+                                <th>FB Spend ($)</th>
+                                <th>ROI / ROAS</th>
+                            </tr>
+                        </thead>
+                        <tbody id="roi-body">
+                            <tr>
+                                <td colspan="7" style="text-align:center; padding: 40px;">
+                                    <i class="fa-solid fa-spinner fa-spin" style="margin-right: 10px;"></i> 
+                                    Calculating ROI from all-time data...
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <div class="grid grid-2">
+                    <div class="roi-card">
+                        <h3>Top Performing Creatives</h3>
+                        <p style="color: #64748b; font-size: 13px; margin-bottom: 15px;">Revenue generated per ad content (utm_content).</p>
+                        <div id="creative-list">
+                            <!-- Injected -->
+                             <p style="text-align: center; color: #94a3b8; padding: 20px;">Analyzing utm_content data...</p>
+                        </div>
+                    </div>
+                    <div class="roi-card">
+                        <h3>Average Lead Value</h3>
+                        <div style="text-align: center; padding: 20px;">
+                            <div id="avg-lead-value" style="font-size: 48px; font-weight: 800; color: #0B3B36;">$0.00</div>
+                            <p style="color: #64748b; font-size: 14px;">Every email captured is worth this much to MPDC.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Supabase SDK -->
+    <script is:inline src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script is:inline src="/crm/supabase-client.js"></script>
+    
+    <script is:inline>
+        async function calculateROI() {
+            const { data: contacts, error } = await supabase
+                .from('contacts')
+                .select('*');
+
+            if (error) {
+                console.error('ROI Error:', error);
+                return;
+            }
+
+            // 1. Group by Campaign
+            const campaigns = {};
+            const creatives = {};
+            let totalRevenue = 0;
+            let totalLeads = contacts.length;
+
+            contacts.forEach(lead => {
+                const attr = lead.attribution || {};
+                const campName = attr.last_touch?.utm_campaign || 'Organic / Unknown';
+                const creativeName = attr.last_touch?.utm_content || 'N/A';
+                const isBuyer = lead.funnel_stage === 'student';
+                const revenue = isBuyer ? 27 : 0;
+
+                totalRevenue += revenue;
+
+                // Campaign Stats
+                if (!campaigns[campName]) {
+                    campaigns[campName] = { leads: 0, buyers: 0, revenue: 0 };
+                }
+                campaigns[campName].leads++;
+                if (isBuyer) campaigns[campName].buyers++;
+                campaigns[campName].revenue += revenue;
+
+                // Creative Stats
+                if (!creatives[creativeName]) {
+                    creatives[creativeName] = { revenue: 0, leads: 0 };
+                }
+                creatives[creativeName].revenue += revenue;
+                creatives[creativeName].leads++;
+            });
+
+            // 2. Render ROI Body
+            const tbody = document.getElementById('roi-body');
+            tbody.innerHTML = '';
+
+            Object.keys(campaigns).sort((a,b) => campaigns[b].revenue - campaigns[a].revenue).forEach(name => {
+                const camp = campaigns[name];
+                const cr = ((camp.buyers / camp.leads) * 100).toFixed(1);
+                
+                // Load spend from localStorage for now (MVP simulation)
+                const savedSpend = localStorage.getItem(`spend_${name}`) || 0;
+                const roas = savedSpend > 0 ? (camp.revenue / savedSpend).toFixed(2) : '---';
+
+                const row = `
+                    <tr>
+                        <td class="campaign-name">${name}</td>
+                        <td>${camp.leads}</td>
+                        <td>${camp.buyers} <span style="color:#64748b;font-size:11px;">(${cr}%)</span></td>
+                        <td><span class="metric-badge metric-neutral">${cr}%</span></td>
+                        <td style="font-weight: 600;">$${camp.revenue}</td>
+                        <td>
+                            <input type="number" class="spend-input" value="${savedSpend}" 
+                                   onchange="updateSpend('${name}', this.value)" 
+                                   placeholder="0.00">
+                        </td>
+                        <td><span class="metric-badge ${roas > 1 ? 'metric-positive' : 'metric-neutral'}">${roas}x</span></td>
+                    </tr>
+                `;
+                tbody.insertAdjacentHTML('beforeend', row);
+            });
+
+            // 3. Render Creatives
+            const creativeList = document.getElementById('creative-list');
+            creativeList.innerHTML = '';
+            Object.keys(creatives).sort((a,b) => creatives[b].revenue - creatives[a].revenue).limit?.(5)?.forEach?.(name => {});
+            // Fix for vanilla JS looping
+            const sortedCreatives = Object.keys(creatives).sort((a,b) => creatives[b].revenue - creatives[a].revenue).slice(0, 5);
+            sortedCreatives.forEach(name => {
+                const c = creatives[name];
+                creativeList.insertAdjacentHTML('beforeend', `
+                    <div style="display:flex; justify-content:space-between; margin-bottom:12px; padding: 10px; background: #f8fafc; border-radius: 8px;">
+                        <span style="font-weight:600; font-size:13px;">${name}</span>
+                        <span style="color:#0B3B36; font-weight:700;">$${c.revenue}</span>
+                    </div>
+                `);
+            });
+
+            // 4. Summaries
+            const avgValue = (totalRevenue / totalLeads).toFixed(2);
+            document.getElementById('avg-lead-value').innerText = `$${avgValue}`;
+        }
+
+        function updateSpend(campaign, value) {
+            localStorage.setItem(`spend_${campaign}`, value);
+            // Recalculate without full fetch if possible, or just refresh
+            calculateROI();
+        }
+
+        // Initialize
+        calculateROI();
+    </script>
+</body>
+
+</html>

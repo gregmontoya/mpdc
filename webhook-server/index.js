@@ -316,8 +316,9 @@ app.post('/webhooks/resend', async (req, res) => {
             ...updateAttrs
         });
 
-        // 🚨 VELOCITY ALERT: Trigger Slack on high score milestones
+        // 🚨 VELOCITY ALERT: Trigger Slack and Email on high score milestones
         if (contact && contact.engagement_score > 0 && contact.engagement_score % 5 === 0) {
+            // 1. Slack Alert
             await sendSlackNotification(
                 contact.name || 'Anonymous Lead',
                 email,
@@ -328,6 +329,13 @@ app.post('/webhooks/resend', async (req, res) => {
                     utm_medium: '🔥 High Intensity Signal'
                 }
             );
+
+            // 2. Email Alert (New)
+            try {
+                await sendVelocityEmail(contact);
+            } catch (err) {
+                console.error('⚠️ Velocity Email Failed:', err.message);
+            }
         }
 
         res.status(200).json({ received: true });
@@ -775,6 +783,73 @@ async function sendLeadNotification(email, name, attribution = {}) {
     }
 }
 
+async function sendVelocityEmail(contact) {
+    const { email, name, engagement_score, funnel_stage, attribution } = contact;
+
+    // 🔥 HIGH INTENSITY SIGNAL
+    const emailHTML = `
+    <div style="font-family: sans-serif; padding: 40px; color: #1e293b; background-color: #f8fafc; border-radius: 12px; max-width: 600px; margin: 0 auto; border: 1px solid #e2e8f0;">
+        <div style="text-align: center; margin-bottom: 30px;">
+            <span style="background-color: #fef2f2; color: #dc2626; padding: 8px 16px; border-radius: 999px; font-weight: bold; font-size: 14px; text-transform: uppercase; letter-spacing: 1px;">
+                🔥 Lead Velocity Alert
+            </span>
+        </div>
+        
+        <h1 style="color: #0f172a; font-size: 24px; font-weight: 800; margin-bottom: 8px; text-align: center;">
+            Action Required: Hot Lead Detected
+        </h1>
+        <p style="color: #64748b; font-size: 16px; text-align: center; margin-bottom: 32px;">
+            This user is actively engaging with the system right now.
+        </p>
+        
+        <div style="background-color: #ffffff; padding: 24px; border-radius: 12px; box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);">
+            <div style="margin-bottom: 20px;">
+                <label style="display: block; font-size: 12px; font-weight: 700; color: #94a3b8; text-transform: uppercase; margin-bottom: 4px;">Current Score</label>
+                <div style="font-size: 32px; font-weight: 900; color: #dc2626;">${engagement_score} Points</div>
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Lead Name</label>
+                <div style="font-size: 18px; font-weight: 600; color: #0f172a;">${name || 'Anonymous'}</div>
+            </div>
+            
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Email Address</label>
+                <div style="font-size: 16px; color: #334155;">${email}</div>
+            </div>
+
+            <div style="margin-bottom: 16px;">
+                <label style="display: block; font-size: 11px; font-weight: 700; color: #94a3b8; text-transform: uppercase;">Funnel Stage</label>
+                <div style="font-size: 16px; color: #334155; text-transform: capitalize;">${funnel_stage}</div>
+            </div>
+        </div>
+
+        <div style="margin-top: 32px; text-align: center;">
+            <a href="mailto:${email}" style="background-color: #0f172a; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: bold; display: inline-block;">
+                Reply Directly to Lead
+            </a>
+        </div>
+
+        <div style="margin-top: 24px; text-align: center;">
+            <a href="https://menspostdivorcecoaching.com/crm/leads" style="color: #64748b; font-size: 14px; font-weight: 600; text-decoration: none;">
+                View Details in CRM →
+            </a>
+        </div>
+        
+        <div style="margin-top: 40px; padding-top: 24px; border-top: 1px solid #e2e8f0; text-align: center; font-size: 12px; color: #94a3b8;">
+            Sent by MPDC Demand Gen Engine • ${new Date().toLocaleString()}
+        </div>
+    </div>
+    `;
+
+    await resend.emails.send({
+        from: 'MPDC High Intensity <hello@menspostdivorcecoaching.com>',
+        to: ['gregmontoya1@gmail.com', 'amorganatm@gmail.com'],
+        subject: `🔥 High Intensity Activity: ${name || email} (${engagement_score} Points)`,
+        html: emailHTML
+    });
+}
+
 // --------------------------------------------------------------------------
 // 🔐 WEBHOOK VERIFICATION (Manual)
 // --------------------------------------------------------------------------
@@ -1099,17 +1174,18 @@ const runBackgroundAutomation = async () => {
         const fourteenDays = 14 * 24 * 60 * 60 * 1000;
 
         // ----------------------------------------------------------------------
-        // 1. ABANDONED CART (15-45 mins)
+        // 1. ABANDONED CART (After 20 mins)
         // ----------------------------------------------------------------------
         const { data: abandoned } = await supabase
             .from('contacts')
             .select('*')
             .eq('funnel_stage', 'prospect')
-            .lt('last_active_at', new Date(now - fifteenMins).toISOString())
-            .gt('last_active_at', new Date(now - 45 * 60 * 1000).toISOString());
+            .lt('last_active_at', new Date(now - 20 * 60 * 1000).toISOString()); // Wait 20 mins
 
         for (const prospect of (abandoned || [])) {
-            if (prospect.automation_state?.abandoned_sent) continue;
+            // Check for any variation of the abandoned flag to be safe
+            if (prospect.automation_state?.abandoned_sent || prospect.automation_state?.cart_1_sent) continue;
+
             console.log(`📧 Sending Abandoned Cart: ${prospect.email}`);
             await resend.emails.send({
                 from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
@@ -1121,17 +1197,16 @@ const runBackgroundAutomation = async () => {
         }
 
         // ----------------------------------------------------------------------
-        // 2. DAY 3 NURTURE (72 hours)
+        // 2. DAY 3 NURTURE (After 72 hours)
         // ----------------------------------------------------------------------
         const { data: nurtureLeads } = await supabase
             .from('contacts')
             .select('*')
-            .eq('funnel_stage', 'prospect')
-            .lt('created_at', new Date(now - threeDays).toISOString())
-            .gt('created_at', new Date(now - fourDays).toISOString()); // Limit to 24h window
+            .neq('funnel_stage', 'student') // Only non-students
+            .lt('created_at', new Date(now - threeDays).toISOString());
 
         for (const lead of (nurtureLeads || [])) {
-            if (lead.automation_state?.nurture_d3_sent) continue;
+            if (lead.automation_state?.nurture_d3_sent || lead.automation_state?.nurture_3_sent) continue;
             console.log(`📧 Sending Day 3 Nurture: ${lead.email}`);
             await resend.emails.send({
                 from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
