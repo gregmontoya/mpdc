@@ -343,6 +343,7 @@
                         <div class="tab-nav">
                             <button class="tab-btn active" onclick="switchTab('master')"><i class="fa-solid fa-layer-group"></i> MASTER VIEW</button>
                             <button class="tab-btn" onclick="switchTab('projects')"><i class="fa-solid fa-diagram-project"></i> PROJECTS</button>
+                            <button class="tab-btn" onclick="switchTab('ecommerce')"><i class="fa-solid fa-cart-shopping"></i> E-COMMERCE</button>
                             <button class="tab-btn" onclick="switchTab('search')"><i class="fa-solid fa-robot"></i> SEO & AEO</button>
                             <button class="tab-btn" onclick="switchTab('growth')"><i class="fa-solid fa-chart-line"></i> CRO & ANALYTICS</button>
                             <button class="tab-btn" onclick="switchTab('systems')"><i class="fa-solid fa-server"></i> SYS & LEGAL</button>
@@ -429,7 +430,8 @@
                 ['CRM: Customer Journey Tab', 'Completed', 'High', 'Dev', 'Identity Bridge', 'Identity Bridge Strategy', 'mpdc-crm', 'Visualized timeline of visitor path from guest_id to purchase. (v2.1.5)', true],
                 ['"Days to Close" Attribution', 'Proposed', 'Medium', 'Dev', 'Identity Bridge', 'Identity Bridge Strategy', 'mpdc-crm', 'BigQuery SQL: Calculate time delta between first guest_id and conversion.', true],
                 ['MS Clarity Weekly Reports', 'Completed', 'Medium', 'Greg', 'Analytics Setup', 'Dashboard Settings', 'mpdc-crm', 'Enabled: Frustration Metrics (Rage clicks, JS errors), Activity (Sessions, scroll depth), and Curated Session links.'],
-                ['MS Clarity IP Blocking', 'Completed', 'High', 'Greg', 'Analytics Setup', 'Dashboard Settings', 'mpdc-crm', 'Blocked current IP address in Settings > IP blocking to prevent internal tracking skew.']
+                ['MS Clarity IP Blocking', 'Completed', 'High', 'Greg', 'Analytics Setup', 'Dashboard Settings', 'mpdc-crm', 'Blocked current IP address in Settings > IP blocking to prevent internal tracking skew.'],
+                ['LTV & CAC Projection Engine', 'Proposed', 'High', 'Dev/Greg', 'Marketing Intelligence', 'Antigravity', 'mpdc-crm', 'Calculate real Lifetime Value by associating backend coaching sales with frontend $27 tripwire buyers. Requires more conversion data.', true]
             ],
             seo: [
                 ['Video SEO Sitemap', 'In Progress', 'High', 'Dev', 'SEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Use "astro-sitemap" + Manual VideoObject Schema for VSLs to index on Google Video tab.'],
@@ -517,6 +519,14 @@
             context: [
                 ['Chatbot Implementation', 'Proposed', 'High', 'Greg', 'Chat', 'Antigravity', 'mpdc-crm', 'Add a new chatbot task to do', true]
             ],
+            ecommerce: [
+                ['E-commerce Tech: Shopify Pattern Audit', 'Completed', 'Medium', 'Dev', 'E-commerce', 'E-commerce Strategy', 'mpdc-crm', 'Analyzed MaryRuth Organics stack: Klaviyo, Rebuy, Recharge, Klevu, Tolstoy.'],
+                ['Implement "Smart Bump" Offer (Rebuy Style)', 'Proposed', 'High', 'Dev', 'E-commerce', 'E-commerce Strategy', 'mpdc-crm', 'Add one-click digital upsell to Stripe checkout flow.'],
+                ['Interactive VSL Implementation (Tolstoy Style)', 'Proposed', 'High', 'Dev', 'E-commerce', 'E-commerce Strategy', 'mpdc-crm', 'Test choice-based video hooks to increase retention and CTR.'],
+                ['Identity-Triggered Email Flows (Klaviyo Style)', 'Proposed', 'Critical', 'Dev/Greg', 'E-commerce', 'E-commerce Strategy', 'mpdc-crm', 'Connect partial form submissions to Resend for automated abandonment recovery.'],
+                ['A/B Pricing Elasticity (Intelligems Style)', 'Proposed', 'Medium', 'Greg', 'E-commerce', 'E-commerce Strategy', 'mpdc-crm', 'Test $27 vs $47 tripwire prices to optimize for frontend volume vs initial revenue.'],
+                ['Continuity Club Architecture (Recharge Style)', 'Proposed', 'High', 'Dev', 'E-commerce', 'E-commerce Strategy', 'mpdc-crm', 'Design monthly recurring coaching archive access using Stripe Subscriptions.'],
+            ],
         };
 
         const COL_HEADERS = ['Item Name', 'Status', 'Priority', 'Owner', 'Project', 'Category', 'Conversation Source', 'Workspace', 'Tactical Instructions (Notes)', 'H'];
@@ -540,7 +550,7 @@
 
             const sections = {
                 analytics: 'Analytics', seo: 'SEO', vitals: 'Vitals', aeo: 'AEO',
-                entity: 'Entity', experiments: 'Experiments', infra: 'Infra',
+                entity: 'Entity', ecommerce: 'E-commerce', experiments: 'Experiments', infra: 'Infra',
                 cro: 'CRO', legal: 'Compliance', context: 'Context'
             };
 
@@ -552,6 +562,7 @@
                 rows.push(getHeaderRow('🤖 AEO & AI VISIBILITY'), ...process(STRATEGY_DB.aeo, 'AEO'));
                 rows.push(getHeaderRow('🌐 ENTITY & LOCAL AUTHORITY'), ...process(STRATEGY_DB.entity, 'Entity'));
                 rows.push(getHeaderRow('🚀 EXPERIMENTATION & TESTING'), ...process(STRATEGY_DB.experiments, 'Experiments'));
+                rows.push(getHeaderRow('🛒 E-COMMERCE STRATEGY'), ...process(STRATEGY_DB.ecommerce, 'E-commerce'));
                 rows.push(getHeaderRow('🛠️ INFRASTRUCTURE & CRM'), ...process(STRATEGY_DB.infra, 'Infra'));
                 rows.push(getHeaderRow('💡 STRATEGIC IDEAS (CRO)'), ...process(STRATEGY_DB.cro, 'CRO'));
                 rows.push(getHeaderRow('🛡️ COMPLIANCE & SECURITY'), ...process(STRATEGY_DB.legal, 'Compliance'));
@@ -592,6 +603,8 @@
                 rows.push(getHeaderRow('🛠️ INFRASTRUCTURE & CRM'), ...process(STRATEGY_DB.infra, 'Infra'));
                 rows.push(getHeaderRow('🛡️ COMPLIANCE & SECURITY'), ...process(STRATEGY_DB.legal, 'Compliance'));
                 rows.push(getHeaderRow('📂 WORKSPACE CONTEXT'), ...process(STRATEGY_DB.context, 'Context'));
+            } else if (tab === 'ecommerce') {
+                rows.push(getHeaderRow('🛒 E-COMMERCE STRATEGY'), ...process(STRATEGY_DB.ecommerce, 'E-commerce'));
             }
             
             // Normalize to 10 elements (Just in case)

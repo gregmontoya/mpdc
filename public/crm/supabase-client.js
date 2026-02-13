@@ -6,7 +6,7 @@ const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZ
 let supabase;
 
 if (typeof createClient !== 'undefined') {
-    supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    window.supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
     console.log('Supabase initialized');
 } else {
     console.error('Supabase SDK not loaded');

@@ -116,19 +116,36 @@ const sendFacebookCAPIEvent = async (eventName, userData = {}, customData = {}, 
 const syncContact = async (email, data = {}) => {
     if (!supabase || !email) return null;
 
+    // 1. Normalize Email (Case-Insensitive safety)
+    const normalizedEmail = email.toLowerCase().trim();
+
     try {
-        // 1. Get current contact if exists
+        // 2. Get current contact if exists
         const { data: currentContact } = await supabase
             .from('contacts')
             .select('*')
-            .eq('email', email)
-            .single();
+            .eq('email', normalizedEmail)
+            .maybeSingle(); // Use maybeSingle to avoid errors if not found
+
+        // 3. Funnel Stage Hierarchy Protection
+        // Lead (1) < Prospect (2) < Student (3)
+        const stageWeights = { 'lead': 1, 'prospect': 2, 'student': 3 };
+        const currentWeight = stageWeights[currentContact?.funnel_stage] || 0;
+        const incomingWeight = stageWeights[data.funnel_stage] || 0;
+
+        let finalStage = currentContact?.funnel_stage || 'lead';
+        if (incomingWeight > currentWeight) {
+            finalStage = data.funnel_stage;
+            console.log(`📈 Funnel Promotion: ${normalizedEmail} [${currentContact?.funnel_stage || 'none'} -> ${finalStage}]`);
+        } else if (incomingWeight > 0 && incomingWeight < currentWeight) {
+            console.log(`🛡️ Funnel Protection: Denied demotion for ${normalizedEmail} [${currentContact.funnel_stage} -> ${data.funnel_stage}]`);
+        }
 
         const updateData = {
-            email,
+            email: normalizedEmail,
             name: data.name || currentContact?.name,
             marketing_status: data.marketing_status || currentContact?.marketing_status || 'subscribed',
-            funnel_stage: data.funnel_stage || currentContact?.funnel_stage || 'lead',
+            funnel_stage: finalStage,
             guest_id: data.guestId || currentContact?.guest_id,
             last_active_at: new Date().toISOString(),
             engagement_score: (currentContact?.engagement_score || 0) + (data.incrementScore || 0)
@@ -961,102 +978,72 @@ app.post('/webhook', async (req, res) => {
             const amountTotal = session.amount_total; // in cents
             let accessLevel = 'student'; // Default
 
-            // 🔵 Send Facebook CAPI (Purchase Event)
-            sendFacebookCAPIEvent('Purchase', {
-                email,
-                fbc: session.metadata?.fbc,
-                fbp: session.metadata?.fbp
-            }, {
-                value: (amountTotal / 100).toFixed(2),
-                currency: 'USD',
-                content_name: 'The Men\'s Divorce Mindset System'
-            }, req);
+            // ----------------------------------------------------------------------
+            // ✅ EARLY ACKNOWLEDGEMENT (Prevent Stripe Webhook Timeouts)
+            // ----------------------------------------------------------------------
+            res.json({ received: true, email, funnel_stage: 'student' });
 
-            // If they paid for the bundle (LEGACY) or have explicit plan metadata
-            if (plan === 'bundle' || amountTotal >= 5800) {
-                accessLevel = 'student_bundle';
-                console.log('🌟 BUNDLE PURCHASE DETECTED');
-            } else {
-                console.log('✅ STANDARD PURCHASE DETECTED');
-            }
+            // ----------------------------------------------------------------------
+            // 🚀 ASYNC SECONDARY TASKS (Run in background)
+            // ----------------------------------------------------------------------
+            process.nextTick(async () => {
+                console.log(`⚡️ Processing post-purchase automation for ${email}...`);
 
-            // Generate password & hash
-            const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZabcdefghjkmnpqrstuvwxyz23456789!@#$%';
-            let password = '';
-            for (let i = 0; i < 12; i++) password += chars.charAt(Math.floor(Math.random() * chars.length));
-            const hashedPassword = crypto.createHash('sha256').update(password).digest('hex');
+                // 🔵 1. Send Facebook CAPI (Purchase Event)
+                try {
+                    await sendFacebookCAPIEvent('Purchase', {
+                        email,
+                        fbc: session.metadata?.fbc,
+                        fbp: session.metadata?.fbp
+                    }, {
+                        value: (amountTotal / 100).toFixed(2),
+                        currency: 'USD',
+                        content_name: 'The Men\'s Divorce Mindset System'
+                    }, req);
+                } catch (err) { console.error('⚠️ FB CAPI Async Error:', err.message); }
 
-            // 1. Create User in CRM (Supabase - Optional Backup)
-            try {
-                const { error: dbError } = await supabase.from('profiles').insert([
-                    { email: email, name: name, access_level: accessLevel }
-                ]);
-                if (dbError) console.error('Supabase Error:', dbError);
-                else console.log('✅ User saved to Supabase (CRM)');
-            } catch (e) {
-                console.error('Supabase Catch Error:', e.message);
-            }
+                // 🔴 2. Create User in Firebase (PRIMARY FOR DASHBOARD ACCESS)
+                try {
+                    console.log(`🔥 Provisioning Firebase for: ${email}`);
+                    const userRecord = await firebaseAuth.createUser({
+                        email: email,
+                        password: password,
+                        displayName: name,
+                    });
 
-            // 2. Create User in Firebase (PRIMARY FOR DASHBOARD ACCESS)
-            try {
-                console.log(`🔥 Provisioning Firebase for: ${email}`);
-
-                // Create Auth User
-                const userRecord = await firebaseAuth.createUser({
-                    email: email,
-                    password: password,
-                    displayName: name,
-                });
-
-                // Create Firestore Profile
-                await firestore.collection('profiles').doc(userRecord.uid).set({
-                    email: email,
-                    name: name,
-                    access_level: accessLevel,
-                    created_at: admin.firestore.FieldValue.serverTimestamp(),
-                    purchase_amount: amountTotal / 100
-                });
-
-                console.log('✅ Firebase Account & Profile Created');
-            } catch (fbError) {
-                console.error('❌ Firebase Provisioning Error:', fbError.message);
-                // If user already exists, just update their access_level
-                if (fbError.code === 'auth/email-already-exists') {
-                    try {
-                        const user = await firebaseAuth.getUserByEmail(email);
-                        await firestore.collection('profiles').doc(user.uid).set({
-                            access_level: accessLevel,
-                            last_purchase_at: admin.firestore.FieldValue.serverTimestamp()
-                        }, { merge: true });
-                        console.log('✅ Existing user access_level updated in Firestore');
-                    } catch (e) {
-                        console.error('❌ Failed to update existing user:', e.message);
+                    await firestore.collection('profiles').doc(userRecord.uid).set({
+                        email: email,
+                        name: name,
+                        access_level: accessLevel,
+                        created_at: admin.firestore.FieldValue.serverTimestamp(),
+                        purchase_amount: amountTotal / 100
+                    });
+                    console.log('✅ Firebase Account & Profile Created');
+                } catch (fbError) {
+                    console.error('❌ Firebase Provisioning Error:', fbError.message);
+                    if (fbError.code === 'auth/email-already-exists') {
+                        try {
+                            const user = await firebaseAuth.getUserByEmail(email);
+                            await firestore.collection('profiles').doc(user.uid).set({
+                                access_level: accessLevel,
+                                last_purchase_at: admin.firestore.FieldValue.serverTimestamp()
+                            }, { merge: true });
+                            console.log('✅ Existing user access_level updated in Firestore');
+                        } catch (e) {
+                            console.error('❌ Failed to update existing user:', e.message);
+                        }
                     }
                 }
-            }
 
-            // 3. Send Welcome Email
-            try {
-                await sendWelcomeEmail(email, name, password);
-            } catch (err) {
-                console.error('⚠️ Welcome Email Failed (Non-fatal):', err.message);
-            }
-
-            // 4. Send Admin Notification
-            try {
-                await sendAdminNotification(email, name, amountTotal, accessLevel);
-            } catch (err) {
-                console.error('⚠️ Admin Email Failed (Non-fatal):', err.message);
-            }
-
-            // 5. Send Slack Notification
-            try {
-                await sendSlackNotification(name, email, amountTotal, accessLevel, session.metadata);
-            } catch (err) {
-                console.error('⚠️ Slack Notification Failed (Non-fatal):', err.message);
-            }
-
-            res.json({ received: true, email });
+                // 📧 3. Send Emails & Slack
+                try {
+                    await sendWelcomeEmail(email, name, password);
+                    await sendAdminNotification(email, name, amountTotal, accessLevel);
+                    await sendSlackNotification(name, email, amountTotal, accessLevel, session.metadata);
+                } catch (err) {
+                    console.error('⚠️ Notification error (Backgrounded):', err.message);
+                }
+            });
         } else {
             res.json({ received: true });
         }
