@@ -435,19 +435,27 @@
                 ['Video SEO Sitemap', 'In Progress', 'High', 'Dev', 'SEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Use "astro-sitemap" + Manual VideoObject Schema for VSLs to index on Google Video tab.'],
                 ['Inverted Pyramid Content', 'Completed', 'High', 'Dev', 'SEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Implemented 60-word AEO summaries on Homepage & Services. (v2.1.8)'],
                 ['Programmatic SEO Pages', 'Proposed', 'High', 'Greg', 'SEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Create [City] dynamic routes -> Inject City Name into H1 & Title tags.'],
+                ['IndexNow Protocol Implementation', 'Proposed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Implement "ping" script for Bing/Yandex the second content is published.', true],
+                ['Automated Internal Linking Script', 'Proposed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Build Keyword-to-URL map to automatically link phrases to Pillar pages (Wikipedia Effect).', true],
+                ['Content Audit & "Zombie Page" Purge', 'Proposed', 'Medium', 'Greg', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Audit 0-traffic pages. Update, redirect (301), or set to noindex to focus crawl budget.', true]
             ],
             vitals: [
                 ['LCP < 1.2s (Hero Optimization)', 'Proposed', 'Critical', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Preload Hero Video Poster + Set fetchpriority="high" on LCP element.'],
                 ['CLS = 0 (Visual Stability)', 'Proposed', 'High', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Enforce strict aspect-ratio checks on video containers to prevent layout shifts.'],
                 ['INP < 200ms (Interaction)', 'Proposed', 'High', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Defer non-essential JS (Chat/Analytics) until user interaction (scroll/click).'],
                 ['Self-Hosted Fonts (Woff2)', 'Proposed', 'Medium', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Download Google Fonts to /public -> Use "font-display: swap" to kill network roundtrips.'],
-                ['Critical CSS Inlining', 'Proposed', 'High', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Inline "Above the Fold" styles directly in <head> for instant render.']
+                ['Critical CSS Inlining', 'Proposed', 'High', 'Dev', 'Performance', 'Perf Strategy', 'mpdc-crm', 'Inline "Above the Fold" styles directly in <head> for instant render.'],
+                ['Speculation Rules API Mastery', 'Proposed', 'High', 'Dev', 'Performance', 'Level 99 SEO', 'mpdc-crm', 'Prerender pages on link hover to achieve near-zero INP (Interaction to Next Paint).', true],
+                ['LCP Injection (Hero Optimization)', 'Proposed', 'Critical', 'Dev', 'Performance', 'Level 99 SEO', 'mpdc-crm', 'Apply fetchpriority="high" to hero images/videos to shave 500ms+ off LCP score.', true]
             ],
             aeo: [
                 ['Founder Node Injection', 'Proposed', 'Critical', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Inject "Person" Schema globally. Set "name": "Greg Montoya", "jobTitle": "Divorce Coach".'],
                 ['Wikidata / DBpedia Linking', 'Proposed', 'Critical', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Add "sameAs": ["wikidata_url"] to Schema. Links you to Global Knowledge Graph.'],
                 ['FAQ Schema for AI Crawlers', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Wrap Homepage Q&A in "FAQPage" JSON-LD. Use clear Q&A pairs for extraction.'],
-                ['Direct Answer Optimization', 'Proposed', 'Medium', 'Greg', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Format H2s as Questions ("How to...?"). Follow immediately with <p> answer.']
+                ['Direct Answer Optimization', 'Proposed', 'Medium', 'Greg', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Format H2s as Questions ("How to...?"). Follow immediately with <p> answer.'],
+                ['JSON-LD Entity Linking', 'Proposed', 'Critical', 'Dev', 'AEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Use "about" and "mentions" properties in Schema to link content to Wikipedia/Wikidata entities.', true],
+                ['E-E-A-T Author Enrichment', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Connect Person schema sameAs links to LinkedIn/Socials to "connect the dots" for Google Trust.', true],
+                ['FAQ Dominance Strategy', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Implement FAQPage schema on non-FAQ pages to trigger dropdowns in SERP and dominate real estate.', true]
             ],
             entity: [
                 ['Geographic Entity Linking', 'Proposed', 'High', 'Dev', 'AEO Strategy', 'AEO Strategy', 'mpdc-crm', 'In "areaServed" Schema, link to Wikidata Nodes for target Cities (not just text names).'],
