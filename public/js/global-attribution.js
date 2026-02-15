@@ -66,13 +66,13 @@
         // 🛡️ Stealth Mode Check (Internal Traffic & Bots)
         const urlParams = new URLSearchParams(window.location.search);
         const forceTracking = urlParams.get('test_tracking') === 'true';
+        const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
         const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1');
-        const isPortugal = Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') || 
-                           Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') ||
-                           Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores');
+        const isExcludedGeo = tz.includes('Lisbon') || tz.includes('Madeira') || tz.includes('Azores') ||
+            tz.includes('Madrid') || tz.includes('Ceuta') || tz.includes('Canary');
         const isBot = /bot|googlebot|crawler|spider|robot|crawling|Lighthouse|PageSpeed/i.test(navigator.userAgent);
-        
-        const isStealth = (isDev || isPortugal || isBot) && !forceTracking;
+
+        const isStealth = (isDev || isExcludedGeo || isBot) && !forceTracking;
 
         let updatedData = { ...storedData };
 

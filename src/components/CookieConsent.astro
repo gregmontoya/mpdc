@@ -2,17 +2,17 @@
 ---
 <!-- Cookie Consent Banner -->
 <div id="cookie-banner">
-    <div class="cookie-content">
-        <h2>We value your privacy</h2>
-        <p>
-            We use cookies to enhance your browsing experience, serve personalised ads or content, and analyse our traffic. By clicking "Accept All", you consent to our use of cookies. <a href="/legal/privacy">Read Privacy Policy</a>
-        </p>
-    </div>
-    <div class="cookie-buttons">
-        <button id="btn-accept-all" class="cookie-btn btn-accept">Accept All</button>
-        <div class="cookie-buttons-row">
-            <button id="btn-reject-all" class="cookie-btn">Reject All</button>
-            <button id="btn-customize" class="cookie-btn">Customise</button>
+    <div class="cookie-container">
+        <div class="cookie-content">
+            <p>
+                We use cookies to enhance your experience. <a href="/legal/privacy">Privacy Policy</a>
+            </p>
+        </div>
+        <div class="cookie-buttons">
+            <button id="btn-accept-all" class="cookie-btn btn-accept">Accept All</button>
+            <button id="btn-customize" class="cookie-btn btn-outline">Settings</button>
+            <button id="btn-reject-all" class="cookie-btn btn-link">Reject</button>
+            <button id="btn-close-banner" class="cookie-close-btn" aria-label="Dismiss">&times;</button>
         </div>
     </div>
 </div>
@@ -158,6 +158,8 @@
         }
     });
 
+    const btnClose = document.getElementById('btn-close-banner');
+    
     // Events
     btnAcceptAll.addEventListener('click', () => {
         applyPreferences({ analytics: true, marketing: true });
@@ -165,6 +167,13 @@
 
     btnRejectAll.addEventListener('click', () => {
         applyPreferences({ analytics: false, marketing: false });
+    });
+
+    btnClose.addEventListener('click', () => {
+        // Just hide it for this session, don't set a permanent cookie 
+        // OR set a session cookie. Let's set a session cookie so it doesn't 
+        // bug them again until they refresh/re-visit.
+        banner.classList.remove('show');
     });
 
     btnCustomize.addEventListener('click', () => {

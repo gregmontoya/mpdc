@@ -59,3 +59,4 @@ This document tracks all strategic implementations, analytics setups, and future
 - [x] **Visual CTA Optimization**: All blog links styled in brand orange for maximum visibility
 - [x] **Conversion Pathways**: Every article naturally links to `/join` product page
 - [ ] **Email Drip Campaign**: Automated 7-day sequence for "Almost Bought" audience.
+- [ ] **Laurel Portie $7 Ad Strategy**: Implement high-trust video funnel to scale the $27 offer. See [LAUREL_PORTIE_7_DOLLAR_STRATEGY.md](./LAUREL_PORTIE_7_DOLLAR_STRATEGY.md) for details.

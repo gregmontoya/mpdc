@@ -7,7 +7,7 @@
     "build": "astro build",
     "preview": "astro preview",
     "backup": "node scripts/backup.js",
-    "deploy-safe": "npm run build && node scripts/pre-deploy-check.js && npx firebase-tools deploy --only hosting && node scripts/submit-to-bing.js"
+    "deploy-safe": "npm run build && node scripts/pre-deploy-check.js && npx firebase-tools deploy --only hosting && node scripts/submit-to-bing.js && node scripts/ping-google-indexing.js"
   },
   "dependencies": {
     "@astrojs/node": "^9.5.2",
@@ -18,7 +18,8 @@
     "astro": "latest",
     "deep-freeze": "^0.0.1",
     "firebase": "^12.9.0",
-    "firebase-admin": "^13.6.1"
+    "firebase-admin": "^13.6.1",
+    "googleapis": "^171.4.0"
   },
   "devDependencies": {
     "firebase-tools": "^15.5.1"

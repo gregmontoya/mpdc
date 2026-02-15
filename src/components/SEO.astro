@@ -115,62 +115,75 @@ const breadcrumbSchema = {
 
 <!-- 📊 Google Analytics & FB Pixel (CWV Optimized Delayed Load) -->
 <script is:inline>
+  // 1. Initialise Consent Mode (Defaults)
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  
+  // Set default consent to 'denied' for tracking but allowed for functionality
+  // This allows GA4 to track anonymous 'pings' even before consent
+  const consentCookie = document.cookie.split('; ').find(row => row.startsWith('cookie_consent='));
+  let initialPrefs = null;
+  if (consentCookie) {
+    try {
+      initialPrefs = JSON.parse(decodeURIComponent(consentCookie.split('=')[1]));
+    } catch (e) {}
+  }
+
+  gtag('consent', 'default', {
+    'ad_storage': initialPrefs?.marketing ? 'granted' : 'denied',
+    'ad_user_data': initialPrefs?.marketing ? 'granted' : 'denied',
+    'ad_personalization': initialPrefs?.marketing ? 'granted' : 'denied',
+    'analytics_storage': initialPrefs?.analytics ? 'granted' : 'denied',
+    'wait_for_update': 500
+  });
+
   function loadAnalytics() {
     if (window.analyticsLoaded) return;
 
-    // 🍪 Check Cookie Preferences
+    // 🍪 Get Current Preferences
     const consentCookie = document.cookie.split('; ').find(row => row.startsWith('cookie_consent='));
     let prefs = null;
-    
     if (consentCookie) {
       try {
         prefs = JSON.parse(decodeURIComponent(consentCookie.split('=')[1]));
       } catch (e) {}
     }
 
-    // If no preference yet, don't load (wait for interaction)
-    if (!prefs) {
-        console.log('🍪 Waiting for cookie consent before loading analytics...');
-        return;
+    // Apply US auto-grant if no explicit prefs and it's a US visitor
+    if (!prefs && isUS) {
+      console.log('🇺🇸 US-Based Visitor: Applying Implied Consent for North America.');
+      prefs = { analytics: true, marketing: true, auto_granted: true };
     }
 
     window.analyticsLoaded = true;
 
-    // 🛡️ Global Stealth Mode Check (Internal Traffic Exclusion)
-    const urlParams = new URLSearchParams(window.location.search);
-    const forceTracking = urlParams.get('test_tracking') === 'true';
+    // 1. Google Analytics (GA4) - Loads immediately (Consent Mode handles the rest)
+    const gaScript = document.createElement('script');
+    gaScript.async = true;
+    gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1";
+    document.head.appendChild(gaScript);
 
-    const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1');
-    const isPortugal = Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Lisbon') || 
-                       Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Madeira') ||
-                       Intl.DateTimeFormat().resolvedOptions().timeZone.includes('Azores');
+    gtag('js', new Date());
     
-    const isStealth = (isDev || isPortugal) && !forceTracking;
-
-    if (isStealth) console.log('🕵️ Stealth Mode Active: Internal tracking paused.');
-    if (forceTracking) console.log('🚀 Stealth Mode Bypassed: Tracking forced for testing.');
-
-    // 1. Google Analytics (GA4) - Respects Analytics Prefs
-    if (prefs.analytics) {
-        const gaScript = document.createElement('script');
-        gaScript.async = true;
-        gaScript.src = "https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1";
-        document.head.appendChild(gaScript);
-
-        window.dataLayer = window.dataLayer || [];
-        function gtag(){dataLayer.push(arguments);}
-        gtag('js', new Date());
-
-        if (isStealth) {
-          gtag('config', 'G-T26PKTMJB1', { 'developer_mode': true });
-        } else {
-          gtag('config', 'G-T26PKTMJB1');
-        }
-        console.log('📊 GA4: Initialized');
+    // Update consent if we have prefs (including US auto-grant)
+    if (prefs) {
+      gtag('consent', 'update', {
+        'ad_storage': prefs.marketing ? 'granted' : 'denied',
+        'ad_user_data': prefs.marketing ? 'granted' : 'denied',
+        'ad_personalization': prefs.marketing ? 'granted' : 'denied',
+        'analytics_storage': prefs.analytics ? 'granted' : 'denied'
+      });
     }
 
-    // 2. Facebook Pixel - Respects Marketing Prefs
-    if (prefs.marketing && !isStealth) {
+    if (isStealth) {
+      gtag('config', 'G-T26PKTMJB1', { 'developer_mode': true });
+    } else {
+      gtag('config', 'G-T26PKTMJB1');
+    }
+    console.log('📊 GA4: Initialized (Consent Mode v2)');
+
+    // 2. Facebook Pixel - STILL REQUIRES CONSENT (Hard Wall)
+    if (prefs?.marketing && !isStealth) {
       !function(f,b,e,v,n,t,s)
       {if(f.fbq)return;n=f.fbq=function(){n.callMethod?
       n.callMethod.apply(n,arguments):n.queue.push(arguments)};
@@ -185,8 +198,8 @@ const breadcrumbSchema = {
       console.log('🔵 FB Pixel: Initialized');
     }
 
-    // 3. Microsoft Clarity - Respects Analytics Prefs
-    if (prefs.analytics && !isStealth) {
+    // 3. Microsoft Clarity - STILL REQUIRES CONSENT
+    if (prefs?.analytics && !isStealth) {
       (function(c,l,a,r,i,t,y){
           c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};
           t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;
@@ -195,30 +208,56 @@ const breadcrumbSchema = {
       console.log('👁️ Microsoft Clarity: Initialized');
     }
 
-    // 4. PostHog - Respects Analytics Prefs
-    if (prefs.analytics && !isStealth) {
-      !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identifyReplace resetReplace".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
-      posthog.init('phc_qVFegCTg52rEpI4pD5afyeRljBiFwbZzURtyYAzEL2c', {
-          api_host: 'https://us.i.posthog.com',
-          person_profiles: 'always'
-      });
-      console.log('🦔 PostHog: Initialized');
+    // 4. PostHog - Loads immediately but respects consent
+    !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}(p=t.createElement("script")).type="text/javascript",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identifyReplace resetReplace".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+    
+    const posthogConfig = {
+        api_host: 'https://us.i.posthog.com',
+        person_profiles: prefs?.analytics ? 'always' : 'never',
+        capture_pageview: true,
+        persistence: 'localStorage+cookie'
+    };
+
+    if (isStealth) {
+        console.log('🦔 PostHog: Stubbed (Stealth Mode)');
+    } else {
+        posthog.init('phc_qVFegCTg52rEpI4pD5afyeRljBiFwbZzURtyYAzEL2c', posthogConfig);
+        console.log('🦔 PostHog: Initialized (US Auto-Grant applied if applicable)');
     }
   }
 
-  // Fire on 3s delay OR first interaction to protect Core Web Vitals
+  // Fire on 3s delay OR first interaction
   window.addEventListener('load', () => {
     setTimeout(loadAnalytics, 3000);
   });
   window.addEventListener('scroll', loadAnalytics, { once: true, passive: true });
   window.addEventListener('mousedown', loadAnalytics, { once: true });
 
-  // 🔄 Listen for Preference Changes (Global Event)
-  window.addEventListener('cookie-consent-updated', () => {
-      console.log('🔄 Cookie Preferences Updated: Refreshing trackers...');
+  // 🔄 Listen for Preference Changes
+  window.addEventListener('cookie-consent-updated', (event) => {
+      const prefs = event.detail;
+      console.log('🔄 Cookie Preferences Updated: Updating trackeers...');
+      
+      // Update Google Consent Mode
+      if (window.gtag) {
+        gtag('consent', 'update', {
+          'ad_storage': prefs.marketing ? 'granted' : 'denied',
+          'ad_user_data': prefs.marketing ? 'granted' : 'denied',
+          'ad_personalization': prefs.marketing ? 'granted' : 'denied',
+          'analytics_storage': prefs.analytics ? 'granted' : 'denied'
+        });
+      }
+
+      // Update PostHog
+      if (window.posthog) {
+          if (prefs.analytics) {
+              posthog.set_config({ person_profiles: 'always' });
+          }
+      }
+
+      // Load others if not already loaded
       loadAnalytics(); 
   });
-
 </script>
 
 <noscript>

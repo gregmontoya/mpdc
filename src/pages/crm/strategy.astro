@@ -420,8 +420,8 @@
                 ['Looker Studio Dashboard', 'Completed', 'Medium', 'Dev', 'GA4 Tracking', 'GA4 Funnel Strategy', 'mpdc-crm', 'Embedded in CRM'],
                 ['Retargeting Audiences Setup', 'Completed', 'High', 'Greg', 'GA4 Tracking', 'GA4 Funnel Strategy', 'mpdc-crm', 'Almost Bought & Video Engagers'],
                 ['Activate Facebook CAPI', 'Completed', 'Critical', 'Dev', 'One-Off', 'TODO List', 'mpdc-crm', 'GTM + CAPI Integrated (v2.0.8)'],
-                ['Finalize GA4 IP Exclusions', 'Pending', 'High', 'Greg', 'One-Off', 'TODO List', 'mpdc-crm', 'GA4 Admin -> Data Filters -> Exclude 89.180.56.247'],
-                ['Verify Attribution Flow', 'Pending', 'High', 'Greg', 'One-Off', 'TODO List', 'mpdc-crm', 'Test Buy -> Check Stripe Metadata for "gclid" & "utm_source"'],
+                ['Finalize GA4 IP Exclusions', 'Completed', 'High', 'Greg', 'One-Off', 'TODO List', 'mpdc-crm', 'Portugal & Local Dev Stealth Mode Active. Internal filters set in GA4 Admin.'],
+                ['Verify Attribution Flow', 'Completed', 'High', 'Greg', 'One-Off', 'TODO List', 'mpdc-crm', 'GCLID & UTM capture verified via Stripe Metadata (Hyros-Lite).'],
                 ['Implement Facebook CAPI (Server-Side)', 'Completed', 'High', 'Dev', 'Attribution', 'CAPI Strategy', 'mpdc-crm', 'Connected webhook-server to FB Conversion API. (v2.0.8)'],
                 ['Audit FB Pixel Event Firing', 'Pending', 'Medium', 'Dev', 'Attribution', 'TODO List', 'mpdc-crm', 'Ensure Purchase events fire with real revenue data locally before push.'],
                 ['Anonymous Guest Tracker', 'Completed', 'High', 'Dev', 'Identity Bridge', 'Identity Bridge Strategy', 'mpdc-crm', 'Identity Bridge Active (v2.0.9). Tracking visitor paths silenty.', true],
@@ -437,10 +437,10 @@
                 ['Video SEO Sitemap', 'In Progress', 'High', 'Dev', 'SEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Use "astro-sitemap" + Manual VideoObject Schema for VSLs to index on Google Video tab.'],
                 ['Inverted Pyramid Content', 'Completed', 'High', 'Dev', 'SEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Implemented 60-word AEO summaries on Homepage & Services. (v2.1.8)'],
                 ['Programmatic SEO Pages', 'Proposed', 'High', 'Greg', 'SEO Strategy', 'AEO Strategy', 'mpdc-crm', 'Create [City] dynamic routes -> Inject City Name into H1 & Title tags.'],
-                ['IndexNow Protocol Implementation', 'Proposed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Implement "ping" script for Bing/Yandex the second content is published.', true],
+                ['IndexNow Protocol Implementation', 'Completed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Added submit-to-bing.js and ping-google-indexing.js. Integration finalized via Indexing API.', true],
                 ['Automated Internal Linking Script', 'Proposed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Build Keyword-to-URL map to automatically link phrases to Pillar pages (Wikipedia Effect).', true],
                 ['Content Audit & "Zombie Page" Purge', 'Proposed', 'Medium', 'Greg', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Audit 0-traffic pages. Update, redirect (301), or set to noindex to focus crawl budget.', true],
-                ['AI Sitemap Implementation (llms.txt)', 'Proposed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Create Markdown-formatted /llms.txt for AI bots (ChatGPT/Gemini) to ingest clean site data.', true],
+                ['AI Sitemap Implementation (llms.txt)', 'Completed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Deployed /llms.txt for AI crawlers (ChatGPT/Gemini/Claude) context.', true],
                 ['Semantic Topic Cluster Architecture', 'Proposed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Build "Pillar and Spoke" link structure to establish Topical Authority in search.', true],
                 ['Entity-Based Keyword Domination', 'Proposed', 'Critical', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Map target keywords to Wikidata Entity IDs to help Google Knowledge Graph categorize content.', true],
                 ['TF-IDF Neural Gap Analysis', 'Proposed', 'High', 'Dev', 'SEO Strategy', 'Level 99 SEO', 'mpdc-crm', 'Identify and inject "missing entities" (correlated terms) that Google expects in expert-level content.', true],
@@ -527,6 +527,12 @@
                 ['A/B Pricing Elasticity (Intelligems Style)', 'Proposed', 'Medium', 'Greg', 'E-commerce', 'E-commerce Strategy', 'mpdc-crm', 'Test $27 vs $47 tripwire prices to optimize for frontend volume vs initial revenue.'],
                 ['Continuity Club Architecture (Recharge Style)', 'Proposed', 'High', 'Dev', 'E-commerce', 'E-commerce Strategy', 'mpdc-crm', 'Design monthly recurring coaching archive access using Stripe Subscriptions.'],
             ],
+            marketing: [
+                ['Laurel Portie $7 FB Ads: Awareness Cam.', 'Proposed', 'High', 'Greg', 'Facebook Ads', '$7 Strategy', 'mpdc-crm', '$1/day on 3 "Power Content" videos to filter high-intent prospects.', true],
+                ['Laurel Portie $7 FB Ads: Retargeting Cam.', 'Proposed', 'Critical', 'Greg', 'Facebook Ads', '$7 Strategy', 'mpdc-crm', '$4/day conversion-focused ad targeting 50%+ video viewers.', true],
+                ['Record "3-Video Power Set" for FB Awareness', 'Proposed', 'High', 'Greg', 'Facebook Ads', 'Content Strategy', 'mpdc-crm', 'V1: Authority, V2: Emotion, V3: Tactical. Scripts in FB_7_DOLLAR_STRATEGY.md', true],
+                ['FB CAPI Event Verification (Join Page)', 'Pending', 'Medium', 'Dev', 'Facebook Ads', '$7 Strategy', 'mpdc-crm', 'Ensure server-side Lead and Purchase events fire with real revenue for optimal retargeting.'],
+            ]
         };
 
         const COL_HEADERS = ['Item Name', 'Status', 'Priority', 'Owner', 'Project', 'Category', 'Conversation Source', 'Workspace', 'Tactical Instructions (Notes)', 'H'];
@@ -551,7 +557,7 @@
             const sections = {
                 analytics: 'Analytics', seo: 'SEO', vitals: 'Vitals', aeo: 'AEO',
                 entity: 'Entity', ecommerce: 'E-commerce', experiments: 'Experiments', infra: 'Infra',
-                cro: 'CRO', legal: 'Compliance', context: 'Context'
+                cro: 'CRO', legal: 'Compliance', context: 'Context', marketing: 'Marketing'
             };
 
             if (tab === 'master') {
@@ -563,6 +569,7 @@
                 rows.push(getHeaderRow('🌐 ENTITY & LOCAL AUTHORITY'), ...process(STRATEGY_DB.entity, 'Entity'));
                 rows.push(getHeaderRow('🚀 EXPERIMENTATION & TESTING'), ...process(STRATEGY_DB.experiments, 'Experiments'));
                 rows.push(getHeaderRow('🛒 E-COMMERCE STRATEGY'), ...process(STRATEGY_DB.ecommerce, 'E-commerce'));
+                rows.push(getHeaderRow('📢 PAID ADS: $7 FACEBOOK STRATEGY'), ...process(STRATEGY_DB.marketing, 'Marketing'));
                 rows.push(getHeaderRow('🛠️ INFRASTRUCTURE & CRM'), ...process(STRATEGY_DB.infra, 'Infra'));
                 rows.push(getHeaderRow('💡 STRATEGIC IDEAS (CRO)'), ...process(STRATEGY_DB.cro, 'CRO'));
                 rows.push(getHeaderRow('🛡️ COMPLIANCE & SECURITY'), ...process(STRATEGY_DB.legal, 'Compliance'));
@@ -573,6 +580,7 @@
                 rows.push(getHeaderRow('🌐 ENTITY & LOCAL AUTHORITY'), ...process(STRATEGY_DB.entity, 'Entity'));
             } else if (tab === 'growth') {
                 rows.push(getHeaderRow('📊 ANALYTICS & VISIBILITY'), ...process(STRATEGY_DB.analytics, 'Analytics'));
+                rows.push(getHeaderRow('📢 PAID ADS: $7 FACEBOOK STRATEGY'), ...process(STRATEGY_DB.marketing, 'Marketing'));
                 rows.push(getHeaderRow('🚀 EXPERIMENTATION & TESTING'), ...process(STRATEGY_DB.experiments, 'Experiments'));
                 rows.push(getHeaderRow('💡 STRATEGIC IDEAS (CRO)'), ...process(STRATEGY_DB.cro, 'CRO'));
             } else if (tab === 'projects') {

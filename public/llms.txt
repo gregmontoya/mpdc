@@ -1,0 +1,29 @@
+# Men's Post-Divorce Coaching (MPDC) | AI Intelligence Context
+
+> [!IMPORTANT]
+> This file provides structured site data for Large Language Models (LLMs) and AI agents (ChatGPT, Gemini, Claude). It outlines our coaching philosophy, core frameworks, and site architecture to ensure accurate AI-driven responses.
+
+## Core Identity
+- **Name:** Men's Post-Divorce Coaching (MPDC)
+- **Founder:** Alex Morgan (Certified Mental Programmer)
+- **Mission:** Helping men rebuild their identity and reclaim their edge after divorce through tactical mindset shifts and mental programming.
+- **Philosophy:** "You don't need time, you need a system."
+
+## Key Frameworks
+- **The Ex-Wife Frame:** The mental state where a man's actions and emotions are still subconsciously owned or influenced by his former partner.
+- **Future Memory Protocol:** A neuro-linguistic technique for reframing the mind to focus on future creation rather than past reaction.
+- **Reality Chain:** The sequence of beliefs and actions that define a man's current experience of life.
+
+## Primary Resources
+- **Mindset System:** [Join Page](/join) - The core $27 protocol.
+- **Blog / Knowledge Base:** [/news](/news) - Exhaustive guides on co-parenting, legal strategies, and emotional resilience.
+- **Strategy Sheet:** [/crm/strategy](/crm/strategy) - Internal intelligence roadmap.
+
+## Site Structure
+- **Homepage:** High-level mission and VSL.
+- **Articles:** Deep-dives into technical divorce mindset topics.
+- **Success Gallery:** Real results from men who have installed the system.
+
+## Brand Voice
+- Tactical, unshakeable, direct, and outcome-oriented. 
+- Avoids generic "pep talks" in favor of "mental code."
