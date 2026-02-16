@@ -33,6 +33,7 @@ if (bodyClass && bodyClass.includes('blog-page')) {
 <head>
     <meta name="p:domain_verify" content="57dd46a805327939488e827ea7d046dd"/>
     <SEO title={title} description={description} url={url} image={image} />
+    {image && <link rel="preload" as="image" href={image} fetchpriority="high" />}
 
     <!-- Preconnect to CDNs -->
     <link rel="preconnect" href="https://www.googletagmanager.com">
@@ -42,9 +43,13 @@ if (bodyClass && bodyClass.includes('blog-page')) {
     <link rel="preload" href="/fonts/montserrat-400.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/montserrat-700.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/montserrat-900.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/opensans-400.woff2" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="/fonts/opensans-700.woff2" as="font" type="font/woff2" crossorigin>
     <link rel="preload" href="/fonts/bebas-neue.woff2" as="font" type="font/woff2" crossorigin>
+
+    <style is:inline>
+        /* CLS Optimization: Fix Promo Banner Height */
+        #launch-banner { min-height: 54px; }
+        @media (max-width: 800px) { #launch-banner { min-height: 120px; } }
+    </style>
 
     <script is:inline>
         // CWV Optimization: Load FA only on user interaction (Hides from Lighthouse)

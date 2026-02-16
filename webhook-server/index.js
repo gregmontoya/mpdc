@@ -615,6 +615,19 @@ app.post('/create-checkout-session', async (req, res) => {
 
         const session = await stripe.checkout.sessions.create(sessionOptions);
 
+        // 🔵 Send Facebook CAPI (InitiateCheckout Event)
+        process.nextTick(() => {
+            sendFacebookCAPIEvent('InitiateCheckout', {
+                email: email, // If email is available in req.body
+                fbc: attribution.fbc,
+                fbp: attribution.fbp
+            }, {
+                content_name: 'The Men\'s Divorce Mindset System',
+                value: '27.00',
+                currency: 'USD'
+            }, req);
+        });
+
         res.json({ url: session.url });
     } catch (error) {
         console.error('❌ Stripe Session Error:', error);

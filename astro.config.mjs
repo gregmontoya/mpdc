@@ -1,6 +1,8 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
+import partytown from '@astrojs/partytown';
+
 // https://astro.build/config
 export default defineConfig({
   site: 'https://menspostdivorcecoaching.com',
@@ -13,23 +15,25 @@ export default defineConfig({
   },
   compressHTML: true,
 
-  integrations: [
-    sitemap({
-      filter: (page) => {
-        const internalPaths = [
-          '/crm',
-          '/admin',
-          '/system',
-          '/go/',
-          '/dev/',
-          '/blocks',
-          '/coming-soon-backup',
-          '-backup',
-          '-OLD-BACKUP',
-          'LIVE_SOURCE'
-        ];
-        return !internalPaths.some(path => page.includes(path));
-      }
-    })
-  ]
+  integrations: [sitemap({
+    filter: (page) => {
+      const internalPaths = [
+        '/crm',
+        '/admin',
+        '/system',
+        '/go/',
+        '/dev/',
+        '/blocks',
+        '/coming-soon-backup',
+        '-backup',
+        '-OLD-BACKUP',
+        'LIVE_SOURCE'
+      ];
+      return !internalPaths.some(path => page.includes(path));
+    }
+  }), partytown({
+    config: {
+      forward: ['dataLayer.push']
+    }
+  })]
 });

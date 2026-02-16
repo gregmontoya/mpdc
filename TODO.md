@@ -2,10 +2,9 @@
 
 ## 🎯 High Priority: Analytics & Tracking
 
-- [ ] **Activate Facebook Conversions API (CAPI)**
-    - [ ] Provide `FB_PIXEL_ID`.
-    - [ ] Provide `FB_ACCESS_TOKEN` (Generated in Events Manager).
-    - [ ] Re-deploy `stripeWebhook` function with these secrets.
+- [x] **Activate Facebook Conversions API (CAPI)**
+    - [x] Integrate server-side events for Leads, Checkout Starts, and Purchases.
+    - [x] Ensure `fbc` and `fbp` parameters are correctly passed from the browser to the server.
 - [ ] **Create GA4 Retargeting Audiences**
     - [ ] "Almost Bought" (Initiated Checkout but no Purchase).
     - [ ] "Video Engagers" (Video Progress > 50% but no Purchase).
@@ -34,6 +33,6 @@
 ## ⚡ Performance & Core Web Vitals
 
 
-- [ ] **Execute Technical Performance Plan**: See [PERFORMANCE_PLAN.md](./PERFORMANCE_PLAN.md) for full task list.
-- [ ] **Self-Host Key Fonts**: Move Montserrat/Inter to local assets.
-- [ ] **Implement Partytown**: Offload tracking scripts to background workers.
+- [x] **Execute Technical Performance Plan**: Partytown implemented, fonts self-hosted, hero preloading active.
+- [x] **Self-Host Key Fonts**: Montserrat and Bebas Neue served locally.
+- [x] **Implement Partytown**: Moved tracking pixels to background workers.
