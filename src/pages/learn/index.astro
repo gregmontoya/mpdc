@@ -6,7 +6,9 @@ import Layout from '../../layouts/Layout.astro';
 import { Image } from 'astro:assets';
 
 // 1. Fetch Local Posts (The "Old" Posts - Guaranteed to work)
-const localPosts = await getCollection('blog');
+const localPosts = await getCollection('blog', ({ data }) => {
+    return data.draft !== true;
+});
 const formattedLocalPosts = localPosts.map(post => ({
     id: post.slug,
     data: {

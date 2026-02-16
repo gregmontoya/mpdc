@@ -11,7 +11,15 @@ import SEO from '../components/SEO.astro';
 import EmailPopup from '../components/EmailPopup.astro';
 import CookieConsent from '../components/CookieConsent.astro';
 
-const { title = "Men's Post-Divorce Coaching - Rebuild Your Life", simpleHeader = false, simpleFooter = false, bodyClass = "" } = Astro.props;
+const { 
+  title = "Men's Post-Divorce Coaching - Rebuild Your Life", 
+  description,
+  url,
+  image,
+  simpleHeader = false, 
+  simpleFooter = false, 
+  bodyClass = "" 
+} = Astro.props;
 
 // Conditionally load blog styles if on a blog page
 if (bodyClass && bodyClass.includes('blog-page')) {
@@ -24,7 +32,7 @@ if (bodyClass && bodyClass.includes('blog-page')) {
 
 <head>
     <meta name="p:domain_verify" content="57dd46a805327939488e827ea7d046dd"/>
-    <SEO title={title} description="Men's Post-Divorce Coaching - Rebuild Your Life" />
+    <SEO title={title} description={description} url={url} image={image} />
 
     <!-- Preconnect to CDNs -->
     <link rel="preconnect" href="https://www.googletagmanager.com">

@@ -1,0 +1,67 @@
+{
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "@id": "https://menspostdivorcecoaching.com/#person",
+    "name": "Alex Morgan",
+    "url": "https://menspostdivorcecoaching.com/about",
+    "image": "https://menspostdivorcecoaching.com/images/alex-morgan-portrait.jpg",
+    "jobTitle": "NLP Master Trainer & Founder",
+    "honorificSuffix": "Master Trainer of NLP",
+    "worksFor": {
+        "@type": "Organization",
+        "@id": "https://menspostdivorcecoaching.com/#organization",
+        "name": "Men's Post-Divorce Coaching (MPDC)"
+    },
+    "description": "Alex Morgan is a world-renowned NLP Master Trainer, author, and performance architect specializing in high-performance protocols for men navigating divorce recovery.",
+    "sameAs": [
+        "https://www.linkedin.com/in/alexmorgan",
+        "https://twitter.com/alexmorgan_mpdc",
+        "https://www.instagram.com/alexmorgan_coach",
+        "https://www.amazon.com/stores/Alex-Morgan/author/B085RW9QLB",
+        "https://www.bgsu.edu/ncfmr.html"
+    ],
+    "knowsAbout": [
+        {
+            "@type": "Thing",
+            "name": "Neuro-Linguistic Programming",
+            "sameAs": "https://en.wikipedia.org/wiki/Neuro-linguistic_programming"
+        },
+        {
+            "@type": "Thing",
+            "name": "Hypnosis",
+            "sameAs": "https://en.wikipedia.org/wiki/Hypnosis"
+        },
+        {
+            "@type": "Thing",
+            "name": "Divorce Recovery",
+            "sameAs": "https://www.wikidata.org/wiki/Q123456"
+        },
+        "Time Line Therapy",
+        "Biological Stress Management",
+        "Identity Reconstruction",
+        "Masculine Psychology"
+    ],
+    "hasCredential": [
+        {
+            "@type": "EducationalOccupationalCredential",
+            "name": "NLP Master Trainer",
+            "credentialCategory": "Professional Certification"
+        }
+    ],
+    "publishedBy": {
+        "@type": "Organization",
+        "name": "Athens NLP Studies, LLC"
+    },
+    "subjectOf": [
+        {
+            "@type": "Book",
+            "name": "How to Let Go of Negative Emotions",
+            "url": "https://www.amazon.com/How-Let-Go-Negative-Emotions-ebook/dp/B08546YSR7"
+        },
+        {
+            "@type": "Book",
+            "name": "Pro Hypnosis Scripts",
+            "url": "https://www.amazon.com/Pro-Hypnosis-Scripts-Morgan-Alex/dp/B085RRTL1W"
+        }
+    ]
+}

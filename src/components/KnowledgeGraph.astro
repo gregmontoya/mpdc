@@ -32,9 +32,19 @@ const organizationSchema = {
     "postalCode": "82801",
     "addressCountry": "US"
   },
+  "founder": {
+    "@id": `${siteUrl}/#person`
+  },
   "sameAs": [
-    "https://www.skool.com/the-post-divorce-advantage-8284"
-  ]
+    "https://www.skool.com/the-post-divorce-advantage-8284",
+    "https://www.linkedin.com/company/mpdc",
+    "https://twitter.com/mpdc_official"
+  ],
+  "contactPoint": {
+    "@type": "ContactPoint",
+    "contactType": "customer support",
+    "url": `${siteUrl}/contact`
+  }
 };
 
 const personSchema = {
@@ -45,15 +55,20 @@ const personSchema = {
   "url": `${siteUrl}/about`,
   "image": {
     "@type": "ImageObject",
+    "@id": `${siteUrl}/#personImage`,
     "url": `${siteUrl}/images/alex-morgan.png`
   },
   "description": "Alex Morgan is a specialist in divorce recovery for men, focusing on logic-first mindset shifts and practical life rebuilding.",
+  "jobTitle": "Founder & NLP Master Trainer",
   "worksFor": {
     "@id": `${siteUrl}/#organization`
   },
   "sameAs": [
-    "https://www.skool.com/the-post-divorce-advantage-8284"
-  ]
+    "https://www.skool.com/the-post-divorce-advantage-8284",
+    "https://www.linkedin.com/in/alexmorgan",
+    "https://www.amazon.com/stores/Alex-Morgan/author/B085RW9QLB"
+  ],
+  "knowsAbout": ["NLP", "Hypnosis", "Divorce Recovery", "Masculine Identity"]
 };
 
 const websiteSchema = {
@@ -64,6 +79,14 @@ const websiteSchema = {
   "name": brandName,
   "publisher": {
     "@id": `${siteUrl}/#organization`
+  },
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {
+      "@type": "EntryPoint",
+      "urlTemplate": `${siteUrl}/learn?s={search_term_string}`
+    },
+    "query-input": "required name=search_term_string"
   }
 };
 ---

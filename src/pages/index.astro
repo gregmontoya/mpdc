@@ -4,9 +4,113 @@ import { Image } from 'astro:assets';
 import alexMorganImg from '../assets/images/alex-morgan.png';
 import communityLoungeImg from '../assets/images/community-lounge.png';
 export const prerender = true;
+
+const homeFaqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "How do I stop overthinking after divorce?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Stopping the 'replay loop' post-divorce requires shifting from an emotional state to a biological logic-first framework. By auditing your 'Reality Chain' and using grounding techniques, you can manually override the ruminative loops that keep you stuck in the past."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "Can a man rebuild his life after 40?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "Statistically, the age range of 40-55 is a man's peak window for authority and market value. Starting over after 40 is not a handicap; it is a tactical advantage when you leverage your built-in patterns of success and experience."
+      }
+    },
+    {
+      "@type": "Question",
+      "name": "What is the ‘Ex-Wife Frame’?",
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": "The 'Ex-Wife Frame' is a reactive psychological state where a man's decisions and self-worth are still being dictated by his former partner's opinions or actions. Breaking this frame is the first step in reclaiming masculine autonomy."
+      }
+    }
+  ]
+};
+
+const howToSchema = {
+  "@context": "https://schema.org",
+  "@id": "https://menspostdivorcecoaching.com/#how-to-rebuild",
+  "@type": "HowTo",
+  "name": "How to Rebuild Stronger After Divorce",
+  "description": "A 5-step tactical protocol for men to move from emotional pain to a purpose-driven life after marriage ends.",
+  "publisher": { "@id": "https://menspostdivorcecoaching.com/#organization" },
+  "step": [
+    {
+      "@type": "HowToStep",
+      "name": "Phase 1: Installation of Future Memory",
+      "text": "Reframing your mindset to focus on creation rather than reaction. Installing the 'Future Memory' protocol.",
+      "url": "https://menspostdivorcecoaching.com/#module-01"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Phase 2: Resolution of the Past",
+      "text": "Closing the negative loops and limiting beliefs to change the meaning of your future.",
+      "url": "https://menspostdivorcecoaching.com/#module-02"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Phase 3: Construction of Reality Chain",
+      "text": "Rebuilding a new narrative for your life and identity. Rewiring belief systems for success.",
+      "url": "https://menspostdivorcecoaching.com/#module-03"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Phase 4: Design of Ideal Future",
+      "text": "Architecting the life you want to live. Strategic life design.",
+      "url": "https://menspostdivorcecoaching.com/#module-04"
+    },
+    {
+      "@type": "HowToStep",
+      "name": "Phase 5: Transition to Abundance",
+      "text": "Flipping the script from scarcity to abundance in resources and relationships.",
+      "url": "https://menspostdivorcecoaching.com/#module-05"
+    }
+  ]
+};
+
+const terminologySchema = {
+  "@context": "https://schema.org",
+  "@type": "DefinedTermSet",
+  "@id": "https://menspostdivorcecoaching.com/#glossary",
+  "name": "MPDC Branded Terminology",
+  "hasDefinedTerm": [
+    {
+      "@type": "DefinedTerm",
+      "name": "Ex-Wife Frame",
+      "description": "A psychological state of reactivity where one's identity is anchored to their former spouse's actions."
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Biological Replay Loop",
+      "description": "A somatic state where the body repeatedly triggers stress responses based on past divorce trauma."
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "Reality Chain",
+      "description": "A structural mindset framework used to rebuild identity from internal values rather than external loss."
+    },
+    {
+      "@type": "DefinedTerm",
+      "name": "No-Reaction Protocol",
+      "description": "A tactical communication strategy for handling high-conflict interactions with stoic clarity."
+    }
+  ]
+};
 ---
 
 <Layout title="Men's Post-Divorce Coaching - Rebuild Your Life">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(homeFaqSchema)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(howToSchema)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(terminologySchema)} />
     <!-- HERO SECTION -->
     <header id="hero" class="section hero-section" style="position: relative; padding: 6rem 0;">
         <div style="max-width: 1100px; width: 100%; margin: 0 auto; padding: 0 2rem; text-align: center;">
@@ -141,6 +245,45 @@ export const prerender = true;
                 </div>
             </div>
         </div>
+    </section>
+    
+    <!-- STUDENT SUCCESS & REVIEWS SECTION -->
+    <section id="authority" class="section" style="background-color: var(--color-bg-primary); padding: 8rem 2rem; color: #fff; border-top: 1px solid rgba(196, 97, 58, 0.2);">
+        <div class="container" style="max-width: 1200px; margin: 0 auto; text-align: center;">
+            <p style="color: var(--color-accent); font-weight: 700; letter-spacing: 3px; text-transform: uppercase; font-size: 1rem; margin-bottom: 1.5rem;">Student Success Stories</p>
+            <h2 style="font-family: var(--font-heading); font-size: 3.5rem; color: #fff; margin-bottom: 4rem; line-height: 1.15;">Real Men. Real Results.<br><span style="color: var(--color-accent);">Real Transformation.</span></h2>
+
+            <div style="max-width: 800px; margin: 0 auto; text-align: left;">
+                <!-- Single Featured Testimonial -->
+                <div style="background: rgba(255,255,255,0.05); border: 1px solid rgba(255,255,255,0.1); padding: 3rem; border-radius: 12px; position: relative;">
+                    <div style="color: var(--color-accent); font-size: 1.5rem; margin-bottom: 1.5rem;">★★★★★</div>
+                    <h3 style="font-size: 1.75rem; color: #fff; margin-bottom: 1.5rem; font-family: var(--font-heading);">"I highly recommend working with Alex"</h3>
+                    <p style="font-size: 1.2rem; color: #ccc; line-height: 1.8; margin-bottom: 2.5rem; font-style: italic;">
+                        "My connection with Alex started 3 years ago. His ability to understand my learning style led me to not only get better in sales but gained an appreciation for learning hypnosis and NLP. I now have my own business and my relationship with Alex as a mentor will remain for life. If you want to be the 'BEST' version of yourself I highly recommend working with Alex."
+                    </p>
+                    <div style="display: flex; align-items: center; gap: 16px;">
+                        <div style="width: 60px; height: 60px; background-image: url('/images/mike_williams.png'); background-size: cover; background-position: center; border-radius: 50%; border: 3px solid var(--color-accent);"></div>
+                        <div>
+                            <p style="font-size: 1.1rem; font-weight: 700; color: #fff; margin: 0;">Michael Williams</p>
+                            <p style="font-size: 0.9rem; color: var(--color-accent); margin: 0;">CEO & Founder • Mentee</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <script type="application/ld+json" is:inline>
+        {
+          "@context": "https://schema.org",
+          "@type": "Review",
+          "itemReviewed": {
+            "@id": "https://menspostdivorcecoaching.com/#person"
+          },
+          "author": { "@type": "Person", "name": "Michael Williams" },
+          "reviewRating": { "@type": "Rating", "ratingValue": "5", "bestRating": "5" },
+          "reviewBody": "If you want to be the 'BEST' version of yourself I highly recommend working with Alex. I now have my own business and my relationship with Alex as a mentor will remain for life."
+        }
+        </script>
     </section>
 
     <!-- PROCESS SECTION (The System) -->

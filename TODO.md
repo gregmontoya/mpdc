@@ -25,10 +25,14 @@
     - [x] Custom library `src/lib/attribution.js`.
     - [x] Integration with Lead capture and Checkout.
 
-## 📈 Optimization (Future)
-
+## 📈 Optimization & SEO
+- [ ] **Execute Link Building Campaign**: See [LINK_BUILDING_STRATEGY.md](./LINK_BUILDING_STRATEGY.md) for full task list.
+    - [ ] Sign up for Connectively.
+    - [ ] Outreach to initial 10 law firms.
 - [ ] **Offline Conversions Upload**: Set up a process to periodically upload Stripe successful payments back to Google/FB for better ad optimization.
+
 ## ⚡ Performance & Core Web Vitals
+
 
 - [ ] **Execute Technical Performance Plan**: See [PERFORMANCE_PLAN.md](./PERFORMANCE_PLAN.md) for full task list.
 - [ ] **Self-Host Key Fonts**: Move Montserrat/Inter to local assets.

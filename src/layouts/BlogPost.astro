@@ -23,21 +23,14 @@ const articleSchema = {
   "description": description,
   "datePublished": publishDate,
   "author": {
-    "@type": "Person",
-    "name": author,
-    "url": "https://menspostdivorcecoaching.com/about"
+    "@id": "https://menspostdivorcecoaching.com/#person"
   },
   "publisher": {
-    "@type": "Organization",
-    "name": "Men's Post-Divorce Coaching",
-    "logo": {
-      "@type": "ImageObject",
-      "url": "https://menspostdivorcecoaching.com/images/social-preview.png"
-    }
+    "@id": "https://menspostdivorcecoaching.com/#organization"
   },
   "mainEntityOfPage": {
     "@type": "WebPage",
-    "@id": "https://menspostdivorcecoaching.com"
+    "@id": `https://menspostdivorcecoaching.com/learn/${Astro.props.slug}`
   },
   "image": {
     "@type": "ImageObject",
@@ -60,8 +53,7 @@ const faqSchema = {
 };
 ---
 
-<Layout title={`${title} | Men's Post-Divorce Coaching`} bodyClass="blog-page">
-    <meta slot="head" content={description} name="description" />
+<Layout title={`${title} | Men's Post-Divorce Coaching`} description={description} bodyClass="blog-page">
     <script type="application/ld+json" slot="head" set:html={JSON.stringify(articleSchema)} />
     {aeoSummary && <script type="application/ld+json" slot="head" set:html={JSON.stringify(faqSchema)} />}
 

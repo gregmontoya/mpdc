@@ -1,9 +1,58 @@
 ---
 import Layout from '../layouts/Layout.astro';
 export const prerender = true;
+
+const courseSchema = {
+  "@context": "https://schema.org",
+  "@type": "Course",
+  "@id": "https://menspostdivorcecoaching.com/services/#course",
+  "name": "The Post-Divorce Advantage",
+  "description": "An elite membership and training system for men who are ready to rebuild their lives after divorce using NLP and mindset architecture.",
+  "provider": {
+    "@id": "https://menspostdivorcecoaching.com/#organization"
+  },
+  "hasCourseInstance": {
+    "@type": "CourseInstance",
+    "courseMode": "Online",
+    "courseWorkload": "PT2H",
+    "instructor": {
+      "@id": "https://menspostdivorcecoaching.com/#person"
+    }
+  }
+};
+
+const serviceSchema = {
+  "@context": "https://schema.org",
+  "@type": "Service",
+  "@id": "https://menspostdivorcecoaching.com/services/#service",
+  "serviceType": "Post-Divorce Coaching",
+  "provider": {
+    "@id": "https://menspostdivorcecoaching.com/#organization"
+  },
+  "description": "Strategic life reconstruction for men post-divorce focusing on clarity, neurological regulation, and mission-based identity.",
+  "offers": {
+    "@type": "Offer",
+    "availability": "https://schema.org/InStock"
+  },
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "MPDC Coaching Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {
+          "@type": "Service",
+          "name": "The Post-Divorce Advantage Membership"
+        }
+      }
+    ]
+  }
+};
 ---
 
 <Layout title="The Post-Divorce Advantage | Services">
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(courseSchema)} />
+    <script type="application/ld+json" is:inline set:html={JSON.stringify(serviceSchema)} />
     <!-- HERO SECTION -->
     <!-- HERO SECTION -->
     <header id="hero" class="section hero-section" style="position: relative; padding: 6rem 0;">

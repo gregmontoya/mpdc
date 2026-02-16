@@ -10,10 +10,10 @@ export interface Props {
 import seoConfig from '../data/seo-config.json';
 
 const {
-  title: defaultTitle,
-  description: defaultDescription,
-  image = '/images/social-share.jpg', // Default image if not provided
-  url = Astro.url,
+  title: propTitle,
+  description: propDescription,
+  image = '/images/social-share.jpg',
+  url,
   type = 'website',
 } = Astro.props;
 
@@ -23,8 +23,12 @@ import KnowledgeGraph from './KnowledgeGraph.astro';
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const config = (seoConfig as any)[path] || {};
 
-const title = config.title || defaultTitle;
-const description = config.description || defaultDescription;
+// 🏷️ Metadata Resolution (Priority: Prop > JSON Config > Global Default)
+const title = propTitle || config.title || "Men's Post-Divorce Coaching";
+const description = propDescription || config.description || "Elite recovery systems and tactical mindset training for men after divorce.";
+
+// 🔗 Canonical Normalization (Force no trailing slash to match sitemap)
+const canonicalURL = url || new URL(path, Astro.site);
 
 // 🗺️ Server-Side Breadcrumb Logic
 const parts = path.split('/').filter(p => p);
@@ -94,18 +98,18 @@ const breadcrumbSchema = {
 <title>{title}</title>
 <meta name="title" content={title} />
 <meta name="description" content={description} />
-<link rel="canonical" href={url} />
+<link rel="canonical" href={canonicalURL} />
 
 <!-- Open Graph / Facebook -->
 <meta property="og:type" content={type} />
-<meta property="og:url" content={url} />
+<meta property="og:url" content={canonicalURL} />
 <meta property="og:title" content={title} />
 <meta property="og:description" content={description} />
 <meta property="og:image" content={new URL(image, Astro.url)} />
 
 <!-- Twitter -->
 <meta property="twitter:card" content="summary_large_image" />
-<meta property="twitter:url" content={url} />
+<meta property="twitter:url" content={canonicalURL} />
 <meta property="twitter:title" content={title} />
 <meta property="twitter:description" content={description} />
 <meta property="twitter:image" content={new URL(image, Astro.url)} />

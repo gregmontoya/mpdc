@@ -361,6 +361,89 @@ app.post('/webhooks/resend', async (req, res) => {
         res.status(200).send('Error but acknowledged'); // Keep Resend happy
     }
 });
+
+// --------------------------------------------------------------------------
+// 📱 MANYCHAT WEBHOOK (Instagram/Facebook Automation)
+// --------------------------------------------------------------------------
+app.post('/webhooks/manychat', async (req, res) => {
+    const { email, name, messenger_id, source } = req.body;
+
+    if (!email) {
+        return res.status(400).json({ error: 'Email is required' });
+    }
+
+    console.log('------------------------------------------');
+    console.log('📱 MANYCHAT LEAD CAPTURED:');
+    console.log(`📧 Email: ${email}`);
+    console.log(`👤 Name: ${name || 'Anonymous'}`);
+    console.log(`🆔 ID: ${messenger_id || 'N/A'}`);
+
+    try {
+        // 1. Sync to CRM (Do this first so we have the contact)
+        const contact = await syncContact(email, {
+            name,
+            tag: 'manychat_follower',
+            funnel_stage: 'prospect',
+            attribution: {
+                utm_source: 'Manychat',
+                utm_medium: 'Instagram',
+                utm_campaign: source || 'new_follower'
+            }
+        });
+
+        // 🎯 EARLY ACKNOWLEDGMENT
+        // We tell Manychat "I got it" immediately so they don't timeout.
+        res.status(200).json({ success: true, message: 'Lead received' });
+
+        // 🚀 ASYNC BACKGROUND TASKS
+        process.nextTick(async () => {
+            console.log(`⚡️ Background processing Manychat lead: ${email}`);
+
+            // 2. Fire FB CAPI event
+            try {
+                sendFacebookCAPIEvent('Lead', { email }, {
+                    content_name: 'Manychat Follower Opt-in',
+                    source: 'manychat'
+                }, req);
+            } catch (err) { console.error('⚠️ FB CAPI Error:', err.message); }
+
+            // 3. Internal Notification
+            try {
+                await sendLeadNotification(email, name, {
+                    utm_source: 'Manychat',
+                    utm_medium: 'Instagram',
+                    utm_campaign: source || 'new_follower'
+                });
+            } catch (err) { console.error('⚠️ Lead Notif Error:', err.message); }
+
+            // 4. Trigger Welcome Flow
+            if (contact && (!contact.automation_state || !contact.automation_state.welcome_v1_sent)) {
+                if (resend) {
+                    try {
+                        const { error } = await resend.emails.send({
+                            from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
+                            to: [email],
+                            subject: 'Stop replaying the Past (Your Recovery Bundle is here)',
+                            html: WelcomeEmail1(name || '', email, 'I found you on Instagram—excited to help you rebuild.')
+                        });
+
+                        if (!error) {
+                            await syncContact(email, {
+                                automation: { welcome_v1_sent: true, welcome_v1_date: new Date().toISOString() }
+                            });
+                        }
+                    } catch (err) { console.error('⚠️ Welcome Email Error:', err.message); }
+                }
+            }
+        });
+
+    } catch (error) {
+        console.error('❌ Manychat Webhook Error:', error.message);
+        if (!res.headersSent) {
+            res.status(500).json({ error: 'Internal server error' });
+        }
+    }
+});
 app.post('/capture-lead', async (req, res) => {
     const { email, name, guestId, attribution } = req.body;
 
@@ -744,7 +827,7 @@ async function sendAdminNotification(email, name, amount, accessLevel) {
     try {
         const { data, error } = await resend.emails.send({
             from: 'MPDC System <hello@menspostdivorcecoaching.com>',
-            to: ['hello@menspostdivorcecoaching.com', 'gregmontoya1@gmail.com'],
+            to: ['hello@menspostdivorcecoaching.com', 'gregmontoya1@gmail.com', 'amorganatm@gmail.com'],
             subject: `💰 New Sale: $${(amount / 100).toFixed(2)} from ${name}`,
             html: emailHTML
         });

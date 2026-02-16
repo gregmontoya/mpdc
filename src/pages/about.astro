@@ -1,48 +1,221 @@
 ---
 import Layout from '../layouts/Layout.astro';
+import { Image } from 'astro:assets';
+import alexSchema from '../data/alex-schema.json';
+import alexMorganImg from '../assets/images/alex-morgan.png';
+
 export const prerender = true;
+
+const trustItems = [
+    { label: "NLP Master Trainer", sub: "Global Certification Level", icon: "🏆" },
+    { label: "Published Author", sub: "NLP & Hypnosis Manuals", icon: "📚" },
+    { label: "Systems Architect", sub: "Protocol Development", icon: "🏛️" }
+];
+
+const books = [
+    { 
+        title: "How to Let Go of Negative Emotions", 
+        role: "Author", 
+        desc: "A practical guide to emotional sovereignty and overcoming limiting beliefs.",
+        url: "https://www.amazon.com/How-Let-Go-Negative-Emotions-ebook/dp/B08546YSR7"
+    },
+    { 
+        title: "Pro Hypnosis Scripts", 
+        role: "Author", 
+        desc: "Advanced subconscious protocols for professional change and performance.",
+        url: "https://www.amazon.com/Pro-Hypnosis-Scripts-Morgan-Alex/dp/B085RRTL1W"
+    }
+];
 ---
 
-<Layout title="About Alex Morgan | Men's Post-Divorce Coaching">
-    <!-- HERO SECTION -->
+<Layout title="Alex Morgan | NLP Master Trainer | Founder of MPDC" description="Meet Alex Morgan, Master Trainer of NLP and founder of MPDC. Published author specializing in divorce recovery through systems design and mindset architecture.">
+    <!-- JSON-LD PERSON SCHEMA (SEO GOLD) -->
+    <script type="application/ld+json" set:html={JSON.stringify(alexSchema)} is:inline />
+    
+    <script type="application/ld+json" is:inline set:html={JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+            {
+                "@type": "Question",
+                "name": "What is Alex Morgan's background?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Alex Morgan is a Master Trainer of NLP and Hypnosis with over a decade of experience. He is the author of several manuals on emotional sovereignty and specializes in systems architecture for personal performance."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "What does MPDC stand for?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "MPDC stands for Men's Post-Divorce Coaching, an elite training and coaching platform founded by Alex Morgan to help men navigate life after divorce with tactical clarity."
+                }
+            },
+            {
+                "@type": "Question",
+                "name": "Where is Alex Morgan based?",
+                "acceptedAnswer": {
+                    "@type": "Answer",
+                    "text": "Alex Morgan operates globally, with primary presences in the United States and Greece."
+                }
+            }
+        ]
+    })} />
+
     <!-- HERO SECTION -->
     <header id="hero" class="section hero-section"
-        style="background-color: var(--color-bg-primary); padding: 4rem 2rem 3rem; text-align: center; margin-bottom: 3rem; background-image: linear-gradient(rgba(255, 255, 255, 0.02) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px); background-size: 40px 40px;">
-        <div style="max-width: 1000px; margin: 0 auto;">
-             <h1 style="font-family: var(--font-heading); font-size: 3rem; line-height: 1.2; color: #fff; margin-bottom: 1rem; font-weight: 800;">
-                About MPDC
-            </h1>
-             <p style="font-size: 1.25rem; color: var(--color-text-muted); max-width: 700px; margin: 0 auto;">
-                Rebuilding lives through structure, clarity, and action.
-            </p>
+        style="background-color: var(--color-bg-primary); padding: 7rem 2rem 5rem; position: relative; overflow: hidden; background-image: radial-gradient(circle at 70% 30%, rgba(196, 97, 58, 0.08) 0%, transparent 60%); border-bottom: 1px solid rgba(255,255,255,0.05);">
+        <div style="max-width: 1240px; margin: 0 auto; display: grid; grid-template-columns: 1.2fr 0.8fr; gap: 5rem; align-items: center;">
+            <div class="hero-text">
+                <span style="color: var(--color-brand-orange); font-weight: 700; text-transform: uppercase; letter-spacing: 0.15em; font-size: 0.85rem; display: block; margin-bottom: 1.5rem; border-left: 2px solid var(--color-brand-orange); padding-left: 1rem;">Master Trainer of NLP & Hypnosis</span>
+                <h1 style="font-family: var(--font-heading); font-size: clamp(2.5rem, 5.5vw, 4.5rem); line-height: 1.05; color: #fff; margin-bottom: 1.5rem; font-weight: 900; letter-spacing: -0.01em;">
+                    Investing in the <span style="color: var(--color-brand-orange);">Human Architecture.</span>
+                </h1>
+                <p style="font-size: 1.35rem; color: var(--color-text-muted); line-height: 1.6; margin-bottom: 2.5rem; max-width: 600px; font-weight: 300;">
+                    Alex Morgan is a world-renowned trainer, author, and performance architect. He designs engaging, practical systems that help men reconstruct their lives through clarity, structure, and action.
+                </p>
+                <div style="display: flex; gap: 1.5rem; align-items: center;">
+                    <a href="/join" class="btn btn-primary" style="display: inline-block; padding: 1.2rem 2.5rem; background: var(--color-brand-orange); color: white; text-decoration: none; font-weight: 700; border-radius: 4px; transition: all 0.3s ease; box-shadow: 0 10px 20px rgba(196, 97, 58, 0.2);">
+                        START THE PROTOCOL →
+                    </a>
+                </div>
+            </div>
+            <div class="hero-image" style="position: relative;">
+                <div style="width: 100%; aspect-ratio: 4/5; background: #222; border-radius: 12px; overflow: hidden; border: 1px solid rgba(255,255,255,0.1); box-shadow: 0 40px 80px rgba(0,0,0,0.6);">
+                    <Image 
+                        src={alexMorganImg} 
+                        alt="Alex Morgan - NLP Master Trainer" 
+                        width={600} 
+                        height={750} 
+                        class="profile-img"
+                        style="width: 100%; height: 100%; object-fit: cover; filter: grayscale(20%) contrast(1.1);"
+                        loading="eager"
+                    />
+                </div>
+                <!-- Auth Badge -->
+                <div style="position: absolute; bottom: -25px; right: -25px; background: #fff; color: #000; padding: 2rem; border-radius: 8px; box-shadow: 0 20px 40px rgba(0,0,0,0.3); font-weight: 900; font-size: 0.8rem; text-align: left; border-left: 6px solid var(--color-brand-orange);">
+                    <div style="color: var(--color-brand-orange); font-size: 0.7rem; text-transform: uppercase; margin-bottom: 0.5rem; letter-spacing: 0.1em;">Global Reach</div>
+                    <div style="font-size: 1.2rem; line-height: 1.2;">US • EUROPE<br/>ATHENS</div>
+                </div>
+            </div>
         </div>
     </header>
 
-    <!-- STORY CONTENT BLOCK (White Background) -->
-    <section class="content-block" style="background-color: var(--color-text-light); padding: 4rem 2rem;">
-        <style>
-            @media (max-width: 768px) {
-                .content-block {
-                    padding: 3rem 1.5rem !important;
-                }
-            }
-        </style>
-        <div style="max-width: 800px; margin: 0 auto; text-align: left;">
-            <p style="font-size: 1.25rem; line-height: 1.8; margin-bottom: 2rem; color: var(--color-text-dark);">
-                I’m Alex Morgan, the developer of the **Men’s Divorce Mindset System**. My mission is to help high-performance men navigate the biological and psychological fallout of divorce through clarity, structure, and logic-heavy protocols.
-            </p>
-            <p style="font-size: 1.25rem; line-height: 1.8; margin-bottom: 2rem; color: var(--color-text-dark);">
-                Like many men, my own divorce required me to manually re-examine my identity, priorities, and direction. It was a period that demanded more than just "moving on"—it demanded a total systemic rebuild. Through that process, I recognized a massive gap in how men are supported: most advice is too emotional or too vague for men who value results and precision.
-            </p>
-            <p style="font-size: 1.25rem; line-height: 1.8; margin-bottom: 2rem; color: var(--color-text-dark);">
-                Since then, I’ve helped over **500 men** move from the "Reactive Spiral" to a state of unshakeable autonomy. My work centers on the intersection of biological stress management, identity reconstruction, and strategic legacy building. 
-            </p>
-            <p style="font-size: 1.25rem; line-height: 1.8; margin-bottom: 0; color: var(--color-text-dark);">
-                This isn't just about recovery; it’s about **Sovereignty**. We don't focus on the past or assign blame. We focus on the hardware of your mind and the architecture of your future.
-            </p>
+    <!-- TRUST BAR -->
+    <section style="background: #0a0a0a; padding: 4rem 2rem; position: relative; z-index: 10;">
+        <div style="max-width: 1100px; margin: 0 auto; display: grid; grid-template-columns: repeat(3, 1fr); gap: 3rem;">
+            {trustItems.map(item => (
+                <div style="text-align: center; border-right: 1px solid rgba(255,255,255,0.05); last-child: border-right: none;">
+                    <div style="font-size: 2.5rem; margin-bottom: 1rem; filter: drop-shadow(0 0 10px rgba(196, 97, 58, 0.3));">{item.icon}</div>
+                    <div style="font-weight: 800; color: #fff; font-size: 1.15rem; margin-bottom: 0.3rem; letter-spacing: 0.05em;">{item.label}</div>
+                    <div style="font-size: 0.9rem; color: var(--color-text-muted); text-transform: uppercase; letter-spacing: 0.1em; opacity: 0.6;">{item.sub}</div>
+                </div>
+            ))}
         </div>
     </section>
 
-    <!-- LEADERSHIP SECTION -->
+    <!-- EXPANDED JOURNEY & BOOKS -->
+    <section style="background: #fff; color: #111; padding: 8rem 2rem;">
+        <div style="max-width: 1200px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 6rem; align-items: start;">
+            <div>
+                <h2 style="font-family: var(--font-heading); font-size: 2.5rem; color: #000; margin-bottom: 2rem; font-weight: 900;">The Global Architect</h2>
+                <div style="font-size: 1.15rem; line-height: 1.8; color: #444;">
+                    <p style="margin-bottom: 1.5rem;">
+                        Born and raised in California and currently operating from Greece, Alex Morgan has spent over a decade pushing the boundaries of NLP, Hypnosis, and Time Line Therapy.
+                    </p>
+                    <p style="margin-bottom: 1.5rem;">
+                        He designs training courses that are engaging, fun, and highly practical. His philosophy is simple: the learnings and behaviors must remain with you long after the interaction ends. 
+                    </p>
+                    <p>
+                        Whether he is certifying new NLP Practitioners or coaching high-performance men through the fallout of divorce, his goal is identical: <strong>achieving the precise results</strong> the client or student came to get.
+                    </p>
+                </div>
+            </div>
+            
+            <!-- Published Works -->
+            <div style="background: #f8f8f8; padding: 3rem; border: 1px solid #eee; border-radius: 8px;">
+                <h3 style="font-size: 1.5rem; font-weight: 900; margin-bottom: 2rem; color: #000; display: flex; align-items: center; gap: 0.5rem;">
+                     <span>📚</span> PUBLISHED WORKS
+                </h3>
+                <div style="display: grid; gap: 2rem;">
+                    {books.map(book => (
+                        <div style="border-left: 3px solid var(--color-brand-orange); padding-left: 1.5rem; position: relative;">
+                            <div style="font-weight: 800; color: #000; font-size: 1.1rem; margin-bottom: 0.3rem;">{book.title}</div>
+                            <div style="font-size: 0.85rem; color: var(--color-brand-orange); text-transform: uppercase; font-weight: 700; margin-bottom: 0.5rem;">{book.role}</div>
+                            <p style="font-size: 0.95rem; color: #666; line-height: 1.5; margin-bottom: 1rem;">{book.desc}</p>
+                            <a href={book.url} target="_blank" rel="noopener noreferrer" style="color: var(--color-brand-orange); text-decoration: none; font-weight: 700; font-size: 0.85rem; display: flex; align-items: center; gap: 0.4rem;">
+                                VIEW ON AMAZON ↗
+                            </a>
+                        </div>
+                    ))}
+                </div>
+                <div style="margin-top: 3rem; padding-top: 2rem; border-top: 1px solid #ddd;">
+                    <p style="font-size: 0.9rem; color: #999; font-style: italic;">
+                        "Alex believes the most important thing you can do is invest in yourself. With NLP, as soon as you notice it working in one area of life—it starts working everywhere."
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
 
+
+    <!-- THE MANIFIESTO (Dark Callout) -->
+    <section style="background: var(--color-bg-primary); padding: 8rem 2rem; text-align: center; background-image: url('/images/grid-subtle.svg'); background-size: 100px;">
+        <div style="max-width: 800px; margin: 0 auto;">
+            <h2 style="font-family: var(--font-heading); color: #fff; font-size: 2.25rem; margin-bottom: 3rem; font-weight: 900;">A Legacy of Sovereignty</h2>
+            <div style="font-size: 1.35rem; line-height: 1.8; color: var(--color-text-muted); font-style: italic;">
+                <p style="margin-bottom: 2rem;">
+                    "NLP is a way of thinking big. It is a tool to grow your business, build better beliefs, and reclaim your identity. My trainings are designed so that you know precisely what you learned and exactly how to use it to manifest the future you deserve."
+                </p>
+                <div style="margin-top: 4rem; display: flex; flex-direction: column; align-items: center;">
+                    <p style="font-family: 'Brush Script MT', cursive; font-size: 3.5rem; color: var(--color-brand-orange); margin: 0; line-height: 1;">Alex Morgan</p>
+                    <p style="font-size: 0.95rem; color: #fff; margin-top: 0.5rem; text-transform: uppercase; letter-spacing: 0.2em; font-weight: 700;">Founder • Master Trainer • Author</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <style>
+        .profile-img {
+            transition: transform 0.5s ease;
+        }
+        .hero-image:hover .profile-img {
+            transform: scale(1.02);
+        }
+        @media (max-width: 1000px) {
+            header > div {
+                grid-template-columns: 1fr !important;
+                text-align: center;
+                gap: 4rem !important;
+            }
+            .hero-text {
+                order: 2;
+            }
+            .hero-text p {
+                margin-left: auto;
+                margin-right: auto;
+            }
+            .hero-image {
+                order: 1;
+                max-width: 500px;
+                margin: 0 auto;
+            }
+            section[style*="grid-template-columns: 1fr 1fr"] {
+                grid-template-columns: 1fr !important;
+                gap: 4rem !important;
+            }
+        }
+        @media (max-width: 700px) {
+            section[style*="grid-template-columns: repeat(3, 1fr)"] {
+                grid-template-columns: 1fr !important;
+                gap: 4rem !important;
+            }
+            section[style*="padding: 4rem 2rem"] {
+                padding: 4rem 1.5rem !important;
+            }
+        }
+    </style>
 </Layout>
+
+
