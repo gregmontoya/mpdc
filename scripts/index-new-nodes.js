@@ -15,7 +15,13 @@ const urlsToIndex = [
     "https://menspostdivorcecoaching.com/learn/vagus-nerve-reset/",
     "https://menspostdivorcecoaching.com/learn/parallel-parenting/",
     "https://menspostdivorcecoaching.com/learn/economics-of-bitterness/",
-    "https://menspostdivorcecoaching.com/learn/dvpo-legal-snare/"
+    "https://menspostdivorcecoaching.com/learn/dvpo-legal-snare/",
+    "https://menspostdivorcecoaching.com/learn/right-of-first-refusal-dads/",
+    "https://menspostdivorcecoaching.com/learn/child-support-scarcity-math/",
+    "https://menspostdivorcecoaching.com/learn/long-distance-parenting-protocol/",
+    "https://menspostdivorcecoaching.com/learn/post-divorce-tax-strategy/",
+    "https://menspostdivorcecoaching.com/learn/asset-protection-tactical-audit/",
+    "https://menspostdivorcecoaching.com/learn/12-month-credit-reset-protocol/"
 ];
 
 async function forceIndex() {
