@@ -131,6 +131,16 @@ const faqSchema = {
                     {aeoSummary && <AeoSummary text={aeoSummary} />}
                     <slot />
                     
+                    {aeoSummary && (
+                        <div class="article-faq-section" style="margin-top: 4rem; padding: 2rem; background: #f8fafc; border-radius: 12px; border: 1px solid #e2e8f0;">
+                            <h3 style="margin-top: 0; color: var(--color-accent); font-size: 1.5rem;">Common Questions</h3>
+                            <div class="faq-item">
+                                <p style="font-weight: bold; margin-bottom: 0.5rem; color: #1e293b;">How do you handle {title}?</p>
+                                <p style="margin-top: 0; line-height: 1.6; color: #475569;">{aeoSummary}</p>
+                            </div>
+                        </div>
+                    )}
+
                     <div class="blog-disclaimer" style="margin-top: 4rem; padding-top: 2rem; border-top: 1px solid #eee; font-size: 0.9rem; color: #666; font-style: italic; line-height: 1.6;">
                         <strong>Note:</strong> Athens NLP Studies, LLC and MPDC do not provide formal financial or legal advice. Always consult with a certified financial planner and your attorney regarding your specific situation.
                     </div>
