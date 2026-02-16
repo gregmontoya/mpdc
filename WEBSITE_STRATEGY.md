@@ -60,3 +60,18 @@ This document tracks all strategic implementations, analytics setups, and future
 - [x] **Conversion Pathways**: Every article naturally links to `/join` product page
 - [ ] **Email Drip Campaign**: Automated 7-day sequence for "Almost Bought" audience.
 - [ ] **Laurel Portie $7 Ad Strategy**: Implement high-trust video funnel to scale the $27 offer. See [LAUREL_PORTIE_7_DOLLAR_STRATEGY.md](./LAUREL_PORTIE_7_DOLLAR_STRATEGY.md) for details.
+
+## 🚀 Future Content: The Strategic Sniper Offensive
+- [ ] **Fill Semantic Authority Gaps (Phase 3)**
+    - [ ] **VS Articles (Conversion)**:
+        - [ ] "Post-Divorce Therapy vs. Logic-First Coaching"
+        - [ ] "Co-Parenting vs. Parallel Parenting: A Strategic Comparison"
+    - [ ] **Listicle Articles (Traffic)**:
+        - [ ] "7 Red Flags You Ignored (And How to Screen for Them Now)"
+        - [ ] "5 Biological Hacks to Shut Down a Panic Attack"
+        - [ ] "10 Financial Audit Nodes for the Pre-Divorce Man"
+    - [ ] **Process**: Use "AI-Bypass Protocol," Semantic Interlinking, and AEO Schema for all new nodes.
+- [ ] **Phase 3: The Strategic Sniper Offensive**: Execute the next content cluster focusing on "VS" and "Listicle" conversion magnets.
+    - [ ] Target High-Intent "VS" Nodes (e.g., Coaching vs. Therapy).
+    - [ ] Target High-Traffic "Listicle" Nodes (e.g., 7 Red Flags, 5 Biological Hacks).
+    - [ ] Maintain the "Silo Balancing" law (minimum 5 high-quality articles per category).
