@@ -59,6 +59,203 @@
         "source": "/webhook",
         "function": "stripeWebhook"
       }
+    ],
+    "redirects": [
+      {
+        "source": "/12-month-credit-reset-protocol",
+        "destination": "/learn/12-month-credit-reset-protocol",
+        "type": 301
+      },
+      {
+        "source": "/5-strategies-rebuild-life-divorce",
+        "destination": "/learn/5-strategies-rebuild-life-divorce",
+        "type": 301
+      },
+      {
+        "source": "/asset-protection-tactical-audit",
+        "destination": "/learn/asset-protection-tactical-audit",
+        "type": 301
+      },
+      {
+        "source": "/biological-stress-of-divorce",
+        "destination": "/learn/biological-stress-of-divorce",
+        "type": 301
+      },
+      {
+        "source": "/boundaries-ex-wife",
+        "destination": "/learn/boundaries-ex-wife",
+        "type": 301
+      },
+      {
+        "source": "/ceo-mindset-post-divorce",
+        "destination": "/learn/ceo-mindset-post-divorce",
+        "type": 301
+      },
+      {
+        "source": "/child-support-scarcity-math",
+        "destination": "/learn/child-support-scarcity-math",
+        "type": 301
+      },
+      {
+        "source": "/co-parenting-guide-men",
+        "destination": "/learn/co-parenting-guide-men",
+        "type": 301
+      },
+      {
+        "source": "/dating-after-divorce-protocol",
+        "destination": "/learn/dating-after-divorce-protocol",
+        "type": 301
+      },
+      {
+        "source": "/depressed-husband-protocol",
+        "destination": "/learn/depressed-husband-protocol",
+        "type": 301
+      },
+      {
+        "source": "/divorce-economics-audit",
+        "destination": "/learn/divorce-economics-audit",
+        "type": 301
+      },
+      {
+        "source": "/divorce-tattoos-identity-anchors",
+        "destination": "/learn/divorce-tattoos-identity-anchors",
+        "type": 301
+      },
+      {
+        "source": "/dvpo-legal-snare",
+        "destination": "/learn/dvpo-legal-snare",
+        "type": 301
+      },
+      {
+        "source": "/economics-of-bitterness",
+        "destination": "/learn/economics-of-bitterness",
+        "type": 301
+      },
+      {
+        "source": "/emergency-divorce-panic-protocol",
+        "destination": "/learn/emergency-divorce-panic-protocol",
+        "type": 301
+      },
+      {
+        "source": "/emotional-abuse-warning-signs",
+        "destination": "/learn/emotional-abuse-warning-signs",
+        "type": 301
+      },
+      {
+        "source": "/gray-rock-method",
+        "destination": "/learn/gray-rock-method",
+        "type": 301
+      },
+      {
+        "source": "/how-divorce-changes-a-man",
+        "destination": "/learn/how-divorce-changes-a-man",
+        "type": 301
+      },
+      {
+        "source": "/legacy-standard-purpose",
+        "destination": "/learn/legacy-standard-purpose",
+        "type": 301
+      },
+      {
+        "source": "/long-distance-parenting-protocol",
+        "destination": "/learn/long-distance-parenting-protocol",
+        "type": 301
+      },
+      {
+        "source": "/managing-anger-men",
+        "destination": "/learn/managing-anger-men",
+        "type": 301
+      },
+      {
+        "source": "/mens-shame-in-divorce-recovery",
+        "destination": "/learn/mens-shame-in-divorce-recovery",
+        "type": 301
+      },
+      {
+        "source": "/monkey-branching-divorce",
+        "destination": "/learn/monkey-branching-divorce",
+        "type": 301
+      },
+      {
+        "source": "/narcissist-guilt-trap-protocol",
+        "destination": "/learn/narcissist-guilt-trap-protocol",
+        "type": 301
+      },
+      {
+        "source": "/narcissistic-wife-patterns",
+        "destination": "/learn/narcissistic-wife-patterns",
+        "type": 301
+      },
+      {
+        "source": "/new-social-circle-men",
+        "destination": "/learn/new-social-circle-men",
+        "type": 301
+      },
+      {
+        "source": "/parallel-parenting",
+        "destination": "/learn/parallel-parenting",
+        "type": 301
+      },
+      {
+        "source": "/parental-alienation-response-guide",
+        "destination": "/learn/parental-alienation-response-guide",
+        "type": 301
+      },
+      {
+        "source": "/post-divorce-tax-strategy",
+        "destination": "/learn/post-divorce-tax-strategy",
+        "type": 301
+      },
+      {
+        "source": "/rebuilding-your-reality-chain",
+        "destination": "/learn/rebuilding-your-reality-chain",
+        "type": 301
+      },
+      {
+        "source": "/red-flag-decoder",
+        "destination": "/learn/red-flag-decoder",
+        "type": 301
+      },
+      {
+        "source": "/right-of-first-refusal-dads",
+        "destination": "/learn/right-of-first-refusal-dads",
+        "type": 301
+      },
+      {
+        "source": "/signs-emotional-immaturity-woman",
+        "destination": "/learn/signs-emotional-immaturity-woman",
+        "type": 301
+      },
+      {
+        "source": "/starting-over-after-40-divorce-stats",
+        "destination": "/learn/starting-over-after-40-divorce-stats",
+        "type": 301
+      },
+      {
+        "source": "/stop-overthinking-men",
+        "destination": "/learn/stop-overthinking-men",
+        "type": 301
+      },
+      {
+        "source": "/stop-reactionary-communication-ex-wife",
+        "destination": "/learn/stop-reactionary-communication-ex-wife",
+        "type": 301
+      },
+      {
+        "source": "/vagus-nerve-reset",
+        "destination": "/learn/vagus-nerve-reset",
+        "type": 301
+      },
+      {
+        "source": "/victim-mentality-men",
+        "destination": "/learn/victim-mentality-men",
+        "type": 301
+      },
+      {
+        "source": "/when-start-dating",
+        "destination": "/learn/when-start-dating",
+        "type": 301
+      }
     ]
   },
   "functions": [
