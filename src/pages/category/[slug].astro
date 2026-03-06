@@ -151,13 +151,23 @@ if (categoryPosts.length === 0 && slug !== 'all') {
                             <div class="post-card">
                                 <div class="card-img">
                                     <a href={post.source === 'local' ? `/learn/${post.id}` : `/posts/${post.id}`} aria-label={`Article: ${post.data.title}`}>
-                                        <img 
-                                            src={post.data.image || post.data.heroImage || '/images/default-post.jpg'} 
-                                            alt={post.data.title}
-                                            loading="lazy"
-                                            width={400}
-                                            height={225}
-                                        />
+                                        {typeof post.data.image === 'object' ? (
+                                            <Image 
+                                                src={post.data.image} 
+                                                alt={post.data.title}
+                                                width={400}
+                                                height={225}
+                                                loading="lazy"
+                                            />
+                                        ) : (
+                                            <img 
+                                                src={post.data.image || post.data.heroImage || '/images/default-post.jpg'} 
+                                                alt={post.data.title}
+                                                loading="lazy"
+                                                width={400}
+                                                height={225}
+                                            />
+                                        )}
                                     </a>
                                 </div>
                                 <div class="card-content">
