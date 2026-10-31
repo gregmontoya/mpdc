@@ -203,27 +203,33 @@ exports.createCheckoutSession = onRequest({ cors: true, secrets: ["STRIPE_SECRET
 
     try {
         // ----------------------------------------------------------------------
-        // 🧲 SILENT LEAD CAPTURE (Pre-Checkout)
+        // 🧲 SILENT LEAD CAPTURE (Pre-Checkout - Parallelized)
         // ----------------------------------------------------------------------
         try {
-            await admin.firestore().collection("prospects").add({
-                email,
-                name,
-                source: 'checkout_start',
-                status: 'prospect',
-                plan: plan,
-                attribution: attribution,
-                timestamp: admin.firestore.FieldValue.serverTimestamp()
-            });
+            const capturePromises = [
+                admin.firestore().collection("prospects").add({
+                    email,
+                    name,
+                    source: 'checkout_start',
+                    status: 'prospect',
+                    plan: plan,
+                    attribution: attribution,
+                    timestamp: admin.firestore.FieldValue.serverTimestamp()
+                })
+            ];
 
-            if (process.env.RESEND_API_KEY) {
-                await resend.contacts.create({
-                    email: email,
-                    first_name: name,
-                    unsubscribed: false,
-                    audience_id: process.env.RESEND_AUDIENCE_ID
-                });
+            if (process.env.RESEND_API_KEY && process.env.RESEND_AUDIENCE_ID && resend) {
+                capturePromises.push(
+                    resend.contacts.create({
+                        email: email,
+                        first_name: name,
+                        unsubscribed: false,
+                        audience_id: process.env.RESEND_AUDIENCE_ID
+                    }).catch(err => logger.warn("Resend contact creation skipped:", err.message))
+                );
             }
+
+            await Promise.all(capturePromises);
         } catch (leadErr) {
             logger.error("Silent prospect capture error (non-blocking):", leadErr.message);
         }

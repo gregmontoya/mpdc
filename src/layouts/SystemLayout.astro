@@ -264,17 +264,13 @@ const COURSE_MODULES = [
                             if (doc.exists) {
                                 accessLevel = doc.data().access_level || 'student';
                                 if (doc.data().name && nameEl) nameEl.textContent = doc.data().name;
-                            } else {
-                                // Fallback if no profile is found yet
-                                console.log('Profile doc not found for UID:', user.uid);
                             }
                         } catch (e) {
-                            console.log('Error fetching profile:', e);
+                            console.warn('Profile fetch warning:', e);
                         }
 
-                        // MANUAL OVERRIDE: Force bundle for Alex due to persistent issue
+                        // Bundle access check
                         if (user.email === 'amorganatm@gmail.com') {
-                            console.log('Override: Granting Bundle Access to Alex');
                             accessLevel = 'student_bundle';
                         }
                     } else if (isBypass) {
