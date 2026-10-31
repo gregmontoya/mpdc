@@ -39,7 +39,8 @@ try {
        };
     });
 } catch (error) {
-    console.warn("⚠️ Could not fetch Firestore posts (likely missing service account locally). This is expected in dev without keys. Serving local posts only.");
+    console.error("CRITICAL: Could not fetch Firestore posts at build time! Using local only.");
+    console.error("Details:", error.message || error);
 }
 
 // 3. Merge & Sort

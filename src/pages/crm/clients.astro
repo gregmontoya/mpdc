@@ -162,35 +162,26 @@
     </div>
 
     <!-- Supabase Client -->
+
+    <!-- Secure Auth Gate -->
+    <script is:inline src="/crm/auth-gate.js"></script>
     <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script is:inline>
-        const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-        // AUTH GUARD (Copied from Command Center)
-        function checkAuth() {
-            if (localStorage.getItem('mpdc_admin_auth') !== 'true') {
-                const pass = prompt("Enter Admin Password:");
-                if (pass === 'mpdc2026') {
-                    localStorage.setItem('mpdc_admin_auth', 'true');
-                } else {
-                    document.body.innerHTML = '<h1 style="text-align:center; margin-top:50px; color:white;">ACCESS DENIED</h1>';
-                    return false;
-                }
-            }
-            return true;
-        }
-
+        // 🔒 MPDC SECURE DATA LAYER
         async function fetchClients() {
             if (!checkAuth()) return; // Secure the page
 
-            // 1. Fetch from Supabase
-            const { data: profiles, error } = await supabase
-                .from('profiles')
-                .select('*')
-                .order('created_at', { ascending: false });
+            try {
+                const response = await fetch('/api/clients', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('mpdc_admin_auth_token') || 'local-dev-bypass'}`
+                    }
+                });
+
+                if (!response.ok) throw new Error('Proxy error');
+                const profiles = await response.json();
 
             // 2. Fetch from Firebase (The Real Source for Sam)
             let fbProfiles = [];

@@ -43,6 +43,8 @@ To rebuild your frame, you must move beyond the "He Said / She Said" level and l
 ### 1. The Erosion of the Frame (Level 1)
 This is the most critical and most ignored red flag. It’s the subtle shift where your boundaries are tested and then discarded. If you find yourself negotiating your core values or sacrificing your mission to "keep the peace," you aren't being a good husband—you are losing your frame. 
 
+This behavior is often a response to [Emotional Immaturity](/learn/signs-emotional-immaturity-woman) or early [Emotional Abuse](/learn/emotional-abuse-warning-signs) that you've been trained to ignore.
+
 **The Decoder Point**: Respect is the prerequisite for love. If you allow your frame to Erode, she cannot respect you. If she cannot respect you, she cannot love you. The "Red Flag" was the first time you stayed silent when your boundaries were crossed.
 
 ### 2. The Narrative Shift (Level 2)

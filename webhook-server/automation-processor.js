@@ -1,6 +1,10 @@
-const { createClient } = require('@supabase/supabase-js');
+const Day1Identity = require('./emails/Day1Identity');
+const Day2Submission = require('./emails/Day2Submission');
+const Day3Biology = require('./emails/Day3Biology');
+const Day4Legacy = require('./emails/Day4Legacy');
+const Day5Binary = require('./emails/Day5Binary');
 const AbandonedCart1 = require('./emails/AbandonedCart1');
-const NurtureDay3 = require('./emails/NurtureDay3');
+const { createClient } = require('@supabase/supabase-js');
 const Resend = require('resend').Resend;
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
@@ -11,8 +15,8 @@ const supabase = (process.env.SUPABASE_URL && (process.env.SUPABASE_SERVICE_ROLE
 /**
  * THE AUTOMATION PROCESSOR
  * Runs hourly to check for:
- * 1. Abandoned Carts (1 hour delay)
- * 2. Day 3 Nurture (72 hour delay)
+ * 1. Abandoned Carts (20 min delay)
+ * 2. 5-Day Logic-First Nurture Sequence
  */
 const processAutomations = async () => {
     console.log('🤖 Starting Automation Processing...');
@@ -82,54 +86,102 @@ const processAutomations = async () => {
     }
 
     // -------------------------------------------------------------------------
-    // 🌱 2. NURTURE DAY 3 (72 HOURS)
+    // 🛡️ 2. THE 5-DAY NURTURE SEQUENCE (Logic-First)
     // -------------------------------------------------------------------------
     try {
-        const seventyTwoHoursAgo = new Date(Date.now() - 72 * 60 * 60 * 1000).toISOString();
+        const now = new Date();
+        const tenDaysAgo = new Date(now - 10 * 24 * 60 * 60 * 1000).toISOString();
 
-        // Find leads who joined > 72h ago and haven't received nurture_3
-        const { data: nurtureLeads, error: nurtureError } = await supabase
+        // 🎯 OPTIMIZATION: Only fetch contacts from the last 10 days 
+        // who aren't students. This prevents the "Whole Database Fetch" crash.
+        const { data: prospects, error: prospectError } = await supabase
             .from('contacts')
             .select('*')
             .neq('funnel_stage', 'student')
-            .lt('created_at', seventyTwoHoursAgo);
+            .gt('created_at', tenDaysAgo)
+            .limit(50); // Hard limit per run to prevent Vercel timeout
 
-        if (nurtureError) throw nurtureError;
+        if (prospectError) throw prospectError;
 
-        console.log(`🔍 Found ${nurtureLeads?.length || 0} leads for Day 3 Nurture.`);
+        console.log(`🔍 Processing sequence for ${prospects?.length || 0} recent prospects.`);
 
-        for (const lead of (nurtureLeads || [])) {
-            if (lead.automation_state?.nurture_d3_sent || lead.automation_state?.nurture_3_sent) continue;
+        let emailsSentThisRun = 0;
+        const MAX_EMAILS_PER_RUN = 15; // Safe limit for Vercel 10s timeout
 
-            console.log(`📧 Sending Day 3 Nurture to: ${lead.email}`);
-
-            const { error: sendError } = await resend.emails.send({
-                from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
-                to: [lead.email],
-                subject: 'Reclaiming your Frame (MPDC Method)',
-                html: NurtureDay3(lead.name || '', lead.email)
-            });
-
-            if (sendError) {
-                console.error(`❌ Error sending to ${lead.email}:`, sendError);
-                results.errors.push(`${lead.email}: ${sendError.message}`);
-            } else {
-                results.nurture_day3_sent++;
-                // Update automation state
-                await supabase
-                    .from('contacts')
-                    .update({
-                        automation_state: { ...lead.automation_state, nurture_d3_sent: true, nurture_d3_date: new Date().toISOString() }
-                    })
-                    .eq('email', lead.email);
+        for (const lead of (prospects || [])) {
+            if (emailsSentThisRun >= MAX_EMAILS_PER_RUN) {
+                console.log('⏳ Batch limit reached for this hour. Continuing next run.');
+                break;
             }
 
-            // Respect rate limits
-            await new Promise(resolve => setTimeout(resolve, 600));
+            const joinedAt = new Date(lead.created_at);
+            const hoursSinceJoined = (now - joinedAt) / (1000 * 60 * 60);
+            const state = lead.automation_state || {};
+
+            let template = null;
+            let stepKey = '';
+            let subject = '';
+
+            // Day 1: Identity Murder (24h)
+            if (hoursSinceJoined >= 24 && !state.seq_d1_sent) {
+                template = Day1Identity;
+                stepKey = 'seq_d1_sent';
+                subject = 'The version of you she devalued... should die.';
+            }
+            // Day 2: Submission Trap (48h)
+            else if (hoursSinceJoined >= 48 && !state.seq_d2_sent) {
+                template = Day2Submission;
+                stepKey = 'seq_d2_sent';
+                subject = 'Stop explaining. You’re losing.';
+            }
+            // Day 3: Biological Ghost (72h)
+            else if (hoursSinceJoined >= 72 && !state.seq_d3_sent) {
+                template = Day3Biology;
+                stepKey = 'seq_d3_sent';
+                subject = 'Why you can’t "think" your way out of this.';
+            }
+            // Day 4: Legacy Warning (96h)
+            else if (hoursSinceJoined >= 96 && !state.seq_d4_sent) {
+                template = Day4Legacy;
+                stepKey = 'seq_d4_sent';
+                subject = 'Your sons are watching.';
+            }
+            // Day 5: Binary Choice (120h)
+            else if (hoursSinceJoined >= 120 && !state.seq_d5_sent) {
+                template = Day5Binary;
+                stepKey = 'seq_d5_sent';
+                subject = 'One last check.';
+            }
+
+            if (template && stepKey) {
+                console.log(`📧 Sending ${stepKey} to: ${lead.email}`);
+
+                const { error: sendError } = await resend.emails.send({
+                    from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
+                    to: [lead.email],
+                    subject: subject,
+                    html: template(lead.name || '')
+                });
+
+                if (sendError) {
+                    console.error(`❌ Error sending ${stepKey} to ${lead.email}:`, sendError);
+                } else {
+                    emailsSentThisRun++; // 📈 Increment counter
+                    results.nurture_day3_sent++; // Reusing counter for summary
+                    await supabase
+                        .from('contacts')
+                        .update({
+                            automation_state: { ...state, [stepKey]: true, [`${stepKey}_at`]: now.toISOString() }
+                        })
+                        .eq('email', lead.email);
+                }
+
+                await new Promise(resolve => setTimeout(resolve, 600));
+            }
         }
     } catch (e) {
-        console.error('❌ Nurture Day 3 Process Error:', e.message);
-        results.errors.push(`Nurture Error: ${e.message}`);
+        console.error('❌ Nurture Sequence Error:', e.message);
+        results.errors.push(`Sequence Error: ${e.message}`);
     }
 
     console.log('✅ Automation Processing Complete.');

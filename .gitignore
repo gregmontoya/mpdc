@@ -21,3 +21,7 @@ service-account.json
 .firebase/
 *.backup
 *.backup.*
+*-service-account.json
+google-indexing-service-account.json
+webhook-server/.env*
+users*.json

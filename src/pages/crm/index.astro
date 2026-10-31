@@ -20,6 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/crm/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <style>
         /* Stealth Switch Styles */
         .switch { position: relative; display: inline-block; width: 34px; height: 20px; }
@@ -271,6 +272,31 @@
                     </div>
                 </div>
 
+                </div>
+
+                <!-- ANALYTICS CHARTS SECTION -->
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 30px; margin-bottom: 24px;">
+                    <!-- Funnel Chart -->
+                    <div class="content-panel" style="margin: 0;">
+                        <div class="panel-header">
+                            <h3 style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #888;">Pipeline Conversion Funnel</h3>
+                        </div>
+                        <div style="padding: 20px; height: 320px; display:flex; justify-content:center; align-items:center;">
+                            <canvas id="funnelChart"></canvas>
+                        </div>
+                    </div>
+
+                    <!-- Source Pie Chart -->
+                    <div class="content-panel" style="margin: 0;">
+                        <div class="panel-header">
+                            <h3 style="font-size: 14px; text-transform: uppercase; letter-spacing: 1px; color: #888;">Lead Attribution</h3>
+                        </div>
+                        <div style="padding: 20px; height: 320px; display:flex; justify-content:center; align-items:center;">
+                            <canvas id="sourceChart"></canvas>
+                        </div>
+                    </div>
+                </div>
+
                 <!-- Recent Leads Table -->
                 <div class="content-panel leads-panel">
                     <div class="panel-header">
@@ -375,22 +401,87 @@
         firebase.initializeApp(firebaseConfig);
         const fb_db = firebase.firestore();
 
-        const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
 
-        // Robust Client Creation
-        let supabase;
+        // 🔒 MPDC SECURE DATA LAYER 
+        // No more frontend keys. Data is handled via /api/leads
+        
 
-        function waitForSupabase() {
-            if (window.supabase) {
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-                fetchDashboardData();
-                fetchSEOStats(); 
-                fetchSchemaStats(); // New Schema fetch
-            } else {
-                console.log('Waiting for Supabase...');
-                setTimeout(waitForSupabase, 100);
+        function initDashboard() {
+            if (!window.checkAuth()) return;
+            fetchDashboardData();
+            fetchSEOStats(); 
+            fetchSchemaStats(); 
+            renderKanbanAnalytics();
+        }
+
+        async function renderKanbanAnalytics() {
+            if (!window.fetchLeads) {
+                setTimeout(renderKanbanAnalytics, 100);
+                return;
             }
+
+            const leads = await window.fetchLeads();
+            let stageCounts = { new: 0, prospect: 0, convo: 0, qualifying: 0, course_sent: 0, booked: 0 };
+            let sourceCounts = {};
+
+            leads.forEach(l => {
+                let st = (l.status || 'new').toLowerCase();
+                if(stageCounts[st] !== undefined) stageCounts[st]++;
+                else stageCounts[st] = 1;
+
+                let src = l.source || 'Direct';
+                if(sourceCounts[src]) sourceCounts[src]++;
+                else sourceCounts[src] = 1;
+            });
+
+            const ctxFunnel = document.getElementById('funnelChart').getContext('2d');
+            new Chart(ctxFunnel, {
+                type: 'bar',
+                data: {
+                    labels: ['Abandoned / New', 'Email Prospects', 'In Convo', 'Qualifying', 'Course Sent', 'Call Booked'],
+                    datasets: [{
+                        label: 'Contacts',
+                        data: [
+                            stageCounts['new'] || 0, 
+                            stageCounts['prospect'] || 0, 
+                            stageCounts['convo'] || 0, 
+                            stageCounts['qualifying'] || 0, 
+                            stageCounts['course_sent'] || 0, 
+                            stageCounts['booked'] || 0
+                        ],
+                        backgroundColor: ['#cbd6e2', '#33475b', '#00a4bd', '#F5C26B', '#2E6EDF', '#00BDA5'],
+                        borderRadius: 6
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { display: false } },
+                    scales: {
+                        y: { beginAtZero: true, grid: { color: 'rgba(255,255,255,0.05)' } },
+                        x: { grid: { display: false } }
+                    }
+                }
+            });
+
+            const ctxSource = document.getElementById('sourceChart').getContext('2d');
+            new Chart(ctxSource, {
+                type: 'doughnut',
+                data: {
+                    labels: Object.keys(sourceCounts),
+                    datasets: [{
+                        data: Object.values(sourceCounts),
+                        backgroundColor: ['#ff7a59', '#00a4bd', '#33475b', '#f5c26b', '#8168B1', '#00BDA5']
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: { legend: { position: 'bottom', labels: { color: '#888' } } },
+                    cutout: '65%',
+                    borderColor: '#0f172a'
+                }
+            });
         }
 
         async function fetchSEOStats() {
@@ -629,7 +720,9 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
-            waitForSupabase();
+            initDashboard();
+            initStealthMode();
+            fetchVideoStats();
             initStealthMode();
             fetchVideoStats();
 
@@ -658,6 +751,9 @@
     </script>
     <!-- Supabase SDK -->
     <script is:inline src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <!-- Secure Auth Gate -->
+    <script is:inline src="/crm/auth-gate.js"></script>
     <script is:inline src="/crm/supabase-client.js"></script>
     <script is:inline src="/crm/script.js"></script>
 </body>

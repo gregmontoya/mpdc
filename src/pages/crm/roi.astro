@@ -285,6 +285,9 @@
 
     <!-- Supabase SDK -->
     <script is:inline src="https://unpkg.com/@supabase/supabase-js@2"></script>
+
+    <!-- Secure Auth Gate -->
+    <script is:inline src="/crm/auth-gate.js"></script>
     <script is:inline src="/crm/supabase-client.js"></script>
     
     <script is:inline>
@@ -301,7 +304,11 @@
             renderROI();
         }
 
+
+        // 🔒 MPDC SECURE DATA LAYER
+
         async function calculateROI() {
+            if (!window.checkAuth()) return;
             const tbody = document.getElementById('roi-body');
             const log = (msg) => {
                 console.log(`[ROI Engine] ${msg}`);
@@ -310,35 +317,21 @@
                 }
             };
 
-            log('Connecting to Supabase');
-            
-            let client = window.supabase;
-            if (!client || typeof client.from !== 'function') {
-                if (window.supabase && typeof window.supabase.createClient === 'function') {
-                    client = window.supabase.createClient(
-                        'https://vobbqsipyyftscyvxuja.supabase.co',
-                        'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc'
-                    );
-                }
-            }
-
-            if (!client) {
-                log('Waiting for SDK');
-                setTimeout(calculateROI, 500);
-                return;
-            }
-
             try {
-                log('Syncing Master Tables');
-                const [contactsRes, performanceRes] = await Promise.all([
-                    client.from('contacts').select('*').order('created_at', { ascending: false }),
-                    client.from('campaign_performance').select('*')
-                ]);
-
-                masterContacts = contactsRes.data || [];
-                masterPerformance = performanceRes.data || [];
+                log('📡 Requesting secure ROI data...');
                 
-                // Update sync status
+                const response = await fetch('/api/roi', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('mpdc_admin_auth_token') || 'local-dev-bypass'}`
+                    }
+                });
+
+                if (!response.ok) throw new Error('ROI proxy failed');
+                const { contacts, performance } = await response.json();
+
+                masterContacts = contacts || [];
+                masterPerformance = performance || [];
+                
                 if (document.getElementById('last-sync-time')) {
                     document.getElementById('last-sync-time').innerText = new Date().toLocaleTimeString();
                 }
@@ -384,13 +377,18 @@
                 const utmContent = lastTouch.utm_content || 'N/A';
                 const nameKey = normalize(utmCamp);
 
+                // --- PRIORITY 1: Exact UTM ID Match ---
                 let key = utmId && campaignStats[utmId] ? utmId : null;
+                
+                // --- PRIORITY 2: Fuzzy Name Match ---
                 if (!key) {
                     key = Object.keys(campaignStats).find(k => 
                         campaignStats[k].nameKey === nameKey || 
                         (nameKey.length > 3 && (campaignStats[k].nameKey.includes(nameKey) || nameKey.includes(campaignStats[k].nameKey)))
                     );
                 }
+                
+                // --- PRIORITY 3: Fallback to ID or Name ---
                 key = key || utmId || nameKey;
 
                 if (!campaignStats[key]) {

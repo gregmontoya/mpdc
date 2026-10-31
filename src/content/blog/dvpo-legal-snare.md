@@ -2,7 +2,7 @@
 title: "The DVPO Legal Snare: Protective Orders as Tactical Leverage"
 description: "A Domestic Violence Protective Order (DVPO) is the most powerful weapon in the high-conflict divorce arsenal. Learn the defensive measures to protect your frame and your freedom."
 publishDate: "February 16, 2026"
-image: "../../assets/images/blog/dvpo-legal-snare.png"
+image: "../../assets/images/blog/dvpo-snare.png"
 category: "Divorce Strategy"
 categoryUrl: "/category/divorce-strategy"
 readTime: "9 min read"

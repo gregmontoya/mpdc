@@ -221,6 +221,9 @@
     </div>
 
     <!-- Supabase Client (Using jsdelivr as seen in clients.astro) -->
+
+    <!-- Secure Auth Gate -->
+    <script is:inline src="/crm/auth-gate.js"></script>
     <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     
     <!-- Script.js for UI Toggles -->
@@ -228,19 +231,25 @@
 
     <script is:inline>
         // Init Supabase securely using pattern from clients.astro
-        const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
+
+        // 🔒 MPDC SECURE DATA LAYER
+        // All data handled via /api/leads-admin
         
-        let supabase;
-        try {
-            if (window.supabase) {
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-            } else {
-                console.error("Supabase SDK failed to load window.supabase");
-            }
-        } catch(e) {
-            console.error('Supabase Init Failed:', e);
-        }
+
+        async function renderProspects() {
+            if (!window.checkAuth()) return;
+            const tbody = document.getElementById('prospects-table-body');
+            const countHeader = document.getElementById('header-count');
+            
+            try {
+                const response = await fetch('/api/leads-admin', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('mpdc_admin_auth_token') || 'local-dev-bypass'}`
+                    }
+                });
+
+                if (!response.ok) throw new Error('Proxy error');
+                const leads = await response.json();
 
         document.addEventListener('DOMContentLoaded', async () => {
              // ------------------------
@@ -271,27 +280,28 @@
             if (form) {
                 form.addEventListener('submit', async (e) => {
                     e.preventDefault();
-                    if(!supabase) return;
 
                     const handle = document.getElementById('inputHandle').value;
                     const name = document.getElementById('inputName').value;
                     const status = document.getElementById('inputStatus').value;
-                    const painPoint = document.getElementById('inputPainPoint').value;
-                    const notes = document.getElementById('inputNotes').value;
 
-                    // Adapt to schema (store handle in email, omit missing cols)
-                    const { data, error } = await supabase
-                        .from('leads')
-                        .insert([{
-                            email: handle, // Store handle in email field
+                    // Use Secure Proxy to save
+                    const response = await fetch('/api/leads-admin', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${localStorage.getItem('mpdc_admin_auth_token') || 'local-dev-bypass'}`
+                        },
+                        body: JSON.stringify([{
+                            email: handle, 
                             name: name,
                             status: status,
-                            // pain_point: painPoint, // Column missing
-                            // notes: notes, // Column missing
                             source: 'instagram_manual',
                             created_at: new Date().toISOString()
                         }])
-                        .select();
+                    });
+
+                    const { error } = await response.json();
 
                     if (!error) {
                         form.reset();
@@ -304,15 +314,6 @@
             }
         });
 
-        async function renderProspects() {
-            const tbody = document.getElementById('prospects-table-body');
-            const countHeader = document.getElementById('header-count');
-            
-            // Fetch leads
-            const { data: leads, error } = await supabase
-                .from('leads')
-                .select('*')
-                .order('created_at', { ascending: false });
 
             if (error) {
                 console.error(error);

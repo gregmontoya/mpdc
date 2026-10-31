@@ -2,7 +2,7 @@
 title: "Asset Protection: The Pre-Divorce Tactical Audit"
 description: "Protect your wealth before the final decree. Learn the legal and financial measures to secure your assets and maintain your financial frame during divorce proceedings."
 publishDate: "February 16, 2026"
-image: "../../assets/images/blog/asset-protection-divorce.png"
+image: "../../assets/images/blog/asset-protection.png"
 category: "Financial Recovery"
 categoryUrl: "/category/financial-recovery"
 readTime: "10 min read"

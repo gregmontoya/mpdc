@@ -2,7 +2,7 @@
 title: "The Legacy Standard: Reclaiming Your Purpose After Betrayal"
 description: "Betrayal dismantles your past, but it also creates the space to design your future. Learn how to build a 'Legacy Standard' that exists independently of your history."
 publishDate: "2026-02-12"
-category: "Strategy & Tactics"
+category: "Divorce Strategy"
 categoryUrl: "/category/divorce-strategy"
 readTime: "8 min read"
 image: "../../assets/images/blog/legacy-standard.png"

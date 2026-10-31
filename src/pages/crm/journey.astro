@@ -162,59 +162,34 @@
     </div>
 
     <!-- External SDKs -->
+
+    <!-- Secure Auth Gate -->
+    <script is:inline src="/crm/auth-gate.js"></script>
     <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script is:inline>
-        const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
-        const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+
+        // 🔒 MPDC SECURE DATA LAYER
 
         async function analyzeJourney() {
+            if (!window.checkAuth()) return;
             const input = document.getElementById('journey-search').value.trim();
             if (!input) return;
 
-            console.log(`🔎 Analyzing Identity: ${input}`);
+            console.log(`📡 Requesting journey analysis for: ${input}`);
             document.getElementById('journey-empty').style.display = 'none';
             document.getElementById('journey-result').style.display = 'block';
             const timeline = document.getElementById('timeline-feed');
-            timeline.innerHTML = '<div style="text-align:center; padding:20px;"><div class="pulse" style="width:10px; height:10px; background:var(--accent-orange); margin:0 auto 10px;"></div><p style="color:#64748b; font-size:12px;">Reconstructing path...</p></div>';
-
-            let contact = null;
+            timeline.innerHTML = '<div style="text-align:center; padding:20px;"><div class="pulse" style="width:10px; height:10px; background:var(--accent-orange); margin:0 auto 10px;"></div><p style="color:#64748b; font-size:12px;">Reconstructing path via secure proxy...</p></div>';
 
             try {
-                // 1. Try checking the "Contacts Hub" first
-                try {
-                    const { data: hubContact, error: hubError } = await supabase
-                        .from('contacts')
-                        .select('*')
-                        .or(`email.eq.${input},guest_id.eq.${input}`)
-                        .maybeSingle();
-                    
-                    if (hubContact) {
-                        console.log('✅ Identity found in Marketing Cloud Hub');
-                        contact = hubContact;
+                const response = await fetch(`/api/journey?identity=${encodeURIComponent(input)}`, {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('mpdc_admin_auth_token') || 'local-dev-bypass'}`
                     }
-                } catch (e) {
-                    console.warn('Contacts table search failed (likely missing):', e.message);
-                }
+                });
 
-                // 2. If not found, fallback to Member Profiles
-                if (!contact) {
-                    console.log('🔄 Checking Member Database...');
-                    const { data: profile, error: profError } = await supabase
-                        .from('profiles')
-                        .select('*')
-                        .eq('email', input)
-                        .maybeSingle();
-                    
-                    if (profile) {
-                        console.log('✅ Identity found in Member Profiles');
-                        contact = {
-                            ...profile,
-                            funnel_stage: 'student',
-                            created_at: profile.created_at
-                        };
-                    }
-                }
+                if (!response.ok) throw new Error('Journey proxy failed');
+                const { contact, activity } = await response.json();
 
                 if (!contact) {
                     timeline.innerHTML = `
@@ -255,30 +230,17 @@
                     active: true
                 });
 
-                // 4. Try fetching Browsing History
-                try {
-                    const { data: activity, error: actError } = await supabase
-                        .from('visitor_activity')
-                        .select('*')
-                        .eq('guest_id', contact.guest_id || '')
-                        .order('created_at', { ascending: false });
 
-                    if (activity && activity.length > 0) {
-                        activity.forEach(act => {
-                            addTimelineItem(timeline, {
-                                icon: 'fa-solid fa-shoe-prints',
-                                title: `Discovery: /${act.path.split('/').pop() || 'home'}`,
-                                date: act.created_at,
-                                desc: `Viewed ${act.path} via ${act.attribution?.utm_source || 'Direct'}.`,
-                                active: false
-                            });
+                if (activity && activity.length > 0) {
+                    activity.forEach(act => {
+                        addTimelineItem(timeline, {
+                            icon: 'fa-solid fa-shoe-prints',
+                            title: `Discovery: /${act.path.split('/').pop() || 'home'}`,
+                            date: act.created_at,
+                            desc: `Viewed ${act.path} via ${act.attribution?.utm_source || 'Direct'}.`,
+                            active: false
                         });
-                    } else {
-                        timeline.insertAdjacentHTML('beforeend', '<p style="text-align:center; font-size:12px; color:#444; margin-top:20px; border-top: 1px solid #1e293b; padding-top: 20px;">No browsing history logs found for this identity bridge yet.</p>');
-                    }
-                } catch (e) {
-                    console.warn('Visitor Activity table search failed:', e.message);
-                    timeline.insertAdjacentHTML('beforeend', '<p style="text-align:center; font-size:11px; color:#c4613a; margin-top:20px; opacity: 0.6;">(Connect "visitor_activity" table in Supabase to unlock shoeprints)</p>');
+                    });
                 }
 
             } catch (err) {

@@ -35,10 +35,44 @@ import vslCourseImg from '../../assets/images/vsl-course-image.png';
           "duration": "PT20M",
           "contentUrl": "https://storage.googleapis.com/mpdc-website-32dae.firebasestorage.app/streaming/VSL/manifest.m3u8",
           "embedUrl": "https://menspostdivorcecoaching.com/join",
+          "publisher": {
+            "@type": "Organization",
+            "name": "Men's Post-Divorce Coaching",
+            "logo": {
+              "@type": "ImageObject",
+              "url": "https://menspostdivorcecoaching.com/images/social-preview.png"
+            }
+          },
+          "hasPart": [
+            {
+              "@type": "Clip",
+              "name": "The Divorce Recovery Trap",
+              "startOffset": 0,
+              "url": "https://menspostdivorcecoaching.com/join#t=0"
+            },
+            {
+              "@type": "Clip",
+              "name": "Resolution vs Repression",
+              "startOffset": 300,
+              "url": "https://menspostdivorcecoaching.com/join#t=300"
+            },
+            {
+              "@type": "Clip",
+              "name": "The Future Memory Protocol",
+              "startOffset": 600,
+              "url": "https://menspostdivorcecoaching.com/join#t=600"
+            },
+            {
+              "@type": "Clip",
+              "name": "The Mastery System Reveal",
+              "startOffset": 900,
+              "url": "https://menspostdivorcecoaching.com/join#t=900"
+            }
+          ],
           "interactionStatistic": {
             "@type": "InteractionCounter",
-            "interactionType": { "@type": "WatchAction" },
-            "userInteractionCount": 512
+            "interactionType": { "@type": "https://schema.org/WatchAction" },
+            "userInteractionCount": 1250
           }
         }
         </script>
@@ -315,18 +349,71 @@ import vslCourseImg from '../../assets/images/vsl-course-image.png';
             }
         }
 
-        // Init
-        document.addEventListener('DOMContentLoaded', () => {
-             // 🎯 PRE-FILL Logic (PRO Move)
-             const params = new URLSearchParams(window.location.search);
+        // 🎯 Improved Coupon Logic (Resilient)
+        // 🎯 Improved Coupon Logic (Ultra-Resilient)
+        function applyCouponLogic() {
+             const search = window.location.search;
+             const params = new URLSearchParams(search);
              const emailParam = params.get('email');
+             
+             // Check standard param OR handle encoded/broken URLs
+             let couponParam = params.get('coupon');
+             if (!couponParam && search.toUpperCase().includes('FREEPASS')) {
+                 couponParam = 'FREEPASS';
+             }
+
              if (emailParam) {
                  ['email-hero', 'email'].forEach(id => {
                      const el = document.getElementById(id);
                      if (el) el.value = emailParam;
                  });
              }
-        });
+
+             if (couponParam) {
+                 window.appliedCoupon = couponParam;
+                 console.log('🎫 Coupon detected:', couponParam);
+                 
+                 const updateUI = () => {
+                     // 1. Update Totals
+                     const heroTotal = document.getElementById('order-total-hero');
+                     const mainTotal = document.getElementById('order-total-main');
+                     if (heroTotal) heroTotal.innerText = '$0.00';
+                     if (mainTotal) mainTotal.innerText = '$0.00';
+
+                     // 2. Update Checkout Buttons
+                     ['hero-checkout-btn', 'main-checkout-btn'].forEach(id => {
+                         const el = document.getElementById(id);
+                         if (el) {
+                             if (id === 'hero-checkout-btn') {
+                                 el.innerText = 'PROCEED TO CHECKOUT - $0.00 →';
+                             } else {
+                                 const totalSpan = el.querySelector('.checkout-total');
+                                 if (totalSpan) totalSpan.innerText = '$0.00';
+                                 else el.innerText = 'PROCEED TO CHECKOUT - $0.00 →';
+                             }
+                         }
+                     });
+
+                     // 3. Update Discount Lines
+                     const discLabel = document.getElementById('main-discount-label');
+                     const discAmount = document.getElementById('main-discount-amount');
+                     if (discLabel) discLabel.innerText = '100% OFF COUPON APPLIED';
+                     if (discAmount) discAmount.innerText = '-$54.00';
+                 };
+
+                 // Run immediately and again on load to be safe
+                 updateUI();
+                 setTimeout(updateUI, 100); 
+                 setTimeout(updateUI, 500);
+                 setTimeout(updateUI, 2000); // Final check for slow renders
+             }
+        }
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', applyCouponLogic);
+        } else {
+            applyCouponLogic();
+        }
     </script>
     
     <!-- HERO SECTION -->
@@ -696,10 +783,10 @@ import vslCourseImg from '../../assets/images/vsl-course-image.png';
                 <div class="checkout-container" style="background: transparent; border: none; box-shadow: none; padding: 0;" > 
                     <!-- White Order Summary Box -->                    <div style="background: #fff; border: 1px solid #ddd; border-radius: 8px; padding: 2rem; margin-bottom: 2.5rem;" > 
                         <div style="display: flex; justify-content: space-between; align-items: start; margin-bottom: 0.5rem; font-size: 1.1rem; color: #555; text-align: left;" > 
-                            <span >The Men's Divorce Mindset System</span> <span >$54.00</span> 
+                            <span >The Men's Divorce Mindset System</span> <span id="main-product-price" >$54.00</span> 
                         </div> 
-                        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 1rem; color: var(--color-accent); text-align: left; font-weight: 600;" > 
-                            <span >50% OFF Promotion</span> <span >-$27.00</span> 
+                        <div id="main-discount-line" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem; font-size: 1rem; color: var(--color-accent); text-align: left; font-weight: 600;" > 
+                            <span id="main-discount-label" >50% OFF Promotion</span> <span id="main-discount-amount" >-$27.00</span> 
                         </div> 
                         <div style="border-top: 1px solid #eee; margin: 1rem 0;" ></div> 
                         <div style="display: flex; justify-content: space-between; align-items: center; font-size: 1.75rem; font-weight: 800; color: #2c3e50;" > 
@@ -801,6 +888,7 @@ import vslCourseImg from '../../assets/images/vsl-course-image.png';
                         name: name,
                         email: email,
                         plan: 'core',
+                        coupon: window.appliedCoupon || null, // Auto-apply if found in URL
                         guestId: localStorage.getItem('mpdc_guest_id'),
                         attribution: trackingData // Send the real captured UTMs
                     })
@@ -815,40 +903,69 @@ import vslCourseImg from '../../assets/images/vsl-course-image.png';
                     });
                 }
                 
-                // 🔵 Trigger Facebook Lead Event (PRO Move)
+                // 🔵 Trigger Facebook Events (Elite Tracking)
                 if (typeof fbq !== 'undefined') {
+                    // Start with Lead for database growth
                     fbq('track', 'Lead', {
                         content_name: 'Core System Checkout',
                         value: 0.00,
                         currency: 'USD'
                     });
+                    
+                    // Trigger InitiateCheckout for Ad Optimization
+                    fbq('track', 'InitiateCheckout', {
+                        content_name: 'Men\'s Divorce Mindset System',
+                        content_category: 'Courses',
+                        content_ids: ['mpdc_core_system'],
+                        content_type: 'product',
+                        value: 27.00,
+                        currency: 'USD'
+                    });
                 }
 
-                // 🔵 Trigger GA4 Enhanced Contact Event
+                // 🔵 Trigger GA4 Enhanced E-commerce
                 if (typeof gtag !== 'undefined') {
+                    // Contact Lead Event
                     gtag('event', 'generate_lead', {
                         'user_email': email,
                         'user_name': name,
                         'event_category': 'engagement',
                         'event_label': 'Checkout Started'
                     });
+
+                    // begin_checkout Event
+                    gtag('event', 'begin_checkout', {
+                        currency: 'USD',
+                        value: 27.00,
+                        items: [{
+                            item_id: 'mpdc_core_system',
+                            item_name: 'Men\'s Divorce Mindset System',
+                            item_brand: 'MPDC',
+                            item_category: 'Divorce Recovery',
+                            price: 27.00,
+                            quantity: 1
+                        }]
+                    });
                 }
                 
                 const session = await response.json();
                 if (session.id) {
-                    const stripe = Stripe('pk_live_51OupkGEnV5y7Hgm1s8J4a8z7w93x6a5b4c3d2e1f0g'); 
+                    const stripe = Stripe('pk_live_51KBJaKE2SEFN93nuA5t6Sw5hrO5lFuaN1ppRNQ98cFZBCzVeTGWI7C56ZGMdlsa6orH5NqLwaDV8I8WISjyi0TlL00EvoWqUOx'); 
                     stripe.redirectToCheckout({ sessionId: session.id });
                 } else if (session.url) {
-                    // Handle direct URL response if using webhook-server bypass
                     window.location.href = session.url;
+                } else if (session.error) {
+                    alert('Error: ' + session.error);
+                    btn.innerText = originalText;
+                    btn.disabled = false;
                 } else {
-                    alert('Error creating session.');
+                    alert('Error creating session. Please try again.');
                     btn.innerText = originalText;
                     btn.disabled = false;
                 }
             } catch (e) {
                 console.error(e);
-                alert('Checkout error');
+                alert('Checkout error: ' + e.message);
                 btn.innerText = originalText;
                 btn.disabled = false;
             }

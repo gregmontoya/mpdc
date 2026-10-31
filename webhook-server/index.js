@@ -13,6 +13,7 @@ const NurtureDay3 = require('./emails/NurtureDay3');
 const WinBack1 = require('./emails/WinBack1');
 let stripe;
 if (process.env.STRIPE_SECRET_KEY) {
+    console.log('✅ STRIPE_SECRET_KEY detected in environment');
     stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 } else {
     console.error('❌ STRIPE_SECRET_KEY is missing from environment variables');
@@ -49,6 +50,9 @@ if (admin.apps.length > 0) {
 
 
 const { processAutomations } = require('./automation-processor');
+const { generateReport } = require('./daily-roi-report');
+const { syncFacebookSpend } = require('./fb-sync-worker');
+const { sendLeaderboardToSlack } = require('./leaderboard-slack');
 const app = express();
 app.use(require('cors')({
     origin: [/localhost:4321$/, /menspostdivorcecoaching\.com$/],
@@ -198,9 +202,10 @@ const syncContact = async (email, data = {}) => {
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
 if (!resend) console.error('❌ RESEND_API_KEY is missing');
 
-// Initialize Supabase
-const supabase = (process.env.SUPABASE_URL && process.env.SUPABASE_KEY)
-    ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY)
+// Initialize Supabase - Prefer Service Role Key for backend logic
+const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY;
+const supabase = (process.env.SUPABASE_URL && supabaseKey)
+    ? createClient(process.env.SUPABASE_URL, supabaseKey)
     : null;
 if (!supabase) console.error('❌ SUPABASE_URL or SUPABASE_KEY is missing');
 
@@ -391,51 +396,48 @@ app.post('/webhooks/manychat', async (req, res) => {
             }
         });
 
-        // 🎯 EARLY ACKNOWLEDGMENT
-        // We tell Manychat "I got it" immediately so they don't timeout.
-        res.status(200).json({ success: true, message: 'Lead received' });
+        // 🚀 EXECUTE TASKS (Awaited to prevent Vercel cutoff)
+        console.log(`⚡️ Processing Manychat lead: ${email}`);
 
-        // 🚀 ASYNC BACKGROUND TASKS
-        process.nextTick(async () => {
-            console.log(`⚡️ Background processing Manychat lead: ${email}`);
+        // 2. Fire FB CAPI event
+        try {
+            await sendFacebookCAPIEvent('Lead', { email }, {
+                content_name: 'Manychat Follower Opt-in',
+                source: 'manychat'
+            }, req);
+        } catch (err) { console.error('⚠️ FB CAPI Error:', err.message); }
 
-            // 2. Fire FB CAPI event
-            try {
-                sendFacebookCAPIEvent('Lead', { email }, {
-                    content_name: 'Manychat Follower Opt-in',
-                    source: 'manychat'
-                }, req);
-            } catch (err) { console.error('⚠️ FB CAPI Error:', err.message); }
+        // 3. Internal Notification
+        try {
+            await sendLeadNotification(email, name, {
+                utm_source: 'Manychat',
+                utm_medium: 'Instagram',
+                utm_campaign: source || 'new_follower'
+            });
+        } catch (err) { console.error('⚠️ Lead Notif Error:', err.message); }
 
-            // 3. Internal Notification
-            try {
-                await sendLeadNotification(email, name, {
-                    utm_source: 'Manychat',
-                    utm_medium: 'Instagram',
-                    utm_campaign: source || 'new_follower'
-                });
-            } catch (err) { console.error('⚠️ Lead Notif Error:', err.message); }
+        // 4. Trigger Welcome Flow
+        if (contact && (!contact.automation_state || !contact.automation_state.welcome_v1_sent)) {
+            if (resend) {
+                try {
+                    const { error } = await resend.emails.send({
+                        from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
+                        to: [email],
+                        subject: 'Stop replaying the Past (Your Recovery Bundle is here)',
+                        html: WelcomeEmail1(name || '', email, 'I found you on Instagram—excited to help you rebuild.')
+                    });
 
-            // 4. Trigger Welcome Flow
-            if (contact && (!contact.automation_state || !contact.automation_state.welcome_v1_sent)) {
-                if (resend) {
-                    try {
-                        const { error } = await resend.emails.send({
-                            from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
-                            to: [email],
-                            subject: 'Stop replaying the Past (Your Recovery Bundle is here)',
-                            html: WelcomeEmail1(name || '', email, 'I found you on Instagram—excited to help you rebuild.')
+                    if (!error) {
+                        await syncContact(email, {
+                            automation: { welcome_v1_sent: true, welcome_v1_date: new Date().toISOString() }
                         });
-
-                        if (!error) {
-                            await syncContact(email, {
-                                automation: { welcome_v1_sent: true, welcome_v1_date: new Date().toISOString() }
-                            });
-                        }
-                    } catch (err) { console.error('⚠️ Welcome Email Error:', err.message); }
-                }
+                    }
+                } catch (err) { console.error('⚠️ Welcome Email Error:', err.message); }
             }
-        });
+        }
+
+        // 🎯 FINAL ACKNOWLEDGMENT (Only after tasks complete)
+        res.status(200).json({ success: true, message: 'Lead processed and notified' });
 
     } catch (error) {
         console.error('❌ Manychat Webhook Error:', error.message);
@@ -514,7 +516,7 @@ app.post('/capture-lead', async (req, res) => {
 // 💳 CREATE STRIPE CHECKOUT SESSION (FORCED USD)
 // --------------------------------------------------------------------------
 app.post('/create-checkout-session', async (req, res) => {
-    const { email, name, plan = 'core', attribution = {}, guestId } = req.body;
+    const { email, name, plan = 'core', coupon, attribution = {}, guestId } = req.body;
 
     try {
         console.log(`💳 Creating Session for: ${email} (${plan})`);
@@ -577,7 +579,7 @@ app.post('/create-checkout-session', async (req, res) => {
             }],
             mode: 'payment',
             allow_promotion_codes: true,
-            success_url: `${req.headers.origin}/join/success?session_id={CHECK_SESSION_ID}`,
+            success_url: `${req.headers.origin}/join/success?session_id={CHECKOUT_SESSION_ID}`,
             cancel_url: `${req.headers.origin}/join`,
             metadata: {
                 customer_name: name,
@@ -594,6 +596,45 @@ app.post('/create-checkout-session', async (req, res) => {
             }
         };
 
+        // 🎫 AUTOMATED COUPON APPLICATION
+        if (coupon) {
+            console.log(`🎟️ Attempting to auto-apply coupon: ${coupon}`);
+            try {
+                // 1. If it's a known promo code ID or test ID
+                if (coupon.startsWith('promo_') || coupon === 'wyDKIgXD') {
+                    sessionOptions.discounts = [{ [coupon.startsWith('promo_') ? 'promotion_code' : 'coupon']: coupon }];
+                    delete sessionOptions.allow_promotion_codes;
+                } else {
+                    // 2. Try to find a Promotion Code first (user-friendly code)
+                    const promoCodes = await stripe.promotionCodes.list({
+                        code: coupon,
+                        active: true,
+                        limit: 1
+                    });
+
+                    if (promoCodes.data && promoCodes.data.length > 0) {
+                        sessionOptions.discounts = [{ promotion_code: promoCodes.data[0].id }];
+                        delete sessionOptions.allow_promotion_codes;
+                        console.log(`✅ Applied Promo Code: ${coupon}`);
+                    } else {
+                        // 3. Fallback: Check if it's a direct Coupon ID
+                        try {
+                            const couponObj = await stripe.coupons.retrieve(coupon);
+                            if (couponObj && couponObj.valid) {
+                                sessionOptions.discounts = [{ coupon: coupon }];
+                                delete sessionOptions.allow_promotion_codes;
+                                console.log(`✅ Applied direct Coupon ID: ${coupon}`);
+                            }
+                        } catch (couponErr) {
+                            console.warn(`⚠️ Coupon/Promo Code not found: ${coupon}`);
+                        }
+                    }
+                }
+            } catch (err) {
+                console.error(`❌ Coupon lookup failed for ${coupon}:`, err.message);
+            }
+        }
+
         // 🕵️‍♂️ PRO DEV TEST BYPASS (Early Exit)
         // If name is GREG_TEST, allows comprehensive local testing
         if ((name === 'GREG_TEST' || name === 'greg_test')) {
@@ -601,16 +642,21 @@ app.post('/create-checkout-session', async (req, res) => {
                 console.log('🧪 PRO DEV BYPASS: Stripe Missing -> Redirecting GREG_TEST to Success.');
                 return res.json({ url: 'https://menspostdivorcecoaching.com/system/success' });
             }
-            // If stripe is present, apply coupon
-            sessionOptions = { ...sessionOptions, discounts: [{ coupon: 'wyDKIgXD' }] };
+            // If stripe is present, apply hardcoded test coupon
+            sessionOptions.discounts = [{ coupon: 'wyDKIgXD' }];
         }
 
         if (!stripe) {
-            throw new Error('Stripe is not configured on this server.');
-        }
+            console.error('❌ Stripe initialization failed: stripe object is undefined');
+            // Try to re-initialize if key is present but stripe wasn't created
+            if (process.env.STRIPE_SECRET_KEY) {
+                console.log('🔄 Attempting ad-hoc Stripe initialization...');
+                stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
+            }
 
-        if (!stripe) {
-            throw new Error('Stripe is not configured on this server.');
+            if (!stripe) {
+                throw new Error('Stripe is not configured. Missing STRIPE_SECRET_KEY?');
+            }
         }
 
         const session = await stripe.checkout.sessions.create(sessionOptions);
@@ -630,8 +676,13 @@ app.post('/create-checkout-session', async (req, res) => {
 
         res.json({ url: session.url });
     } catch (error) {
-        console.error('❌ Stripe Session Error:', error);
-        res.status(500).json({ error: error.message });
+        console.error('❌ Stripe Session Error Details:', {
+            message: error.message,
+            stack: error.stack,
+            type: error.type,
+            raw: error.raw
+        });
+        res.status(500).json({ error: `SESSION_ERROR: ${error.message}` });
     }
 });
 
@@ -1079,6 +1130,10 @@ app.post('/webhook', async (req, res) => {
             // ----------------------------------------------------------------------
             res.json({ received: true, email, funnel_stage: 'student' });
 
+            // Generate a temporary password if needed
+            const generatedPassword = Math.random().toString(36).slice(-8);
+            console.log(`🔑 Generated temporary password for ${email}`);
+
             // ----------------------------------------------------------------------
             // 🚀 ASYNC SECONDARY TASKS (Run in background)
             // ----------------------------------------------------------------------
@@ -1103,7 +1158,7 @@ app.post('/webhook', async (req, res) => {
                     console.log(`🔥 Provisioning Firebase for: ${email}`);
                     const userRecord = await firebaseAuth.createUser({
                         email: email,
-                        password: password,
+                        password: generatedPassword,
                         displayName: name,
                     });
 
@@ -1133,7 +1188,7 @@ app.post('/webhook', async (req, res) => {
 
                 // 📧 3. Send Emails & Slack
                 try {
-                    await sendWelcomeEmail(email, name, password);
+                    await sendWelcomeEmail(email, name, generatedPassword);
                     await sendAdminNotification(email, name, amountTotal, accessLevel);
                     await sendSlackNotification(name, email, amountTotal, accessLevel, session.metadata);
                 } catch (err) {
@@ -1331,23 +1386,41 @@ const runBackgroundAutomation = async () => {
 const fourDays = 4 * 24 * 60 * 60 * 1000;
 
 // --------------------------------------------------------------------------
-// 🤖 AUTOMATION CRON (PROCESSOR)
+// 🚀 THE DAILY PULSE (Combined Cron for Hobby Plan)
 // --------------------------------------------------------------------------
-app.all('/api/cron/process-automation', async (req, res) => {
+app.all('/api/cron/daily-pulse', async (req, res) => {
     const authHeader = req.headers['authorization'];
     const secret = process.env.CRON_SECRET;
 
-    // Security: Only allow if CRON_SECRET matches or if in development
     if (process.env.NODE_ENV === 'production' && (!secret || authHeader !== `Bearer ${secret}`)) {
-        console.warn('⚠️ Unauthorized Automation Trigger Attempt');
+        console.warn('⚠️ Unauthorized Daily Pulse Attempt');
         return res.status(401).json({ error: 'Unauthorized' });
     }
 
+    console.log('🌅 Starting The Daily Pulse...');
+    const results = {
+        automations: null,
+        fb_sync: null,
+        roi_report: null,
+        leaderboard: 'sent'
+    };
+
     try {
-        const results = await processAutomations();
+        // 1. Generate & Send ROI Report (Email) - HI PRIORITY
+        results.roi_report = await generateReport();
+
+        // 2. Sync Facebook Ad Spend
+        results.fb_sync = await syncFacebookSpend();
+
+        // 3. Process Automations (Abandoned Carts, Nurture Sequences)
+        results.automations = await processAutomations();
+
+        // 4. Send Leaderboard to Slack
+        await sendLeaderboardToSlack();
+
         res.json({ success: true, results });
     } catch (error) {
-        console.error('❌ Automation Process Failed:', error.message);
+        console.error('❌ Daily Pulse Failed:', error.message);
         res.status(500).json({ error: 'Failed', details: error.message });
     }
 });

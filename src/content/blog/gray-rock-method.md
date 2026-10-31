@@ -2,7 +2,7 @@
 title: "The Gray Rock Method: A Tactical Guide for High-Conflict Divorce"
 description: "Master the Gray Rock Method to neutralize a narcissistic ex-wife. Learn the tactical communication protocol to keep your frame and protect your peace."
 publishDate: "February 16, 2026"
-image: "../../assets/images/blog/gray-rock-method.png"
+image: "../../assets/images/blog/gray-rock.png"
 category: "Divorce Strategy"
 categoryUrl: "/category/divorce-strategy"
 readTime: "8 min read"

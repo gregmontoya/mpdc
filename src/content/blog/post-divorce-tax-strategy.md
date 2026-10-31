@@ -2,7 +2,7 @@
 title: "Post-Divorce Tax Strategy: Protecting Your New Income from the IRS"
 description: "A tactical guide to navigating the complex tax changes after divorce. Learn how to optimize filing status, dependants, and deductions in your second act."
 publishDate: "February 16, 2026"
-image: "../../assets/images/blog/divorce-tax-strategy.png"
+image: "../../assets/images/blog/tax-strategy.png"
 category: "Financial Recovery"
 categoryUrl: "/category/financial-recovery"
 readTime: "9 min read"

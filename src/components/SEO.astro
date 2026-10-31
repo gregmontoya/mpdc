@@ -12,7 +12,7 @@ import seoConfig from '../data/seo-config.json';
 const {
   title: propTitle,
   description: propDescription,
-  image = '/images/social-share.jpg',
+  image = '/images/social-preview.png',
   url,
   type = 'website',
 } = Astro.props;
@@ -28,7 +28,8 @@ const title = propTitle || config.title || "Men's Post-Divorce Coaching";
 const description = propDescription || config.description || "Elite recovery systems and tactical mindset training for men after divorce.";
 
 // 🔗 Canonical Normalization (Force no trailing slash to match sitemap)
-const canonicalURL = url || new URL(path, Astro.site);
+const siteUrl = Astro.site?.toString().replace(/\/$/, '') || 'https://menspostdivorcecoaching.com';
+const canonicalURL = url || (path === '/' ? siteUrl : `${siteUrl}${path}`);
 
 // 🗺️ Server-Side Breadcrumb Logic
 const parts = path.split('/').filter(p => p);
@@ -37,19 +38,19 @@ const breadcrumbs = [
     "@type": "ListItem",
     "position": 1,
     "name": "Home",
-    "item": "https://menspostdivorcecoaching.com/"
+    "item": siteUrl
   }
 ];
 
-let builtPath = "https://menspostdivorcecoaching.com/";
+let builtPath = siteUrl;
 parts.forEach((part, index) => {
-  builtPath += part + "/";
+  builtPath += "/" + part;
   const name = part.charAt(0).toUpperCase() + part.slice(1).replace(/-/g, ' ');
   breadcrumbs.push({
     "@type": "ListItem",
     "position": index + 2,
     "name": name,
-    "item": builtPath.replace(/\/$/, '')
+    "item": builtPath
   });
 });
 
@@ -120,6 +121,16 @@ const breadcrumbSchema = {
 <!-- 📊 Google Analytics & FB Pixel (CWV Optimized Delayed Load) -->
 <!-- 📊 Google Analytics & FB Pixel (Partytown Optimized) -->
 <script type="text/partytown" is:inline>
+  // 🛡️ Dynamic Stealth & Geo Detection (Client-Side)
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1');
+  const isBot = /bot|googlebot|crawler|spider|robot|crawling|Lighthouse|PageSpeed/i.test(navigator.userAgent);
+  const isExcludedGeo = tz.includes('Lisbon') || tz.includes('Madrid') || tz.includes('London');
+  const isUS = tz.includes('America');
+  
+  // Stealth mode blocks tracking for internal/dev/bot traffic
+  const isStealth = (isDev || isBot || isExcludedGeo);
+
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   
@@ -132,6 +143,11 @@ const breadcrumbSchema = {
     } catch (e) {}
   }
 
+  // Auto-grant for US users if no preference set
+  if (!initialPrefs && isUS) {
+    initialPrefs = { analytics: true, marketing: true };
+  }
+
   gtag('consent', 'default', {
     'ad_storage': initialPrefs?.marketing ? 'granted' : 'denied',
     'ad_user_data': initialPrefs?.marketing ? 'granted' : 'denied',
@@ -140,11 +156,7 @@ const breadcrumbSchema = {
   });
 
   gtag('js', new Date());
-</script>
 
-<script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
-
-<script type="text/partytown" is:inline define:vars={{ isStealth, isUS }}>
   // 1. GA4 Configuration
   if (isStealth) {
     gtag('config', 'G-T26PKTMJB1', { 'developer_mode': true });
@@ -153,16 +165,8 @@ const breadcrumbSchema = {
   }
 
   // 2. Load heavy trackers if consent exists or US auto-grant applies
-  const consentCookie = document.cookie.split('; ').find(row => row.startsWith('cookie_consent='));
-  let prefs = null;
-  if (consentCookie) {
-    try { prefs = JSON.parse(decodeURIComponent(consentCookie.split('=')[1])); } catch (e) {}
-  }
+  let prefs = initialPrefs;
   
-  if (!prefs && isUS) {
-    prefs = { analytics: true, marketing: true };
-  }
-
   if (prefs?.marketing && !isStealth) {
     // Facebook Pixel
     !function(f,b,e,v,n,t,s)
@@ -188,8 +192,24 @@ const breadcrumbSchema = {
   }
 </script>
 
+<script type="text/partytown" src="https://www.googletagmanager.com/gtag/js?id=G-T26PKTMJB1"></script>
+
 <script is:inline>
-  // PostHog and Event Listeners (Main Thread for UI responsiveness)
+  // 🦔 PostHog Initialization (Main Thread for UI Tracking)
+  !function(t,e){var o,n,p,r;e.__SV||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}p=t.createElement("script"),p.type="text/javascript",p.async=!0,p.src=s.api_host.replace(".js","")+"/static/array.js",(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r);var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],u.toString=function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e},u.people.toString=function(){return u.toString(1)+".people (stub)"},o="capture identify alias people.set people.set_once set_config register register_once unregister opt_out_capturing has_opted_out_capturing opt_in_capturing reset isFeatureEnabled onFeatureFlags getFeatureFlag getFeatureFlagPayload reloadFeatureFlags group updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures onSessionId getSurveys getActiveMatchingSurveys renderSurvey".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+  
+  const tz = Intl.DateTimeFormat().resolvedOptions().timeZone;
+  const isDev = window.location.hostname === 'localhost' || window.location.hostname.includes('127.0.0.1');
+  const isBot = /bot|googlebot|crawler|spider|robot|crawling|Lighthouse|PageSpeed/i.test(navigator.userAgent);
+  if (!isDev && !isBot) {
+    posthog.init('phc_qVFegCTg52rEpI4pD5afyeRljBiFwbZzURtyYAzEL2c', {
+      api_host: 'https://us.i.posthog.com',
+      person_profiles: 'identified_only', 
+      capture_performance: true
+    });
+  }
+
+  // PostHog and Event Listeners
   window.addEventListener('cookie-consent-updated', (event) => {
       const prefs = event.detail;
       if (window.gtag) {
@@ -200,10 +220,18 @@ const breadcrumbSchema = {
           'analytics_storage': prefs.analytics ? 'granted' : 'denied'
         });
       }
+      
+      // PostHog Opt-in/out
+      if (window.posthog) {
+        if (prefs.analytics) posthog.opt_in_capturing();
+        else posthog.opt_out_capturing();
+      }
+
       // Re-trigger Partytown script if needed
       window.dispatchEvent(new CustomEvent('pt-reload'));
   });
 </script>
+
 
 <noscript>
   <img height="1" width="1" style="display:none" src="https://www.facebook.com/tr?id=1524876641955362&ev=PageView&noscript=1" />

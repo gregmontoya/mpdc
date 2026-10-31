@@ -2,7 +2,7 @@
 title: "The Opportunity Cost of Bitterness: Why Anger is Your Biggest Financial Drain"
 description: "Is your divorce resentment costing you six figures? Discover the mindset economics of post-divorce recovery and how to reclaim your focus for wealth creation."
 publishDate: "February 16, 2026"
-image: "../../assets/images/blog/economics-of-bitterness.png"
+image: "../../assets/images/blog/economics-bitterness.png"
 category: "Financial Recovery"
 categoryUrl: "/category/financial-recovery"
 readTime: "7 min read"

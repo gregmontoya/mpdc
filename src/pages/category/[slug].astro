@@ -22,7 +22,8 @@ export async function getStaticPaths() {
         const postsSnapshot = await db.collection('posts').get();
         firestorePosts = postsSnapshot.docs.map(doc => doc.data());
     } catch (e) {
-        console.warn("Build-time Firestore fetch failed, using local only.");
+        console.error("CRITICAL: Build-time Firestore fetch failed for category paths!");
+        console.error(e);
     }
 
     const allPosts = [...localPosts.map(p => p.data), ...firestorePosts];

@@ -2,7 +2,7 @@
 title: "The 12-Month Credit Reset: Rebuilding Your Financial Foundation"
 description: "Has your divorce destroyed your credit score? Follow the tactical 12-month protocol to rebuild your financial frame and secure your next home or vehicle."
 publishDate: "February 16, 2026"
-image: "../../assets/images/blog/credit-reset-protocol.png"
+image: "../../assets/images/blog/credit-reset.png"
 category: "Financial Recovery"
 categoryUrl: "/category/financial-recovery"
 readTime: "8 min read"

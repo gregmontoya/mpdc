@@ -2,18 +2,27 @@ const { createClient } = require('@supabase/supabase-js');
 const { Resend } = require('resend');
 const axios = require('axios');
 const crypto = require('crypto');
-require('dotenv').config({ path: './.env.local' });
-
-// Config
-const SUPABASE_URL = process.env.SUPABASE_URL;
-const SUPABASE_KEY = process.env.SUPABASE_KEY;
-const RESEND_API_KEY = process.env.RESEND_API_KEY;
-const RECIPIENT_EMAIL = ['gregmontoya1@gmail.com', 'amorganatm@gmail.com'];
-
-const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-const resend = new Resend(RESEND_API_KEY);
 
 async function generateReport() {
+    // Config - Try to get from process.env (Vercel) or .env.local
+    const SUPABASE_URL = process.env.SUPABASE_URL;
+    // Use the Service Role Key for backend reporting to bypass RLS
+    const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY;
+    const RESEND_API_KEY = process.env.RESEND_API_KEY;
+    const RECIPIENT_EMAIL = ['gregmontoya1@gmail.com', 'amorganatm@gmail.com'];
+
+    if (!SUPABASE_URL || !SUPABASE_KEY || !RESEND_API_KEY) {
+        console.error('❌ Missing Reporting Credentials:', {
+            hasUrl: !!SUPABASE_URL,
+            hasKey: !!SUPABASE_KEY,
+            hasResend: !!RESEND_API_KEY
+        });
+        return { success: false, error: 'Missing Credentials' };
+    }
+
+    const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
+    const resend = new Resend(RESEND_API_KEY);
+
     console.log('🚀 Starting Daily ROI Report Generation...');
 
     try {
@@ -264,6 +273,7 @@ async function generateReport() {
 
         if (error) {
             console.error('❌ Resend Error:', error);
+            return { success: false, error };
         } else {
             console.log('✅ Daily Report Sent Successfully!', data);
         }
@@ -271,9 +281,14 @@ async function generateReport() {
         // 7. Facebook CAPI Sync
         console.log('🚀 Syncing conversions to Facebook AI...');
         try {
-            // FETCH ALL-TIME STUDENTS
-            console.log('📡 Fetching all-time students for Facebook CAPI training...');
-            const { data: students } = await supabase.from('contacts').select('*').eq('funnel_stage', 'student');
+            // FETCH RECENT STUDENTS (Last 7 days - FB limited window)
+            console.log('📡 Fetching recent students for Facebook CAPI training...');
+            const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
+            const { data: students } = await supabase
+                .from('contacts')
+                .select('*')
+                .eq('funnel_stage', 'student')
+                .gt('created_at', sevenDaysAgo);
 
             if (students && students.length > 0) {
                 console.log(`🎯 Found ${students.length} students total. Syncing to Facebook AI...`);
@@ -296,9 +311,57 @@ async function generateReport() {
             console.error('⚠️ FB CAPI Sync failed, but report was sent:', capiErr.message);
         }
 
+        // 8. Slack "Winner" Alerts (NEW)
+        const SLACK_WEBHOOK_URL = process.env.SLACK_WEBHOOK_URL;
+        if (SLACK_WEBHOOK_URL) {
+            console.log('📢 Checking for Winning Campaigns to announce in Slack...');
+            const winners = Object.values(campaignStats).filter(c =>
+                c.spend > 20 && (c.revenue / c.spend) > 1.8
+            );
+
+            for (const c of winners) {
+                const roas = (c.revenue / c.spend).toFixed(2);
+                const blocks = [
+                    {
+                        type: "header",
+                        text: {
+                            type: "plain_text",
+                            text: "🔥 SCALE ALERT: Ad Winner Detected!",
+                            emoji: true
+                        }
+                    },
+                    {
+                        type: "section",
+                        text: {
+                            type: "mrkdwn",
+                            text: `*Campaign:* ${c.name}\n*ROAS:* ${roas}x | *Revenue:* $${c.revenue} | *Spend:* $${c.spend.toFixed(2)}`
+                        }
+                    },
+                    {
+                        type: "context",
+                        elements: [{
+                            type: "mrkdwn",
+                            text: "💡 *Recommendation:* Increase daily budget by 20% to scale this winner."
+                        }]
+                    }
+                ];
+
+                await axios.post(SLACK_WEBHOOK_URL, { blocks }).catch(err => console.error('Slack Alert Error:', err.message));
+            }
+        }
+
+        return { success: true, data };
+
     } catch (err) {
         console.error('❌ Error executing report:', err);
+        return { success: false, error: err.message };
     }
 }
 
-generateReport();
+// Allow standalone execution for local testing
+if (require.main === module) {
+    require('dotenv').config({ path: './.env.local' });
+    generateReport().then(() => process.exit(0)).catch(() => process.exit(1));
+}
+
+module.exports = { generateReport };

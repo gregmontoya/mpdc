@@ -36,3 +36,11 @@
 - [x] **Execute Technical Performance Plan**: Partytown implemented, fonts self-hosted, hero preloading active.
 - [x] **Self-Host Key Fonts**: Montserrat and Bebas Neue served locally.
 - [x] **Implement Partytown**: Moved tracking pixels to background workers.
+
+---
+
+## 🚨 One Final (Very Small) Tech Tip
+Since we locked the CRM behind a secure gate:
+
+- **On your computer**: To view the CRM pages (like the ROI dashboard), you might need to enter the admin password (`mpdc2026`) when prompted.
+- **Live Site**: If you are browsing the live site (not the local one), you'll need to update your environment variables in Vercel (add `SUPABASE_SERVICE_ROLE_KEY` and `ADMIN_API_SECRET`) so the live dashboard can talk to the database.

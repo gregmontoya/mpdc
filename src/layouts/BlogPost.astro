@@ -13,9 +13,13 @@ const { title, description, publishDate, author = "Alex Morgan", category, categ
 // Fetch related articles
 const allPosts = await getCollection('blog');
 const relatedPosts = allPosts
-    .filter(post => post.slug !== Astro.props.slug) // Use Astro.props.slug or pass slug in props
+    .filter(post => post.slug !== Astro.props.slug)
     .sort(() => Math.random() - 0.5)
     .slice(0, 3);
+
+const displayImage = typeof frontmatter.image === 'object' ? frontmatter.image : (frontmatter.image || "/images/blog/rebuild-life.png");
+const imageUrl = typeof displayImage === 'object' ? displayImage.src : displayImage;
+
 const articleSchema = {
   "@context": "https://schema.org",
   "@type": "Article",
@@ -34,7 +38,7 @@ const articleSchema = {
   },
   "image": {
     "@type": "ImageObject",
-    "url": `https://menspostdivorcecoaching.com${frontmatter.image || "/images/blog/rebuild-life.png"}`
+    "url": imageUrl.startsWith('http') ? imageUrl : `https://menspostdivorcecoaching.com${imageUrl}`
   },
   "abstract": aeoSummary
 };

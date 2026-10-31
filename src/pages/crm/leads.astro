@@ -20,6 +20,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="/crm/styles.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.jsdelivr.net/npm/sortablejs@1.15.0/Sortable.min.js"></script>
 </head>
 
 <body>
@@ -120,229 +121,275 @@
 
         <!-- Main Content -->
         <main class="main-content">
-            <!-- Header -->
             <header class="top-header">
-                <div class="page-title">
-                    <h2>Lead Pipeline <span class="header-count">24 Active</span></h2>
+                <div class="header-left">
+                    <h1>Leads Pipeline</h1>
+                    <p>Total Revenue Pipeline: <span id="pipeline-total"
+                            style="font-weight:700; color:#42B395;">$0</span></p>
                 </div>
-                <!-- View Toggles -->
-                <div class="view-toggles">
-                    <button class="toggle-btn active" title="Kanban View"><i
-                            class="fa-solid fa-table-columns"></i></button>
-                    <button class="toggle-btn" title="List View"><i class="fa-solid fa-list"></i></button>
-                </div>
-
-                <div class="header-actions">
-                    <div class="search-bar compact">
+                <div class="header-right">
+                    <div class="search-bar">
                         <i class="fa-solid fa-magnifying-glass"></i>
-                        <input type="text" placeholder="Search leads...">
+                        <input type="text" placeholder="Search prospects...">
                     </div>
-                    <button class="btn btn-primary" id="openNewLeadModal">
-                        <i class="fa-brands fa-instagram"></i> Add IG Lead
-                    </button>
+                    <button class="btn" id="bulkEnrichBtn"
+                        style="background:#f2f5ff; color:#6d83a3; border:1px solid #cbd6e2;"><i class="fa-solid fa-bolt"
+                            style="color:#f5c26b;"></i> Auto-Enrich List</button>
+                    <button class="btn btn-primary" id="addLeadBtn"><i class="fa-solid fa-plus"></i> Add Lead</button>
                 </div>
             </header>
 
-            <!-- Kanban Board -->
             <div class="kanban-board">
-
-                <!-- Column: Cart Abandonments (REAL DATA) -->
+                <!-- Columns -->
                 <div class="kanban-column">
                     <div class="column-header">
-                        <span class="col-name" style="color:#C4613A;">Cart Abandonments</span>
-                        <span class="col-count" id="count-web-leads">0</span>
+                        <div class="col-info"><span class="col-name" style="color:#C4613A;">Cart
+                                Abandonments</span><span class="col-count" id="count-web-leads">0</span></div>
+                        <span class="col-value" id="value-web-leads">$0</span>
                     </div>
-                    <div class="kanban-cards" id="col-web-leads">
-                        <!-- Injected by Supabase JS -->
-                        <div class="kanban-card skeleton">
-                            <div style="height:20px; background:#ddd; width:60%; margin-bottom:10px;"></div>
-                            <div style="height:40px; background:#eee;"></div>
-                        </div>
-                    </div>
+                    <div class="kanban-cards" id="col-web-leads"></div>
                 </div>
-
-                <!-- Column: New DMs -->
                 <div class="kanban-column">
                     <div class="column-header">
-                        <span class="col-name">New DMs (Inbox)</span>
-                        <span class="col-count">5</span>
-                    </div>
-                    <div class="kanban-cards">
-                        <!-- Card 1 -->
-                        <div class="kanban-card">
-                            <div class="card-header">
-                                <span class="contact-name">Mark S.</span>
-                                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i> @mark_s_88</a>
-                            </div>
-                            <p class="card-preview">"Hey, saw your post about custody battles..."</p>
-                            <div class="card-footer">
-                                <span class="time-badge warning"><i class="fa-regular fa-clock"></i> 2h ago</span>
-                                <div class="avatar-group">
-                                    <div class="avatar-xs">GM</div>
-                                </div>
-                            </div>
+                        <div class="col-info">
+                            <span class="col-name" style="color:#2E6EDF;">Email Prospects</span>
+                            <span class="col-count" id="count-email-leads">0</span>
                         </div>
-
-                        <!-- Card 2 -->
-                        <div class="kanban-card">
-                            <div class="card-header">
-                                <span class="contact-name">David R.</span>
-                                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i> @dave_runner</a>
-                            </div>
-                            <p class="card-preview">"Is this program suitable for newly separated?"</p>
-                            <div class="card-footer">
-                                <span class="time-badge"><i class="fa-regular fa-clock"></i> 5h ago</span>
-                                <div class="avatar-group">
-                                    <div class="avatar-xs">GM</div>
-                                </div>
-                            </div>
-                        </div>
+                        <span class="col-value" id="value-email-leads">$0</span>
                     </div>
+                    <!-- Source Detail Breakdown -->
+                    <div class="column-filter-bar" style="padding: 0 16px 10px 16px; display:flex; gap:5px;">
+                        <button class="btn-xs active filter-btn" data-filter="all" data-col="col-email"
+                            style="font-size:0.6rem;">All</button>
+                        <button class="btn-xs filter-btn" data-filter="Manychat" data-col="col-email"
+                            style="font-size:0.6rem;">Manychat</button>
+                        <button class="btn-xs filter-btn" data-filter="legacy" data-col="col-email"
+                            style="font-size:0.6rem;">Imports</button>
+                    </div>
+                    <div class="kanban-cards" id="col-email"></div>
                 </div>
-
-                <!-- Column: Converstation Started -->
                 <div class="kanban-column">
                     <div class="column-header">
-                        <span class="col-name">In Conversation</span>
-                        <span class="col-count">8</span>
+                        <div class="col-info"><span class="col-name" style="color:#42B395;">New DMs</span><span
+                                class="col-count" id="count-new">0</span></div>
+                        <span class="col-value" id="value-new">$0</span>
                     </div>
-                    <div class="kanban-cards">
-                        <!-- Card -->
-                        <div class="kanban-card">
-                            <div class="card-header">
-                                <span class="contact-name">James Wilson</span>
-                                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i> @jwilson_gym</a>
-                            </div>
-                            <div class="tags">
-                                <span class="tag tag-purple">Post-Divorce</span>
-                            </div>
-                            <p class="card-preview">Discussing financial modules. Seems interested.</p>
-                            <div class="card-footer">
-                                <span class="time-badge"><i class="fa-regular fa-clock"></i> 1d ago</span>
-                                <div class="avatar-group">
-                                    <div class="avatar-xs">GM</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="kanban-cards" id="col-new"></div>
                 </div>
-
-                <!-- Column: Qualifying -->
                 <div class="kanban-column">
                     <div class="column-header">
-                        <span class="col-name">Qualifying</span>
-                        <span class="col-count">3</span>
+                        <div class="col-info"><span class="col-name">In Conversation</span><span class="col-count"
+                                id="count-convo">0</span></div>
+                        <span class="col-value" id="value-convo">$0</span>
                     </div>
-                    <div class="kanban-cards">
-                        <!-- Card -->
-                        <div class="kanban-card high-priority">
-                            <div class="card-header">
-                                <span class="contact-name">Tom H.</span>
-                                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i> @tommy_h</a>
-                            </div>
-                            <div class="tags">
-                                <span class="tag tag-red">Urgent</span>
-                                <span class="tag tag-blue">Custody</span>
-                            </div>
-                            <p class="card-preview">Sent verification questions. Waiting for income confirmation.</p>
-                            <div class="card-footer">
-                                <span class="time-badge"><i class="fa-regular fa-clock"></i> 30m ago</span>
-                                <div class="avatar-group">
-                                    <div class="avatar-xs">GM</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="kanban-cards" id="col-convo"></div>
                 </div>
-
-                <!-- Column: Call Booked -->
                 <div class="kanban-column">
                     <div class="column-header">
-                        <span class="col-name">Call Booked</span>
-                        <span class="col-count">2</span>
+                        <div class="col-info"><span class="col-name" style="color:#F5C26B;">Qualifying</span><span
+                                class="col-count" id="count-qualifying">0</span></div>
+                        <span class="col-value" id="value-qualifying">$0</span>
                     </div>
-                    <div class="kanban-cards">
-                        <!-- Card -->
-                        <div class="kanban-card">
-                            <div class="card-header">
-                                <span class="contact-name">Chris P.</span>
-                                <a href="#" class="social-link"><i class="fa-brands fa-instagram"></i>
-                                    @chris_p_photo</a>
-                            </div>
-                            <div class="meeting-info">
-                                <i class="fa-solid fa-video"></i> Tomorrow, 2:00 PM
-                            </div>
-                            <div class="card-footer">
-                                <span class="time-badge success">Confirmed</span>
-                                <div class="avatar-group">
-                                    <div class="avatar-xs">GM</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    <div class="kanban-cards" id="col-qualifying"></div>
                 </div>
-
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <div class="col-info"><span class="col-name" style="color:#00a4bd;">Course Sent 🎁</span><span
+                                class="col-count" id="count-course-sent">0</span></div>
+                        <span class="col-value" id="value-course-sent">$0</span>
+                    </div>
+                    <div class="kanban-cards" id="col-course-sent"></div>
+                </div>
+                <div class="kanban-column">
+                    <div class="column-header">
+                        <div class="col-info"><span class="col-name" style="color:#8168B1;">Call Booked</span><span
+                                class="col-count" id="count-booked">0</span></div>
+                        <span class="col-value" id="value-booked">$0</span>
+                    </div>
+                    <div class="kanban-cards" id="col-booked"></div>
+                </div>
             </div>
         </main>
     </div>
 
-    <!--Add Lead Modal-->
-        <div id="addLeadModal" class="modal-overlay hidden">
-            <div class="modal">
-                <div class="modal-header">
-                    <h3>Add New Lead</h3>
-                    <button class="close-modal"><i class="fa-solid fa-xmark"></i></button>
-                </div>
-                <div class="modal-body">
-                    <form id="addLeadForm">
-                        <div class="form-group">
-                            <label>Instagram Handle</label>
-                            <div class="input-icon">
-                                <i class="fa-brands fa-instagram"></i>
-                                <input type="text" placeholder="@username" required>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Lead Name (Optional)</label>
-                            <input type="text" placeholder="First Last">
-                        </div>
-
-                        <div class="form-row">
-                            <div class="form-group">
-                                <label>Status</label>
-                                <select>
-                                    <option value="new">New DM</option>
-                                    <option value="convo">In Conversation</option>
-                                    <option value="qualifying">Qualifying</option>
-                                    <option value="booked">Call Booked</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>Pain Point</label>
-                                <select>
-                                    <option value="">Select...</option>
-                                    <option value="custody">Custody</option>
-                                    <option value="financial">Financial</option>
-                                    <option value="emotional">Emotional/Recovery</option>
-                                </select>
-                            </div>
-                        </div>
-
-                        <div class="form-group">
-                            <label>Initial Notes</label>
-                            <textarea rows="3" placeholder="Paste key details from first DM..."></textarea>
-                        </div>
-
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-outline close-modal-btn">Cancel</button>
-                            <button type="submit" class="btn btn-primary">Save Lead</button>
-                        </div>
-                    </form>
+    <!-- Side Panel -->
+    <div class="side-panel-overlay" id="sidePanelOverlay"></div>
+    <aside class="side-panel" id="leadSidePanel">
+        <div class="side-panel-header">
+            <button class="close-panel" id="closeSidePanel"><i class="fa-solid fa-xmark"></i></button>
+            <div class="user-profile">
+                <div class="avatar" id="panelAvatar">U</div>
+                <div class="user-info">
+                    <span class="user-name" id="panelNameTitle"
+                        style="color:#33475b; font-size:1.1rem;">Loading...</span>
+                    <span class="user-role" id="panelStatus" style="color:#516f90;">Prospect</span>
                 </div>
             </div>
         </div>
 
+        <div class="tab-container">
+            <div class="tab active" data-tab="activity">Details</div>
+            <div class="tab" data-tab="ai">AI Outreach</div>
+            <div class="tab" data-tab="notes">Notes</div>
+            <div class="tab" data-tab="sequences">Sequences</div>
+        </div>
+
+        <div class="side-panel-body">
+            <!-- Details Section -->
+            <div class="panel-section active" id="activitySection">
+                <span class="section-title">Edit Deal Info</span>
+                <div class="info-grid">
+                    <div class="info-item">
+                        <label>Deal Value ($)</label>
+                        <input type="number" id="editDealValue"
+                            style="width:100%; padding:8px; border:1px solid #cbd6e2; border-radius:4px; font-weight:700; color:#42B395;">
+                        <button class="btn-xs" id="saveValueBtn" style="margin-top:8px; width:100%;">Update
+                            Deal</button>
+                    </div>
+                    <div class="info-item">
+                        <label>Pain Point</label>
+                        <select id="editPainPoint"
+                            style="width:100%; padding:8px; border:1px solid #cbd6e2; border-radius:4px;">
+                            <option value="Custody">Custody Battle</option>
+                            <option value="Divorce">Rough Divorce</option>
+                            <option value="Finances">Financial Split</option>
+                            <option value="Co-parenting">Co-parenting Stress</option>
+                            <option value="General">General Support</option>
+                        </select>
+                    </div>
+                </div>
+
+                <span class="section-title" style="margin-top:24px;">Lead Foundation</span>
+                <div class="info-grid">
+                    <div class="info-item"><label>Full Name</label>
+                        <p id="panelLeadName">--</p>
+                    </div>
+                    <div class="info-item"><label>Email/IG</label>
+                        <p id="panelHandle">--</p>
+                    </div>
+                </div>
+
+                <div style="margin-top:24px;">
+                    <button class="btn btn-primary" id="markCourseSentBtn" style="width:100%; background:#2E6EDF;"><i
+                            class="fa-solid fa-gift"></i> Mark Course Sent</button>
+                </div>
+
+                <!-- CLAY STYLE ENRICHMENT -->
+                <span class="section-title" style="margin-top:24px;"><i class="fa-solid fa-bolt"
+                        style="color:#f5c26b;"></i> Web Enrichment</span>
+
+                <div id="enrichmentStatus" style="font-size:0.8rem; color:#7c98b6; text-align:center; padding:10px;">
+                    Ready to extract public data.</div>
+
+                <div id="enrichedDataBlock"
+                    style="display:none; background:#f9fafb; border:1px solid #cbd6e2; border-radius:6px; padding:12px; margin-bottom:12px;">
+                    <div style="margin-bottom:8px;"><label
+                            style="font-size:0.7rem; color:#516f90; font-weight:700;">LOCATION</label><br><span
+                            id="eLocation" style="font-size:0.85rem; font-weight:600;">--</span></div>
+                    <div style="margin-bottom:8px;"><label style="font-size:0.7rem; color:#516f90; font-weight:700;">BIO
+                            KEYWORDS</label><br><span id="eBio" style="font-size:0.85rem; font-style:italic;">--</span>
+                    </div>
+                    <div><label style="font-size:0.7rem; color:#516f90; font-weight:700;">LAST POSTED</label><br><span
+                            id="eTopic" style="font-size:0.85rem;">--</span></div>
+                </div>
+
+                <button class="btn" id="runEnrichmentBtn"
+                    style="width:100%; background:#f2f5ff; color:#6d83a3; border:1px solid #cbd6e2;"><i
+                        class="fa-solid fa-radar"></i> Run Data Scrape</button>
+            </div>
+
+            <!-- AI Section -->
+            <div class="ai-box" id="aiSection" style="display:none;">
+                <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:12px;">
+                    <span style="font-weight:700; color:#33475b; font-size:0.8rem;"><i
+                            class="fa-solid fa-wand-magic-sparkles" style="color:#ff7a59;"></i> GENERATED HOOK</span>
+                    <button class="btn-xs" id="generateAIHook">Regenerate</button>
+                </div>
+                <p id="aiHookOutput" style="font-style:italic; color:#516f90; font-size:0.9rem; line-height:1.6;">Click
+                    generate to create outreach...</p>
+                <button class="btn btn-primary" id="copyHookBtn"
+                    style="width:100%; margin-top:16px; font-size:0.8rem;">Copy to Clipboard</button>
+            </div>
+
+            <!-- Notes Section -->
+            <div class="panel-section" id="notesSection" style="display:none;">
+                <span class="section-title">Timeline & Notes</span>
+                <textarea id="noteInput"
+                    style="width:100%; height:100px; padding:12px; border:1px solid #cbd6e2; border-radius:4px; margin-bottom:12px;"
+                    placeholder="Add a note..."></textarea>
+                <button class="btn btn-primary" id="saveNoteBtn" style="width:100%;">Save Note</button>
+                <div class="timeline" id="leadTimeline" style="margin-top:20px;"></div>
+            </div>
+            <!-- Sequences Section -->
+            <div class="panel-section" id="sequencesSection" style="display:none;">
+                <span class="section-title">Email Sequences</span>
+                <div style="background:#f9fafb; border:1px solid #e5e7eb; border-radius:6px; padding:16px;">
+                    <div style="margin-bottom:16px;">
+                        <label style="display:block; font-size:0.75rem; color:#6b7280; margin-bottom:4px;">Select
+                            Sequence</label>
+                        <select id="sequenceSelect"
+                            style="width:100%; padding:10px; border:1px solid #d1d5db; border-radius:4px;">
+                            <option value="">-- Choose a Campaign --</option>
+                            <option value="new_follower">New Follower Welcome (5 Days)</option>
+                            <option value="abandoned_cart">Abandoned Cart Recovery (3 Days)</option>
+                            <option value="re_engagement">90-Day Re-engagement</option>
+                        </select>
+                    </div>
+                    <button class="btn btn-primary" id="enrollBtn" style="width:100%;">Enroll Lead in Sequence</button>
+                </div>
+
+                <div style="margin-top:24px;">
+                    <span class="section-title">Active Enrollment</span>
+                    <div id="activeSequenceStatus"
+                        style="padding:12px; border:1px dashed #cbd6e2; border-radius:4px; text-align:center; color:#7c98b6; font-size:0.85rem;">
+                        No active sequence enrollment.
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Social Quick-Add Modal -->
+    <div class="modal-overlay" id="addLeadModalOverlay">
+        <div class="modal">
+            <div class="modal-header">
+                <h3><i class="fa-solid fa-user-plus"></i> Social Quick-Add</h3>
+                <button class="close-panel" id="closeAddLeadModal"><i class="fa-solid fa-xmark"></i></button>
+            </div>
+            <div class="modal-body">
+                <div class="form-group">
+                    <label>Instagram Handle</label>
+                    <input type="text" id="newLeadHandle" placeholder="@username">
+                </div>
+                <div class="form-group">
+                    <label>Full Name (Optional)</label>
+                    <input type="text" id="newLeadName" placeholder="Lead Name">
+                </div>
+                <div class="form-group">
+                    <label>Primary Pain Point</label>
+                    <select id="newLeadPainPoint">
+                        <option value="Custody">Custody Battle</option>
+                        <option value="Divorce">Rough Divorce</option>
+                        <option value="Finances">Financial Split</option>
+                        <option value="Co-parenting">Co-parenting Stress</option>
+                        <option value="General" selected>General Support</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Initial Note</label>
+                    <textarea id="newLeadNote" rows="3" placeholder="e.g. In DMs, wants the free product..."></textarea>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="btn" id="cancelAddLead" style="background:#eaf0f6; color:#516f90;">Cancel</button>
+                <button class="btn btn-primary" id="saveNewLeadBtn">Save to CRM</button>
+            </div>
+        </div>
+    </div>
+
+
+    <!-- Secure Auth Gate -->
+    <script is:inline src="/crm/auth-gate.js"></script>
         <!--Supabase SDK-- >
     <!-- Supabase SDK -->
     <script is:inline src="https://unpkg.com/@supabase/supabase-js@2"></script>

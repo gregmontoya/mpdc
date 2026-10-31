@@ -55,7 +55,7 @@ The CEO Mindset flips this. You must first reconstruct your **Identity** as a ma
 How do you practically install this? You stop asking "How do I feel about this?" and start asking "Does this move the needle on my primary objective?"
 
 ### Use the No-Reaction Protocol
-A CEO doesn't get into a shouting match with a vendor who isn't delivering. They simply review the contract and make a strategic move. When you use the <a href="/learn/stop-reactionary-communication-ex-wife">No-Reaction Protocol</a>, you are protecting your executive bandwidth. Every minute you spend ruminating on her new life is a minute of "Company Time" you are wasting on a legacy project that has already been liquidated.
+A CEO doesn't get into a shouting match with a vendor who isn't delivering. They simply review the contract and make a strategic move. This is especially true if you are dealing with [Narcissistic Behavioral Patterns](/learn/narcissistic-wife-patterns)—emotional chaos is her environment, but clarity is yours. When you use the <a href="/learn/stop-reactionary-communication-ex-wife">No-Reaction Protocol</a>, you are protecting your executive bandwidth. Every minute you spend ruminating on her new life is a minute of "Company Time" you are wasting on a legacy project that has already been liquidated.
 
 ### Audit Your "Personnel"
 Are you hanging out with men who reinforce the "Victim Loop"? A CEO clears out the toxic players. Surround yourself with men who operate at a higher level than you—men who have already moved into the "Abundance" phase.

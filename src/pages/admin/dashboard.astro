@@ -20,6 +20,9 @@
     <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
     <!-- Ensure FA is loaded -->
     <!-- Supabase Client -->
+
+    <!-- Secure Auth Gate -->
+    <script is:inline src="/crm/auth-gate.js"></script>
     <script is:inline src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-app-compat.js"></script>
     <script is:inline src="https://www.gstatic.com/firebasejs/10.8.0/firebase-firestore-compat.js"></script>
@@ -229,56 +232,25 @@
     <!-- Authentication Gate (Simple) -->
     <script is:inline>
         // SUPABASE CONFIG (PUBLIC CLIENT)
-        const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
 
-        // FIX: Use a different name than the library itself
-        const sbClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-
-        // Simple Passcode Gate to prevent random internet access
-        // (Note: This is not bank-grade security, but sufficient for hiding a page)
-        function checkAuth() {
-            if (localStorage.getItem('mpdc_admin_auth') !== 'true') {
-                const pass = prompt("Enter Admin Password:");
-                if (pass === 'mpdc2026') { // Hardcoded convenient password
-                    localStorage.setItem('mpdc_admin_auth', 'true');
-                } else {
-                    alert("Access Denied");
-                    document.body.innerHTML = '<h1 style="text-align:center; margin-top:50px;">ACCESS DENIED</h1>';
-                    return false;
-                }
-            }
-            return true;
-        }
-
-        // FIREBASE CONFIG
-        const firebaseConfig = {
-            apiKey: "AIzaSyBSxrgaNnTzRMqo-9C47vZfnTTDRqyyb10",
-            authDomain: "mpdc-website-32dae.firebaseapp.com",
-            projectId: "mpdc-website-32dae",
-            storageBucket: "mpdc-website-32dae.firebasestorage.app",
-            messagingSenderId: "210457065303",
-            appId: "1:210457065303:web:72882e734aa8054d283012"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const fb_db = firebase.firestore();
-
+        // 🔒 MPDC SECURE DATA LAYER
         async function fetchData() {
             if (!checkAuth()) return;
 
-            // 1. Fetch Leads (Supabase)
-            const { data: leads, error: leadError } = await sbClient
-                .from('leads')
-                .select('*')
-                .order('created_at', { ascending: false })
-                .limit(10);
+            try {
+                // Use the ROI proxy which already fetches both tables we need
+                const response = await fetch('/api/roi', {
+                    headers: {
+                        'Authorization': `Bearer ${localStorage.getItem('mpdc_admin_auth_token') || 'local-dev-bypass'}`
+                    }
+                });
 
-            // 2. Fetch Students (Supabase)
-            const { data: profiles, error: profileError } = await sbClient
-                .from('profiles')
-                .select('*')
-                .order('created_at', { ascending: false })
-                .limit(10);
+                if (!response.ok) throw new Error('Proxy failed');
+                const { contacts, performance } = await response.json();
+                
+                // Map to legacy variable names
+                const leads = contacts.filter(c => c.funnel_stage !== 'student');
+                const profiles = contacts.filter(c => c.funnel_stage === 'student');
 
             // 3. FETCH FIREBASE DATA (The "Plumbing" Source of Truth)
             let fbActivity = [];

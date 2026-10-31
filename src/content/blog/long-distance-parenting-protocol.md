@@ -2,7 +2,7 @@
 title: "Long-Distance Parenting: Leading Your Home from 1,000 Miles Away"
 description: "Separated by states or time zones? Discover the tactical protocol for long-distance fathers to maintain a dominant parental presence and lead their children from afar."
 publishDate: "February 16, 2026"
-image: "../../assets/images/blog/long-distance-parenting.png"
+image: "../../assets/images/blog/long-distance-dad.png"
 category: "Co-Parenting"
 categoryUrl: "/category/co-parenting"
 readTime: "8 min read"

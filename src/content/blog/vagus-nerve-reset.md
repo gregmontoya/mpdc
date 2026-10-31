@@ -2,7 +2,7 @@
 title: "Vagus Nerve Reset: Eliminating Post-Divorce Anxiety Attacks"
 description: "Suffering from heart palpitations and panic loops? Learn the tactical vagus nerve reset to shut down the fight-or-flight response and reclaim your biological frame."
 publishDate: "February 16, 2026"
-image: "../../assets/images/blog/vagus-nerve-reset.png"
+image: "../../assets/images/blog/biological-stress-divorce.png"
 category: "Mindset & Mental Health"
 categoryUrl: "/category/mindset-mental-health"
 readTime: "7 min read"

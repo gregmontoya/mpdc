@@ -3,7 +3,7 @@ title: "Parallel Parenting: The Tactical Protocol for High-Conflict Dads"
 description: "When co-parenting is impossible, Parallel Parenting is the solution. Learn the high-conflict custody strategy that protects your kids and your peace."
 publishDate: "February 16, 2026"
 image: "../../assets/images/blog/parallel-parenting.png"
-category: "Co-parenting"
+category: "Co-Parenting"
 categoryUrl: "/category/co-parenting"
 readTime: "9 min read"
 toc:
@@ -51,7 +51,7 @@ When you do communicate, you must use the [Gray Rock Method](/learn/gray-rock-me
 
 The number one trauma for children of divorce isn't the divorce itself—it's the **Conflict.** 
 
-By choosing Parallel Parenting, you are removing them from the "Message Delivery" role. You stop asking them, *"What did your mom say?"* and you stop using them as a bridge. You curate a peace-filled environment in your home that serves as their [Reality Anchor](/learn/rebuilding-your-reality-chain).
+By choosing Parallel Parenting, you are removing them from the "Message Delivery" role. You stop asking them, *"What did your mom say?"* and you stop using them as a bridge. This is especially critical if you are facing [Parental Alienation](/learn/parental-alienation-response-guide)—consistency is your only defense. You curate a peace-filled environment in your home that serves as their [Reality Anchor](/learn/rebuilding-your-reality-chain).
 
 ## Moving from Defense to Leadership <div id="leadership"></div>
 

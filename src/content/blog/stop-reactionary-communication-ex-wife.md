@@ -2,7 +2,7 @@
 title: "The No-Reaction Protocol: Holding Your Frame During High-Conflict Communication"
 description: "Stop being triggered. Use the No-Reaction Protocol to handle a high-conflict ex-wife with stoic clarity. Strategic communication tools for men."
 publishDate: "February 15, 2026"
-image: "../../assets/images/blog/setting-boundaries.png"
+image: "../../assets/images/blog/no-reaction-protocol.png"
 category: "Divorce Strategy"
 categoryUrl: "/category/divorce-strategy"
 readTime: "11 min read"
