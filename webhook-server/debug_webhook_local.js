@@ -5,7 +5,7 @@ const crypto = require('crypto');
 // MOCK ENV VARS (I will fill these with what we know)
 const SUPABASE_URL = 'https://vobbqsipyyftscyvxuja.supabase.co';
 const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InZvYmJxc2lweXlmdHNjeXZ4dWphIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzAxMjQyNDgsImV4cCI6MjA4NTcwMDI0OH0.aSxwAUb-qWZBVPQJ-s5FiGIKtu8dBlHGnuV5i0H2QHc';
-const RESEND_API_KEY = 're_TTohkdN3_CVLr4gT9G9HWzTueBFKBiEeJ';
+const RESEND_API_KEY = process.env.RESEND_API_KEY;
 
 // Initialize Clients
 const resend = new Resend(RESEND_API_KEY);

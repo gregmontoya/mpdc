@@ -5,7 +5,7 @@ const { Resend } = require('resend');
 const IntensiveReminder1h = require('./emails/IntensiveReminder1h');
 
 const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY);
-const resend = new Resend(process.env.RESEND_API_KEY || 're_TTohkdN3_CVLr4gT9G9HWzTueBFKBiEeJ');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 async function sendBlast() {
     console.log('🚀 INITIALIZING 1-HOUR REMINDER BLAST...');

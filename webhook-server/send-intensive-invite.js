@@ -2,7 +2,7 @@ require('dotenv').config({ path: './.env.local' });
 const { Resend } = require('resend');
 const IntensiveInvite = require('./emails/IntensiveInvite');
 
-const resend = new Resend(process.env.RESEND_API_KEY || 're_TTohkdN3_CVLr4gT9G9HWzTueBFKBiEeJ');
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const emails = ['gregmontoya1@gmail.com'];
 
