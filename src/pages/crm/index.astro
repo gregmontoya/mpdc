@@ -584,70 +584,79 @@
 
         async function fetchDashboardData() {
             if (!checkAuth()) return; // Secure Page
-            if (!supabase) return;
 
-            // 1. Get Counts from Unified Contacts Hub
-            const { count: leadCount } = await supabase.from('contacts').select('*', { count: 'exact', head: true }).eq('funnel_stage', 'prospect');
-            const { count: studentCount } = await supabase.from('contacts').select('*', { count: 'exact', head: true }).eq('funnel_stage', 'student');
-            const { count: abandonedCount } = await supabase.from('contacts').select('*', { count: 'exact', head: true }).eq('funnel_stage', 'prospect').not('automation_state->abandoned_sent_at', 'is', null);
+            try {
+                const leads = await window.fetchLeads();
+                const clients = await window.fetchClients();
 
-            // 2. Update Stats
-            document.getElementById('stat-total-leads') && (document.getElementById('stat-total-leads').innerText = leadCount || 0);
-            document.getElementById('stat-abandoned') && (document.getElementById('stat-abandoned').innerText = abandonedCount || 0);
-            
-            const revenue = (studentCount || 0) * 97;
-            document.getElementById('stat-revenue') && (document.getElementById('stat-revenue').innerText = '$' + revenue.toLocaleString());
+                const leadCount = leads.length;
+                const studentCount = clients.length;
+                const abandonedCount = leads.filter(l => l.status === 'abandoned').length;
 
-            // 3. FETCH SIGNALS (The Action Center Engine)
-            const signalGrid = document.getElementById('signal-grid');
-            if (signalGrid) {
-                const { data: hotLeads } = await supabase
-                    .from('contacts')
-                    .select('*')
-                    .gt('engagement_score', 0)
-                    .order('last_active_at', { ascending: false })
-                    .limit(3);
+                // 2. Update Stats
+                document.getElementById('stat-total-leads') && (document.getElementById('stat-total-leads').innerText = leadCount || 0);
+                document.getElementById('stat-abandoned') && (document.getElementById('stat-abandoned').innerText = abandonedCount || 0);
+                
+                const revenue = (studentCount || 0) * 27;
+                document.getElementById('stat-revenue') && (document.getElementById('stat-revenue').innerText = '$' + revenue.toLocaleString());
 
-                if (hotLeads && hotLeads.length > 0) {
-                    signalGrid.innerHTML = '';
-                    hotLeads.forEach(lead => {
-                        const card = `
-                            <div class="stat-card" style="padding: 15px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.8)); border: 1px solid rgba(196, 97, 58, 0.3); position: relative; overflow: hidden;">
-                                <div style="position: absolute; top: 0; right: 0; padding: 10px; font-size: 10px; color: var(--accent-orange); font-weight: 900;">🔥 SCORE: ${lead.engagement_score}</div>
-                                <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
-                                    <div class="avatar-sm" style="background: var(--accent-orange); color: white;">${(lead.name || 'U').charAt(0).toUpperCase()}</div>
-                                    <div>
-                                        <div style="font-weight: 700; font-size: 14px;">${lead.name || 'Anonymous Lead'}</div>
-                                        <div style="font-size: 11px; color: #64748b;">${lead.email}</div>
+                // 3. FETCH SIGNALS (The Action Center Engine)
+                const signalGrid = document.getElementById('signal-grid');
+                if (signalGrid) {
+                    const hotLeads = leads.slice(0, 3);
+
+                    if (hotLeads && hotLeads.length > 0) {
+                        signalGrid.innerHTML = '';
+                        hotLeads.forEach(lead => {
+                            const card = `
+                                <div class="stat-card" style="padding: 15px; background: linear-gradient(135deg, rgba(30, 41, 59, 0.5), rgba(15, 23, 42, 0.8)); border: 1px solid rgba(196, 97, 58, 0.3); position: relative; overflow: hidden;">
+                                    <div style="position: absolute; top: 0; right: 0; padding: 10px; font-size: 10px; color: var(--accent-orange); font-weight: 900;">🔥 PIPELINE: $${lead.deal_value || 1500}</div>
+                                    <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 10px;">
+                                        <div class="avatar-sm" style="background: var(--accent-orange); color: white;">${(lead.name || 'U').charAt(0).toUpperCase()}</div>
+                                        <div>
+                                            <div style="font-weight: 700; font-size: 14px;">${lead.name || 'Anonymous Lead'}</div>
+                                            <div style="font-size: 11px; color: #64748b;">${lead.email || lead.instagram_handle || 'Social Lead'}</div>
+                                        </div>
+                                    </div>
+                                    <div style="font-size: 12px; color: #cbd5e1; line-height: 1.4; margin-bottom: 12px;">
+                                        <strong>PAIN POINT:</strong> ${lead.pain_point || 'Mindset Recovery'} - ${new Date(lead.created_at).toLocaleDateString()}
+                                    </div>
+                                    <div style="display: flex; gap: 10px;">
+                                        <button class="btn btn-sm btn-primary" style="background: var(--accent-orange); font-size: 10px; padding: 6px 10px; flex: 1;" onclick="window.location.href='/crm/leads?email=${lead.email || ''}'">View Journey</button>
+                                        <button class="btn btn-sm btn-outline" style="font-size: 10px; padding: 6px 10px; flex: 1;" onclick="alert('Starting follow-up...')">Follow-up</button>
                                     </div>
                                 </div>
-                                <div style="font-size: 12px; color: #cbd5e1; line-height: 1.4; margin-bottom: 12px;">
-                                    <strong>SIGNAL:</strong> ${lead.last_clicked_at ? 'Clicked Email Link' : lead.last_opened_at ? 'Opened Email' : 'High Active Intent'} - ${new Date(lead.last_active_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
-                                </div>
-                                <div style="display: flex; gap: 10px;">
-                                    <button class="btn btn-sm btn-primary" style="background: var(--accent-orange); font-size: 10px; padding: 6px 10px; flex: 1;" onclick="window.location.href='/crm/leads?email=${lead.email}'">View Journey</button>
-                                    <button class="btn btn-sm btn-outline" style="font-size: 10px; padding: 6px 10px; flex: 1;" onclick="alert('Starting personal follow-up email...')">Personal Followup</button>
-                                </div>
-                            </div>
-                        `;
-                        signalGrid.insertAdjacentHTML('beforeend', card);
-                    });
+                            `;
+                            signalGrid.insertAdjacentHTML('beforeend', card);
+                        });
+                    }
                 }
+
+                // 4. Fetch Recent Activity Feed
+                const tableBody = document.getElementById('dashboard-leads-body');
+                if (tableBody) {
+                    tableBody.innerHTML = '';
+                    if (leads.length === 0) {
+                        tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:#666;">No recent activity found.</td></tr>';
+                    } else {
+                        leads.slice(0, 10).forEach(lead => {
+                            const tr = document.createElement('tr');
+                            tr.innerHTML = `
+                                <td>${lead.name || 'Unknown'}</td>
+                                <td>${lead.email || lead.instagram_handle || 'Social'}</td>
+                                <td><span class="badge ${lead.status === 'course_sent' ? 'bg-success' : 'bg-primary'}">${lead.status}</span></td>
+                                <td>${lead.source}</td>
+                                <td>$${lead.deal_value || 1500}</td>
+                                <td>${new Date(lead.created_at).toLocaleDateString()}</td>
+                            `;
+                            tableBody.appendChild(tr);
+                        });
+                    }
+                }
+            } catch (err) {
+                console.error('fetchDashboardData Error:', err);
             }
-
-            // 4. Fetch Recent Activity Feed
-            const { data: activity } = await supabase
-                .from('contacts')
-                .select('*')
-                .order('last_active_at', { ascending: false })
-                .limit(10);
-
-            const tableBody = document.getElementById('dashboard-leads-body');
-            if (tableBody) {
-                tableBody.innerHTML = '';
-
-                if (activity.length === 0) {
-                    tableBody.innerHTML = '<tr><td colspan="6" style="text-align:center; padding:20px; color:#666;">No recent activity found.</td></tr>';
+        }
                 }
 
                 activity.forEach(item => {
