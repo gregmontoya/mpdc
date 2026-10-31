@@ -2,8 +2,8 @@ const express = require('express');
 const crypto = require('crypto');
 const path = require('path');
 const { Resend } = require('resend');
-const { createClient } = require('@supabase/supabase-js');
 const admin = require('firebase-admin');
+const firestoreService = require('./firestore-service');
 require('dotenv').config({ path: path.join(__dirname, '.env.local') }); // Load local env
 
 // Email Templates
@@ -55,7 +55,7 @@ const { syncFacebookSpend } = require('./fb-sync-worker');
 const { sendLeaderboardToSlack } = require('./leaderboard-slack');
 const app = express();
 app.use(require('cors')({
-    origin: [/localhost:4321$/, /menspostdivorcecoaching\.com$/],
+    origin: [/localhost:4321$/, /menspostdivorcecoaching\.com$/, /gregmontoya\.github\.io$/],
     credentials: true
 }));
 
@@ -118,79 +118,83 @@ const sendFacebookCAPIEvent = async (eventName, userData = {}, customData = {}, 
 };
 
 const syncContact = async (email, data = {}) => {
-    if (!supabase || !email) return null;
+    if (!email) return null;
 
     // 1. Normalize Email (Case-Insensitive safety)
     const normalizedEmail = email.toLowerCase().trim();
 
     try {
-        // 2. Get current contact if exists
-        const { data: currentContact } = await supabase
-            .from('contacts')
-            .select('*')
-            .eq('email', normalizedEmail)
-            .maybeSingle(); // Use maybeSingle to avoid errors if not found
+        // 2. Get current contact from Firestore if exists
+        const currentContact = await firestoreService.getProspect(normalizedEmail);
 
         // 3. Funnel Stage Hierarchy Protection
         // Lead (1) < Prospect (2) < Student (3)
         const stageWeights = { 'lead': 1, 'prospect': 2, 'student': 3 };
-        const currentWeight = stageWeights[currentContact?.funnel_stage] || 0;
-        const incomingWeight = stageWeights[data.funnel_stage] || 0;
+        const currentStage = currentContact?.funnel_stage || currentContact?.status || 'lead';
+        const incomingStage = data.funnel_stage || data.status || 'lead';
+        const currentWeight = stageWeights[currentStage] || 0;
+        const incomingWeight = stageWeights[incomingStage] || 0;
 
-        let finalStage = currentContact?.funnel_stage || 'lead';
+        let finalStage = currentStage;
         if (incomingWeight > currentWeight) {
-            finalStage = data.funnel_stage;
-            console.log(`📈 Funnel Promotion: ${normalizedEmail} [${currentContact?.funnel_stage || 'none'} -> ${finalStage}]`);
+            finalStage = incomingStage;
+            console.log(`📈 Funnel Promotion: ${normalizedEmail} [${currentStage} -> ${finalStage}]`);
         } else if (incomingWeight > 0 && incomingWeight < currentWeight) {
-            console.log(`🛡️ Funnel Protection: Denied demotion for ${normalizedEmail} [${currentContact.funnel_stage} -> ${data.funnel_stage}]`);
+            console.log(`🛡️ Funnel Protection: Denied demotion for ${normalizedEmail} [${currentStage} -> ${incomingStage}]`);
         }
 
         const updateData = {
             email: normalizedEmail,
-            name: data.name || currentContact?.name,
+            name: data.name || currentContact?.name || '',
             marketing_status: data.marketing_status || currentContact?.marketing_status || 'subscribed',
             funnel_stage: finalStage,
-            guest_id: data.guestId || currentContact?.guest_id,
+            status: finalStage, // Keep status in sync with funnel_stage for CRM compatibility
+            guest_id: data.guestId || currentContact?.guest_id || '',
             last_active_at: new Date().toISOString(),
             engagement_score: (currentContact?.engagement_score || 0) + (data.incrementScore || 0)
         };
 
+        if (data.plan) updateData.plan = data.plan;
+        if (data.source) updateData.source = data.source;
         if (data.lastOpened) updateData.last_opened_at = new Date().toISOString();
         if (data.lastClicked) updateData.last_clicked_at = new Date().toISOString();
 
         // Merge tags
-        if (data.tag) {
-            const currentTags = currentContact?.tags || [];
-            if (!currentTags.includes(data.tag)) {
-                updateData.tags = [...currentTags, data.tag];
-            }
+        const currentTags = Array.isArray(currentContact?.tags) ? currentContact.tags : [];
+        if (data.tag && !currentTags.includes(data.tag)) {
+            updateData.tags = [...currentTags, data.tag];
+        } else if (currentTags.length > 0) {
+            updateData.tags = currentTags;
         }
 
         // Merge Attribution (Last-click wins for new campaigns)
-        if (data.attribution) {
+        if (data.attribution || currentContact?.attribution) {
             updateData.attribution = {
                 ...(currentContact?.attribution || {}),
-                ...data.attribution
+                ...(data.attribution || {})
             };
         }
 
         // Merge Automation State
-        if (data.automation) {
+        if (data.automation || currentContact?.automation_state) {
             updateData.automation_state = {
                 ...(currentContact?.automation_state || {}),
-                ...data.automation
+                ...(data.automation || {})
             };
         }
 
-        const { data: saved, error } = await supabase
-            .from('contacts')
-            .upsert(updateData, { onConflict: 'email' })
-            .select()
-            .single();
+        const saved = await firestoreService.upsertProspect(normalizedEmail, updateData);
 
-        if (error) throw error;
+        // If converted to student, ensure profile document exists in Firestore
+        if (finalStage === 'student') {
+            await firestoreService.upsertProfile(normalizedEmail, {
+                name: updateData.name,
+                access_level: 'student',
+                last_purchase_at: new Date().toISOString()
+            });
+        }
 
-        console.log(`👤 Contact Synced: ${email} [${updateData.funnel_stage}]`);
+        console.log(`👤 Contact Synced with Firestore: ${email} [${updateData.funnel_stage}]`);
         return saved;
     } catch (error) {
         console.error('❌ Sync Contact Error:', error.message);
@@ -200,14 +204,7 @@ const syncContact = async (email, data = {}) => {
 
 // Initialize Resend
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-if (!resend) console.error('❌ RESEND_API_KEY is missing');
-
-// Initialize Supabase - Prefer Service Role Key for backend logic
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY;
-const supabase = (process.env.SUPABASE_URL && supabaseKey)
-    ? createClient(process.env.SUPABASE_URL, supabaseKey)
-    : null;
-if (!supabase) console.error('❌ SUPABASE_URL or SUPABASE_KEY is missing');
+if (!resend) console.warn('⚠️ RESEND_API_KEY is missing or unconfigured');
 
 
 // Middleware to get raw body for Stripe signature verification
@@ -239,19 +236,13 @@ app.post('/track-activity', async (req, res) => {
             });
         }
 
-        // 2. Save to Supabase (CRM / Analytics)
-        if (supabase) {
-            const { error } = await supabase
-                .from('visitor_activity')
-                .insert([{
-                    guest_id: guestId,
-                    url,
-                    path,
-                    referrer,
-                    attribution,
-                    user_agent: userAgent
-                }]);
-            if (error) console.error('Supabase Activity Error:', error.message);
+        // 2. In-memory activity tracking cache
+        if (guestId) {
+            if (!global.guestActivityMap) global.guestActivityMap = new Map();
+            const existingPaths = global.guestActivityMap.get(guestId) || [];
+            existingPaths.push(path || url || '');
+            if (existingPaths.length > 20) existingPaths.shift();
+            global.guestActivityMap.set(guestId, existingPaths);
         }
 
         res.status(200).json({ status: 'tracked' });
@@ -262,18 +253,11 @@ app.post('/track-activity', async (req, res) => {
 });
 
 const getInterestInsight = async (guestId) => {
-    if (!supabase || !guestId) return '';
+    if (!guestId) return '';
 
     try {
-        const { data: activity } = await supabase
-            .from('visitor_activity')
-            .select('path')
-            .eq('guest_id', guestId)
-            .limit(10);
-
-        if (!activity || activity.length === 0) return '';
-
-        const paths = activity.map(a => a.path).join(' ');
+        const pathsList = (global.guestActivityMap && global.guestActivityMap.get(guestId)) || [];
+        const paths = pathsList.join(' ');
 
         if (paths.includes('boundaries')) return "I noticed you were looking into boundaries. In divorce, your frame is your only protection against a chaotic ex-partner.";
         if (paths.includes('rebuild')) return "Rebuilding your life isn't about time; it's about shifting your identity away from 'The Husband' to 'The Individual'.";
@@ -290,18 +274,13 @@ const getInterestInsight = async (guestId) => {
 // --------------------------------------------------------------------------
 app.post('/track-login', async (req, res) => {
     const { email } = req.body;
-    if (!email || !supabase) return res.status(400).json({ error: 'Email required' });
+    if (!email) return res.status(400).json({ error: 'Email required' });
 
     try {
         const now = new Date().toISOString();
 
-        // Update Supabase Profiles
-        const { error: profileError } = await supabase
-            .from('profiles')
-            .update({ last_login_at: now })
-            .eq('email', email);
-
-        // Update Contacts Heartbeat
+        // Update Firestore Profile & Contact
+        await firestoreService.upsertProfile(email, { last_login_at: now });
         await syncContact(email, { last_active_at: now });
 
         res.status(200).json({ status: 'tracked' });
@@ -1301,83 +1280,9 @@ app.get('/health', (req, res) => {
 // 🤖 PROACTIVE AUTOMATION WORKER (Demand Gen Engine)
 // --------------------------------------------------------------------------
 const runBackgroundAutomation = async () => {
-    if (!supabase || !resend) return;
-
-    console.log('🤖 Background Worker: Patrolling sequences...');
-
+    console.log('🤖 Background Worker: Patrolling sequences with Firestore...');
     try {
-        const now = Date.now();
-        const fifteenMins = 15 * 60 * 1000;
-        const threeDays = 3 * 24 * 60 * 60 * 1000;
-        const fourteenDays = 14 * 24 * 60 * 60 * 1000;
-
-        // ----------------------------------------------------------------------
-        // 1. ABANDONED CART (After 20 mins)
-        // ----------------------------------------------------------------------
-        const { data: abandoned } = await supabase
-            .from('contacts')
-            .select('*')
-            .eq('funnel_stage', 'prospect')
-            .lt('last_active_at', new Date(now - 20 * 60 * 1000).toISOString()); // Wait 20 mins
-
-        for (const prospect of (abandoned || [])) {
-            // Check for any variation of the abandoned flag to be safe
-            if (prospect.automation_state?.abandoned_sent || prospect.automation_state?.cart_1_sent) continue;
-
-            console.log(`📧 Sending Abandoned Cart: ${prospect.email}`);
-            await resend.emails.send({
-                from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
-                to: [prospect.email],
-                subject: 'Don\'t let the loop win (Complete your comeback)',
-                html: AbandonedCart1(prospect.name || '', prospect.email)
-            });
-            await syncContact(prospect.email, { automation: { abandoned_sent: true, abandoned_sent_at: new Date().toISOString() } });
-        }
-
-        // ----------------------------------------------------------------------
-        // 2. DAY 3 NURTURE (After 72 hours)
-        // ----------------------------------------------------------------------
-        const { data: nurtureLeads } = await supabase
-            .from('contacts')
-            .select('*')
-            .neq('funnel_stage', 'student') // Only non-students
-            .lt('created_at', new Date(now - threeDays).toISOString());
-
-        for (const lead of (nurtureLeads || [])) {
-            if (lead.automation_state?.nurture_d3_sent || lead.automation_state?.nurture_3_sent) continue;
-            console.log(`📧 Sending Day 3 Nurture: ${lead.email}`);
-            await resend.emails.send({
-                from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
-                to: [lead.email],
-                subject: 'Reclaiming your Frame (MPDC Method)',
-                html: NurtureDay3(lead.name || '', lead.email)
-            });
-            await syncContact(lead.email, { automation: { nurture_d3_sent: true, nurture_d3_date: new Date().toISOString() } });
-        }
-
-        // ----------------------------------------------------------------------
-        // 3. STUDENT WIN-BACK (14 days inactive)
-        // ----------------------------------------------------------------------
-        const { data: inactiveStudents } = await supabase
-            .from('profiles')
-            .select('*')
-            .lt('last_login_at', new Date(now - fourteenDays).toISOString());
-
-        for (const student of (inactiveStudents || [])) {
-            // Use contact for automation state tracking
-            const { data: contact } = await supabase.from('contacts').select('*').eq('email', student.email).single();
-            if (contact?.automation_state?.winback_14d_sent) continue;
-
-            console.log(`📧 Sending Win-Back: ${student.email}`);
-            await resend.emails.send({
-                from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
-                to: [student.email],
-                subject: 'Don\'t let the old habits win',
-                html: WinBack1(student.name || '')
-            });
-            await syncContact(student.email, { automation: { winback_14d_sent: true, winback_14d_date: new Date().toISOString() } });
-        }
-
+        await processAutomations();
     } catch (err) {
         console.error('❌ Automation Worker Error:', err.message);
     }

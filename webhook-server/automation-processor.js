@@ -4,80 +4,90 @@ const Day3Biology = require('./emails/Day3Biology');
 const Day4Legacy = require('./emails/Day4Legacy');
 const Day5Binary = require('./emails/Day5Binary');
 const AbandonedCart1 = require('./emails/AbandonedCart1');
-const { createClient } = require('@supabase/supabase-js');
+const firestore = require('./firestore-service');
 const Resend = require('resend').Resend;
 
 const resend = process.env.RESEND_API_KEY ? new Resend(process.env.RESEND_API_KEY) : null;
-const supabase = (process.env.SUPABASE_URL && (process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY))
-    ? createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.SUPABASE_KEY)
-    : null;
 
 /**
- * THE AUTOMATION PROCESSOR
+ * THE AUTOMATION PROCESSOR - 100% UNIFIED FIREBASE ENGINE
  * Runs hourly to check for:
  * 1. Abandoned Carts (20 min delay)
  * 2. 5-Day Logic-First Nurture Sequence
  */
 const processAutomations = async () => {
-    console.log('🤖 Starting Automation Processing...');
+    console.log('🤖 Starting Automation Processing with Firestore...');
 
-    if (!resend || !supabase) {
-        console.error('❌ Resend or Supabase configuration missing. Automation aborted.');
-        return { success: false, error: 'Configuration missing' };
+    if (!resend) {
+        console.warn('⚠️ Resend configuration missing or invalid. Automation running in dry-run mode.');
     }
 
     const results = {
         abandoned_cart_sent: 0,
-        nurture_day3_sent: 0,
+        nurture_sent: 0,
         errors: []
     };
+
+    let allProspects = [];
+    try {
+        allProspects = await firestore.listProspects(300);
+        console.log(`🔍 Retrieved ${allProspects.length} prospects from Firestore.`);
+    } catch (e) {
+        console.error('❌ Failed to fetch prospects from Firestore:', e.message);
+        results.errors.push(`Firestore fetch error: ${e.message}`);
+        return results;
+    }
+
+    const now = new Date();
+    const twentyMinsAgo = new Date(now.getTime() - 20 * 60 * 1000);
 
     // -------------------------------------------------------------------------
     // 💳 1. ABANDONED CART (After 20 mins)
     // -------------------------------------------------------------------------
     try {
-        const twentyMinsAgo = new Date(Date.now() - 20 * 60 * 1000).toISOString();
+        const potentialAbandoned = allProspects.filter(lead => {
+            if (!lead.email) return false;
+            if (lead.status === 'converted' || lead.access_level === 'student') return false;
+            
+            const state = lead.automation_state || {};
+            if (state.abandoned_sent || state.cart_1_sent) return false;
 
-        // Find prospects who started checkout > 20 mins ago
-        // and haven't received abandon email and haven't purchased
-        const { data: abandonedLeads, error: cartError } = await supabase
-            .from('contacts')
-            .select('*')
-            .eq('funnel_stage', 'prospect')
-            .lt('last_active_at', twentyMinsAgo);
+            const activityTime = lead.last_active_at || lead.timestamp || lead.created_at;
+            if (!activityTime) return false;
 
-        if (cartError) throw cartError;
+            const lastActive = new Date(activityTime);
+            return lastActive <= twentyMinsAgo;
+        });
 
-        console.log(`🔍 Found ${abandonedLeads?.length || 0} potential abandoned carts.`);
+        console.log(`🔍 Found ${potentialAbandoned.length} potential abandoned carts.`);
 
-        for (const lead of (abandonedLeads || [])) {
-            // Check both flag variations
-            if (lead.automation_state?.abandoned_sent || lead.automation_state?.cart_1_sent) continue;
-
+        for (const lead of potentialAbandoned) {
             console.log(`📧 Sending Abandoned Cart to: ${lead.email}`);
 
-            const { error: sendError } = await resend.emails.send({
-                from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
-                to: [lead.email],
-                subject: 'Don\'t let the loop win (Complete your comeback)',
-                html: AbandonedCart1(lead.name || '', lead.email)
-            });
+            if (resend) {
+                const { error: sendError } = await resend.emails.send({
+                    from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
+                    to: [lead.email],
+                    subject: 'Don\'t let the loop win (Complete your comeback)',
+                    html: AbandonedCart1(lead.name || '', lead.email)
+                });
 
-            if (sendError) {
-                console.error(`❌ Error sending to ${lead.email}:`, sendError);
-                results.errors.push(`${lead.email}: ${sendError.message}`);
+                if (sendError) {
+                    console.error(`❌ Error sending to ${lead.email}:`, sendError);
+                    results.errors.push(`${lead.email}: ${sendError.message}`);
+                } else {
+                    results.abandoned_cart_sent++;
+                    const updatedState = {
+                        ...(lead.automation_state || {}),
+                        abandoned_sent: true,
+                        abandoned_sent_at: now.toISOString()
+                    };
+                    await firestore.upsertProspect(lead.email, { automation_state: updatedState });
+                }
             } else {
-                results.abandoned_cart_sent++;
-                // Update automation state (Sync with index.js flag)
-                await supabase
-                    .from('contacts')
-                    .update({
-                        automation_state: { ...lead.automation_state, abandoned_sent: true, abandoned_sent_at: new Date().toISOString() }
-                    })
-                    .eq('email', lead.email);
+                results.errors.push(`No active Resend key to send abandoned cart to ${lead.email}`);
             }
 
-            // Respect rate limits (2 req/sec)
             await new Promise(resolve => setTimeout(resolve, 600));
         }
     } catch (e) {
@@ -89,40 +99,41 @@ const processAutomations = async () => {
     // 🛡️ 2. THE 5-DAY NURTURE SEQUENCE (Logic-First)
     // -------------------------------------------------------------------------
     try {
-        const now = new Date();
-        const tenDaysAgo = new Date(now - 10 * 24 * 60 * 60 * 1000).toISOString();
+        const tenDaysAgo = new Date(now.getTime() - 10 * 24 * 60 * 60 * 1000);
 
-        // 🎯 OPTIMIZATION: Only fetch contacts from the last 10 days 
-        // who aren't students. This prevents the "Whole Database Fetch" crash.
-        const { data: prospects, error: prospectError } = await supabase
-            .from('contacts')
-            .select('*')
-            .neq('funnel_stage', 'student')
-            .gt('created_at', tenDaysAgo)
-            .limit(50); // Hard limit per run to prevent Vercel timeout
+        // Prospects within last 10 days who haven't converted
+        const nurtureLeads = allProspects.filter(lead => {
+            if (!lead.email) return false;
+            if (lead.status === 'converted' || lead.access_level === 'student') return false;
 
-        if (prospectError) throw prospectError;
+            const createdTime = lead.created_at || lead.timestamp;
+            if (!createdTime) return false;
 
-        console.log(`🔍 Processing sequence for ${prospects?.length || 0} recent prospects.`);
+            const created = new Date(createdTime);
+            return created >= tenDaysAgo;
+        });
+
+        console.log(`🔍 Processing sequence for ${nurtureLeads.length} recent prospects.`);
 
         let emailsSentThisRun = 0;
-        const MAX_EMAILS_PER_RUN = 15; // Safe limit for Vercel 10s timeout
+        const MAX_EMAILS_PER_RUN = 15;
 
-        for (const lead of (prospects || [])) {
+        for (const lead of nurtureLeads) {
             if (emailsSentThisRun >= MAX_EMAILS_PER_RUN) {
-                console.log('⏳ Batch limit reached for this hour. Continuing next run.');
+                console.log('⏳ Batch limit reached for this run. Continuing next cycle.');
                 break;
             }
 
-            const joinedAt = new Date(lead.created_at);
-            const hoursSinceJoined = (now - joinedAt) / (1000 * 60 * 60);
+            const createdTime = lead.created_at || lead.timestamp;
+            const joinedAt = new Date(createdTime);
+            const hoursSinceJoined = (now.getTime() - joinedAt.getTime()) / (1000 * 60 * 60);
             const state = lead.automation_state || {};
 
             let template = null;
             let stepKey = '';
             let subject = '';
 
-            // Day 1: Identity Murder (24h)
+            // Day 1: Identity Awakening (24h)
             if (hoursSinceJoined >= 24 && !state.seq_d1_sent) {
                 template = Day1Identity;
                 stepKey = 'seq_d1_sent';
@@ -156,24 +167,26 @@ const processAutomations = async () => {
             if (template && stepKey) {
                 console.log(`📧 Sending ${stepKey} to: ${lead.email}`);
 
-                const { error: sendError } = await resend.emails.send({
-                    from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
-                    to: [lead.email],
-                    subject: subject,
-                    html: template(lead.name || '')
-                });
+                if (resend) {
+                    const { error: sendError } = await resend.emails.send({
+                        from: 'Alex Morgan <alex@menspostdivorcecoaching.com>',
+                        to: [lead.email],
+                        subject: subject,
+                        html: template(lead.name || '')
+                    });
 
-                if (sendError) {
-                    console.error(`❌ Error sending ${stepKey} to ${lead.email}:`, sendError);
-                } else {
-                    emailsSentThisRun++; // 📈 Increment counter
-                    results.nurture_day3_sent++; // Reusing counter for summary
-                    await supabase
-                        .from('contacts')
-                        .update({
-                            automation_state: { ...state, [stepKey]: true, [`${stepKey}_at`]: now.toISOString() }
-                        })
-                        .eq('email', lead.email);
+                    if (sendError) {
+                        console.error(`❌ Error sending ${stepKey} to ${lead.email}:`, sendError);
+                    } else {
+                        emailsSentThisRun++;
+                        results.nurture_sent++;
+                        const updatedState = {
+                            ...state,
+                            [stepKey]: true,
+                            [`${stepKey}_at`]: now.toISOString()
+                        };
+                        await firestore.upsertProspect(lead.email, { automation_state: updatedState });
+                    }
                 }
 
                 await new Promise(resolve => setTimeout(resolve, 600));
@@ -184,7 +197,7 @@ const processAutomations = async () => {
         results.errors.push(`Sequence Error: ${e.message}`);
     }
 
-    console.log('✅ Automation Processing Complete.');
+    console.log('✅ Firestore Automation Processing Complete.');
     return results;
 };
 
