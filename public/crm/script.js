@@ -353,7 +353,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         const email = lead.email;
 
         // --- IMPORTANT: Paste your API keys here ---
-        const APIFY_TOKEN = 'apify_api_U4kJL5rJsLAxCbtVOhGv8g91tVPUXo4pled5';
+        const APIFY_TOKEN = 'YOUR_APIFY_API_TOKEN_HERE';
         const CLEARBIT_KEY = 'YOUR_CLEARBIT_API_KEY_HERE';
 
         let enrichedData = { location: '--', bio: '--', topic: '--' };
@@ -464,7 +464,7 @@ document.addEventListener('DOMContentLoaded', async () => {
             btn.innerHTML = `<i class="fa-solid fa-spinner fa-spin"></i> Enriching ${usernamesToScrape.length} Profiles...`;
 
             // 3. Send Bulk Request to Apify
-            const APIFY_TOKEN = 'apify_api_U4kJL5rJsLAxCbtVOhGv8g91tVPUXo4pled5';
+            const APIFY_TOKEN = 'YOUR_APIFY_API_TOKEN_HERE';
             const apifyUrl = `https://api.apify.com/v2/acts/apify~instagram-profile-scraper/run-sync-get-dataset-items?token=${APIFY_TOKEN}`;
 
             const response = await fetch(apifyUrl, {
